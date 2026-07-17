@@ -1,0 +1,1787 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ผู้ช่วยเตรียมสอบ นสต. รุ่น 18</title>
+<meta name="theme-color" content="#A40001">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="นสต.18">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --pri:#E4111F; --priD:#B60D18; }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  [hidden]{ display:none !important; }
+  html,body{ margin:0; min-height:100%; }
+  body{
+    font-family:'Anuphan',system-ui,sans-serif; color:#0E0F12; background:#F4F6FA;
+    -webkit-text-size-adjust:100%;
+  }
+  input,select,textarea,button{ font-family:inherit; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  .np-scroll::-webkit-scrollbar{ width:0; }
+  @keyframes flipIn{ from{ transform:rotateX(-88deg); opacity:0; } to{ transform:rotateX(0); opacity:1; } }
+  @keyframes fadeUp{ from{ transform:translateY(8px); opacity:0; } to{ transform:none; opacity:1; } }
+
+  /* โครงหน้าจอ — เต็มจอบนมือถือ, จัดกลางบนคอม */
+  .shell{ max-width:460px; margin:0 auto; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; background:#F4F6FA; }
+  .statusbar{ flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 22px;
+    height:46px; padding-top:env(safe-area-inset-top); box-sizing:content-box; }
+  /* โลโก้ + ชื่อสถาบัน มุมซ้ายบน = ปุ่มเข้าแผงแอดมิน */
+  .brandtap{ display:flex; align-items:center; gap:9px; cursor:pointer; border:none; background:none;
+    padding:0; border-radius:11px; transition:transform .12s ease; }
+  .brandtap img{ width:34px; height:34px; border-radius:10px; display:block; box-shadow:0 3px 10px rgba(164,0,1,.28); }
+  .brandname{ font-size:11px; font-weight:700; letter-spacing:.11em; color:#A40101; white-space:nowrap; }
+  .brandtap:active{ transform:scale(.9); }
+  .brandtap:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--pri); }
+  .tabhead{ flex:none; padding:6px 20px 14px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .kicker{ font-size:18px; font-weight:600; letter-spacing:.08em; color:var(--pri); text-transform:uppercase; }
+  .tabhead h1{ margin:2px 0 0; font-size:23px; font-weight:700; letter-spacing:-.01em; }
+  .cdchip{ text-align:right; color:#fff; border-radius:12px; padding:7px 12px; background:#A40001; flex:none; }
+  .view{ flex:1; overflow-y:auto; padding:2px 16px 24px; -webkit-overflow-scrolling:touch; }
+  .stack{ display:flex; flex-direction:column; gap:14px; }
+  .navwrap{ flex:none; padding:10px 14px calc(14px + env(safe-area-inset-bottom)); position:sticky; bottom:0; background:linear-gradient(180deg,rgba(244,246,250,0) 0%,#F4F6FA 42%); }
+  .navbar{ background:var(--pri); border-radius:999px; display:flex; padding:5px; gap:3px; box-shadow:0 10px 26px rgba(14,15,18,.20); }
+  .navbtn{ flex:1; text-align:center; white-space:nowrap; cursor:pointer; border-radius:999px; padding:10px 4px;
+    font-size:11.5px; font-weight:600; color:rgba(255,255,255,.80); border:none; background:transparent; transition:background .15s; }
+  .navbtn.on{ background:#fff; color:var(--pri); font-weight:700; box-shadow:0 2px 6px rgba(14,15,18,.18); }
+
+  .card{ background:#fff; border:1px solid #E4E5E7; border-radius:18px; padding:16px; }
+  .card h3{ margin:0; font-size:14px; font-weight:700; }
+  .lbl{ font-size:12px; font-weight:600; letter-spacing:.05em; color:#6E7378; text-transform:uppercase; }
+  .muted{ font-size:12px; color:#6E7378; }
+  .btn{ padding:11px 16px; border-radius:11px; border:none; background:var(--pri); color:#fff; font-size:14px; font-weight:700; cursor:pointer; }
+  .btn.ghost{ border:1px solid #E4E5E7; background:#fff; color:#0E0F12; font-weight:600; }
+  .btn.sm{ padding:6px 12px; font-size:12px; border-radius:9px; font-weight:600; }
+  .in{ border:1px solid #E4E5E7; border-radius:9px; padding:7px 10px; font-size:14px; background:#fff; color:#0E0F12; }
+  .chip{ font-size:11.5px; font-weight:600; padding:5px 11px; border-radius:999px; white-space:nowrap; }
+
+  /* ───── การแสดงผลสมการคณิตศาสตร์ ───── */
+  /* เศษส่วนซ้อนบน-ล่าง */
+  .fr{ display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle;
+    margin:0 3px; line-height:1.12; font-size:.9em; position:relative; top:-0.06em; }
+  .fr .n{ padding:0 4px 1px; border-bottom:1.4px solid currentColor; }
+  .fr .d{ padding:1px 4px 0; }
+  .mixw{ vertical-align:middle; margin-right:1px; }
+  /* ยกกำลัง / ตัวห้อย */
+  .msup{ font-size:.68em; vertical-align:super; line-height:0; margin-left:1px; }
+  .msub{ font-size:.68em; vertical-align:sub;   line-height:0; margin-left:1px; }
+  /* กรณฑ์ (รากที่สอง) — ขีดบนคลุมทั้งพจน์
+     ต้องล็อก line-height ไว้ ไม่งั้นกล่องจะยืดตามข้อความรอบ ๆ แล้วเลขหลุดลงไปใต้ขีด */
+  .sq{ display:inline-flex; align-items:stretch; vertical-align:middle; margin:0 2px; line-height:1.15; }
+  .sq .rad{ font-size:1.05em; line-height:1.15; align-self:center; margin-right:-1px; }
+  .sq .bod{ border-top:1.3px solid currentColor; padding:1px 3px 0 2px; line-height:1.15; }
+  .fr, .fr .n, .fr .d{ line-height:1.15; }
+
+  /* ประตูกรอกรหัส */
+  .gate{ min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; justify-content:center;
+    max-width:460px; margin:0 auto; padding:28px 24px calc(28px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg,#FFFFFF 0%,#EAEFF6 100%); animation:fadeUp .35s ease-out; }
+  .gate h1{ margin:0; font-size:22px; font-weight:700; text-align:center; letter-spacing:-.01em; }
+  .gate .sub{ margin:8px 0 24px; font-size:13.5px; color:#6E7378; text-align:center; line-height:1.55; text-wrap:pretty; }
+  /* โลโก้ = ปุ่มเข้าใช้งาน */
+  .logobtn{ display:block; margin:18px auto 0; padding:0; border:none; background:none; cursor:pointer;
+    border-radius:34px; line-height:0; transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow:0 14px 38px rgba(164,0,1,.32); }
+  .logobtn img{ width:154px; height:154px; border-radius:34px; display:block; }
+  .logobtn:active{ transform:scale(.94); box-shadow:0 6px 18px rgba(164,0,1,.30); }
+  .logobtn:focus-visible{ outline:none; box-shadow:0 0 0 4px #fff, 0 0 0 8px var(--pri); }
+  .logobtn.busy{ animation:pulse .5s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(.96); } }
+  .taphint{ margin:14px 0 0; font-size:13.5px; font-weight:700; color:var(--pri); text-align:center; }
+  .codein{ width:100%; border:1.5px solid #D8DBE0; border-radius:14px; padding:16px 14px; background:#fff;
+    font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:600; text-align:center; letter-spacing:.06em; text-transform:uppercase; }
+  .codein:focus{ outline:none; border-color:var(--pri); }
+  .gate .err{ font-size:13px; color:var(--pri); font-weight:600; margin-top:10px; text-align:center; min-height:19px; }
+  .gate .note{ font-size:11.5px; color:#9AA0A8; line-height:1.6; margin-top:22px; text-align:center; text-wrap:pretty; }
+
+  .toast{ position:fixed; left:50%; transform:translateX(-50%); bottom:calc(96px + env(safe-area-inset-bottom));
+    background:#0E0F12; color:#fff; font-size:13px; font-weight:600; padding:11px 18px; border-radius:999px;
+    z-index:90; box-shadow:0 8px 24px rgba(0,0,0,.3); animation:fadeUp .2s ease-out; max-width:88%; text-align:center; }
+
+  .sheet{ position:fixed; inset:0; z-index:60; background:rgba(14,15,18,.5); display:flex; flex-direction:column; justify-content:flex-end; }
+  .sheetin{ background:#F4F6FA; border-radius:24px 24px 0 0; max-height:92%; display:flex; flex-direction:column; overflow:hidden;
+    max-width:460px; width:100%; margin:0 auto; animation:fadeUp .22s ease-out; padding-bottom:env(safe-area-inset-bottom); }
+  .sheethead{ padding:16px 18px; border-bottom:1px solid #E4E5E7; background:#fff; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .sheetbody{ padding:16px 18px; overflow-y:auto; }
+  .x{ width:32px; height:32px; flex:none; border-radius:9px; border:1px solid #E4E5E7; background:#fff; color:#6E7378; cursor:pointer; font-size:14px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ หน้ากรอกรหัส ══════════ -->
+<div class="gate" id="gate" hidden>
+  <h1>เปิดใช้งานแอป</h1>
+  <p class="sub">กรอกรหัสที่ได้รับจากสถาบัน<br>กรอกครั้งเดียว ใช้ได้ตลอด ไม่ต้องกรอกซ้ำ</p>
+  <input class="codein" id="codein" placeholder="NST18-XXXXX-XXXXXX" autocomplete="off"
+         autocapitalize="characters" spellcheck="false" inputmode="text" maxlength="19">
+  <div class="err" id="codeerr"></div>
+  <button class="logobtn" id="codebtn" type="button" aria-label="แตะโลโก้เพื่อเปิดใช้งาน">
+    <img src="icons/icon-512.png" alt="นสต. รุ่น 18">
+  </button>
+  <p class="taphint" id="taphint">แตะโลโก้เพื่อเปิดใช้งาน</p>
+  <p class="note">รหัสนี้ผูกกับเครื่องนี้หลังเปิดใช้งาน<br>ถ้ารหัสมีปัญหา ติดต่อสถาบันที่ซื้อมา</p>
+</div>
+
+<!-- ══════════ ตัวแอป ══════════ -->
+<div class="shell" id="app" hidden>
+  <div class="statusbar">
+    <button class="brandtap" id="brandtap" type="button" aria-label="แผงแอดมิน">
+      <img src="icons/icon-192.png" alt="นสต. รุ่น 18">
+      <span class="brandname">LION KING ACADEMY</span>
+    </button>
+    <span class="mono" id="clock" style="font-size:13px;font-weight:600;"></span>
+  </div>
+  <div class="tabhead">
+    <div>
+      <div class="kicker" id="kicker"></div>
+      <h1 id="tabtitle"></h1>
+    </div>
+    <div class="cdchip">
+      <div class="mono" id="cdnum" style="font-size:18px;font-weight:600;line-height:1;"></div>
+      <div id="cdunit" style="font-size:10px;color:#F2B01F;margin-top:2px;"></div>
+    </div>
+  </div>
+  <main class="view np-scroll" id="view"></main>
+  <div class="navwrap"><div class="navbar" id="nav"></div></div>
+</div>
+
+<div id="overlays"></div>
+<input type="file" id="imgfile" accept="image/*" hidden onchange="onImageFile(this)">
+
+<script>
+"use strict";
+/* ═══════════════════════════════════════════════════════════════
+   ผู้ช่วยเตรียมสอบ นสต. รุ่น 18
+   สร้างตามดีไซน์ ผู้ช่วยสอบนายสิบ.dc.html
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ───── SHA-256 (เขียนไว้ในไฟล์ เพื่อให้ตรวจรหัสได้แม้เปิดจากไฟล์ในเครื่อง/ไม่มีเน็ต) ───── */
+function sha256(str){
+  function rr(v,a){ return (v>>>a)|(v<<(32-a)); }
+  var msg=unescape(encodeURIComponent(str));
+  var maxWord=Math.pow(2,32), i, j, result="", words=[];
+  var bitLength=msg.length*8;
+  var hash=sha256.h=sha256.h||[];
+  var k=sha256.k=sha256.k||[];
+  var primeCounter=k.length, isComposite={};
+  for(var candidate=2; primeCounter<64; candidate++){
+    if(!isComposite[candidate]){
+      for(i=0;i<313;i+=candidate) isComposite[i]=candidate;
+      hash[primeCounter]=(Math.pow(candidate,.5)*maxWord)|0;
+      k[primeCounter++]=(Math.pow(candidate,1/3)*maxWord)|0;
+    }
+  }
+  msg+="\x80";
+  while(msg.length%64-56) msg+="\x00";
+  for(i=0;i<msg.length;i++){
+    j=msg.charCodeAt(i);
+    if(j>>8) return "";
+    words[i>>2]|=j<<((3-i)%4)*8;
+  }
+  words[words.length]=(bitLength/maxWord)|0;
+  words[words.length]=bitLength;
+  for(j=0;j<words.length;){
+    var w=words.slice(j,j+=16), oldHash=hash;
+    hash=hash.slice(0,8);
+    for(i=0;i<64;i++){
+      var i15=i-15, i2=i-2, a=hash[0], e=hash[4];
+      var t1=hash[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&hash[5])^(~e&hash[6]))+k[i]
+        +(w[i]=(i<16)?w[i]:( w[i15]=w[i15]|0, w[i2]=w[i2]|0,
+            (w[i-16]|0)+(rr(w[i15],7)^rr(w[i15],18)^(w[i15]>>>3))
+            +(w[i-7]|0)+(rr(w[i2],17)^rr(w[i2],19)^(w[i2]>>>10)) )|0 );
+      var t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[(t1+t2)|0].concat(hash);
+      hash[4]=(hash[4]+t1)|0;
+    }
+    for(i=0;i<8;i++) hash[i]=(hash[i]+oldHash[i])|0;
+  }
+  for(i=0;i<8;i++)
+    for(j=3;j+1;j--){
+      var b=(hash[i]>>(j*8))&255;
+      result+=((b<16)?0:"")+b.toString(16);
+    }
+  return result;
+}
+
+/* ───── ระบบรหัสเปิดใช้งาน ─────
+   ⚠️ SECRET นี้ต้องตรงกับในไฟล์ "สร้างรหัส.html" ที่ใช้ออกรหัสให้นักเรียน
+      ถ้าเปลี่ยนตรงนี้ รหัสเก่าที่แจกไปแล้วจะใช้ไม่ได้ทันที */
+var SECRET = "nst18-lionking-2569-k7x2m9";
+var LIC_KEY = "np18_license_v1";
+var ALPHA = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+function normCode(v){ return String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,""); }
+function checkFor(payload){ return sha256(SECRET+"|"+payload).slice(0,6).toUpperCase(); }
+function validCode(v){
+  var c=normCode(v);
+  if(c.indexOf("NST18")!==0) return false;
+  var body=c.slice(5);
+  if(body.length!==11) return false;
+  var p=body.slice(0,5), chk=body.slice(5);
+  for(var i=0;i<5;i++) if(ALPHA.indexOf(p[i])<0) return false;
+  return checkFor(p)===chk;
+}
+function prettyCode(v){
+  var c=normCode(v);
+  return "NST18-"+c.slice(5,10)+"-"+c.slice(10,16);
+}
+function isActivated(){
+  try{
+    var l=JSON.parse(localStorage.getItem(LIC_KEY)||"null");
+    return !!(l && l.code && validCode(l.code));
+  }catch(e){ return false; }
+}
+
+/* ───── สถานะแอป ───── */
+var LS="np18_assistant_v1";
+var S={};
+
+function subjects(){ return [{k:"math"},{k:"eng"},{k:"thai"},{k:"com"},{k:"law"},{k:"social"}]; }
+function milestones(){ return ["เรียนเนื้อหาครบทุกหัวข้อ","ตะลุยข้อสอบ ≥ 3 ชุด","ทำโจทย์เก่า/ทวนจนแม่น"]; }
+function short(k){ return {math:"คณิต/ความสามารถทั่วไป",eng:"ภาษาอังกฤษ",thai:"ภาษาไทย",com:"คอมพิวเตอร์ & IT",law:"กฎหมาย",social:"สังคม/จริยธรรม/อาเซียน",all:"รวมทุกวิชา"}[k]||k; }
+var sName={math:"คณิต",eng:"อังกฤษ",thai:"ไทย",com:"คอม & IT",law:"กฎหมาย",social:"สังคม"};
+
+function defEvents(){ return [
+  {k:"run1000", name:"วิ่ง 1,000 เมตร", unit:"นาที", def:"4:30", hint:"ความอึด/ระบบหัวใจ", dir:"low", fmt:"mmss"},
+  {k:"swim25",  name:"ว่ายน้ำ 25 เมตร", unit:"วินาที", def:"30", hint:"ว่ายให้ถึงในเวลา", dir:"low"},
+  {k:"longjump",name:"ยืนกระโดดไกล", unit:"ซม.", def:"200", hint:"พลังกล้ามเนื้อขา", dir:"high"},
+  {k:"shuttle", name:"วิ่งเก็บของ (วิ่งอ้อม)", unit:"วินาที", def:"12", hint:"ความคล่องตัว/เปลี่ยนทิศ", dir:"low"},
+  {k:"run50",   name:"วิ่ง 50 เมตร", unit:"วินาที", def:"7.5", hint:"ความเร็วต้น (สปีด)", dir:"low"}
+]; }
+
+function defState(){
+  var dtopics={};
+  subjects().forEach(function(su){
+    dtopics[su.k]=milestones().map(function(label,i){ return {id:su.k+"_"+i, label:label}; });
+  });
+  var now=new Date();
+  return { tab:"home", examDate:"", studyStart:"18:00", hours:3, dayOff:6,
+    know:{}, target:{}, editMode:false, edits:{}, topics:dtopics, manageMode:false, theme:0,
+    selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
+    scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
+    planWeeksNoDate:12 };
+}
+function load(){
+  var saved={};
+  try{ saved=JSON.parse(localStorage.getItem(LS)||"{}"); }catch(e){}
+  S=Object.assign(defState(), saved);
+  S.quiz=null; S.adminOpen=false; S.adminMode=false; S.adminView="login";
+  S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
+}
+function save(){
+  try{
+    var c=Object.assign({},S);
+    ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft"].forEach(function(k){ delete c[k]; });
+    /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
+       ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
+       ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
+    if(!S.bankDirty){ delete c.bank; delete c.pool; }
+    localStorage.setItem(LS, JSON.stringify(c));
+  }catch(e){
+    toast("บันทึกไม่สำเร็จ — พื้นที่เครื่องเต็ม");
+  }
+}
+function storeKB(){
+  try{ return Math.round((localStorage.getItem(LS)||"").length/1024); }catch(e){ return 0; }
+}
+function set(patch){ Object.assign(S,patch); save(); render(); }
+
+/* ───── ตัวช่วยวันที่/เวลา ───── */
+var MS=86400000;
+function today0(){ var d=new Date(); d.setHours(0,0,0,0); return d; }
+function mondayOf(d){ var x=new Date(d); var day=(x.getDay()+6)%7; x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x; }
+function addTime(hhmm,mins){ var p=String(hhmm).split(":").map(Number); var t=(((p[0]*60+p[1]+mins)%1440)+1440)%1440;
+  return String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0"); }
+function thDate(d){ var M=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."]; return d.getDate()+" "+M[d.getMonth()]; }
+function iso(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function parseISO(s){ var p=String(s).split("-").map(Number); var d=new Date(p[0],p[1]-1,p[2]); d.setHours(0,0,0,0); return d; }
+function thMonthFull(m){ return ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"][m]; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+/* ═══════════ ตัวเขียนสมการคณิตศาสตร์ ═══════════
+   แปลงข้อความที่ติวเตอร์พิมพ์ ให้แสดงตามหลักการเขียนคณิตศาสตร์
+     1/2          → เศษส่วนซ้อนบน-ล่าง
+     2 1/2        → จำนวนคละ
+     (x+1)/(x-2)  → เศษส่วนที่มีหลายพจน์
+     x^2  2^(n+1) → ยกกำลัง
+     a_1  a_(n+1) → ตัวห้อย
+     sqrt(2)      → กรณฑ์ มีขีดบนคลุม
+     <= >= != +- *  -> → ≤ ≥ ≠ ± × →
+   ข้อความไทยและตัวเลขธรรมดาไม่ถูกแตะต้อง · ผ่าน esc() กันสคริปต์แฝงทุกจุด */
+var MSYM = [[/<=/g,"≤"], [/>=/g,"≥"], [/!=/g,"≠"], [/\+-/g,"±"], [/->/g,"→"], [/\*/g,"×"], [/<->/g,"↔"]];
+function msym(t){ MSYM.forEach(function(p){ t = t.replace(p[0], p[1]); }); return t; }
+function mIsInt(t){ return /^\d+$/.test(t); }
+
+function mtok(s){
+  var out = [], i = 0, n = s.length;
+  while(i < n){
+    var c = s[i];
+    if(c === "\n"){ out.push({k:"chr", html:"\n"}); i++; continue; }
+    if(c === " " || c === "\t"){
+      var j = i; while(j < n && (s[j] === " " || s[j] === "\t")) j++;
+      out.push({k:"sp", html:s.slice(i,j)}); i = j; continue;
+    }
+    if(c === "("){                                    // วงเล็บ → หาคู่ปิด แล้วแปลงข้างในซ้ำ
+      var d = 0, j2 = i, ok = false;
+      for(; j2 < n; j2++){
+        if(s[j2] === "(") d++;
+        else if(s[j2] === ")"){ d--; if(d === 0){ ok = true; break; } }
+      }
+      if(ok){
+        var inner = s.slice(i+1, j2);
+        out.push({k:"atom", grouped:true, txt:inner, html:"(" + mrender(inner) + ")"});
+        i = j2 + 1; continue;
+      }
+    }
+    if(s.substr(i,4) === "sqrt"){ out.push({k:"fn"}); i += 4; continue; }
+    if(c === "^" || c === "_" || c === "/"){ out.push({k:"op", op:c}); i++; continue; }
+    if(/[0-9A-Za-z.]/.test(c)){                       // เลข/ตัวแปร = พจน์เดี่ยว
+      var j3 = i; while(j3 < n && /[0-9A-Za-z.]/.test(s[j3])) j3++;
+      var t = s.slice(i,j3);
+      out.push({k:"atom", txt:t, html:esc(t)}); i = j3; continue;
+    }
+    var j4 = i;                                        // ไทย/เครื่องหมายอื่น ๆ
+    while(j4 < n && !/[\s()\^_\/0-9A-Za-z.]/.test(s[j4])) j4++;
+    if(j4 === i) j4 = i + 1;
+    out.push({k:"chr", html:esc(msym(s.slice(i,j4)))});
+    i = j4;
+  }
+  return out;
+}
+function mNextAtom(t, i){ var j = i; while(j < t.length && t[j].k === "sp") j++; return (t[j] && t[j].k === "atom") ? j : -1; }
+
+function mSqrt(t){
+  var out = [];
+  for(var i = 0; i < t.length; i++){
+    if(t[i].k === "fn"){
+      var j = mNextAtom(t, i+1);
+      if(j >= 0){
+        var body = t[j].grouped ? mrender(t[j].txt) : t[j].html;
+        out.push({k:"atom", html:'<span class="sq"><span class="rad">√</span><span class="bod">'+body+'</span></span>'});
+        i = j; continue;
+      }
+      out.push({k:"chr", html:"sqrt"}); continue;
+    }
+    out.push(t[i]);
+  }
+  return out;
+}
+function mScript(t){
+  var out = [];
+  for(var i = 0; i < t.length; i++){
+    if(t[i].k === "op" && (t[i].op === "^" || t[i].op === "_") &&
+       out.length && out[out.length-1].k === "atom" && t[i+1] && t[i+1].k === "atom"){
+      var base = out.pop();
+      var sup  = t[i+1].grouped ? mrender(t[i+1].txt) : t[i+1].html;   // วงเล็บของเลขชี้กำลังไม่ต้องแสดง
+      var cls  = t[i].op === "^" ? "msup" : "msub";
+      out.push({k:"atom", html: base.html + '<span class="'+cls+'">' + sup + "</span>"});
+      i++; continue;
+    }
+    out.push(t[i]);
+  }
+  return out;
+}
+function mFrac(t){
+  var out = [];
+  for(var i = 0; i < t.length; i++){
+    // ต้องติดกันสนิท "3/4" เท่านั้น — "1 / 10" ไม่ใช่เศษส่วน
+    if(t[i].k === "op" && t[i].op === "/" &&
+       out.length && out[out.length-1].k === "atom" && t[i+1] && t[i+1].k === "atom"){
+      var num = out.pop(), den = t[i+1];
+      var nh = num.grouped ? mrender(num.txt) : num.html;
+      var dh = den.grouped ? mrender(den.txt) : den.html;
+      var frac = '<span class="fr"><span class="n">'+nh+'</span><span class="d">'+dh+'</span></span>';
+      // จำนวนคละ: จำนวนเต็ม + เว้นวรรค + เศษส่วน  เช่น "2 1/2"
+      if(!num.grouped && mIsInt(num.txt) && out.length >= 2 &&
+         out[out.length-1].k === "sp" && out[out.length-2].k === "atom" &&
+         mIsInt(out[out.length-2].txt)){
+        out.pop();                                   // ทิ้งช่องว่าง
+        var whole = out.pop();
+        frac = '<span class="mixw">' + whole.html + "</span>" + frac;
+      }
+      out.push({k:"atom", html:frac});
+      i++; continue;
+    }
+    out.push(t[i]);
+  }
+  return out;
+}
+function mrender(s){
+  var t = mtok(String(s == null ? "" : s));
+  t = mSqrt(t); t = mScript(t); t = mFrac(t);
+  // สัญลักษณ์ที่ไม่ได้ถูกใช้สร้างเศษส่วน/ยกกำลัง ต้องคืนเป็นตัวอักษรตามเดิม
+  // ไม่งั้นหน่วยอย่าง "ลิตร/ชม." จะกลายเป็น "ลิตรชม." (ขีดหายไปเฉย ๆ)
+  t = t.map(function(x){
+    if(x.k === "op") return { k:"chr", html: esc(x.op) };
+    if(x.k === "fn") return { k:"chr", html: "sqrt" };
+    return x;
+  });
+  return t.map(function(x){ return x.html; }).join("");
+}
+function mfrac(s){ return mrender(s); }
+function pv(str){
+  if(str==null) return NaN;
+  var s=String(str).trim();
+  if(s.indexOf(":")>=0){ var p=s.split(":").map(parseFloat); if(p.some(isNaN)) return NaN; return p[0]*60+(p[1]||0); }
+  return parseFloat(s.replace(/[^0-9.]/g,""));
+}
+
+/* ───── ธีมสี ───── */
+function themeDefs(){ return [
+  {name:"แดง", pri:"#E4111F", priD:"#B60D18"},
+  {name:"กรมท่า", pri:"#1E40AF", priD:"#162E80"},
+  {name:"เขียว", pri:"#0F7A4D", priD:"#0B5C3A"} ]; }
+function applyTheme(){
+  var t=themeDefs()[S.theme||0]||themeDefs()[0];
+  document.documentElement.style.setProperty("--pri",t.pri);
+  document.documentElement.style.setProperty("--priD",t.priD);
+}
+function PRI(){ return (themeDefs()[S.theme||0]||themeDefs()[0]).pri; }
+
+/* ───── แผนติว 3 เฟส ───── */
+function plans(){
+  var C=[
+    [["math","เรียนเนื้อหา + จดสูตร","learnP"],["thai","เรียนเนื้อหา","learn"],["math","โจทย์ท้ายบท","drill"]],
+    [["eng","เรียนเนื้อหา (Grammar/Vocab)","learnP"],["com","เรียนเนื้อหา","learn"],["eng","โจทย์ท้ายบท","drill"]],
+    [["thai","เรียนเนื้อหา","learn"],["math","ทวนซ้ำ · Day 3","review"],["thai","โจทย์ท้ายบท","drill"]],
+    [["com","เรียนเนื้อหา","learn"],["eng","ทวนซ้ำ · Day 3","review"],["com","โจทย์ท้ายบท","drill"]],
+    [["law","เรียนเนื้อหา","learn"],["math","ตะลุยโจทย์","drill"],["law","โจทย์ท้ายบท","drill"]],
+    [["social","เรียนเนื้อหา","learn"],["eng","ตะลุยโจทย์","drill"],["all","ทวนรวมสัปดาห์ · Day 7","review"]] ];
+  var D=[
+    [["math","ตะลุยข้อสอบเก่า","learnP"],["eng","ตะลุยข้อสอบเก่า","learnP"],["math","เฉลย + จดจุดพลาด","review"]],
+    [["thai","ตะลุยข้อสอบเก่า","learn"],["com","ตะลุยข้อสอบเก่า","learn"],["thai","เฉลย + จดจุดพลาด","review"]],
+    [["law","ตะลุยข้อสอบเก่า","learn"],["social","ตะลุยข้อสอบเก่า","learn"],["law","เฉลย + จดจุดพลาด","review"]],
+    [["math","ตะลุยข้อสอบเก่า","learnP"],["eng","ตะลุยข้อสอบเก่า","learnP"],["all","ทวนจุดอ่อน · Day 3","review"]],
+    [["com","ตะลุยข้อสอบเก่า","learn"],["thai","ตะลุยข้อสอบเก่า","learn"],["all","ทวนจุดอ่อน","review"]],
+    [["eng","ตะลุยข้อสอบเก่า","learnP"],["math","ตะลุยข้อสอบเก่า","learnP"],["all","ทวนรวมสัปดาห์ · Day 7","review"]] ];
+  var mock=[["all","สอบเสมือนจริง · เริ่มจับเวลา","mock"],["all","ทำต่อเนื่อง 150 ข้อ / 3 ชม.","mock"],["all","ตรวจ + บันทึกคะแนนรายวิชา","mock"]];
+  var M=[
+    [["math","ตะลุยข้อสอบ (เก็บจุดอ่อน)","learnP"],["eng","ตะลุยข้อสอบ (เก็บจุดอ่อน)","learnP"],["all","สรุปจุดที่พลาดบ่อย","review"]],
+    mock,
+    [["all","เฉลย MOCK เชิงลึก","review"],["math","แก้จุดพลาด","drill"],["eng","แก้จุดพลาด","drill"]],
+    [["thai","ตะลุยข้อสอบ","learn"],["com","ตะลุยข้อสอบ","learn"],["law","ตะลุยข้อสอบ","learn"]],
+    mock,
+    [["all","เฉลย MOCK เชิงลึก","review"],["social","ตะลุยข้อสอบ","learn"],["all","ทวนรวม · Day 7","review"]] ];
+  return { content:C, drill:D, mock:M };
+}
+function phaseCounts(T){
+  var mock=T<=1?0:Math.min(3,Math.max(2,Math.round(T*0.2)));
+  var content=Math.max(1,Math.round(T*0.6));
+  if(content+mock>T) mock=Math.max(0,T-content);
+  var drill=T-content-mock;
+  if(drill<0){ drill=0; content=T-mock; }
+  return {content:content, drill:drill, mock:mock};
+}
+function phaseFor(i,T){ var c=phaseCounts(T); if(i<c.content) return "content"; if(i>=T-c.mock) return "mock"; return "drill"; }
+function iconFor(k,type){
+  if(type==="phys") return "🏃";
+  if(type==="mock") return "📝";
+  if(type==="review") return "🔁";
+  return {math:"🔢",eng:"🌐",thai:"📕",com:"💻",law:"⚖️",social:"🌏",all:"📚"}[k]||"📘";
+}
+function physList(){ return (S.physEvents && S.physEvents.length) ? S.physEvents : defEvents(); }
+function statusOf(p){
+  if(p>=90) return {t:"พร้อมสอบ", c:"var(--pri)"};
+  if(p>=70) return {t:"ใกล้พร้อม", c:"#0E0F12"};
+  if(p>=40) return {t:"กำลังไปได้", c:"#6E7378"};
+  return {t:"ต้องเร่ง", c:"#6E7378"};
+}
+var dayNames=["จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์","อาทิตย์"];
+var chipLabels=["จ","อ","พ","พฤ","ศ","ส","อา"];
+var trainFocus=["วิ่ง 1,000 ม. · สร้างความอึด","สปีด · วิ่ง 50 ม. + วิ่งเก็บของ","ว่ายน้ำ 25 ม. + แกนกลางลำตัว","พลังขา · ยืนกระโดดไกล + พลัยโอเมตริก","ซ้อมรวมทุกท่า (เสมือนทดสอบ)","วิ่งเบา · ยืดเหยียด ฟื้นฟู","พัก"];
+
+/* ───── ค่าที่คำนวณร่วมกันทุกหน้า ───── */
+function calc(){
+  var hours=Number(S.hours)||3, total=Math.round(hours*60);
+  var b0=Math.round(total*5/12), b1=Math.round(total*4/12), b2=total-b0-b1;
+  var mins=[b0,b1,b2];
+  var t0=S.studyStart, t1=addTime(t0,b0), t2=addTime(t0,b0+b1), t3=addTime(t0,total);
+  var timeRanges=[t0+"–"+t1, t1+"–"+t2, t2+"–"+t3];
+
+  var daysLeft=null;
+  if(S.examDate){ var ex=new Date(S.examDate+"T00:00:00"); daysLeft=Math.round((ex-today0())/MS); }
+  var planNo=S.planWeeksNoDate||12;
+  var T = daysLeft!=null ? Math.max(1,Math.ceil(daysLeft/7)) : planNo;
+
+  var anchorMon=mondayOf(today0());
+  var selObj=S.selDate?parseISO(S.selDate):today0();
+  var weekIndex=Math.min(Math.max(0,Math.floor(Math.round((selObj-anchorMon)/MS)/7)),T-1);
+
+  return { mins:mins, timeRanges:timeRanges, daysLeft:daysLeft, planNo:planNo, T:T,
+           anchorMon:anchorMon, selObj:selObj, weekIndex:weekIndex };
+}
+function cellFor(entry,time){
+  var k=entry[0], act=entry[1], type=entry[2];
+  return { subjName:short(k), sk:k, type:type, icon:iconFor(k,type), act:act, time:time };
+}
+function blocksOf(dayIdx,weekIndex,T){
+  var c=calc();
+  var off=Number(S.dayOff);
+  if(dayIdx===off) return null;
+  var P=plans()[phaseFor(weekIndex,T)];
+  var k=0; for(var i=0;i<dayIdx;i++){ if(i!==off) k++; }
+  return P[k%6].map(function(b,bi){ return cellFor(b, c.timeRanges[bi]); });
+}
+/* รวม override ที่ผู้ใช้แก้เองเข้ากับบล็อกตั้งต้น */
+function merged(b,weekIndex,dayIdx,bi){
+  var ov=(S.edits||{})[weekIndex+":"+dayIdx+":"+bi]||{};
+  var type=ov.type!=null?ov.type:b.type, sk=ov.sk!=null?ov.sk:b.sk;
+  return { subjName: ov.subj!=null?ov.subj:b.subjName,
+           act: ov.act!=null?ov.act:b.act,
+           time: ov.time!=null?ov.time:b.time,
+           type:type, sk:sk,
+           icon: ov.type!=null?iconFor(sk,type):b.icon };
+}
+
+/* ───── ความพร้อม ───── */
+function knowStats(){
+  var done=0,total=0;
+  subjects().forEach(function(su){
+    (S.topics[su.k]||[]).forEach(function(t){ total++; if(S.know[t.id]) done++; });
+  });
+  return { done:done, total:total, pct: total?Math.round(done/total*100):0 };
+}
+function physStats(){
+  var evs=physList(), sum=0;
+  var per=evs.map(function(e){
+    var targetRaw=(S.target[e.k]!=null && S.target[e.k]!=="")?S.target[e.k]:e.def;
+    var target=pv(targetRaw);
+    var list=(S.tests&&S.tests[e.k])||[];
+    var passArr=list.map(function(v){
+      var val=pv(v);
+      if(isNaN(val)||isNaN(target)) return false;
+      return e.dir==="high" ? val>=target : val<=target;
+    });
+    var n=list.length, passCount=passArr.filter(Boolean).length;
+    var rate=n?passCount/n:0, ratePct=Math.round(rate*100);
+    sum+=ratePct;
+    return { e:e, targetRaw:targetRaw, list:list, passArr:passArr, n:n, passCount:passCount,
+             ratePct:ratePct, stKey: n===0?"none":(rate>=0.8?"pass":"improve") };
+  });
+  return { per:per, pct: evs.length?Math.round(sum/evs.length):0 };
+}
+
+/* ═══════════ RENDER ═══════════ */
+function render(){
+  applyTheme();
+  var c=calc();
+
+  // ── แถบบน
+  var now=new Date();
+  document.getElementById("clock").textContent=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
+
+  //   = เว้นวรรคแบบไม่ให้ตัดบรรทัด กัน "ว่าที่" กับ "นสต.18" หลุดคนละบรรทัดบนจอเล็ก
+  var titles={ home:{k:"ยินดีต้อนรับ ว่าที่ นสต.18",t:"ภาพรวมวันนี้"}, study:{k:"แผนติวหนังสือ",t:"ตารางรายสัปดาห์"},
+               phys:{k:"ฝึกสมรรถภาพ",t:"ตารางฝึกพละ"}, ready:{k:"วัดผล",t:"ความพร้อมสอบ"} };
+  var tt=titles[S.tab]||titles.home;
+  document.getElementById("kicker").textContent=tt.k;
+  document.getElementById("tabtitle").textContent=tt.t;
+
+  var cdNum, cdUnit;
+  if(c.daysLeft==null){ cdNum=String(c.planNo); cdUnit="สัปดาห์สู่วันสอบ"; }
+  else if(c.daysLeft<0){ cdNum="0"; cdUnit="วันสู่วันสอบ"; }
+  else { cdNum=String(c.daysLeft); cdUnit="วันสู่วันสอบ"; }
+  document.getElementById("cdnum").textContent=cdNum;
+  document.getElementById("cdunit").textContent=cdUnit;
+
+  // ── แถบล่าง
+  var navDefs=[{k:"home",l:"หน้าแรก"},{k:"study",l:"ติวหนังสือ"},{k:"phys",l:"ฝึกพละ"},{k:"ready",l:"ความพร้อม"}];
+  document.getElementById("nav").innerHTML=navDefs.map(function(n){
+    return '<button class="navbtn'+(S.tab===n.k?" on":"")+'" onclick="A.tab(\''+n.k+'\')">'+n.l+'</button>';
+  }).join("");
+
+  var v=document.getElementById("view");
+  var top=v.scrollTop;
+  if(S.tab==="home") v.innerHTML=viewHome(c);
+  else if(S.tab==="study") v.innerHTML=viewStudy(c);
+  else if(S.tab==="phys") v.innerHTML=viewPhys();
+  else v.innerHTML=viewReady();
+  v.scrollTop=top;
+
+  renderOverlays();
+}
+
+/* ───── หน้าแรก ───── */
+function viewHome(c){
+  var h="";
+  var flip = c.daysLeft!=null ? String(Math.max(0,c.daysLeft)).padStart(2,"0").split("") : [];
+  var examText="";
+  if(S.examDate){ var ex=new Date(S.examDate+"T00:00:00"); examText=thDate(ex)+" "+(ex.getFullYear()+543); }
+
+  // นับถอยหลัง
+  h+='<div style="border-radius:22px;padding:18px;color:#fff;background:#E4101F;">'+
+       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'+
+         '<div style="font-size:18px;font-weight:600;letter-spacing:.05em;">นับถอยหลังสู่วันสอบ</div>'+
+         '<span style="width:7px;height:7px;border-radius:50%;background:#fff;"></span>'+
+       '</div>';
+  if(c.daysLeft!=null){
+    h+='<div style="display:flex;align-items:flex-end;gap:8px;">'+
+        flip.map(function(d){
+          return '<div class="mono" style="position:relative;width:52px;height:70px;border-radius:11px;display:flex;align-items:center;justify-content:center;'+
+                 'font-size:40px;font-weight:700;color:#0B0000;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35);animation:flipIn .55s ease-out both;">'+d+
+                 '<div style="position:absolute;left:6px;right:6px;top:50%;height:1px;background:rgba(0,0,0,.55);"></div></div>';
+        }).join("")+
+        '<span style="font-size:14px;font-weight:500;padding-bottom:8px;">วัน</span>'+
+       '</div>'+
+       '<div style="font-size:12.5px;margin-top:12px;font-weight:700;">'+
+         (c.daysLeft<0 ? "เลยวันสอบที่กำหนดแล้ว ("+esc(examText)+")"
+                       : "สอบวันที่ "+esc(examText)+" · เหลืออีก ~"+c.T+" สัปดาห์")+
+       '</div>';
+  } else {
+    h+='<div style="font-size:13.5px;color:#F3D9DB;line-height:1.5;">ยังไม่กำหนดวันสอบ — เลือกวันสอบด้านล่างเพื่อเริ่มนับถอยหลัง (ใช้แผน '+c.T+' สัปดาห์ไปก่อน)</div>';
+  }
+  h+='</div>';
+
+  // สองวง
+  var ks=knowStats(), ps=physStats();
+  var kS=statusOf(ks.pct), pS=statusOf(ps.pct);
+  h+='<div style="border:1px solid #E4E5E7;border-radius:20px;padding:18px;background:#E3F4EA3F;">'+
+       '<div style="font-size:12px;font-weight:600;color:#6E7378;margin-bottom:14px;">ความพร้อมสอบโดยรวม</div>'+
+       '<div style="display:flex;gap:16px;">'+
+         ring(ks.pct,"#0E0F12","ความรู้",kS)+
+         ring(ps.pct,"var(--pri)","ร่างกาย",pS)+
+       '</div>'+
+     '</div>';
+
+  // เป้าหมายวันนี้
+  var todayIdx=(new Date().getDay()+6)%7;
+  var tIso=iso(today0());
+  var tWi=Math.min(Math.max(0,Math.floor(Math.round((today0()-c.anchorMon)/MS)/7)),c.T-1);
+  var tBlocks=blocksOf(todayIdx,tWi,c.T);
+  var ph=phaseInfo(phaseFor(tWi,c.T));
+
+  h+='<div class="card">'+
+       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;">'+
+         '<div style="font-size:14px;font-weight:700;">เป้าหมายของวันนี้ · '+dayNames[todayIdx]+'</div>'+
+         '<span class="chip" style="background:'+ph.bg+';color:'+ph.fg+';">'+ph.name+'</span>'+
+       '</div>';
+  if(!tBlocks){
+    h+='<div style="font-size:13px;color:#6E7378;line-height:1.5;">วันนี้เป็นวันพัก — ฟื้นฟูร่างกายและทบทวนเบา ๆ</div>';
+  } else {
+    var studyRows=tBlocks.map(function(b,bi){
+      var m=merged(b,tWi,todayIdx,bi);
+      if(m.type==="phys") return "";
+      return taskRow(m.icon, m.act, m.subjName+" · "+m.time, tIso+":"+bi);
+    }).join("");
+    h+='<div style="display:flex;flex-direction:column;gap:14px;">'+
+         '<div>'+
+           '<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#0E7A4D;margin-bottom:9px;">📚 เนื้อหาติววันนี้</div>'+
+           '<div style="display:flex;flex-direction:column;gap:9px;">'+studyRows+'</div>'+
+         '</div>'+
+         '<div style="border-top:1px solid #F0F1F3;padding-top:12px;">'+
+           '<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#A40001;margin-bottom:9px;">🏃 ฝึกพละวันนี้</div>'+
+           '<div style="display:flex;flex-direction:column;gap:9px;">'+
+             taskRow("🏃", trainFocus[todayIdx], "โปรแกรมฝึกวันนี้", "phys:"+tIso)+
+           '</div>'+
+         '</div>'+
+       '</div>';
+  }
+  h+='</div>';
+
+  // ทางลัด
+  h+='<div style="display:flex;gap:12px;">'+
+       '<div class="card" style="flex:1;padding:15px;border-radius:18px;cursor:pointer;" onclick="A.tab(\'study\')">'+
+         '<div style="font-size:12px;color:#6E7378;">แผนสัปดาห์</div>'+
+         '<div style="font-size:16px;font-weight:700;margin-top:3px;">สัปดาห์ที่ '+(c.weekIndex+1)+'<span style="color:#6E7378;font-weight:500;font-size:13px;"> / '+c.T+'</span></div>'+
+         '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">เปิดตารางติว →</div>'+
+       '</div>'+
+       '<div class="card" style="flex:1;padding:15px;border-radius:18px;cursor:pointer;" onclick="A.tab(\'ready\')">'+
+         '<div style="font-size:12px;color:#6E7378;">เช็กความพร้อม</div>'+
+         '<div style="font-size:16px;font-weight:700;margin-top:3px;">รวม '+Math.round((ks.pct+ps.pct)/2)+'%</div>'+
+         '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">อัปเดตสถานะ →</div>'+
+       '</div>'+
+     '</div>';
+
+  // ตั้งค่า
+  h+='<div class="card" style="border-radius:16px;padding:12px 16px;display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;">'+
+       field("วันสอบ", '<input type="date" class="in" value="'+esc(S.examDate)+'" onchange="A.examDate(this.value)">')+
+       field("เริ่มอ่าน", '<input type="time" class="in" value="'+esc(S.studyStart)+'" onchange="A.start(this.value)">')+
+       field("ชม./วัน", '<select class="in" onchange="A.hours(this.value)">'+
+         [1.5,2,2.5,3,4].map(function(x){ return '<option value="'+x+'"'+(Number(S.hours)===x?" selected":"")+'>'+x+'</option>'; }).join("")+
+         '</select>')+
+       field("วันหยุด", '<select class="in" onchange="A.dayOff(this.value)">'+
+         dayNames.map(function(d,i){ return '<option value="'+i+'"'+(Number(S.dayOff)===i?" selected":"")+'>'+d+'</option>'; }).join("")+
+         '</select>')+
+       field("ธีมสี", '<div style="display:flex;gap:9px;padding-top:1px;">'+
+         themeDefs().map(function(t,i){
+           var on=(S.theme||0)===i;
+           return '<div onclick="A.theme('+i+')" style="width:28px;height:28px;border-radius:50%;cursor:pointer;background:'+t.pri+';'+
+                  (on?"box-shadow:0 0 0 2px #fff,0 0 0 4px "+t.pri+";":"border:2px solid #E4E5E7;")+'"></div>';
+         }).join("")+'</div>')+
+     '</div>';
+
+  return '<div class="stack">'+h+'</div>';
+}
+function field(label,inner){
+  return '<div style="display:flex;flex-direction:column;gap:4px;"><label style="font-size:11px;color:#6E7378;">'+label+'</label>'+inner+'</div>';
+}
+function ring(pct,color,label,st){
+  var C=2*Math.PI*46;
+  return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">'+
+    '<div style="position:relative;width:108px;height:108px;">'+
+      '<svg width="108" height="108" viewBox="0 0 108 108">'+
+        '<circle cx="54" cy="54" r="46" fill="none" stroke="#E4E5E7" stroke-width="10"></circle>'+
+        '<circle cx="54" cy="54" r="46" fill="none" stroke="'+color+'" stroke-width="10" stroke-linecap="round" '+
+          'stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-pct/100))+'" transform="rotate(-90 54 54)" style="transition:stroke-dashoffset .6s;"></circle>'+
+      '</svg>'+
+      '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
+        '<span class="mono" style="font-size:26px;font-weight:600;">'+pct+'</span>'+
+        '<span style="font-size:11px;color:#6E7378;margin-top:-2px;">%</span>'+
+      '</div>'+
+    '</div>'+
+    '<div style="font-size:13px;font-weight:600;">'+label+'</div>'+
+    '<div style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;background:#F4F6F9;color:'+st.c+';">'+st.t+'</div>'+
+  '</div>';
+}
+function taskRow(icon,title,sub,doneKey){
+  var checked=!!S.done[doneKey];
+  return '<div onclick="A.toggleDone(\''+doneKey+'\')" style="display:flex;align-items:center;gap:11px;cursor:pointer;">'+
+    '<div style="width:40px;height:40px;flex:none;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;'+
+      'background:color-mix(in srgb, '+PRI()+' 13%, #fff);">'+icon+'</div>'+
+    '<div style="flex:1;min-width:0;">'+
+      '<div style="font-size:13.5px;font-weight:600;line-height:1.25;'+(checked?"text-decoration:line-through;color:#9AA0A8;":"")+'">'+esc(title)+'</div>'+
+      '<div style="font-size:11.5px;color:#6E7378;'+(checked?"text-decoration:line-through;":"")+'">'+esc(sub)+'</div>'+
+    '</div>'+
+    '<div style="width:25px;height:25px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;'+
+      (checked?"background:"+PRI()+";":"background:#fff;border:2px solid #C9CED6;")+'">'+(checked?"✓":"")+'</div>'+
+  '</div>';
+}
+function phaseInfo(phase){
+  return { content:{name:"เฟสอ่านเนื้อหา",desc:"ช่วงต้น ~60% ปูพื้นทุกวิชา",bg:"#EEF0F3",fg:"#0E0F12"},
+           drill:{name:"เฟสตะลุยข้อสอบ",desc:"ช่วงท้าย ~40% ทำข้อสอบเก่า",bg:"#0E0F12",fg:"#fff"},
+           mock:{name:"เฟสสอบเสมือนจริง",desc:"2–3 สัปดาห์สุดท้าย จับเวลา",bg:"#F2B01E",fg:"#0E0F12"} }[phase];
+}
+
+/* ───── ติวหนังสือ ───── */
+function viewStudy(c){
+  var h="";
+  var phase=phaseFor(c.weekIndex,c.T), ph=phaseInfo(phase);
+
+  // ปฏิทิน
+  var calTitle=thMonthFull(S.calMonth)+" "+(S.calYear+543);
+  var gridStart=mondayOf(new Date(S.calYear,S.calMonth,1));
+  var isoToday=iso(today0());
+  var phaseDot={content:"#C9CED6",drill:"#8A9099",mock:"#F2B01E"};
+  var cells="";
+  for(var i=0;i<42;i++){
+    var d=new Date(gridStart); d.setDate(d.getDate()+i); d.setHours(0,0,0,0);
+    var isoD=iso(d);
+    var inMonth=d.getMonth()===S.calMonth;
+    var isSel=isoD===S.selDate, isToday=isoD===isoToday, isExam=S.examDate===isoD;
+    var wi=Math.floor(Math.round((d-c.anchorMon)/MS)/7);
+    var inPlan=wi>=0 && wi<c.T;
+    var totalB=(((d.getDay()+6)%7)===Number(S.dayOff))?0:3;
+    var dc=0; for(var bi=0;bi<3;bi++){ if(S.done[isoD+":"+bi]) dc++; }
+    var fullDone=inPlan && totalB>0 && dc>=totalB;
+    var dot= isExam?"#F2B01E":(fullDone?"#1E9E5A":(inPlan?phaseDot[phaseFor(wi,c.T)]:"transparent"));
+    cells+='<div onclick="A.selDate(\''+isoD+'\','+d.getFullYear()+','+d.getMonth()+')" '+
+      'style="position:relative;height:38px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;'+
+      'border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:'+(isSel?700:500)+';'+
+      'background:'+(isSel?PRI():"transparent")+';color:'+(isSel?"#fff":(inMonth?"#0E0F12":"#C9CCD1"))+';'+
+      'border:1.5px solid '+((!isSel&&isToday)?PRI():"transparent")+';">'+
+      '<span>'+d.getDate()+'</span>'+
+      '<span style="width:5px;height:5px;border-radius:50%;background:'+dot+';"></span></div>';
+  }
+  h+='<div class="card" style="padding:14px;">'+
+       '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">'+
+         '<button onclick="A.month(-1)" style="background:var(--pri);color:#fff;border:none;border-radius:9px;width:32px;height:32px;font-size:14px;cursor:pointer;">◀</button>'+
+         '<div style="text-align:center;flex:1;min-width:0;">'+
+           '<div style="font-size:16px;font-weight:700;white-space:nowrap;">'+calTitle+'</div>'+
+           '<div style="font-size:11.5px;color:#6E7378;">สัปดาห์ที่ '+(c.weekIndex+1)+' / '+c.T+'</div>'+
+         '</div>'+
+         '<button onclick="A.month(1)" style="background:var(--pri);color:#fff;border:none;border-radius:9px;width:32px;height:32px;font-size:14px;cursor:pointer;">▶</button>'+
+       '</div>'+
+       '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:5px;">'+
+         chipLabels.map(function(w){ return '<div style="text-align:center;font-size:11px;font-weight:600;color:#9AA0A8;padding:2px 0;">'+w+'</div>'; }).join("")+
+       '</div>'+
+       '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">'+cells+'</div>'+
+       '<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:10.5px;color:#6E7378;">'+
+         legend("#C9CED6","เนื้อหา")+legend("#8A9099","ตะลุยข้อสอบ")+legend("#F2B01E","สอบเสมือน/วันสอบ")+legend("#1E9E5A","ทำครบแล้ว")+
+       '</div>'+
+     '</div>';
+
+  h+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'+
+       '<span class="chip" style="background:'+ph.bg+';color:'+ph.fg+';">'+ph.name+'</span>'+
+       '<span style="font-size:12px;color:#6E7378;">'+ph.desc+'</span>'+
+     '</div>';
+
+  // วันที่เลือก
+  var selDay=(c.selObj.getDay()+6)%7;
+  var blocks=blocksOf(selDay,c.weekIndex,c.T);
+  var doneCount=[0,1,2].filter(function(bi){ return S.done[S.selDate+":"+bi]; }).length;
+  h+='<div class="card">'+
+       '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">'+
+         '<div>'+
+           '<div style="font-size:16px;font-weight:700;">'+dayNames[selDay]+'</div>'+
+           '<div class="mono" style="font-size:12px;color:#6E7378;">'+thDate(c.selObj)+' '+(c.selObj.getFullYear()+543)+'</div>'+
+         '</div>'+
+         '<div style="display:flex;align-items:center;gap:8px;">'+
+           '<span style="font-size:11px;font-weight:600;color:var(--pri);background:color-mix(in srgb, '+PRI()+' 10%, #fff);padding:4px 9px;border-radius:999px;white-space:nowrap;">'+
+             (blocks?("ทำแล้ว "+doneCount+"/3"):"วันหยุดพัก")+'</span>'+
+           (blocks?'<button class="btn sm'+(S.editMode?"":" ghost")+'" onclick="A.toggleEdit()">'+(S.editMode?"เสร็จ":"✎ แก้ไข")+'</button>':"")+
+         '</div>'+
+       '</div>'+
+       '<div style="font-size:11.5px;color:#6E7378;margin:6px 0 12px;">หยิบวิชาที่อ่อนสุดก่อน · แตะวงกลมเมื่อทำหัวข้อนั้นเสร็จ</div>';
+  if(S.editMode && blocks)
+    h+='<div style="font-size:11.5px;color:var(--pri);margin:0 0 10px;">แตะช่องเพื่อพิมพ์วิชา/เนื้อหาติวของคุณเอง — ระบบจะจำไว้ให้</div>';
+
+  if(!blocks){
+    h+='<div style="display:flex;gap:10px;padding:11px 12px;border-radius:12px;border:1px dashed #E4E5E7;background:#F7F8FA;color:#9AA0A8;font-size:13px;">'+
+       '<span>🛌</span><span>วันหยุดพัก — ฟื้นฟูร่างกาย/ทบทวนเบา ๆ</span></div>';
+  } else {
+    h+='<div style="display:flex;flex-direction:column;">';
+    blocks.forEach(function(b,bi){
+      var m=merged(b,c.weekIndex,selDay,bi);
+      var dk=S.selDate+":"+bi, checked=!!S.done[dk];
+      var timeStart=(m.time||"").split("–")[0]||m.time;
+      h+='<div style="display:flex;gap:12px;align-items:stretch;">'+
+           '<div style="position:relative;width:48px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:14px;">'+
+             (bi<blocks.length-1?'<div style="position:absolute;top:44px;bottom:-2px;left:50%;width:2px;transform:translateX(-50%);background:#E4E5E7;"></div>':"")+
+             '<div class="mono" style="font-size:11.5px;font-weight:700;background:#fff;z-index:1;">'+esc(timeStart)+'</div>'+
+             '<div style="width:15px;height:15px;border-radius:50%;border:3px solid var(--pri);background:#fff;margin-top:6px;z-index:1;"></div>'+
+           '</div>'+
+           '<div style="flex:1;min-width:0;border-radius:16px;border:1px solid #E4E5E7;padding:12px;margin-bottom:12px;'+
+             'box-shadow:0 2px 8px rgba(14,15,18,.05);background:'+(checked?"#FAFBFC":"#fff")+';opacity:'+(checked?.72:1)+';">';
+      if(S.editMode){
+        h+='<div style="display:flex;gap:6px;margin-bottom:6px;">'+
+             '<input class="in mono" value="'+esc(m.time)+'" placeholder="เวลา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'time\',this.value)" style="flex:1;min-width:0;font-size:11px;text-align:center;padding:5px 8px;">'+
+           '</div>'+
+           '<select class="in" onchange="A.pick('+c.weekIndex+','+selDay+','+bi+',this.value)" style="width:100%;font-size:12.5px;margin-bottom:5px;padding:5px 8px;">'+
+             '<option value="">＋ เลือกกิจกรรม/เนื้อหา…</option>'+pickGroups()+
+           '</select>'+
+           '<input class="in" value="'+esc(m.subjName)+'" placeholder="วิชา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'subj\',this.value)" style="width:100%;font-weight:600;margin-bottom:5px;padding:5px 8px;font-size:13.5px;">'+
+           '<input class="in" value="'+esc(m.act)+'" placeholder="กิจกรรม/เนื้อหา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'act\',this.value)" style="width:100%;color:#6E7378;padding:5px 8px;font-size:12.5px;">';
+      } else {
+        h+='<div style="display:flex;align-items:center;gap:12px;">'+
+             '<div style="width:44px;height:44px;flex:none;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;'+
+               'background:color-mix(in srgb, '+PRI()+' 13%, #fff);">'+m.icon+'</div>'+
+             '<div style="flex:1;min-width:0;">'+
+               '<div style="font-size:14.5px;font-weight:600;line-height:1.25;'+(checked?"text-decoration:line-through;color:#9AA0A8;":"")+'">'+esc(m.act)+'</div>'+
+               '<div style="font-size:12px;color:#6E7378;margin-top:1px;'+(checked?"text-decoration:line-through;":"")+'">'+esc(m.subjName+" · "+m.time)+'</div>'+
+             '</div>'+
+             '<div onclick="A.toggleDone(\''+dk+'\')" style="width:27px;height:27px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;'+
+               'cursor:pointer;font-size:14px;font-weight:700;color:#fff;'+(checked?"background:"+PRI()+";":"background:#fff;border:2px solid #C9CED6;")+'">'+(checked?"✓":"")+'</div>'+
+           '</div>';
+      }
+      h+='</div></div>';
+    });
+    h+='</div>';
+  }
+  h+='</div>';
+
+  // เป้าหมายสัปดาห์
+  var goalsBy={
+    content:["ปูพื้นเนื้อหาให้ครบทุกวิชา ทุ่มเวลาให้คณิตและอังกฤษมากสุด (วิชาละ 30 ข้อ)","ทุกหัวข้อที่จบต้องทำโจทย์ท้ายบท และทวนซ้ำตามรอบวันที่ 1 · 3 · 7","เน้นเข้าใจหลักการ ยังไม่ต้องรีบจับเวลา"],
+    drill:["เปลี่ยนเป็นโหมดตะลุยข้อสอบเก่า วนครบทุกวิชาในสัปดาห์","ทุกชุดต้องเฉลยและจดจุดพลาดลงสมุดจุดอ่อน แล้วทวนซ้ำ Day 3","เร่งความเร็ว·ความแม่นของคณิต·อังกฤษเป็นพิเศษ"],
+    mock:["สอบเสมือนจริงจับเวลา 150 ข้อ/3 ชม. สัปดาห์ละ 2 รอบ","วิเคราะห์คะแนนรายวิชา แล้วทุ่มเวลาแก้วิชาที่เสียคะแนนมากสุด","คุมสมาธิ·บริหารเวลาในห้องสอบ พักผ่อนให้พอ"]};
+  h+='<div class="card">'+
+       '<div class="lbl" style="margin-bottom:10px;">เป้าหมายของสัปดาห์นี้</div>'+
+       '<ul style="margin:0;padding-left:17px;display:flex;flex-direction:column;gap:8px;">'+
+         goalsBy[phase].map(function(g){ return '<li style="font-size:13.5px;line-height:1.5;">'+g+'</li>'; }).join("")+
+       '</ul>'+
+     '</div>';
+
+  return '<div class="stack">'+h+'</div>';
+}
+function legend(color,text){
+  return '<span style="display:inline-flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:'+color+';"></span>'+text+'</span>';
+}
+function pickGroups(){
+  var flat=function(pre){
+    return [].concat.apply([], subjects().map(function(su){
+      return (S.topics[su.k]||[]).map(function(t){
+        return '<option value="'+pre+'|'+su.k+'|'+t.id+'">'+esc(sName[su.k]+" — "+t.label)+'</option>';
+      });
+    })).join("");
+  };
+  return '<optgroup label="📚 ติวเนื้อหา">'+flat("c")+'</optgroup>'+
+         '<optgroup label="🏃 ฝึกพละ">'+physList().map(function(e){ return '<option value="p|'+e.k+'">'+esc(e.name)+'</option>'; }).join("")+'</optgroup>'+
+         '<optgroup label="🔁 อ่านทบทวน">'+flat("r")+'</optgroup>';
+}
+
+/* ───── ฝึกพละ ───── */
+function viewPhys(){
+  var ps=physStats();
+  var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"#6E7378"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
+  var h="";
+
+  h+='<div class="card">'+
+       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'+
+         '<h3>เกณฑ์และสถานะรายท่า</h3>'+
+         '<div class="mono" style="font-size:15px;font-weight:600;color:var(--pri);">'+ps.pct+'%</div>'+
+       '</div>'+
+       '<div class="muted" style="margin-bottom:12px;">กรอกผลการทดสอบทุกครั้ง · สถานะคิดจากอัตราผ่าน (≥80% = ผ่านเกณฑ์) · แก้ตัวเลขเกณฑ์ได้</div>'+
+       '<div style="display:flex;flex-direction:column;gap:10px;">';
+  ps.per.forEach(function(p){
+    var e=p.e, st=stMap[p.stKey];
+    h+='<div style="border:1px solid #E4E5E7;border-radius:14px;padding:12px;background:#fff;">'+
+         '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">'+
+           '<div><div style="font-size:14px;font-weight:600;">'+esc(e.name)+'</div>'+
+                '<div style="font-size:11.5px;color:#6E7378;">'+esc(e.hint)+'</div></div>'+
+           '<div class="chip" style="background:'+st.bg+';color:'+st.fg+';">'+st.t+'</div>'+
+         '</div>'+
+         '<div style="display:flex;align-items:center;gap:8px;margin-top:10px;">'+
+           '<span style="font-size:12px;color:#6E7378;">เกณฑ์เป้าหมาย</span>'+
+           '<input class="in mono" value="'+esc(p.targetRaw)+'" onchange="A.target(\''+e.k+'\',this.value)" style="width:74px;text-align:center;padding:4px 8px;font-size:13px;">'+
+           '<span style="font-size:12px;color:#6E7378;">'+esc(e.unit)+'</span>'+
+         '</div>'+
+         '<div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed #E4E5E7;">'+
+           '<span style="font-size:12px;color:#6E7378;white-space:nowrap;">ผลที่ทำได้</span>'+
+           '<input class="in mono" id="dr_'+e.k+'" value="'+esc((S.testDraft||{})[e.k]||"")+'" placeholder="เช่น '+esc(p.targetRaw)+'" '+
+             'oninput="A.draft(\''+e.k+'\',this.value)" style="flex:1;min-width:0;text-align:center;padding:6px 9px;font-size:13px;">'+
+           '<button class="btn sm" onclick="A.addTest(\''+e.k+'\')" style="flex:none;">＋ บันทึกผล</button>'+
+         '</div>'+
+         '<div style="font-size:11.5px;color:#6E7378;margin-top:8px;">'+
+           (p.n?("ทดสอบ "+p.n+" ครั้ง · ผ่าน "+p.passCount+" ครั้ง ("+p.ratePct+"%)"):"ยังไม่มีผลการทดสอบ")+'</div>'+
+         '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">'+
+           p.list.map(function(v,i){
+             var ok=p.passArr[i];
+             return '<span onclick="A.delTest(\''+e.k+'\','+i+')" class="mono" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:999px;cursor:pointer;'+
+               'background:'+(ok?"#E3F4EA":"#FDECEC")+';color:'+(ok?"#1E9E5A":PRI())+';">'+(ok?"✓":"✗")+' '+esc(v)+' ✕</span>';
+           }).join("")+
+         '</div>'+
+       '</div>';
+  });
+  h+='</div>'+
+     '<div style="font-size:11px;color:#9AA0A8;margin-top:12px;line-height:1.4;">* ตัวเลขเป็นค่าอ้างอิงเริ่มต้น — ยึดตามประกาศรับสมัครของรุ่นเป็นหลัก แล้วปรับให้ตรง</div>'+
+   '</div>';
+
+  h+='<div class="card">'+
+       '<h3 style="margin-bottom:12px;">ตารางฝึกประจำสัปดาห์</h3>'+
+       '<div style="display:flex;flex-direction:column;gap:8px;">'+
+         dayNames.map(function(nm,idx){
+           var rest=idx===6;
+           return '<div style="display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:11px;background:'+(rest?"#F7F8FA":"#F4F6F9")+';opacity:'+(rest?.75:1)+';">'+
+             '<span style="width:38px;flex:none;font-size:12px;font-weight:600;color:#6E7378;">'+chipLabels[idx]+'</span>'+
+             '<span style="flex:1;font-size:13px;line-height:1.35;">'+trainFocus[idx]+'</span></div>';
+         }).join("")+
+       '</div>'+
+     '</div>';
+
+  return '<div class="stack">'+h+'</div>';
+}
+
+/* ───── ความพร้อม ───── */
+function viewReady(){
+  var ks=knowStats(), ps=physStats();
+  var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"#6E7378"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
+  var h="";
+
+  h+='<div class="card" style="border-radius:20px;padding:18px;display:flex;gap:16px;">'+
+       ring(ks.pct,"#0E0F12","ความรู้",statusOf(ks.pct))+
+       ring(ps.pct,"var(--pri)","ร่างกาย",statusOf(ps.pct))+
+     '</div>';
+
+  h+='<div class="card">'+
+       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:8px;">'+
+         '<h3>เช็กลิสต์ความรู้</h3>'+
+         '<button class="btn sm'+(S.manageMode?"":" ghost")+'" onclick="A.toggleManage()">'+(S.manageMode?"เสร็จ":"จัดการหัวข้อ")+'</button>'+
+       '</div>'+
+       '<div class="muted" style="margin-bottom:12px;">'+
+         (S.manageMode ? "แก้ข้อความ · ลบ (✕) · หรือเพิ่มหัวข้อของแต่ละวิชา"
+                       : "แตะหัวข้อเพื่อทำข้อสอบ (สุ่มไม่เกิน 10 ข้อ) · ผ่าน 80% · ผ่านแล้ว "+ks.done+"/"+ks.total)+
+       '</div>'+
+       '<div style="display:flex;flex-direction:column;gap:14px;">';
+  subjects().forEach(function(su){
+    h+='<div><div style="font-size:13px;font-weight:600;margin-bottom:7px;">'+short(su.k)+'</div>'+
+       '<div style="display:flex;flex-direction:column;gap:6px;">';
+    (S.topics[su.k]||[]).forEach(function(t){
+      var passed=!!S.know[t.id], sc=(S.scores||{})[t.id];
+      var nq=((S.bank||{})[t.id]||[]).length;
+      if(S.manageMode){
+        h+='<div style="display:flex;align-items:center;gap:8px;">'+
+             '<input class="in" value="'+esc(t.label)+'" onchange="A.editTopic(\''+su.k+'\',\''+t.id+'\',this.value)" style="flex:1;min-width:0;padding:5px 8px;font-size:13px;">'+
+             '<button class="x" style="width:28px;height:28px;font-size:12px;" onclick="A.delTopic(\''+su.k+'\',\''+t.id+'\')">✕</button>'+
+           '</div>';
+      } else {
+        h+='<div onclick="A.openQuiz(\''+su.k+'\',\''+t.id+'\')" style="display:flex;align-items:center;gap:10px;cursor:pointer;">'+
+             '<div style="width:24px;height:24px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;'+
+               (passed?"background:#1E9E5A;":"background:#fff;border:1.5px solid #C9CCD1;")+'">'+(passed?"✓":"")+'</div>'+
+             '<div style="flex:1;min-width:0;">'+
+               '<div style="font-size:13.5px;font-weight:500;">'+esc(t.label)+'</div>'+
+               '<div style="font-size:10.5px;color:#9AA0A8;">'+
+                 (sc!=null ? ("คะแนนล่าสุด "+sc+"% · "+(sc>=80 ? "ผ่าน" : (passed?"เคยผ่านแล้ว":"ยังไม่ผ่าน"))) : "ยังไม่ได้ทดสอบ")+
+                 (nq?(" · คลัง "+nq+" ข้อ"):"")+
+               '</div>'+
+             '</div>'+
+             '<span style="font-size:11px;font-weight:600;white-space:nowrap;color:'+(passed?"#1E9E5A":"var(--pri)")+';">'+
+               (passed?"ผ่านแล้ว":(nq?("ทำข้อสอบ "+Math.min(10,nq)+" ข้อ ›"):"ทำข้อสอบ ›"))+'</span>'+
+           '</div>';
+      }
+    });
+    if(S.manageMode)
+      h+='<div onclick="A.addTopic(\''+su.k+'\')" style="font-size:12.5px;font-weight:600;color:var(--pri);cursor:pointer;padding:3px 0;">＋ เพิ่มหัวข้อ</div>';
+    h+='</div></div>';
+  });
+  h+='</div></div>';
+
+  h+='<div class="card">'+
+       '<h3 style="margin-bottom:12px;">เช็กลิสต์ร่างกาย</h3>'+
+       '<div style="display:flex;flex-direction:column;gap:9px;">'+
+         ps.per.map(function(p){
+           var st=stMap[p.stKey];
+           return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">'+
+             '<span style="font-size:13.5px;">'+esc(p.e.name)+'</span>'+
+             '<div class="chip" style="background:'+st.bg+';color:'+st.fg+';">'+st.t+'</div></div>';
+         }).join("")+
+       '</div>'+
+     '</div>';
+
+  return '<div class="stack">'+h+'</div>';
+}
+
+/* ═══════════ ข้อสอบ ═══════════ */
+var THL=["ก","ข","ค","ง"];
+/* ข้อสอบมิติสัมพันธ์ที่ตัวเลือก A-D วาดอยู่ในรูป — ปุ่มต้องขึ้น "A" เฉย ๆ
+   ไม่ใช่ "ก.A" ไม่งั้นนักเรียนงงว่าให้ดูตัวอักษรชุดไหน */
+function isLetterCh(ch){
+  return ch && ch.length===4 && ch[0]==="A" && ch[1]==="B" && ch[2]==="C" && ch[3]==="D";
+}
+function chLabel(ch, ci){
+  return isLetterCh(ch) ? '<b>'+ch[ci]+'</b>' : (THL[ci]||"")+". "+mfrac(ch[ci]);
+}
+function validQs(a){
+  // โจทย์ต้องมีข้อความ "หรือ" รูป (ข้อสอบรูปภาพบางข้อไม่มีข้อความโจทย์เลย)
+  return (a||[]).filter(function(x){ return x && (x.q || x.img) && Array.isArray(x.choices) && x.choices.length>=2; })
+    .map(function(x){
+      var o = { q:x.q||"", choices:x.choices.slice(0,4),
+                answer:Math.max(0,Math.min(x.choices.length-1, x.answer|0)),
+                explain:x.explain||"" };
+      if(x.img)  o.img  = x.img;                    // รูปโจทย์
+      if(x.ximg) o.ximg = x.ximg;                   // รูปเฉลย
+      if(x.cimg) o.cimg = x.cimg.slice(0,4);        // รูปตัวเลือก
+      return o;
+    });
+}
+function drawQs(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a.slice(0,10);
+}
+function renderOverlays(){
+  var o=document.getElementById("overlays");
+  var h="";
+  if(S.quiz) h+=quizSheet();
+  if(S.adminOpen) h+=adminSheet();
+  o.innerHTML=h;
+}
+function quizSheet(){
+  var q=S.quiz, h="";
+  h+='<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:#fff;">'+
+       '<div class="sheethead" style="align-items:flex-start;">'+
+         '<div style="min-width:0;">'+
+           '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">แบบทดสอบ'+(q.questions.length?(" "+q.questions.length+" ข้อ"):"")+' · ผ่าน 80%</div>'+
+           '<div style="font-size:15px;font-weight:700;line-height:1.25;">'+esc(q.subjName+" — "+q.topicLabel)+'</div>'+
+         '</div>'+
+         '<button class="x" onclick="A.closeQuiz()">✕</button>'+
+       '</div>'+
+       '<div class="sheetbody">';
+
+  if(q.status==="loading"){
+    h+='<div style="text-align:center;padding:40px 10px;color:#6E7378;">'+
+         '<div style="font-size:30px;margin-bottom:10px;">⏳</div>'+
+         '<div style="font-size:14px;font-weight:600;color:#0E0F12;">กำลังออกข้อสอบจากหัวข้อนี้…</div>'+
+       '</div>';
+  } else if(q.status==="empty"){
+    h+='<div style="text-align:center;padding:30px 10px;">'+
+         '<div style="font-size:34px;margin-bottom:12px;">📭</div>'+
+         '<div style="font-size:15px;font-weight:700;">ยังไม่มีข้อสอบในหัวข้อนี้</div>'+
+         '<div style="font-size:12.5px;color:#6E7378;margin:8px 0 20px;line-height:1.6;">'+
+           'ให้ติวเตอร์เพิ่มข้อสอบเข้าคลังก่อน<br>(แตะโลโก้มุมซ้ายบน → ใส่รหัสแอดมิน → คลังข้อสอบรายหัวข้อ)</div>'+
+         '<button class="btn ghost" onclick="A.closeQuiz()">ปิด</button>'+
+       '</div>';
+  } else if(q.status==="error"){
+    h+='<div style="text-align:center;padding:34px 10px;">'+
+         '<div style="font-size:14px;font-weight:600;">ออกข้อสอบไม่สำเร็จ</div>'+
+         '<div style="font-size:12.5px;color:#6E7378;margin:6px 0 18px;">ลองใหม่อีกครั้ง หรือปิดหน้าต่างนี้</div>'+
+         '<div style="display:flex;gap:10px;justify-content:center;">'+
+           '<button class="btn" onclick="A.retryQuiz()">ลองใหม่</button>'+
+           '<button class="btn ghost" onclick="A.closeQuiz()">ปิด</button>'+
+         '</div></div>';
+  } else if(q.status==="active"){
+    var cur=q.questions[q.idx];
+    h+='<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:10px;">'+
+         '<div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(q.idx/q.questions.length*100)+'%;"></div></div>'+
+       '<div class="mono" style="font-size:12px;color:#6E7378;margin-bottom:8px;">ข้อ '+(q.idx+1)+' / '+q.questions.length+'</div>'+
+       '<div style="font-size:16px;font-weight:600;line-height:1.7;margin-bottom:'+(cur.img?"4px":"16px")+';">'+mfrac(cur.q)+'</div>'+
+       (cur.img ? imgHTML(cur.img, 300) + '<div style="height:12px;"></div>' : "")+
+       cur.choices.map(function(ch,ci){
+         var ci_img = (cur.cimg||[])[ci];
+         return '<div onclick="A.answer('+ci+')" style="display:'+(ci_img?"flex":"block")+';align-items:center;gap:10px;width:100%;text-align:left;padding:13px 14px;border-radius:12px;'+
+           'border:1px solid #E4E5E7;background:#fff;font-size:14px;line-height:1.7;cursor:pointer;margin-bottom:9px;">'+
+           (isLetterCh(cur.choices) ? "" : '<span style="flex:none;font-weight:600;">'+(THL[ci]||"")+'.</span>')+
+           (ci_img ? '<img src="'+esc(ci_img)+'" alt="" loading="lazy" style="flex:none;max-height:96px;max-width:60%;border-radius:8px;background:#fff;">' : "")+
+           '<span style="flex:1;min-width:0;'+(isLetterCh(cur.choices)?"font-weight:700;font-size:16px;":"")+'">'+
+             (isLetterCh(cur.choices) ? esc(ch) : mfrac(ch))+'</span>'+
+         '</div>';
+       }).join("");
+  } else if(q.status==="result"){
+    h+='<div style="text-align:center;padding:14px 0;">'+
+         '<div class="mono" style="font-size:52px;font-weight:600;line-height:1;color:'+(q.passed?"#1E9E5A":"var(--pri)")+';">'+q.pct+'%</div>'+
+         '<div style="font-size:18px;font-weight:700;margin-top:10px;">'+(q.passed?"ผ่านเกณฑ์ 🎉":"ยังไม่ผ่านเกณฑ์")+'</div>'+
+         '<div style="font-size:12.5px;color:#6E7378;margin-top:6px;">ทำถูก '+q.correct+' / '+q.questions.length+' ข้อ · เกณฑ์ผ่าน 80%'+(q.passed?" · บันทึกเป็นผ่านแล้ว":"")+'</div>'+
+         '<div style="text-align:left;margin-top:20px;display:flex;flex-direction:column;gap:9px;">'+
+           '<div class="lbl">เฉลยรายข้อ</div>'+
+           q.questions.map(function(qq,i){
+             var you=q.picked[i], ok=you===qq.answer;
+             return '<div style="border:1px solid #E4E5E7;border-radius:12px;padding:11px;">'+
+               '<div style="display:flex;gap:9px;align-items:flex-start;">'+
+                 '<div style="width:20px;height:20px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;'+
+                   'background:'+(ok?"#1E9E5A":"var(--pri)")+';">'+(ok?"✓":"✗")+'</div>'+
+                 '<div style="flex:1;min-width:0;">'+
+                   '<div style="font-size:13px;font-weight:600;line-height:1.7;">'+(i+1)+'. '+mfrac(qq.q)+'</div>'+
+                   (qq.img ? imgHTML(qq.img, 200) : "")+
+                   (!ok?'<div style="font-size:12px;color:var(--pri);margin-top:4px;line-height:1.7;">คุณตอบ: '+((you!=null&&qq.choices[you]!=null)?chLabel(qq.choices,you):"—")+'</div>'+
+                        (((qq.cimg||[])[you])?imgHTML(qq.cimg[you],90):""):"")+
+                   '<div style="font-size:12px;color:#1E9E5A;margin-top:2px;font-weight:600;line-height:1.7;">เฉลย: '+chLabel(qq.choices,qq.answer)+'</div>'+
+                   (((qq.cimg||[])[qq.answer])?imgHTML(qq.cimg[qq.answer],90):"")+
+                   ((qq.explain&&qq.explain.trim())||qq.ximg?
+                     '<div style="margin-top:9px;background:#F4F6FA;border-radius:9px;padding:10px 11px;">'+
+                       '<div style="font-size:11px;font-weight:700;color:#6E7378;margin-bottom:4px;">วิธีทำโดยละเอียด</div>'+
+                       (qq.ximg ? imgHTML(qq.ximg, 220) : "")+
+                       '<div style="font-size:12.5px;line-height:1.9;white-space:pre-wrap;">'+mfrac(qq.explain||"")+'</div></div>':"")+
+                 '</div></div></div>';
+           }).join("")+
+         '</div>'+
+         '<div style="display:flex;gap:10px;margin-top:22px;">'+
+           '<button class="btn ghost" style="flex:1;" onclick="A.retryQuiz()">สุ่มชุดใหม่</button>'+
+           '<button class="btn" style="flex:1;" onclick="A.closeQuiz()">เสร็จสิ้น</button>'+
+         '</div>'+
+       '</div>';
+  }
+  h+='</div></div></div>';
+  return h;
+}
+
+/* ═══════════ แผงแอดมิน ═══════════ */
+var ADMIN_PIN="1809";
+
+/* ═══════════ รูปภาพประกอบโจทย์ ═══════════
+   เก็บรูปเป็น data URI ฝังใน questions.json เลย → อัปโหลดไฟล์เดียวจบ
+   และนักเรียนได้รูปติดเครื่องไปด้วย เปิดออฟไลน์เห็นรูปแน่นอน
+   ย่อ+บีบอัดก่อนเก็บเสมอ ไม่งั้นไฟล์บวมจนโหลดไม่ไหว */
+var IMG_MAX = 900;          // ด้านยาวสุด (px)
+var _imgTarget = null;
+
+function pickImage(t, i){
+  _imgTarget = {t:t, i:i};
+  var el = document.getElementById("imgfile");
+  if(!el) return;
+  el.value = "";
+  el.click();
+}
+function onImageFile(el){
+  var f = el.files && el.files[0];
+  if(!f) return;
+  if(!/^image\//.test(f.type)){ toast("ไฟล์นี้ไม่ใช่รูปภาพ"); return; }
+  var r = new FileReader();
+  r.onload = function(){
+    var im = new Image();
+    im.onload = function(){
+      var s = Math.min(1, IMG_MAX/im.width, IMG_MAX/im.height);
+      var c = document.createElement("canvas");
+      c.width = Math.max(1, Math.round(im.width*s));
+      c.height = Math.max(1, Math.round(im.height*s));
+      var x = c.getContext("2d");
+      x.fillStyle = "#fff"; x.fillRect(0,0,c.width,c.height);   // พื้นโปร่งใสจะกลายเป็นดำถ้าไม่รองพื้นขาว
+      x.drawImage(im, 0, 0, c.width, c.height);
+      var url = c.toDataURL("image/webp", 0.8);
+      if(url.indexOf("data:image/webp") !== 0) url = c.toDataURL("image/jpeg", 0.75);
+      setDraftImage(url);
+      toast("ใส่รูปแล้ว · " + kb(url) + " KB");
+    };
+    im.onerror = function(){ toast("เปิดไฟล์รูปไม่สำเร็จ"); };
+    im.src = r.result;
+  };
+  r.onerror = function(){ toast("อ่านไฟล์ไม่สำเร็จ"); };
+  r.readAsDataURL(f);
+}
+function setDraftImage(url){
+  var d = S.adminDraft, t = _imgTarget;
+  if(!d || !t) return;
+  if(t.t === "q") d.img = url;
+  else if(t.t === "x") d.ximg = url;
+  else if(t.t === "c"){ d.cimg = d.cimg || ["","","",""]; d.cimg[t.i] = url; }
+  render();
+}
+function delDraftImage(t, i){
+  var d = S.adminDraft;
+  if(!d) return;
+  if(t === "q") d.img = "";
+  else if(t === "x") d.ximg = "";
+  else if(t === "c" && d.cimg) d.cimg[i] = "";
+  render();
+}
+function kb(s){ return Math.round((s ? s.length : 0) * 0.75 / 1024); }
+function imgHTML(src, max){
+  if(!src) return "";
+  return '<img src="'+esc(src)+'" alt="รูปประกอบโจทย์" loading="lazy" '+
+    'style="display:block;max-width:100%;max-height:'+(max||260)+'px;margin:8px 0;border-radius:10px;border:1px solid #E4E5E7;background:#fff;">';
+}
+/* ปุ่มเลือก/ลบรูป ในแผงแอดมิน */
+function imgBtn(label, t, i, cur){
+  if(cur){
+    return '<div style="display:flex;align-items:center;gap:8px;margin:6px 0;">'+
+      '<img src="'+esc(cur)+'" style="width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid #E4E5E7;">'+
+      '<span style="font-size:11.5px;color:#6E7378;">'+kb(cur)+' KB</span>'+
+      '<button class="btn sm ghost" onclick="pickImage(\''+t+'\','+(i==null?"null":i)+')">เปลี่ยน</button>'+
+      '<button class="btn sm ghost" style="color:#6E7378;" onclick="delDraftImage(\''+t+'\','+(i==null?"null":i)+')">ลบรูป</button>'+
+    '</div>';
+  }
+  return '<button class="btn sm ghost" style="margin:6px 0;" onclick="pickImage(\''+t+'\','+(i==null?"null":i)+')">🖼 '+label+'</button>';
+}
+
+function pvSet(id, v){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.innerHTML = (v && v.trim()) ? mrender(v) : '<span style="color:#9AA0A8;font-size:12px;">— ยังไม่ได้พิมพ์ —</span>';
+}
+/* กล่องแสดงตัวอย่างสด ๆ ว่าสมการที่พิมพ์จะออกมาหน้าตาแบบไหน */
+function pvBox(id, val, multi){
+  return '<div style="background:#F4F6FA;border:1px dashed #D4D8DE;border-radius:9px;padding:9px 11px;">'+
+    '<div style="font-size:10.5px;font-weight:700;color:#9AA0A8;margin-bottom:3px;">ตัวอย่างที่นักเรียนจะเห็น</div>'+
+    '<div id="'+id+'" style="font-size:'+(multi?"12.5px":"15px")+';line-height:1.9;'+(multi?"white-space:pre-wrap;":"")+'">'+
+      (val ? mrender(val) : '<span style="color:#9AA0A8;font-size:12px;">— ยังไม่ได้พิมพ์ —</span>')+
+    '</div></div>';
+}
+/* ตารางสอนวิธีพิมพ์สมการ — แสดงผลจริงให้ดูเทียบกัน */
+var MATH_HELP = [["1/2","เศษส่วน"],["2 1/2","จำนวนคละ"],["(x+1)/(x-2)","เศษส่วนหลายพจน์"],
+  ["x^2","ยกกำลัง"],["2^(n+1)","ยกกำลังหลายพจน์"],["a_1","ตัวห้อย"],
+  ["sqrt(2)","กรณฑ์"],["sqrt(a^2+b^2)","กรณฑ์หลายพจน์"],
+  ["<=","น้อยกว่าเท่ากับ"],[">=","มากกว่าเท่ากับ"],["!=","ไม่เท่ากับ"],["+-","บวกลบ"],["*","คูณ"]];
+function mathHelp(){
+  return '<details style="margin-bottom:12px;background:#F4F6FA;border:1px solid #E4E5E7;border-radius:10px;padding:9px 11px;">'+
+    '<summary style="font-size:12.5px;font-weight:700;cursor:pointer;color:var(--pri);">📐 วิธีพิมพ์สมการ (แตะดู)</summary>'+
+    '<div style="font-size:11.5px;color:#6E7378;margin:8px 0 6px;">พิมพ์แบบธรรมดาทางซ้าย → นักเรียนจะเห็นแบบขวา</div>'+
+    '<div style="display:grid;grid-template-columns:auto auto 1fr;gap:6px 10px;align-items:center;">'+
+      MATH_HELP.map(function(r){
+        return '<code style="background:#fff;border:1px solid #E4E5E7;border-radius:5px;padding:2px 6px;font-size:12px;">'+esc(r[0])+'</code>'+
+               '<span style="color:#C9CED6;">→</span>'+
+               '<span style="font-size:14px;line-height:1.8;">'+mrender(r[0])+'<span style="font-size:11px;color:#9AA0A8;margin-left:8px;">'+r[1]+'</span></span>';
+      }).join("")+
+    '</div></details>';
+}
+function adminSheet(){
+  var h='<div class="sheet"><div class="sheetin">';
+  if(S.adminView==="login"){
+    h+='<div style="padding:26px 22px 30px;background:#F4F6FA;">'+
+         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">'+
+           '<div style="font-size:18px;font-weight:700;">🔒 เข้าสู่ระบบแอดมิน</div>'+
+           '<button class="x" onclick="A.closeAdmin()">✕</button>'+
+         '</div>'+
+         '<label style="font-size:12px;color:#6E7378;">รหัสแอดมิน</label>'+
+         '<input type="password" id="adpin" value="'+esc(S.adminCode)+'" oninput="A.adminCode(this.value)" placeholder="กรอกรหัส" '+
+           'style="width:100%;margin-top:6px;border:1px solid #E4E5E7;border-radius:11px;padding:12px 14px;font-size:16px;background:#fff;">'+
+         (S.adminErr?'<div style="font-size:12.5px;color:var(--pri);margin-top:8px;">รหัสไม่ถูกต้อง ลองอีกครั้ง</div>':"")+
+         '<button class="btn" style="width:100%;margin-top:16px;padding:13px;font-size:15px;" onclick="A.submitAdmin()">เข้าสู่ระบบ</button>'+
+       '</div>';
+  } else if(S.adminView==="panel"){
+    h+='<div class="sheethead">'+
+         '<div style="font-size:17px;font-weight:700;">🔓 แผงแอดมิน</div>'+
+         '<div style="display:flex;gap:8px;">'+
+           '<button class="btn sm ghost" onclick="A.logoutAdmin()">ออกจากระบบ</button>'+
+           '<button class="x" onclick="A.closeAdmin()">✕</button>'+
+         '</div></div>'+
+       '<div class="sheetbody">'+
+         '<div class="lbl" style="margin-bottom:4px;">คลังข้อสอบรายหัวข้อ</div>'+
+         '<div class="muted" style="margin-bottom:14px;">ลงข้อสอบเองต่อหัวข้อ — นักเรียนจะได้สุ่ม 10 ข้อจากคลังนี้ ใช้ได้แม้ไม่มีเน็ต</div>'+
+         '<div style="display:flex;flex-direction:column;gap:14px;">';
+    subjects().forEach(function(su){
+      h+='<div style="background:#fff;border:1px solid #E4E5E7;border-radius:14px;padding:12px 14px;">'+
+           '<div style="font-size:13.5px;font-weight:700;margin-bottom:8px;">'+short(su.k)+'</div>'+
+           '<div style="display:flex;flex-direction:column;gap:7px;">';
+      (S.topics[su.k]||[]).forEach(function(t){
+        h+='<div style="display:flex;align-items:center;gap:10px;">'+
+             '<div style="flex:1;min-width:0;font-size:13px;">'+esc(t.label)+'</div>'+
+             '<span class="mono" style="font-size:11px;color:#6E7378;white-space:nowrap;">'+(((S.bank||{})[t.id]||[]).length)+' ข้อ</span>'+
+             '<button class="btn sm" onclick="A.openBank(\''+su.k+'\',\''+t.id+'\')">จัดการ</button>'+
+           '</div>';
+      });
+      h+='</div></div>';
+    });
+    h+='</div>';
+
+    // ท่าฝึกพละ
+    h+='<div style="margin-top:22px;">'+
+         '<div class="lbl" style="margin-bottom:4px;">ท่าฝึกพละและเกณฑ์</div>'+
+         '<div class="muted" style="margin-bottom:12px;">แก้ชื่อ · คำอธิบาย · เกณฑ์ · หน่วย · ทิศทางที่ถือว่าดี หรือเพิ่ม/ลบท่า</div>'+
+         '<div style="display:flex;flex-direction:column;gap:12px;">';
+    physList().forEach(function(e){
+      h+='<div style="background:#fff;border:1px solid #E4E5E7;border-radius:14px;padding:12px;">'+
+           '<input class="in" value="'+esc(e.name)+'" placeholder="ชื่อท่า" onchange="A.setPhys(\''+e.k+'\',\'name\',this.value)" style="width:100%;font-weight:600;margin-bottom:6px;">'+
+           '<input class="in" value="'+esc(e.hint||"")+'" placeholder="คำอธิบายสั้น" onchange="A.setPhys(\''+e.k+'\',\'hint\',this.value)" style="width:100%;font-size:12.5px;color:#6E7378;margin-bottom:9px;">'+
+           '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">'+
+             '<span style="font-size:12px;color:#6E7378;">เกณฑ์</span>'+
+             '<input class="in mono" value="'+esc(e.def)+'" onchange="A.setPhys(\''+e.k+'\',\'def\',this.value)" style="width:62px;text-align:center;padding:5px 8px;font-size:13px;">'+
+             '<input class="in" value="'+esc(e.unit)+'" placeholder="หน่วย" onchange="A.setPhys(\''+e.k+'\',\'unit\',this.value)" style="width:66px;text-align:center;padding:5px 8px;font-size:12.5px;">'+
+             '<button class="btn sm ghost" onclick="A.toggleDir(\''+e.k+'\')">'+(e.dir==="high"?"ค่ามาก = ดี":"ค่าน้อย = ดี")+'</button>'+
+             '<button class="btn sm ghost" style="margin-left:auto;color:#6E7378;" onclick="A.delPhys(\''+e.k+'\')">ลบ</button>'+
+           '</div>'+
+         '</div>';
+    });
+    h+='</div>'+
+       '<button class="btn sm" style="margin-top:10px;padding:9px 14px;" onclick="A.addPhys()">＋ เพิ่มท่าฝึก</button>'+
+     '</div>';
+
+    // สำรองข้อมูล
+    h+='<div style="margin-top:22px;">'+
+         '<div class="lbl" style="margin-bottom:4px;">สำรอง / ย้ายข้อมูล</div>'+
+         '<div class="muted" style="margin-bottom:12px;">ข้อมูลทั้งหมดเก็บในเครื่องนี้เท่านั้น — ล้างข้อมูลเบราว์เซอร์แล้วจะหาย ควรกดสำรองเก็บไว้</div>'+
+         '<div style="display:flex;gap:10px;flex-wrap:wrap;">'+
+           '<button class="btn sm ghost" onclick="A.exportData()">⬇︎ สำรองเป็นไฟล์</button>'+
+           '<button class="btn sm ghost" onclick="A.importData()">⬆︎ นำเข้าไฟล์</button>'+
+         '</div>'+
+         '<input type="file" id="importfile" accept="application/json" hidden onchange="A.importFile(this)">'+
+       '</div>'+
+       '<div style="margin-top:22px;">'+
+         '<div class="lbl" style="margin-bottom:4px;">ส่งข้อสอบให้นักเรียนทุกคน</div>'+
+         '<div class="muted" style="margin-bottom:12px;">ข้อสอบที่ลงไว้ยังอยู่แค่ในเครื่องนี้ — กดปุ่มนี้เพื่อได้ไฟล์ <b>questions.json</b> '+
+           'แล้วอัปโหลดทับไฟล์เดิมบนเว็บ นักเรียนจะได้ข้อสอบชุดใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
+         '<button class="btn sm" onclick="A.exportQuestions()">⬇︎ ส่งออกคลังข้อสอบ (questions.json)</button>'+
+         '<div style="font-size:11px;color:#9AA0A8;margin-top:8px;">เวอร์ชันเนื้อหาปัจจุบัน: '+(S.contentVersion||0)+' → จะส่งออกเป็นเวอร์ชัน '+((S.contentVersion||0)+1)+'</div>'+
+         (S.bankDirty?'<div style="font-size:11.5px;color:var(--pri);font-weight:600;margin-top:8px;">⚠️ มีข้อสอบที่แก้แล้วยังไม่ได้ส่งออก — นักเรียนยังไม่ได้รับ</div>':"")+
+       '</div>'+
+       '<div style="margin-top:22px;">'+
+         '<div class="lbl" style="margin-bottom:4px;">ขนาดข้อมูล</div>'+
+         '<div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:#6E7378;">'+
+           '<div>คลังข้อสอบ: <b style="color:#0E0F12;">'+Object.values(S.bank||{}).reduce(function(a,b){return a+b.length;},0)+' ข้อ</b> · '+
+             Math.round(JSON.stringify(S.bank||{}).length/1024)+' KB (อยู่ในไฟล์บนเว็บ ไม่กินพื้นที่เครื่อง)</div>'+
+           '<div>ข้อมูลที่เก็บในเครื่องนี้: <b style="color:#0E0F12;">'+storeKB()+' KB</b> (ความคืบหน้า/ผลสอบ/ผลพละ)</div>'+
+         '</div>'+
+       '</div>';
+    h+='<div style="font-size:11.5px;color:#9AA0A8;margin-top:16px;line-height:1.5;">ส่วนหัวข้อและตารางติว ปรับแก้ได้จากปุ่ม “จัดการหัวข้อ” และ “✎ แก้ไข” ในแต่ละแท็บโดยตรง</div>'+
+       '</div>';
+  } else if(S.adminView==="bank"){
+    var tObj=(S.topics[S.adminSubj]||[]).find(function(x){ return x.id===S.adminTopic; });
+    var list=((S.bank||{})[S.adminTopic]||[]);
+    h+='<div class="sheethead">'+
+         '<button class="x" style="color:#0E0F12;" onclick="A.backPanel()">◀</button>'+
+         '<div style="flex:1;min-width:0;">'+
+           '<div style="font-size:11px;color:#6E7378;">'+esc(sName[S.adminSubj]||"")+'</div>'+
+           '<div style="font-size:15px;font-weight:700;line-height:1.2;">'+esc(tObj?tObj.label:"")+'</div>'+
+         '</div>'+
+         '<button class="x" onclick="A.closeAdmin()">✕</button>'+
+       '</div>'+
+       '<div class="sheetbody">';
+    var d=S.adminDraft;
+    if(d){
+      h+='<div style="background:#fff;border:1px solid #E4E5E7;border-radius:14px;padding:14px;">'+
+           '<div style="font-size:14px;font-weight:700;margin-bottom:10px;">'+(d.index==null?"เพิ่มข้อสอบใหม่":"แก้ไขข้อสอบ")+'</div>'+
+           mathHelp()+
+           '<label style="font-size:12px;color:#6E7378;">โจทย์</label>'+
+           '<textarea id="dq" oninput="A.draftQ(this.value)" placeholder="พิมพ์โจทย์ เช่น  2/3 + 3/4  หรือ  sqrt(a^2 + b^2)" '+
+             'style="width:100%;margin:5px 0 6px;border:1px solid #E4E5E7;border-radius:10px;padding:10px;font-size:14px;min-height:64px;resize:vertical;">'+esc(d.q)+'</textarea>'+
+           pvBox("pvq", d.q)+
+           imgBtn("เพิ่มรูปประกอบโจทย์", "q", null, d.img)+
+           '<label style="font-size:12px;color:#6E7378;display:block;margin-top:12px;">ตัวเลือก (แตะวงกลมเพื่อเลือกเฉลย · ใส่รูปแทนข้อความได้)</label>'+
+           '<div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">'+
+             d.choices.map(function(ch,ci){
+               var on=d.answer===ci, cim=(d.cimg||[])[ci];
+               return '<div style="border:1px solid #F0F1F3;border-radius:10px;padding:8px;">'+
+                 '<div style="display:flex;align-items:center;gap:9px;">'+
+                   '<div onclick="A.draftAnswer('+ci+')" style="width:22px;height:22px;flex:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;'+
+                     'font-size:12px;color:#fff;font-weight:700;'+(on?"background:#1E9E5A;":"background:#fff;border:2px solid #C9CED6;")+'">✓</div>'+
+                   '<input class="in" value="'+esc(ch)+'" placeholder="ตัวเลือก '+THL[ci]+'" oninput="A.draftChoice('+ci+',this.value)" style="flex:1;min-width:0;padding:9px 11px;">'+
+                   '<div id="pvc'+ci+'" style="flex:none;min-width:36px;max-width:100px;overflow:hidden;font-size:13px;line-height:1.7;">'+(ch?mrender(ch):"")+'</div>'+
+                 '</div>'+
+                 imgBtn("ใส่รูปตัวเลือก "+THL[ci], "c", ci, cim)+
+               '</div>';
+             }).join("")+
+           '</div>'+
+           '<label style="font-size:12px;color:#6E7378;display:block;margin-top:12px;">เฉลยละเอียด (วิธีทำ · สูตร · ขั้นตอน)</label>'+
+           '<textarea id="dx" oninput="A.draftExplain(this.value)" placeholder="อธิบายเป็นขั้นตอนให้มือใหม่เข้าใจง่าย ขึ้นบรรทัดใหม่ได้" '+
+             'style="width:100%;margin:5px 0 6px;border:1px solid #E4E5E7;border-radius:10px;padding:10px;font-size:13.5px;line-height:1.5;min-height:90px;resize:vertical;">'+esc(d.explain||"")+'</textarea>'+
+           pvBox("pvx", d.explain||"", true)+
+           imgBtn("เพิ่มรูปประกอบเฉลย", "x", null, d.ximg)+
+           '<div style="display:flex;gap:10px;margin-top:16px;">'+
+             '<button class="btn ghost" style="flex:1;" onclick="A.cancelDraft()">ยกเลิก</button>'+
+             '<button class="btn" style="flex:1;" onclick="A.saveDraft()">บันทึก</button>'+
+           '</div>'+
+         '</div>';
+    } else {
+      h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'+
+           '<div style="font-size:12.5px;color:#6E7378;">ทั้งหมด '+list.length+' ข้อ</div>'+
+           '<button class="btn sm" onclick="A.newQuestion()">＋ เพิ่มข้อสอบ</button>'+
+         '</div>'+
+         '<div style="display:flex;flex-direction:column;gap:10px;">'+
+           list.map(function(qq,i){
+             return '<div style="background:#fff;border:1px solid #E4E5E7;border-radius:12px;padding:12px;">'+
+               '<div style="font-size:13.5px;font-weight:600;line-height:1.7;">'+(i+1)+'. '+mfrac(qq.q)+'</div>'+
+               (qq.img?imgHTML(qq.img,110):"")+
+               '<div style="font-size:12px;color:#1E9E5A;margin-top:5px;line-height:1.7;">เฉลย: '+chLabel(qq.choices,qq.answer)+'</div>'+
+               '<div style="display:flex;gap:8px;margin-top:10px;">'+
+                 '<button class="btn sm ghost" onclick="A.editQuestion('+i+')">แก้ไข</button>'+
+                 '<button class="btn sm ghost" style="color:#6E7378;" onclick="A.delQuestion('+i+')">ลบ</button>'+
+               '</div></div>';
+           }).join("")+
+           (list.length?"":'<div class="muted" style="text-align:center;padding:24px 0;">ยังไม่มีข้อสอบในหัวข้อนี้</div>')+
+         '</div>';
+    }
+    h+='</div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+
+/* ═══════════ ACTIONS ═══════════ */
+var A={
+  tab:function(k){ set({tab:k}); document.getElementById("view").scrollTop=0; },
+  theme:function(i){ set({theme:i}); },
+  examDate:function(v){ set({examDate:v}); },
+  start:function(v){ set({studyStart:v}); },
+  hours:function(v){ set({hours:Number(v)}); },
+  dayOff:function(v){ set({dayOff:Number(v)}); },
+  toggleDone:function(k){ var d=Object.assign({},S.done); d[k]=!d[k]; set({done:d}); },
+  toggleEdit:function(){ set({editMode:!S.editMode}); },
+  toggleManage:function(){ set({manageMode:!S.manageMode}); },
+  selDate:function(isoD,y,m){ set({selDate:isoD, calYear:y, calMonth:m}); },
+  month:function(dir){
+    var m=S.calMonth+dir, y=S.calYear;
+    if(m<0){ m=11; y--; } if(m>11){ m=0; y++; }
+    set({calMonth:m, calYear:y});
+  },
+  editBlock:function(wi,day,bi,f,v){
+    var key=wi+":"+day+":"+bi;
+    var e=Object.assign({},S.edits);
+    e[key]=Object.assign({},e[key]); e[key][f]=v;
+    set({edits:e});
+  },
+  pick:function(wi,day,bi,val){
+    if(!val) return;
+    var p=val.split("|"), cat=p[0], ov;
+    if(cat==="c"){
+      var t=(S.topics[p[1]]||[]).find(function(x){ return x.id===p[2]; });
+      ov={subj:sName[p[1]], act:(t?t.label:""), type:"learn", sk:p[1]};
+    } else if(cat==="p"){
+      var ev=physList().find(function(x){ return x.k===p[1]; });
+      ov={subj:"ฝึกพละ", act:(ev?ev.name:""), type:"phys", sk:"phys"};
+    } else {
+      var t2=(S.topics[p[1]]||[]).find(function(x){ return x.id===p[2]; });
+      ov={subj:sName[p[1]], act:"ทบทวน — "+(t2?t2.label:""), type:"review", sk:p[1]};
+    }
+    var key=wi+":"+day+":"+bi;
+    var e=Object.assign({},S.edits);
+    e[key]=Object.assign({},e[key],ov);
+    set({edits:e});
+  },
+  // พละ
+  target:function(k,v){ var t=Object.assign({},S.target); t[k]=v; set({target:t}); },
+  draft:function(k,v){
+    var e=physList().find(function(x){ return x.k===k; });
+    if(e && e.fmt==="mmss"){
+      var d=v.replace(/\D/g,"").slice(0,4);
+      v = d.length<=2 ? d : (d.slice(0,d.length-2)+":"+d.slice(-2));
+      var el=document.getElementById("dr_"+k);
+      if(el) el.value=v;
+    }
+    S.testDraft=Object.assign({},S.testDraft); S.testDraft[k]=v; save();
+  },
+  addTest:function(k){
+    var v=(S.testDraft||{})[k];
+    if(v==null || String(v).trim()==="") return;
+    var t=Object.assign({},S.tests); t[k]=(t[k]||[]).concat([String(v).trim()]);
+    var d=Object.assign({},S.testDraft); d[k]="";
+    set({tests:t, testDraft:d});
+  },
+  delTest:function(k,i){
+    var t=Object.assign({},S.tests);
+    t[k]=(t[k]||[]).filter(function(_,j){ return j!==i; });
+    set({tests:t});
+  },
+  setPhys:function(k,f,v){
+    set({physEvents: physList().map(function(e){ return e.k===k?Object.assign({},e,{[f]:v}):e; })});
+  },
+  toggleDir:function(k){
+    set({physEvents: physList().map(function(e){ return e.k===k?Object.assign({},e,{dir:e.dir==="high"?"low":"high"}):e; })});
+  },
+  addPhys:function(){
+    set({physEvents: physList().concat([{k:"ev"+Date.now(), name:"ท่าใหม่", hint:"", unit:"วินาที", def:"0", dir:"low"}])});
+  },
+  delPhys:function(k){
+    if(!confirm("ลบท่านี้?")) return;
+    set({physEvents: physList().filter(function(e){ return e.k!==k; })});
+  },
+  // หัวข้อ
+  addTopic:function(sk){
+    var t=Object.assign({},S.topics);
+    t[sk]=(t[sk]||[]).concat([{id:sk+"_"+Date.now(), label:"หัวข้อใหม่"}]);
+    set({topics:t});
+  },
+  editTopic:function(sk,id,v){
+    var t=Object.assign({},S.topics);
+    t[sk]=(t[sk]||[]).map(function(x){ return x.id===id?Object.assign({},x,{label:v}):x; });
+    set({topics:t});
+  },
+  delTopic:function(sk,id){
+    if(!confirm("ลบหัวข้อนี้? ข้อสอบในคลังของหัวข้อนี้จะถูกลบด้วย")) return;
+    var t=Object.assign({},S.topics);
+    t[sk]=(t[sk]||[]).filter(function(x){ return x.id!==id; });
+    var b=Object.assign({},S.bank); delete b[id];
+    set({topics:t, bank:b, bankDirty:true});
+  },
+  // ข้อสอบ
+  openQuiz:function(sk,id){
+    var t=(S.topics[sk]||[]).find(function(x){ return x.id===id; });
+    if(!t) return;
+    var q={ status:"loading", subjKey:sk, topicId:id, topicLabel:t.label, subjName:short(sk),
+            questions:[], idx:0, picked:[], correct:0 };
+    S.quiz=q; render();
+    loadQuiz(sk,id,t.label,short(sk));
+  },
+  answer:function(ci){
+    var q=S.quiz;
+    if(!q || q.status!=="active") return;
+    var cur=q.questions[q.idx];
+    q.correct += (ci===cur.answer ? 1 : 0);
+    q.picked=q.picked.concat([ci]);
+    if(q.idx+1 < q.questions.length){ q.idx++; render(); return; }
+    q.pct=Math.round(q.correct/q.questions.length*100);
+    q.passed=q.pct>=80;
+    q.status="result";
+    var sc=Object.assign({},S.scores); sc[q.topicId]=q.pct;
+    var kn=Object.assign({},S.know); if(q.passed) kn[q.topicId]=true;
+    set({scores:sc, know:kn});
+  },
+  closeQuiz:function(){ S.quiz=null; render(); },
+  retryQuiz:function(){ var q=S.quiz; if(q) A.openQuiz(q.subjKey,q.topicId); },
+  // แอดมิน
+  openAdmin:function(){ S.adminOpen=true; S.adminView=S.adminMode?"panel":"login"; S.adminCode=""; S.adminErr=false; render(); },
+  closeAdmin:function(){ S.adminOpen=false; S.adminDraft=null; render(); },
+  adminCode:function(v){ S.adminCode=v; S.adminErr=false; },
+  submitAdmin:function(){
+    if(S.adminCode===ADMIN_PIN){ S.adminMode=true; S.adminView="panel"; S.adminErr=false; S.adminCode=""; }
+    else S.adminErr=true;
+    render();
+  },
+  logoutAdmin:function(){ S.adminMode=false; S.adminOpen=false; S.adminView="login"; S.adminDraft=null; render(); },
+  openBank:function(sk,tid){ S.adminView="bank"; S.adminSubj=sk; S.adminTopic=tid; S.adminDraft=null; render(); },
+  backPanel:function(){ S.adminView="panel"; S.adminDraft=null; render(); },
+  newQuestion:function(){ S.adminDraft={index:null, q:"", choices:["","","",""], answer:0, explain:"", img:"", ximg:"", cimg:["","","",""]}; render(); },
+  editQuestion:function(i){
+    var b=((S.bank||{})[S.adminTopic]||[])[i];
+    if(!b) return;
+    S.adminDraft={ index:i, q:b.q, choices:b.choices.concat(["","","",""]).slice(0,4), answer:b.answer,
+                   explain:b.explain||"", img:b.img||"", ximg:b.ximg||"",
+                   cimg:(b.cimg||[]).concat(["","","",""]).slice(0,4) };
+    render();
+  },
+  // อัปเดตกล่องตัวอย่างตรง ๆ ไม่ render ใหม่ทั้งหน้า เคอร์เซอร์จะได้ไม่เด้ง
+  draftQ:function(v){ S.adminDraft.q=v; pvSet("pvq", v); },
+  draftExplain:function(v){ S.adminDraft.explain=v; pvSet("pvx", v); },
+  draftChoice:function(i,v){
+    S.adminDraft.choices[i]=v;
+    var el=document.getElementById("pvc"+i);
+    if(el) el.innerHTML = v ? mrender(v) : "";
+  },
+  draftAnswer:function(i){ S.adminDraft.answer=i; render(); },
+  cancelDraft:function(){ S.adminDraft=null; render(); },
+  saveDraft:function(){
+    var d=S.adminDraft;
+    if(!d) return;
+    var cimg = d.cimg || ["","","",""];
+    // ตัวเลือกนับว่า "มี" ถ้ามีข้อความ หรือมีรูป (ข้อสอบมิติสัมพันธ์ ตัวเลือกเป็นรูปล้วน)
+    var filled = d.choices.filter(function(c,i){ return String(c).trim() || cimg[i]; }).length;
+    if(!d.q.trim() && !d.img){ toast("ยังไม่ได้พิมพ์โจทย์ (หรือใส่รูปโจทย์)"); return; }
+    if(filled<2){ toast("ต้องมีตัวเลือกอย่างน้อย 2 ข้อ"); return; }
+    if(!String(d.choices[d.answer]||"").trim() && !cimg[d.answer]){ toast("ยังไม่ได้เลือกเฉลย (แตะวงกลมหน้าตัวเลือก)"); return; }
+    var arr=((S.bank||{})[S.adminTopic]||[]).slice();
+    var q={ q:d.q, choices:d.choices, answer:d.answer, explain:d.explain||"" };
+    if(d.img) q.img=d.img;
+    if(d.ximg) q.ximg=d.ximg;
+    if(cimg.some(function(x){ return x; })) q.cimg=cimg;
+    if(d.index==null) arr.push(q); else arr[d.index]=q;
+    var b=Object.assign({},S.bank); b[S.adminTopic]=arr;
+    S.adminDraft=null;
+    set({bank:b, bankDirty:true});
+    toast("บันทึกข้อสอบแล้ว");
+  },
+  delQuestion:function(i){
+    if(!confirm("ลบข้อสอบข้อนี้?")) return;
+    var b=Object.assign({},S.bank);
+    b[S.adminTopic]=((b[S.adminTopic])||[]).filter(function(_,j){ return j!==i; });
+    set({bank:b, bankDirty:true});
+  },
+  // สำรองข้อมูล
+  exportData:function(){
+    var blob=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="nst18-backup-"+iso(new Date())+".json";
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+  },
+  exportQuestions:function(){
+    var v=(S.contentVersion||0)+1;
+    var out={
+      _comment:"คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อัปโหลดไฟล์นี้ทับของเดิมบนเว็บ",
+      version:v, topics:S.topics, bank:S.bank, physEvents:S.physEvents
+    };
+    var blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="questions.json";
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+    set({contentVersion:v, bankDirty:false});
+    toast("ได้ไฟล์แล้ว — อัปโหลดทับ questions.json บนเว็บ");
+  },
+  importData:function(){ document.getElementById("importfile").click(); },
+  importFile:function(el){
+    var f=el.files && el.files[0];
+    if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var d=JSON.parse(r.result);
+        if(!d || typeof d!=="object") throw new Error("bad");
+        if(!confirm("นำเข้าข้อมูลนี้ทับของเดิม?")) return;
+        localStorage.setItem(LS, JSON.stringify(d));
+        load(); render();
+        toast("นำเข้าข้อมูลแล้ว");
+      }catch(e){ toast("ไฟล์ไม่ถูกต้อง"); }
+    };
+    r.readAsText(f);
+    el.value="";
+  }
+};
+window.A=A;
+
+function loadQuiz(sk,id,label,subjName){
+  var bank=validQs((S.bank||{})[id]);
+  if(bank.length>0){ startQuiz(id, drawQs(bank)); return; }
+  var cached=validQs((S.pool||{})[id]);
+  if(cached.length>0){ startQuiz(id, drawQs(cached)); return; }
+  // ไม่มีข้อสอบในคลัง — ถ้าเปิดในหน้าต่างพรีวิวของ Claude จะลองให้ AI ออกข้อสอบให้
+  if(window.claude && window.claude.complete){ aiQuiz(sk,id,label,subjName); return; }
+  if(S.quiz && S.quiz.topicId===id){ S.quiz.status="empty"; render(); }
+}
+function startQuiz(id,qs){
+  if(!S.quiz || S.quiz.topicId!==id) return;
+  S.quiz.status="active"; S.quiz.questions=qs; S.quiz.idx=0; S.quiz.picked=[]; S.quiz.correct=0;
+  render();
+}
+function aiQuiz(sk,id,label,subjName){
+  var prompt="คุณเป็นผู้ออกข้อสอบและติวเตอร์นายสิบตำรวจ (สายปราบปราม) ระดับสนามสอบจริง\n"+
+    "สร้างคลังข้อสอบปรนัย 30-50 ข้อ หัวข้อ: \""+subjName+" — "+label+"\" ครอบคลุมหลายแง่มุมและห้ามซ้ำกัน\n"+
+    "ตอบกลับเป็น JSON เท่านั้น ห้ามมีข้อความอื่น รูปแบบ:\n"+
+    "{\"questions\":[{\"q\":\"โจทย์\",\"choices\":[\"ตัวเลือกที่1\",\"ตัวเลือกที่2\",\"ตัวเลือกที่3\",\"ตัวเลือกที่4\"],\"answer\":0,\"explain\":\"เฉลยละเอียด\"}]}\n"+
+    "กติกา: แต่ละข้อมี 4 ตัวเลือก, answer เป็นดัชนี 0-3 ของตัวเลือกที่ถูก, ภาษาไทย มีคำตอบถูกเพียงข้อเดียว\n"+
+    "สำคัญมาก: ฟิลด์ explain ต้องเป็นเฉลยแบบละเอียดให้มือใหม่เข้าใจง่ายที่สุด อธิบายเป็นขั้นตอน (ขึ้นบรรทัดใหม่ด้วย \\n)";
+  window.claude.complete({messages:[{role:"user",content:prompt}], max_tokens:32000})
+    .then(function(raw){
+      var txt=String(raw).replace(/```json/gi,"").replace(/```/g,"").trim();
+      var pool=validQs(JSON.parse(txt).questions);
+      if(pool.length<1) throw new Error("empty");
+      var p=Object.assign({},S.pool); p[id]=pool;
+      S.pool=p; save();
+      startQuiz(id, drawQs(pool));
+    })
+    .catch(function(){ if(S.quiz && S.quiz.topicId===id){ S.quiz.status="error"; render(); } });
+}
+
+function toast(msg){
+  var t=document.createElement("div");
+  t.className="toast"; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); },2600);
+}
+
+/* ═══════════ เริ่มทำงาน ═══════════ */
+/* ดึงคลังข้อสอบกลางจากเว็บ (questions.json) — นี่คือวิธีที่ข้อสอบของติวเตอร์ไปถึงนักเรียนทุกคน
+   ถ้าไม่มีเน็ต ตัว service worker จะหยิบของที่แคชไว้มาให้เอง */
+function syncContent(){
+  return fetch("questions.json",{cache:"no-cache"})
+    .then(function(r){ return r.ok?r.json():null; })
+    .then(function(d){
+      if(!d) return;
+      var v=d.version||0, newer = v!==(S.contentVersion||0);
+      if(S.bankDirty){                             // ติวเตอร์มีข้อสอบแก้ค้าง ห้ามทับ
+        if(newer) toast("มีเนื้อหาใหม่บนเว็บ — แต่ยังไม่ดึงมา เพราะมีข้อสอบที่ยังไม่ได้ส่งออก");
+        return;
+      }
+      // ดึงคลังจากเว็บมาใส่ทุกครั้งที่เปิดแอป (ไม่ได้เก็บใน localStorage แล้ว)
+      var patch={ contentVersion:v };
+      if(d.topics) patch.topics=d.topics;
+      if(d.bank) patch.bank=d.bank;
+      if(d.physEvents) patch.physEvents=d.physEvents;
+      set(patch);
+      if(newer && v>1) toast("อัปเดตเนื้อหาใหม่แล้ว");
+    })
+    .catch(function(){});
+}
+function startApp(){
+  document.getElementById("gate").hidden=true;
+  document.getElementById("app").hidden=false;
+  load();
+  render();
+  syncContent();
+  setInterval(function(){
+    if(!S.quiz && !S.adminOpen) render();
+  },60000);
+  document.getElementById("brandtap").onclick=function(){ A.openAdmin(); };
+}
+function showGate(){
+  document.getElementById("app").hidden=true;
+  document.getElementById("gate").hidden=false;
+  var input=document.getElementById("codein");
+  var err=document.getElementById("codeerr");
+  var btn=document.getElementById("codebtn");
+
+  input.addEventListener("input",function(){
+    err.textContent="";
+    var raw=normCode(input.value).slice(0,16);
+    if(raw.indexOf("NST18")!==0 && raw.length>0 && "NST18".indexOf(raw)!==0) raw="NST18"+raw;
+    var out=raw.slice(0,5);
+    if(raw.length>5) out+="-"+raw.slice(5,10);
+    if(raw.length>10) out+="-"+raw.slice(10,16);
+    input.value=out;
+  });
+  function submit(){
+    var v=input.value;
+    if(!normCode(v)){ err.textContent="กรอกรหัสก่อนนะครับ"; return; }
+    if(validCode(v)){
+      try{ localStorage.setItem(LIC_KEY, JSON.stringify({ code:prettyCode(v), at:new Date().toISOString() })); }
+      catch(e){ err.textContent="เครื่องนี้บันทึกข้อมูลไม่ได้ (ลองปิดโหมดไม่ระบุตัวตน)"; return; }
+      startApp();
+    } else {
+      err.textContent="รหัสไม่ถูกต้อง ตรวจตัวอักษรอีกครั้ง";
+      input.select();
+    }
+  }
+  btn.onclick=submit;
+  input.addEventListener("keydown",function(e){ if(e.key==="Enter") submit(); });
+}
+
+if(isActivated()) startApp(); else showGate();
+
+/* ── service worker: ทำให้ใช้ออฟไลน์ได้ + แจ้งเตือนเมื่อมีเวอร์ชันใหม่ ── */
+if("serviceWorker" in navigator && location.protocol!=="file:"){
+  window.addEventListener("load",function(){
+    navigator.serviceWorker.register("sw.js").then(function(reg){
+      reg.addEventListener("updatefound",function(){
+        var nw=reg.installing;
+        if(!nw) return;
+        nw.addEventListener("statechange",function(){
+          if(nw.state==="installed" && navigator.serviceWorker.controller){
+            var t=document.createElement("div");
+            t.className="toast";
+            t.style.cursor="pointer";
+            t.textContent="มีเวอร์ชันใหม่ — แตะเพื่ออัปเดต";
+            t.onclick=function(){ nw.postMessage("skip-waiting"); location.reload(); };
+            document.body.appendChild(t);
+          }
+        });
+      });
+    }).catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
