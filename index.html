@@ -98,7 +98,7 @@
   .codein{ width:100%; border:1.5px solid #D8DBE0; border-radius:14px; padding:16px 14px; background:#fff;
     font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:600; text-align:center; letter-spacing:.06em; text-transform:uppercase; }
   .codein:focus{ outline:none; border-color:var(--pri); }
-  .gate .err{ font-size:13px; color:var(--pri); font-weight:600; margin-top:10px; text-align:center; min-height:19px; }
+  .gate .err{ font-size:13px; color:var(--pri); font-weight:600; margin-top:10px; text-align:center; min-height:19px; white-space:pre-line; line-height:1.5; }
   .gate .note{ font-size:11.5px; color:#9AA0A8; line-height:1.6; margin-top:22px; text-align:center; text-wrap:pretty; }
 
   .toast{ position:fixed; left:50%; transform:translateX(-50%); bottom:calc(96px + env(safe-area-inset-bottom));
@@ -215,7 +215,27 @@ function sha256(str){
       ถ้าเปลี่ยนตรงนี้ รหัสเก่าที่แจกไปแล้วจะใช้ไม่ได้ทันที */
 var SECRET = "nst18-lionking-2569-k7x2m9";
 var LIC_KEY = "np18_license_v1";
+var DEV_KEY = "np18_device_v1";
 var ALPHA = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+/* ⚠️ ลิงก์เซิร์ฟเวอร์ที่คุมว่า "1 รหัส = 1 เครื่อง" (ได้จาก Google Apps Script)
+      ดูวิธีทำที่ไฟล์  เซิร์ฟเวอร์-รหัส/วิธีติดตั้ง.md
+      ถ้าเว้นว่างไว้ = ไม่คุมเครื่อง (รหัสเดียวเปิดได้ทุกเครื่อง เหมือนก่อนหน้านี้) */
+var ACTIVATE_URL = "https://script.google.com/macros/s/AKfycbwnlI8Pny8j8L4ltZXbPBfr9rhG4O1eAWwimhhkFqb1-TnMJJ8KKJfif-kk4jBLSFnWFA/exec";
+
+/* รหัสประจำเครื่อง — สุ่มครั้งเดียวตอนเปิดแอปครั้งแรก ไม่มีข้อมูลส่วนตัวใด ๆ */
+function deviceId(){
+  var d=null;
+  try{ d=localStorage.getItem(DEV_KEY); }catch(e){}
+  if(!d){
+    var a=new Uint8Array(8);
+    (window.crypto||window.msCrypto).getRandomValues(a);
+    d="D";
+    for(var i=0;i<8;i++){ var h=a[i].toString(16); d+=(h.length<2?"0":"")+h; }
+    try{ localStorage.setItem(DEV_KEY,d); }catch(e){}
+  }
+  return d;
+}
 
 function normCode(v){ return String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,""); }
 function checkFor(payload){ return sha256(SECRET+"|"+payload).slice(0,6).toUpperCase(); }
@@ -232,11 +252,51 @@ function prettyCode(v){
   var c=normCode(v);
   return "NST18-"+c.slice(5,10)+"-"+c.slice(10,16);
 }
+function licSig(code,dev){ return sha256(SECRET+"|lic|"+code+"|"+dev).slice(0,12).toUpperCase(); }
+function readLic(){
+  try{ return JSON.parse(localStorage.getItem(LIC_KEY)||"null"); }catch(e){ return null; }
+}
+function saveLic(v){
+  var code=prettyCode(v), dev=deviceId();
+  localStorage.setItem(LIC_KEY, JSON.stringify({
+    code:code, device:dev, sig:licSig(code,dev), at:new Date().toISOString()
+  }));
+}
 function isActivated(){
-  try{
-    var l=JSON.parse(localStorage.getItem(LIC_KEY)||"null");
-    return !!(l && l.code && validCode(l.code));
-  }catch(e){ return false; }
+  var l=readLic();
+  if(!(l && l.code && validCode(l.code))) return false;
+  if(!ACTIVATE_URL) return true;              // ยังไม่ได้เปิดระบบคุมเครื่อง
+  var dev=deviceId();
+  if(l.device!==dev) return false;            // ย้ายไฟล์ไปเครื่องอื่น → ต้องกรอกรหัสใหม่
+  return l.sig===licSig(l.code,dev);          // กันการแก้ข้อมูลในเครื่องแบบง่าย ๆ
+}
+
+/* คุยกับเซิร์ฟเวอร์รหัส — ใช้ text/plain เพื่อให้ Apps Script รับได้โดยไม่ติด CORS */
+function askServer(action,code,cb){
+  var done=false;
+  var t=setTimeout(function(){ if(!done){ done=true; cb({ok:false,reason:"offline"}); } },15000);
+  fetch(ACTIVATE_URL,{
+    method:"POST",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify({ action:action, code:prettyCode(code), device:deviceId() })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(j){ if(!done){ done=true; clearTimeout(t); cb(j||{ok:false,reason:"servererror"}); } })
+  .catch(function(){ if(!done){ done=true; clearTimeout(t); cb({ok:false,reason:"offline"}); } });
+}
+
+/* เช็กเงียบ ๆ ตอนเปิดแอป: ล็อกออกเฉพาะรหัสที่พี่กด "ระงับ" เท่านั้น
+   ถ้าไม่มีเน็ต/เซิร์ฟเวอร์ล่ม → ปล่อยผ่าน ไม่รบกวนคนที่ใช้ออฟไลน์อยู่ */
+function revalidate(){
+  if(!ACTIVATE_URL) return;
+  var l=readLic(); if(!l) return;
+  askServer("check", l.code, function(j){
+    if(j && j.ok===false && j.reason==="revoked"){
+      try{ localStorage.removeItem(LIC_KEY); }catch(e){}
+      alert("รหัสนี้ถูกระงับการใช้งาน กรุณาติดต่อผู้ขาย");
+      location.reload();
+    }
+  });
 }
 
 /* ───── สถานะแอป ───── */
@@ -1743,23 +1803,54 @@ function showGate(){
     if(raw.length>10) out+="-"+raw.slice(10,16);
     input.value=out;
   });
+  var SAYS={
+    offline:"ตอนเปิดใช้งานครั้งแรกต้องต่อเน็ตก่อนนะครับ\n(หลังจากนี้ใช้ได้ตลอด ไม่ต้องมีเน็ตอีก)",
+    notfound:"ไม่พบรหัสนี้ในระบบ ตรวจตัวอักษรอีกครั้ง",
+    used:"รหัสนี้ถูกเปิดใช้กับเครื่องอื่นไปแล้ว\n1 รหัสใช้ได้ 1 เครื่อง — ถ้าเปลี่ยนมือถือ ติดต่อผู้ขาย",
+    revoked:"รหัสนี้ถูกระงับการใช้งาน กรุณาติดต่อผู้ขาย",
+    busy:"ระบบกำลังยุ่ง รอสักครู่แล้วลองใหม่",
+    badrequest:"เปิดใช้งานไม่สำเร็จ ลองใหม่อีกครั้ง",
+    servererror:"ระบบขัดข้องชั่วคราว ลองใหม่อีกครั้ง"
+  };
+  function finish(v){
+    try{ saveLic(v); }
+    catch(e){ err.textContent="เครื่องนี้บันทึกข้อมูลไม่ได้ (ลองปิดโหมดไม่ระบุตัวตน)"; return; }
+    startApp();
+  }
+  /* ปุ่มเปิดใช้งานคือรูปโลโก้ — ห้ามแตะ textContent ของปุ่ม (รูปจะหาย)
+     บอกสถานะที่บรรทัด "แตะโลโก้เพื่อเปิดใช้งาน" ใต้โลโก้แทน */
+  var hint=document.getElementById("taphint");
+  var HINT=hint.textContent;
+  var busy=false;
+  function setBusy(on){
+    busy=on;
+    btn.disabled=on;
+    btn.style.opacity=on?"0.45":"";
+    hint.textContent=on?"กำลังตรวจสอบรหัส…":HINT;
+  }
   function submit(){
+    if(busy) return;
     var v=input.value;
     if(!normCode(v)){ err.textContent="กรอกรหัสก่อนนะครับ"; return; }
-    if(validCode(v)){
-      try{ localStorage.setItem(LIC_KEY, JSON.stringify({ code:prettyCode(v), at:new Date().toISOString() })); }
-      catch(e){ err.textContent="เครื่องนี้บันทึกข้อมูลไม่ได้ (ลองปิดโหมดไม่ระบุตัวตน)"; return; }
-      startApp();
-    } else {
+    if(!validCode(v)){
       err.textContent="รหัสไม่ถูกต้อง ตรวจตัวอักษรอีกครั้ง";
-      input.select();
+      input.select(); return;
     }
+    if(!ACTIVATE_URL){ finish(v); return; }   // ยังไม่ได้เปิดระบบคุมเครื่อง
+
+    setBusy(true); err.textContent="";
+    askServer("activate", v, function(j){
+      setBusy(false);
+      if(j && j.ok){ finish(v); return; }
+      err.textContent = SAYS[j && j.reason] || SAYS.servererror;
+      input.select();
+    });
   }
   btn.onclick=submit;
   input.addEventListener("keydown",function(e){ if(e.key==="Enter") submit(); });
 }
 
-if(isActivated()) startApp(); else showGate();
+if(isActivated()){ startApp(); revalidate(); } else showGate();
 
 /* ── service worker: ทำให้ใช้ออฟไลน์ได้ + แจ้งเตือนเมื่อมีเวอร์ชันใหม่ ── */
 if("serviceWorker" in navigator && location.protocol!=="file:"){
