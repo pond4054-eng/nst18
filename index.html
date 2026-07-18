@@ -1061,18 +1061,21 @@ function viewReady(){
              '<button class="x" style="width:28px;height:28px;font-size:12px;" onclick="A.delTopic(\''+su.k+'\',\''+t.id+'\')">✕</button>'+
            '</div>';
       } else {
-        h+='<div onclick="A.openQuiz(\''+su.k+'\',\''+t.id+'\')" style="display:flex;align-items:center;gap:10px;cursor:pointer;">'+
+        /* หัวข้อที่ยังไม่มีข้อสอบในคลัง: บอกให้ชัดว่ายังไม่เปิด อย่าให้กดแล้วเงียบ */
+        h+='<div '+(nq?('onclick="A.openQuiz(\''+su.k+'\',\''+t.id+'\')"'):'')+
+             ' style="display:flex;align-items:center;gap:10px;'+(nq?"cursor:pointer;":"opacity:.5;")+'">'+
              '<div style="width:24px;height:24px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;'+
                (passed?"background:#1E9E5A;":"background:#fff;border:1.5px solid #C9CCD1;")+'">'+(passed?"✓":"")+'</div>'+
              '<div style="flex:1;min-width:0;">'+
                '<div style="font-size:13.5px;font-weight:500;">'+esc(t.label)+'</div>'+
                '<div style="font-size:10.5px;color:#9AA0A8;">'+
-                 (sc!=null ? ("คะแนนล่าสุด "+sc+"% · "+(sc>=80 ? "ผ่าน" : (passed?"เคยผ่านแล้ว":"ยังไม่ผ่าน"))) : "ยังไม่ได้ทดสอบ")+
-                 (nq?(" · คลัง "+nq+" ข้อ"):"")+
+                 (!nq ? "ยังไม่มีข้อสอบในหัวข้อนี้" :
+                   ((sc!=null ? ("คะแนนล่าสุด "+sc+"% · "+(sc>=80 ? "ผ่าน" : (passed?"เคยผ่านแล้ว":"ยังไม่ผ่าน"))) : "ยังไม่ได้ทดสอบ")+
+                    " · คลัง "+nq+" ข้อ"))+
                '</div>'+
              '</div>'+
-             '<span style="font-size:11px;font-weight:600;white-space:nowrap;color:'+(passed?"#1E9E5A":"var(--pri)")+';">'+
-               (passed?"ผ่านแล้ว":(nq?("ทำข้อสอบ "+Math.min(10,nq)+" ข้อ ›"):"ทำข้อสอบ ›"))+'</span>'+
+             '<span style="font-size:11px;font-weight:600;white-space:nowrap;color:'+(!nq?"#9AA0A8":(passed?"#1E9E5A":"var(--pri)"))+';">'+
+               (!nq?"เร็ว ๆ นี้":(passed?"ผ่านแล้ว":("ทำข้อสอบ "+Math.min(10,nq)+" ข้อ ›")))+'</span>'+
            '</div>';
       }
     });
