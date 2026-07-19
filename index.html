@@ -1812,15 +1812,31 @@ function syncContent(){
     })
     .catch(function(){});
 }
+/* ── ดึงข้อสอบใหม่ตอนกลับมาที่แอป ──
+   นักเรียนส่วนใหญ่ไม่ได้ปิดแอปสนิท แค่สลับไปแอปอื่นแล้วกดกลับมา
+   ถ้าไม่เช็คตรงนี้ เขาจะไม่ได้ข้อสอบชุดใหม่จนกว่าจะปิดแอปแล้วเปิดใหม่เอง */
+var lastSyncAt = 0;
+function maybeSync(){
+  if(!isActivated()) return;                    // ยังไม่ได้เปิดใช้งาน
+  if(S.quiz || S.adminOpen) return;             // กำลังทำข้อสอบ/อยู่ในแอดมิน อย่ารบกวน
+  if(Date.now()-lastSyncAt < 30000) return;     // เพิ่งเช็คไปไม่ถึงครึ่งนาที
+  lastSyncAt = Date.now();
+  syncContent();
+}
 function startApp(){
   document.getElementById("gate").hidden=true;
   document.getElementById("app").hidden=false;
   load();
   render();
+  lastSyncAt = Date.now();
   syncContent();
   setInterval(function(){
     if(!S.quiz && !S.adminOpen) render();
   },60000);
+  document.addEventListener("visibilitychange",function(){
+    if(document.visibilityState==="visible") maybeSync();
+  });
+  window.addEventListener("online", maybeSync);
   document.getElementById("brandtap").onclick=function(){ A.openAdmin(); };
 }
 function showGate(){
