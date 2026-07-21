@@ -1292,11 +1292,17 @@ function pickFormHTML(){
 }
 function renderOverlays(){
   var o=document.getElementById("overlays");
+  /* จำตำแหน่งที่เลื่อนอยู่ของแต่ละแผง ไม่ให้เด้งกลับไปบนสุดทุกครั้งที่วาดใหม่
+     (เช่น ตอนเลือกวิชา/หัวข้อในแอดมิน ซึ่งสั่ง render ใหม่ทั้งแผง) */
+  var keep=[].map.call(o.querySelectorAll(".sheetbody"), function(el){ return el.scrollTop; });
   var h="";
   if(S.quiz) h+=quizSheet();
   if(S.adminOpen) h+=adminSheet();
   if(S.mock) h+=mockSheet();
   o.innerHTML=h;
+  [].forEach.call(o.querySelectorAll(".sheetbody"), function(el,i){
+    if(keep[i]) el.scrollTop=keep[i];
+  });
 }
 
 /* ── กระดาษข้อสอบ + เฉลย (ออกแบบให้พิมพ์ลงกระดาษ A4 ได้เลย) ── */
