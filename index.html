@@ -132,34 +132,22 @@
   .keygrid{ display:flex; flex-wrap:wrap; gap:5px 12px; font-size:12.5px; margin-bottom:6px; }
   .kg{ min-width:58px; font-variant-numeric:tabular-nums; }
 
-  /* กระดาษ A4 ที่เราจัดหน้าเอง — คุมขนาดหน้าเองจึงวางลายน้ำกลางทุกหน้าได้ตรงเป๊ะ */
-  .printarea{ position:relative; background:#EDEFF3; }
-  .page{
-    position:relative; box-sizing:border-box;
-    width:210mm; min-height:240mm; padding:14mm 13mm 16mm;
-    background:#fff; margin:0 auto 14px;
-    box-shadow:0 1px 6px rgba(0,0,0,.13);
-  }
-  .pgwm{
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:120mm; height:120mm; z-index:0; pointer-events:none;
-    background:url("icons/watermark.jpg") no-repeat center center; background-size:contain;
-  }
-  .paperbody{ position:relative; z-index:1; }
-  .pgnum{
-    position:absolute; left:0; right:0; bottom:7mm; text-align:center;
-    font-size:10.5px; color:#9AA0A8; z-index:1;
-  }
-  /* จอมือถือแคบกว่ากระดาษ — ย่อทั้งหน้าลงให้พอดีจอ */
-  @media (max-width:230mm){
-    .printarea{ padding:10px !important; }
-    .page{ transform-origin:top center; }
+  /* ลายน้ำ: แผ่นลายน้ำมีสัดส่วนเท่าพื้นที่พิมพ์ 1 หน้า แล้วปูซ้ำลงมา
+     กว้าง 100% ของกรอบเสมอ ความสูงแผ่นจึงปรับตามความกว้างจริงของกระดาษ
+     ไม่ผูกกับหน่วยมิลลิเมตร (ซึ่ง iPhone ย่อทั้งหน้าจนคลาดเคลื่อน) */
+  .printarea{ position:relative; }
+  .paperbody{
+    position:relative;
+    background-image:url("icons/watermark.jpg");
+    background-repeat:repeat-y;
+    background-position:center top;
+    background-size:100% auto;
   }
 
   @media print{
-    /* ขอบเป็น 0 เพราะเราใส่ขอบไว้ในกล่อง .page เองแล้ว
-       กล่อง .page จึงตรงกับหน้ากระดาษจริง 1 ต่อ 1 ลายน้ำเลยอยู่กลางทุกหน้า */
-    @page{ size:A4; margin:0; }
+    /* ปล่อยให้เบราว์เซอร์แบ่งหน้าเอง เนื้อหาจึงไหลต่อเนื่องไม่มีช่องว่างคั่น
+       ขอบ 12 มม. ตรงกับสัดส่วนแผ่นลายน้ำ (186 x 273 มม.) */
+    @page{ size:A4; margin:12mm; }
     /* พิมพ์ออกมาเป็นภาพสีเหมือนที่เห็นบนจอ */
     html, body{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
     body{ background:#fff !important; }
@@ -171,9 +159,7 @@
               width:100% !important; max-width:none !important; }
     .mockwrap .printarea{ overflow:visible !important; max-height:none !important;
                           padding:0 !important; background:#fff !important; }
-    .page{ margin:0 !important; box-shadow:none !important; transform:none !important;
-           break-after:page; page-break-after:always; }
-    .page:last-child{ break-after:auto; page-break-after:auto; }
+    .paperbody{ background-size:100% auto !important; }
     img{ max-height:170px !important; }
   }
 </style>
@@ -1359,7 +1345,9 @@ function mockSheet(){
         '</div>'
       : "")+
     '<div class="sheetbody printarea" id="printarea">'+
-      paginate(showAns ? mockKeyBlocks(m) : mockPaperBlocks(m))+
+      '<div class="paperbody">'+
+        (showAns ? mockKeyBlocks(m) : mockPaperBlocks(m)).map(function(b){ return b.html; }).join("")+
+      '</div>'+
     '</div>'+
   '</div></div>';
   return h;
@@ -1419,82 +1407,6 @@ function mockKeyBlocks(m){
   return out;
 }
 
-/* ── ตัวแบ่งหน้า ──
-   วัดความสูงจริงของทุกบล็อกที่ความกว้างเท่ากระดาษ A4 แล้วจัดลงทีละหน้า
-   แต่ละหน้าเป็นกล่องขนาด 210x297 มม. ที่เราคุมเอง จึงวางลายน้ำกลางหน้าได้ตรงเป๊ะ
-   (ไม่ต้องเดาว่าเบราว์เซอร์หรือเครื่องพิมพ์จะตั้งขอบกระดาษเท่าไหร่) */
-/* กล่องหน้ากระดาษ: กว้างเท่า A4 แต่ตั้งความสูงไว้ "เตี้ยกว่า" หน้าจริง (297 มม.)
-   เพราะ Safari/iOS แทรกหัว-ท้ายกระดาษ (URL, วันที่, เลขหน้า) และอาจย่อขนาดให้พอดีขอบ
-   ถ้าตั้งเต็ม 297 กล่องจะล้นไปหน้าถัดไป ทำให้ได้กระดาษเปล่าสลับทุกใบ */
-var PG = { w:210, h:240, padX:13, padY:14 };
-function mmpx(v){ return v * 96 / 25.4; }
-
-function paginate(blocks){
-  var innerW = mmpx(PG.w - PG.padX*2),
-      innerH = mmpx(PG.h - PG.padY*2);
-
-  var probe=document.createElement("div");
-  probe.className="paperbody";
-  probe.style.cssText="position:absolute;left:-99999px;top:0;visibility:hidden;width:"+innerW+"px;";
-  document.body.appendChild(probe);
-
-  function heightOf(html){
-    probe.innerHTML=html;
-    var el=probe.firstElementChild;
-    if(!el) return 0;
-    var cs=getComputedStyle(el);
-    return el.getBoundingClientRect().height +
-           parseFloat(cs.marginTop||0) + parseFloat(cs.marginBottom||0);
-  }
-
-  var pages=[], cur=[], used=0, pending=[];      // pending = บล็อกที่ต้องไม่ถูกทิ้งไว้ท้ายหน้าลำพัง
-  blocks.forEach(function(b){
-    if(b.keep){ pending.push(b); return; }        // หัวเอกสาร/หัวข้อ: รอผูกกับบล็อกถัดไป
-    var group = pending.concat([b]);
-    var addH = group.reduce(function(s,x){ return s + heightOf(x.html); }, 0);
-    if(used>0 && used+addH>innerH){ pages.push(cur); cur=[]; used=0; }
-    group.forEach(function(x){ cur.push(x.html); });
-    used += addH;
-    pending=[];
-  });
-  pending.forEach(function(x){ cur.push(x.html); });
-  if(cur.length) pages.push(cur);
-  probe.remove();
-  if(!pages.length) pages=[[]];
-
-  return pages.map(function(p,i){
-    return '<div class="page">'+
-             '<div class="pgwm" aria-hidden="true"></div>'+
-             '<div class="paperbody">'+p.join("")+'</div>'+
-             '<div class="pgnum">หน้า '+(i+1)+' / '+pages.length+'</div>'+
-           '</div>';
-  }).join("");
-}
-
-/* จอมือถือแคบกว่ากระดาษ A4 — ย่อหน้ากระดาษลงให้เห็นเต็มใบ (ตอนพิมพ์ไม่ย่อ) */
-function fitPages(){
-  var pa=document.getElementById("printarea");
-  if(!pa) return;
-  var pages=pa.querySelectorAll(".page");
-  if(!pages.length) return;
-  var avail=pa.clientWidth-20, pw=mmpx(PG.w), s=Math.min(1, avail/pw);
-  [].forEach.call(pages, function(el){
-    if(s<1){
-      var hgt=el.offsetHeight;
-      /* ย่อจากมุมซ้ายบน แล้วดันเข้ากลางเอง — ถ้าย่อจากจุดกึ่งกลาง
-         กระดาษที่กว้างเกินกรอบจะถูกเหวี่ยงออกไปนอกจอ */
-      el.style.transformOrigin="top left";
-      el.style.transform="scale("+s.toFixed(4)+")";
-      el.style.marginLeft=Math.max(0,Math.round((avail-pw*s)/2)+10)+"px";
-      el.style.marginRight="0";
-      el.style.marginBottom=Math.round(14 - hgt*(1-s))+"px";
-    } else {
-      el.style.transform=""; el.style.transformOrigin="";
-      el.style.marginLeft=""; el.style.marginRight=""; el.style.marginBottom="";
-    }
-  });
-}
-window.addEventListener("resize", function(){ if(S && S.mock) fitPages(); });
 function quizSheet(){
   var q=S.quiz, h="";
   h+='<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:#fff;">'+
@@ -2104,7 +2016,7 @@ var A={
     var m=buildMock();
     if(!m.items.length){ alert("ยังไม่มีข้อสอบในคลังเลย"); return; }
     S.mock=m; S.mockView="paper";
-    render(); fitPages();
+    render();
     var b=document.getElementById("printarea");
     if(b) b.scrollTop=0;
   },
@@ -2119,11 +2031,11 @@ var A={
     var m=buildPick();
     if(!m.items.length){ alert("หัวข้อที่เลือกยังไม่มีข้อสอบ"); return; }
     S.mock=m; S.mockView="paper";
-    render(); fitPages();
+    render();
     var b=document.getElementById("printarea"); if(b) b.scrollTop=0;
   },
   closeMock:function(){ S.mock=null; render(); },
-  mockView:function(v){ S.mockView=v; render(); fitPages(); var b=document.getElementById("printarea"); if(b) b.scrollTop=0; },
+  mockView:function(v){ S.mockView=v; render(); var b=document.getElementById("printarea"); if(b) b.scrollTop=0; },
   printMock:function(){ window.print(); },
   importData:function(){ document.getElementById("importfile").click(); },
   importFile:function(el){
