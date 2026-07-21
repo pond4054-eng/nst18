@@ -111,6 +111,42 @@
   .sheethead{ padding:16px 18px; border-bottom:1px solid #E4E5E7; background:#fff; display:flex; justify-content:space-between; align-items:center; gap:12px; }
   .sheetbody{ padding:16px 18px; overflow-y:auto; }
   .x{ width:32px; height:32px; flex:none; border-radius:9px; border:1px solid #E4E5E7; background:#fff; color:#6E7378; cursor:pointer; font-size:14px; }
+
+  /* ───── กระดาษข้อสอบเสมือนจริง ───── */
+  .paperhead{ text-align:center; padding-bottom:14px; margin-bottom:16px; border-bottom:2px solid #0E0F12; }
+  .ph-org{ font-size:11px; font-weight:700; letter-spacing:.12em; color:var(--pri); }
+  .ph-title{ font-size:17px; font-weight:800; margin-top:3px; line-height:1.3; }
+  .ph-sub{ font-size:11.5px; color:#6E7378; margin-top:3px; }
+  .ph-name{ font-size:12px; margin-top:12px; text-align:left; }
+  .psec{ font-size:12px; font-weight:700; color:var(--pri); background:#FBEFF0; padding:5px 10px;
+         border-radius:6px; margin:18px 0 10px; page-break-after:avoid; break-after:avoid; }
+  .pq{ margin-bottom:14px; page-break-inside:avoid; break-inside:avoid; }
+  .pq-t{ display:flex; gap:7px; font-size:13.5px; line-height:1.65; align-items:baseline; }
+  .pq-n{ font-weight:700; flex:none; min-width:1.7em; }
+  .pch{ list-style:none; margin:5px 0 0 1.7em; padding:0; }
+  .pch li{ font-size:13px; line-height:1.7; }
+  .pans{ font-size:13px; font-weight:700; color:#1E9E5A; margin:4px 0 0 1.7em; }
+  .ptopic{ font-size:10.5px; color:#9AA0A8; margin:2px 0 0 1.7em; }
+  .pexp{ font-size:12.5px; line-height:1.7; color:#3D4348; margin:5px 0 0 1.7em;
+         padding-left:10px; border-left:2px solid #E4E5E7; }
+  .keygrid{ display:flex; flex-wrap:wrap; gap:5px 12px; font-size:12.5px; margin-bottom:6px; }
+  .kg{ min-width:58px; font-variant-numeric:tabular-nums; }
+
+  @media print{
+    @page{ size:A4; margin:14mm 13mm; }
+    body{ background:#fff !important; }
+    /* ซ่อนทุกอย่าง แล้วค่อยเปิดเฉพาะกระดาษข้อสอบ — กันแผงแอดมินติดไปด้วย */
+    .shell, .gate, .noprint, .sheethead, .sheet{ display:none !important; }
+    .sheet.mockwrap{ position:static !important; background:none !important; display:block !important;
+            inset:auto !important; padding:0 !important; }
+    .mockwrap .sheetin{ max-height:none !important; border-radius:0 !important; box-shadow:none !important;
+              width:100% !important; max-width:none !important; }
+    .mockwrap .printarea{ overflow:visible !important; max-height:none !important; padding:0 !important; }
+    .psec{ background:#F0F0F0 !important; color:#000 !important;
+           -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .pans{ color:#000 !important; font-weight:700; }
+    img{ max-height:170px !important; }
+  }
 </style>
 </head>
 <body>
@@ -338,7 +374,8 @@ function load(){
 function save(){
   try{
     var c=Object.assign({},S);
-    ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft"].forEach(function(k){ delete c[k]; });
+    ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
+     "mock","mockView"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
@@ -1128,12 +1165,158 @@ function drawQs(arr){
   for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
   return a.slice(0,10);
 }
+
+/* ══════════ ชุดข้อสอบเสมือนจริง ══════════
+   สัดส่วนตามข้อสอบจริงของ นสต. — แก้ตัวเลขตรงนี้ได้ถ้าประกาศเปลี่ยน */
+var MOCK_PLAN = [
+  { k:"math",   n:30 },
+  { k:"thai",   n:25 },
+  { k:"eng",    n:30 },
+  { k:"com",    n:25 },
+  { k:"law",    n:20 },
+  { k:"social", n:20 }
+];
+var MOCK_TOTAL = MOCK_PLAN.reduce(function(a,b){ return a+b.n; },0);
+
+/* ข้อสอบทั้งหมดของวิชาหนึ่ง (รวมทุกหัวข้อ) พร้อมชื่อหัวข้อติดไปด้วย */
+function poolOf(subj){
+  var out=[];
+  (S.topics[subj]||[]).forEach(function(t){
+    validQs(S.bank[t.id]).forEach(function(q){
+      q._topic = t.label; out.push(q);
+    });
+  });
+  return out;
+}
+function shuffled(a){
+  var x=a.slice();
+  for(var i=x.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=x[i]; x[i]=x[j]; x[j]=t; }
+  return x;
+}
+
+/* ตารางสัดส่วน + เตือนวิชาที่ข้อสอบไม่พอ */
+function mockPlanHTML(){
+  var rows="", short=0;
+  MOCK_PLAN.forEach(function(p){
+    var have=poolOf(p.k).length, ok=have>=p.n;
+    if(!ok) short += (p.n-have);
+    rows+='<tr>'+
+      '<td style="padding:5px 8px;">'+esc(sName[p.k]||p.k)+'</td>'+
+      '<td style="padding:5px 8px;text-align:right;font-variant-numeric:tabular-nums;">'+p.n+'</td>'+
+      '<td style="padding:5px 8px;text-align:right;font-variant-numeric:tabular-nums;color:'+(ok?"#6E7378":"var(--pri)")+';">'+have+'</td>'+
+      '<td style="padding:5px 8px;text-align:right;font-weight:700;color:'+(ok?"#1E9E5A":"var(--pri)")+';">'+
+        (ok?"พอ":"ขาด "+(p.n-have))+'</td></tr>';
+  });
+  return '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12.5px;">'+
+      '<thead><tr style="color:#9AA0A8;font-size:11px;">'+
+        '<th style="text-align:left;padding:4px 8px;">วิชา</th>'+
+        '<th style="text-align:right;padding:4px 8px;">ต้องใช้</th>'+
+        '<th style="text-align:right;padding:4px 8px;">มีในคลัง</th>'+
+        '<th style="text-align:right;padding:4px 8px;">สถานะ</th>'+
+      '</tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    (short ? '<div style="margin-top:10px;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">'+
+        '⚠️ ตอนนี้สร้างได้ '+(MOCK_TOTAL-short)+' ข้อ จาก '+MOCK_TOTAL+' ข้อ<br>'+
+        'วิชาที่ยังไม่มีข้อสอบจะถูกข้ามไป ระบบจะครบเองเมื่อลงข้อสอบวิชานั้นแล้ว</div>' : "");
+}
+
+/* สุ่มชุดข้อสอบ */
+function buildMock(){
+  var items=[], gaps=[];
+  MOCK_PLAN.forEach(function(p){
+    var pool=poolOf(p.k), take=Math.min(p.n, pool.length);
+    if(take<p.n) gaps.push({ subj:sName[p.k]||p.k, want:p.n, got:take });
+    shuffled(pool).slice(0,take).forEach(function(q){
+      q._subj = sName[p.k]||p.k;
+      items.push(q);
+    });
+  });
+  return { items:items, gaps:gaps, at:new Date() };
+}
 function renderOverlays(){
   var o=document.getElementById("overlays");
   var h="";
   if(S.quiz) h+=quizSheet();
   if(S.adminOpen) h+=adminSheet();
+  if(S.mock) h+=mockSheet();
   o.innerHTML=h;
+}
+
+/* ── กระดาษข้อสอบ + เฉลย (ออกแบบให้พิมพ์ลงกระดาษ A4 ได้เลย) ── */
+function mockSheet(){
+  var m=S.mock, showAns=S.mockView==="key";
+  var h='<div class="sheet mockwrap"><div class="sheetin" style="border-radius:24px 24px 0 0;background:#fff;max-height:94vh;">'+
+    '<div class="sheethead noprint" style="align-items:flex-start;">'+
+      '<div style="min-width:0;">'+
+        '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">ชุดข้อสอบเสมือนจริง · '+m.items.length+' ข้อ</div>'+
+        '<div style="font-size:15px;font-weight:700;line-height:1.25;">'+(showAns?"เฉลยพร้อมคำอธิบาย":"ตัวข้อสอบ")+'</div>'+
+      '</div>'+
+      '<button class="x" onclick="A.closeMock()">✕</button>'+
+    '</div>'+
+    '<div class="noprint" style="display:flex;gap:8px;flex-wrap:wrap;padding:12px 18px 0;">'+
+      '<button class="btn sm '+(showAns?"ghost":"")+'" onclick="A.mockView(\'paper\')">ตัวข้อสอบ</button>'+
+      '<button class="btn sm '+(showAns?"":"ghost")+'" onclick="A.mockView(\'key\')">เฉลย</button>'+
+      '<button class="btn sm ghost" onclick="A.printMock()">🖨️ พิมพ์ / บันทึก PDF</button>'+
+      '<button class="btn sm ghost" onclick="A.makeMock()">🎲 สุ่มใหม่</button>'+
+    '</div>'+
+    (m.gaps.length
+      ? '<div class="noprint" style="margin:12px 18px 0;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">'+
+          '⚠️ ชุดนี้ได้ '+m.items.length+' ข้อ (ไม่ครบ '+MOCK_TOTAL+')<br>'+
+          m.gaps.map(function(g){ return "· "+esc(g.subj)+" ต้องการ "+g.want+" ข้อ มีในคลัง "+g.got+" ข้อ"; }).join("<br>")+
+        '</div>'
+      : "")+
+    '<div class="sheetbody printarea" id="printarea">'+ (showAns ? mockKeyHTML(m) : mockPaperHTML(m)) +'</div>'+
+  '</div></div>';
+  return h;
+}
+
+function mockHeadHTML(m, title){
+  var d=m.at, th=d.getFullYear()+543;
+  return '<div class="paperhead">'+
+    '<div class="ph-org">LION KING ACADEMY</div>'+
+    '<div class="ph-title">ข้อสอบเสมือนจริง นายสิบตำรวจ รุ่น 18</div>'+
+    '<div class="ph-sub">'+esc(title)+' · '+m.items.length+' ข้อ · สร้างเมื่อ '+
+      d.getDate()+"/"+(d.getMonth()+1)+"/"+th+'</div>'+
+    '<div class="ph-name">ชื่อ–สกุล ..................................................... คะแนน ......... / '+m.items.length+'</div>'+
+  '</div>';
+}
+
+/* ตัวข้อสอบ — ไม่มีเฉลย */
+function mockPaperHTML(m){
+  var h=mockHeadHTML(m,"ตัวข้อสอบ"), last="";
+  m.items.forEach(function(q,i){
+    if(q._subj!==last){ last=q._subj; h+='<div class="psec">'+esc(last)+'</div>'; }
+    h+='<div class="pq">'+
+        '<div class="pq-t"><span class="pq-n">'+(i+1)+'.</span><span>'+mrender(q.q)+'</span></div>'+
+        (q.img?imgHTML(q.img,200):"")+
+        '<ol class="pch">'+ q.choices.map(function(c,ci){
+            return '<li>'+(isLetterCh(q.choices)?'<b>'+c[ci]+'</b>':THL[ci]+". "+mrender(c))+
+              ((q.cimg&&q.cimg[ci])?imgHTML(q.cimg[ci],110):"")+'</li>';
+          }).join("")+'</ol>'+
+      '</div>';
+  });
+  return h;
+}
+
+/* เฉลย + คำอธิบาย */
+function mockKeyHTML(m){
+  var h=mockHeadHTML(m,"เฉลยและคำอธิบาย");
+  // ตารางเฉลยย่อ
+  h+='<div class="psec">ตารางเฉลยอย่างย่อ</div><div class="keygrid">'+
+     m.items.map(function(q,i){
+       return '<span class="kg"><b>'+(i+1)+'.</b> '+THL[q.answer]+'</span>';
+     }).join("")+'</div>';
+  var last="";
+  m.items.forEach(function(q,i){
+    if(q._subj!==last){ last=q._subj; h+='<div class="psec">'+esc(last)+' — เฉลยละเอียด</div>'; }
+    h+='<div class="pq">'+
+        '<div class="pq-t"><span class="pq-n">'+(i+1)+'.</span><span>'+mrender(q.q)+'</span></div>'+
+        '<div class="pans">ตอบ '+THL[q.answer]+'. '+mrender(q.choices[q.answer])+'</div>'+
+        (q._topic?'<div class="ptopic">'+esc(q._topic)+'</div>':"")+
+        (q.explain?'<div class="pexp">'+mrender(q.explain).replace(/\n/g,"<br>")+'</div>':"")+
+        (q.ximg?imgHTML(q.ximg,200):"")+
+      '</div>';
+  });
+  return h;
 }
 function quizSheet(){
   var q=S.quiz, h="";
@@ -1424,6 +1607,12 @@ function adminSheet(){
          '<div class="muted" style="margin-bottom:12px;">ใช้เมื่อเครื่องนี้ยังเห็นข้อสอบชุดเก่าทั้งที่อัปของใหม่ขึ้นเว็บไปแล้ว '+
            '<b style="color:var(--pri);">ข้อสอบที่แก้ค้างไว้ในเครื่องนี้จะหาย</b></div>'+
          '<button class="btn sm ghost" onclick="A.pullLatest()">↻ ดึงข้อสอบล่าสุดจากเว็บ</button>'+
+       '</div>'+
+       '<div style="margin-top:22px;">'+
+         '<div class="lbl" style="margin-bottom:4px;">สร้างชุดข้อสอบเสมือนจริง '+MOCK_TOTAL+' ข้อ</div>'+
+         '<div class="muted" style="margin-bottom:10px;">สุ่มจากคลังตามสัดส่วนข้อสอบจริง พร้อมเฉลย — สั่งพิมพ์หรือบันทึกเป็น PDF ได้</div>'+
+         mockPlanHTML()+
+         '<button class="btn sm" style="margin-top:12px;" onclick="A.makeMock()">🎲 สุ่มชุดข้อสอบใหม่</button>'+
        '</div>'+
        '<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">ขนาดข้อมูล</div>'+
@@ -1728,6 +1917,18 @@ var A={
         toast("ดึงข้อสอบล่าสุดแล้ว — "+after+" ข้อ (เวอร์ชัน "+(S.contentVersion||0)+")");
     });
   },
+  /* ── ชุดข้อสอบเสมือนจริง ── */
+  makeMock:function(){
+    var m=buildMock();
+    if(!m.items.length){ alert("ยังไม่มีข้อสอบในคลังเลย"); return; }
+    S.mock=m; S.mockView="paper";
+    render();
+    var b=document.getElementById("printarea");
+    if(b) b.scrollTop=0;
+  },
+  closeMock:function(){ S.mock=null; render(); },
+  mockView:function(v){ S.mockView=v; render(); var b=document.getElementById("printarea"); if(b) b.scrollTop=0; },
+  printMock:function(){ window.print(); },
   importData:function(){ document.getElementById("importfile").click(); },
   importFile:function(el){
     var f=el.files && el.files[0];
@@ -1818,7 +2019,7 @@ function syncContent(){
 var lastSyncAt = 0;
 function maybeSync(){
   if(!isActivated()) return;                    // ยังไม่ได้เปิดใช้งาน
-  if(S.quiz || S.adminOpen) return;             // กำลังทำข้อสอบ/อยู่ในแอดมิน อย่ารบกวน
+  if(S.quiz || S.adminOpen || S.mock) return;   // ทำข้อสอบ/แอดมิน/กำลังดูชุดข้อสอบ อย่ารบกวน
   if(Date.now()-lastSyncAt < 30000) return;     // เพิ่งเช็คไปไม่ถึงครึ่งนาที
   lastSyncAt = Date.now();
   syncContent();
@@ -1831,7 +2032,7 @@ function startApp(){
   lastSyncAt = Date.now();
   syncContent();
   setInterval(function(){
-    if(!S.quiz && !S.adminOpen) render();
+    if(!S.quiz && !S.adminOpen && !S.mock) render();
   },60000);
   document.addEventListener("visibilitychange",function(){
     if(document.visibilityState==="visible") maybeSync();
