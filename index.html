@@ -132,13 +132,17 @@
   .keygrid{ display:flex; flex-wrap:wrap; gap:5px 12px; font-size:12.5px; margin-bottom:6px; }
   .kg{ min-width:58px; font-variant-numeric:tabular-nums; }
 
-  /* ลายน้ำโลโก้กลางกระดาษ */
+  /* ลายน้ำโลโก้กลางกระดาษ
+     ไฟล์ลายน้ำทำเป็นแผ่นขนาดเท่าพื้นที่พิมพ์ A4 หนึ่งหน้าพอดี (184 x 269 มม.)
+     แล้วปูซ้ำแนวตั้ง — พอเอกสารยาวข้ามหน้า ลายน้ำจึงไปโผล่กลางทุกหน้าเอง
+     (เชื่อถือได้กว่าการตรึงรูปไว้กับจอ ซึ่ง Safari พิมพ์ให้แค่หน้าแรก) */
   .printarea{ position:relative; }
-  .paperbody{ position:relative; z-index:1; }
-  .wmark{
-    position:absolute; left:50%; top:340px; transform:translateX(-50%);
-    width:min(78%,430px); aspect-ratio:1/1; pointer-events:none; z-index:0;
-    background:url("icons/watermark.jpg") no-repeat center center; background-size:contain;
+  .paperbody{
+    position:relative;
+    background-image:url("icons/watermark.jpg");
+    background-repeat:repeat-y;
+    background-position:center top;
+    background-size:100% auto;
   }
 
   @media print{
@@ -153,9 +157,8 @@
     .mockwrap .sheetin{ max-height:none !important; border-radius:0 !important; box-shadow:none !important;
               width:100% !important; max-width:none !important; }
     .mockwrap .printarea{ overflow:visible !important; max-height:none !important; padding:0 !important; }
-    /* fixed = เบราว์เซอร์จะวางลายน้ำซ้ำให้ทุกหน้าที่พิมพ์ */
-    .wmark{ position:fixed !important; left:50% !important; top:50% !important;
-            transform:translate(-50%,-50%) !important; width:70% !important; }
+    /* ลายน้ำปูซ้ำทุกความสูงเท่ากระดาษ 1 หน้า จึงติดไปทุกหน้าที่พิมพ์ */
+    .paperbody{ background-size:100% auto !important; background-attachment:scroll !important; }
     img{ max-height:170px !important; }
   }
 </style>
@@ -1341,7 +1344,6 @@ function mockSheet(){
         '</div>'
       : "")+
     '<div class="sheetbody printarea" id="printarea">'+
-      '<div class="wmark" aria-hidden="true"></div>'+
       '<div class="paperbody">'+ (showAns ? mockKeyHTML(m) : mockPaperHTML(m)) +'</div>'+
     '</div>'+
   '</div></div>';
