@@ -132,8 +132,19 @@
   .keygrid{ display:flex; flex-wrap:wrap; gap:5px 12px; font-size:12.5px; margin-bottom:6px; }
   .kg{ min-width:58px; font-variant-numeric:tabular-nums; }
 
+  /* ลายน้ำโลโก้กลางกระดาษ */
+  .printarea{ position:relative; }
+  .paperbody{ position:relative; z-index:1; }
+  .wmark{
+    position:absolute; left:50%; top:340px; transform:translateX(-50%);
+    width:min(78%,430px); aspect-ratio:1/1; pointer-events:none; z-index:0;
+    background:url("icons/watermark.jpg") no-repeat center center; background-size:contain;
+  }
+
   @media print{
     @page{ size:A4; margin:14mm 13mm; }
+    /* พิมพ์ออกมาเป็นภาพสีเหมือนที่เห็นบนจอ */
+    html, body{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
     body{ background:#fff !important; }
     /* ซ่อนทุกอย่าง แล้วค่อยเปิดเฉพาะกระดาษข้อสอบ — กันแผงแอดมินติดไปด้วย */
     .shell, .gate, .noprint, .sheethead, .sheet{ display:none !important; }
@@ -142,9 +153,9 @@
     .mockwrap .sheetin{ max-height:none !important; border-radius:0 !important; box-shadow:none !important;
               width:100% !important; max-width:none !important; }
     .mockwrap .printarea{ overflow:visible !important; max-height:none !important; padding:0 !important; }
-    .psec{ background:#F0F0F0 !important; color:#000 !important;
-           -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .pans{ color:#000 !important; font-weight:700; }
+    /* fixed = เบราว์เซอร์จะวางลายน้ำซ้ำให้ทุกหน้าที่พิมพ์ */
+    .wmark{ position:fixed !important; left:50% !important; top:50% !important;
+            transform:translate(-50%,-50%) !important; width:70% !important; }
     img{ max-height:170px !important; }
   }
 </style>
@@ -1329,7 +1340,10 @@ function mockSheet(){
           m.gaps.map(function(g){ return "· "+esc(g.subj)+" ต้องการ "+g.want+" ข้อ มีในคลัง "+g.got+" ข้อ"; }).join("<br>")+
         '</div>'
       : "")+
-    '<div class="sheetbody printarea" id="printarea">'+ (showAns ? mockKeyHTML(m) : mockPaperHTML(m)) +'</div>'+
+    '<div class="sheetbody printarea" id="printarea">'+
+      '<div class="wmark" aria-hidden="true"></div>'+
+      '<div class="paperbody">'+ (showAns ? mockKeyHTML(m) : mockPaperHTML(m)) +'</div>'+
+    '</div>'+
   '</div></div>';
   return h;
 }
