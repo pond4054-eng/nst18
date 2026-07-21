@@ -136,8 +136,8 @@
   .printarea{ position:relative; background:#EDEFF3; }
   .page{
     position:relative; box-sizing:border-box;
-    width:210mm; min-height:297mm; padding:14mm 13mm 16mm;
-    background:#fff; margin:0 auto 14px; overflow:hidden;
+    width:210mm; min-height:240mm; padding:14mm 13mm 16mm;
+    background:#fff; margin:0 auto 14px;
     box-shadow:0 1px 6px rgba(0,0,0,.13);
   }
   .pgwm{
@@ -1387,7 +1387,9 @@ function mockPaperBlocks(m){
         '<div class="pq-t"><span class="pq-n">'+(i+1)+'.</span><span>'+mrender(q.q)+'</span></div>'+
         (q.img?imgHTML(q.img,200):"")+
         '<ol class="pch">'+ q.choices.map(function(c,ci){
-            return '<li>'+(isLetterCh(q.choices)?'<b>'+c[ci]+'</b>':THL[ci]+". "+mrender(c))+
+            /* ข้อสอบรูปภาพ ตัวเลือกเป็นตัวอักษร A–D อยู่ในตัวมันเองแล้ว ใช้ c ตรง ๆ
+               (เคยเขียน c[ci] ซึ่งหยิบตัวอักษรลำดับที่ ci ของสตริง จึงได้ undefined) */
+            return '<li>'+(isLetterCh(q.choices)?'<b>'+esc(c)+'</b>':THL[ci]+". "+mrender(c))+
               ((q.cimg&&q.cimg[ci])?imgHTML(q.cimg[ci],110):"")+'</li>';
           }).join("")+'</ol>'+
       '</div>' });
@@ -1421,7 +1423,10 @@ function mockKeyBlocks(m){
    วัดความสูงจริงของทุกบล็อกที่ความกว้างเท่ากระดาษ A4 แล้วจัดลงทีละหน้า
    แต่ละหน้าเป็นกล่องขนาด 210x297 มม. ที่เราคุมเอง จึงวางลายน้ำกลางหน้าได้ตรงเป๊ะ
    (ไม่ต้องเดาว่าเบราว์เซอร์หรือเครื่องพิมพ์จะตั้งขอบกระดาษเท่าไหร่) */
-var PG = { w:210, h:297, padX:13, padY:14 };
+/* กล่องหน้ากระดาษ: กว้างเท่า A4 แต่ตั้งความสูงไว้ "เตี้ยกว่า" หน้าจริง (297 มม.)
+   เพราะ Safari/iOS แทรกหัว-ท้ายกระดาษ (URL, วันที่, เลขหน้า) และอาจย่อขนาดให้พอดีขอบ
+   ถ้าตั้งเต็ม 297 กล่องจะล้นไปหน้าถัดไป ทำให้ได้กระดาษเปล่าสลับทุกใบ */
+var PG = { w:210, h:240, padX:13, padY:14 };
 function mmpx(v){ return v * 96 / 25.4; }
 
 function paginate(blocks){
