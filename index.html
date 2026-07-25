@@ -1183,8 +1183,8 @@ function studyTopScreen(){
         '<div id="ytmeta" style="font-size:12px;color:var(--c-text-muted);margin-top:5px;">'+(p.dur?esc(p.dur)+" · ":"")+'ดูแล้ว '+(pr.pct||0)+'% · บันทึกตำแหน่งล่าสุดอัตโนมัติ</div>'+
       '</div>'+
       '<div style="display:flex;gap:10px;margin-top:12px;">'+
-        (hasNext?'<button class="btn" style="flex:1;" onclick="A.nextLesson()">เรียนบทถัดไป</button>':'')+
-        '<button id="savebtn" class="btn ghost" style="'+(hasNext?'flex:none;':'flex:1;')+(saved?'color:var(--pri);border-color:var(--pri);':'')+'" onclick="A.toggleSaved(\''+p.id+'\')">'+(saved?'✓ บันทึกแล้ว':'บันทึกไว้')+'</button>'+
+        '<button class="btn" style="flex:1;" onclick="A.openQuiz(\''+p.sk+'\',\''+p.tid+'\')">📝 ทำข้อสอบหัวข้อนี้</button>'+
+        (hasNext?'<button class="btn ghost" style="flex:none;" onclick="A.nextLesson()">ถัดไป →</button>':'')+
       '</div>'+
       (p.desc
         ? '<div class="card" style="margin-top:14px;"><div style="font-size:11px;font-weight:700;color:var(--c-text-muted);letter-spacing:.04em;margin-bottom:6px;">สรุปเนื้อหา</div><div style="font-size:14px;line-height:1.8;color:var(--c-text);white-space:pre-wrap;">'+esc(p.desc)+'</div></div>'
