@@ -772,7 +772,7 @@ function knowStats(){
   return { done:done, total:total, pct: total?Math.round(done/total*100):0 };
 }
 function physStats(){
-  var evs=physList(), sum=0;
+  var evs=physList(), passedCount=0;
   var per=evs.map(function(e){
     var targetRaw=(S.target[e.k]!=null && S.target[e.k]!=="")?S.target[e.k]:e.def;
     var target=pv(targetRaw);
@@ -782,13 +782,23 @@ function physStats(){
       if(isNaN(val)||isNaN(target)) return false;
       return e.dir==="high" ? val>=target : val<=target;
     });
-    var n=list.length, passCount=passArr.filter(Boolean).length;
-    var rate=n?passCount/n:0, ratePct=Math.round(rate*100);
-    sum+=ratePct;
-    return { e:e, targetRaw:targetRaw, list:list, passArr:passArr, n:n, passCount:passCount,
-             ratePct:ratePct, stKey: n===0?"none":(rate>=0.8?"pass":"improve") };
+    // ผลที่ดีที่สุด (วิ่ง=เร็วสุด, กระโดด=ไกลสุด) — ใช้ตัดสินสถานะ "ผ่าน/ยังไม่ผ่าน" ให้เข้าใจง่าย
+    var bestObj=null;
+    list.forEach(function(v){ var val=pv(v); if(isNaN(val)) return;
+      if(!bestObj || (e.dir==="high"?val>bestObj.val:val<bestObj.val)) bestObj={raw:v,val:val}; });
+    var passed = bestObj!=null && !isNaN(target) && (e.dir==="high"?bestObj.val>=target:bestObj.val<=target);
+    if(passed) passedCount++;
+    return { e:e, targetRaw:targetRaw, target:target, list:list, passArr:passArr, n:list.length,
+             best:(bestObj?bestObj.val:null), bestRaw:(bestObj?bestObj.raw:null), passed:passed,
+             stKey: list.length===0?"none":(passed?"pass":"improve") };
   });
-  return { per:per, pct: evs.length?Math.round(sum/evs.length):0 };
+  return { per:per, passed:passedCount, total:evs.length, pct: evs.length?Math.round(passedCount/evs.length*100):0 };
+}
+// แสดงระยะห่างจากเกณฑ์ให้อ่านง่าย (เวลาเป็น น:วิ, อื่น ๆ เป็นตัวเลข+หน่วย)
+function fmtGap(e, diff){
+  diff=Math.abs(diff);
+  if(e.fmt==="mmss"){ var m=Math.floor(diff/60), s=Math.round(diff%60); return m?(m+":"+String(s).padStart(2,"0")+" นาที"):(s+" วินาที"); }
+  return (Math.round(diff*100)/100)+" "+(e.unit||"");
 }
 
 /* ═══════════ RENDER ═══════════ */
@@ -1242,49 +1252,68 @@ function mountPlayer(){
 /* ───── ฝึกพละ ───── */
 function viewPhys(){
   var ps=physStats();
-  var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"var(--c-text-muted)"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
+  var stMap={ none:{t:"ยังไม่ทดสอบ",bg:"#EEF0F3",fg:"var(--c-text-muted)"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์ ✓",bg:"#1E9E5A",fg:"#fff"} };
   var h="";
 
-  h+='<div class="card">'+
-       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'+
-         '<h3>เกณฑ์และสถานะรายท่า</h3>'+
-         '<div class="mono" style="font-size:15px;font-weight:600;color:var(--pri);">'+ps.pct+'%</div>'+
+  // สรุปด้านบน — ผ่านแล้วกี่ท่า
+  h+='<div class="card" style="border-radius:20px;">'+
+       '<div style="font-size:12.5px;font-weight:700;margin-bottom:10px;">สรุปความพร้อมร่างกาย</div>'+
+       '<div style="height:10px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:10px;">'+
+         '<div style="height:100%;border-radius:999px;background:#1E9E5A;transition:width .3s;width:'+ps.pct+'%;"></div></div>'+
+       '<div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--c-text-muted);">'+
+         '<span>ผ่านเกณฑ์แล้ว <b style="color:#1E9E5A;">'+ps.passed+'</b> / '+ps.total+' ท่า</span>'+
+         '<span class="mono" style="font-weight:700;color:#1E9E5A;">'+ps.pct+'%</span>'+
        '</div>'+
-       '<div class="muted" style="margin-bottom:12px;">กรอกผลการทดสอบทุกครั้ง · สถานะคิดจากอัตราผ่าน (≥80% = ผ่านเกณฑ์) · แก้ตัวเลขเกณฑ์ได้</div>'+
-       '<div style="display:flex;flex-direction:column;gap:10px;">';
+     '</div>';
+
+  // การ์ดรายท่า — เทียบเป้าหมายกับผลดีที่สุด บันทึกผลง่าย
   ps.per.forEach(function(p){
     var e=p.e, st=stMap[p.stKey];
-    h+='<div style="border:1px solid var(--c-border);border-radius:14px;padding:12px;background:var(--c-surface);">'+
-         '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">'+
-           '<div><div style="font-size:14px;font-weight:600;">'+esc(e.name)+'</div>'+
-                '<div style="font-size:11.5px;color:var(--c-text-muted);">'+esc(e.hint)+'</div></div>'+
-           '<div class="chip" style="background:'+st.bg+';color:'+st.fg+';">'+st.t+'</div>'+
+    var gapLine="";
+    if(p.best!=null && !isNaN(p.target)){
+      var diff=p.best-p.target, good=(e.dir==="high"?diff>=0:diff<=0);
+      gapLine = good
+        ? '<div style="font-size:12px;margin-top:8px;color:#1E9E5A;font-weight:600;">✓ ดีกว่าเกณฑ์ '+fmtGap(e,diff)+'</div>'
+        : '<div style="font-size:12px;margin-top:8px;color:#C77700;font-weight:600;">ขาดอีก '+fmtGap(e,diff)+' ก็ผ่าน</div>';
+    }
+    h+='<div class="card">'+
+         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">'+
+           '<div style="min-width:0;"><div style="font-size:15px;font-weight:700;line-height:1.25;">'+esc(e.name)+'</div>'+
+                '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">'+esc(e.hint||"")+'</div></div>'+
+           '<div class="chip" style="flex:none;background:'+st.bg+';color:'+st.fg+';">'+st.t+'</div>'+
          '</div>'+
-         '<div style="display:flex;align-items:center;gap:8px;margin-top:10px;">'+
-           '<span style="font-size:12px;color:var(--c-text-muted);">เกณฑ์เป้าหมาย</span>'+
-           '<input class="in mono" value="'+esc(p.targetRaw)+'" onchange="A.target(\''+e.k+'\',this.value)" style="width:74px;text-align:center;padding:4px 8px;font-size:13px;">'+
-           '<span style="font-size:12px;color:var(--c-text-muted);">'+esc(e.unit)+'</span>'+
+         // เป้าหมาย vs ทำได้ดีที่สุด
+         '<div style="display:flex;gap:10px;margin-top:12px;">'+
+           '<div style="flex:1;background:var(--c-bg);border-radius:12px;padding:10px 12px;">'+
+             '<div style="font-size:11px;color:var(--c-text-muted);">เป้าหมาย</div>'+
+             '<div class="mono" style="font-size:18px;font-weight:800;margin-top:2px;">'+esc(p.targetRaw)+' <span style="font-size:11px;font-weight:500;color:var(--c-text-muted);">'+esc(e.unit)+'</span></div>'+
+           '</div>'+
+           '<div style="flex:1;background:var(--c-bg);border-radius:12px;padding:10px 12px;">'+
+             '<div style="font-size:11px;color:var(--c-text-muted);">ทำได้ดีที่สุด</div>'+
+             '<div class="mono" style="font-size:18px;font-weight:800;margin-top:2px;color:'+(p.best!=null?(p.passed?"#1E9E5A":"var(--c-text)"):"var(--c-text-subtle)")+';">'+(p.bestRaw!=null?esc(p.bestRaw)+' <span style="font-size:11px;font-weight:500;color:var(--c-text-muted);">'+esc(e.unit)+'</span>':"—")+'</div>'+
+           '</div>'+
          '</div>'+
-         '<div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--c-border);">'+
-           '<span style="font-size:12px;color:var(--c-text-muted);white-space:nowrap;">ผลที่ทำได้</span>'+
-           '<input class="in mono" id="dr_'+e.k+'" value="'+esc((S.testDraft||{})[e.k]||"")+'" placeholder="เช่น '+esc(p.targetRaw)+'" '+
-             'oninput="A.draft(\''+e.k+'\',this.value)" style="flex:1;min-width:0;text-align:center;padding:6px 9px;font-size:13px;">'+
-           '<button class="btn sm" onclick="A.addTest(\''+e.k+'\')" style="flex:none;">＋ บันทึกผล</button>'+
+         gapLine+
+         // บันทึกผลวันนี้
+         '<div style="display:flex;align-items:center;gap:8px;margin-top:12px;">'+
+           '<input class="in mono" id="dr_'+e.k+'" value="'+esc((S.testDraft||{})[e.k]||"")+'" placeholder="กรอกผลวันนี้ เช่น '+esc(p.targetRaw)+'" '+
+             'oninput="A.draft(\''+e.k+'\',this.value)" style="flex:1;min-width:0;text-align:center;padding:9px 10px;font-size:14px;">'+
+           '<button class="btn sm" onclick="A.addTest(\''+e.k+'\')" style="flex:none;">บันทึกผล</button>'+
          '</div>'+
-         '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:8px;">'+
-           (p.n?("ทดสอบ "+p.n+" ครั้ง · ผ่าน "+p.passCount+" ครั้ง ("+p.ratePct+"%)"):"ยังไม่มีผลการทดสอบ")+'</div>'+
-         '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">'+
-           p.list.map(function(v,i){
-             var ok=p.passArr[i];
-             return '<span onclick="A.delTest(\''+e.k+'\','+i+')" class="mono" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:999px;cursor:pointer;'+
-               'background:'+(ok?"#E3F4EA":"#FDECEC")+';color:'+(ok?"#1E9E5A":PRI())+';">'+(ok?"✓":"✗")+' '+esc(v)+' ✕</span>';
-           }).join("")+
+         // ประวัติ (แตะเพื่อลบ) + แก้เกณฑ์
+         '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;">'+
+           '<div style="display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0;">'+
+             (p.n
+               ? p.list.map(function(v,i){ var ok=p.passArr[i];
+                   return '<span onclick="A.delTest(\''+e.k+'\','+i+')" class="mono" title="แตะเพื่อลบ" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:999px;cursor:pointer;background:'+(ok?"#E3F4EA":"#FDECEC")+';color:'+(ok?"#1E9E5A":PRI())+';">'+(ok?"✓":"✗")+' '+esc(v)+' ✕</span>';
+                 }).join("")
+               : '<span style="font-size:11.5px;color:var(--c-text-subtle);">ยังไม่มีผลการทดสอบ · กรอกผลด้านบนได้เลย</span>')+
+           '</div>'+
+           '<span onclick="A.editTarget(\''+e.k+'\')" style="flex:none;font-size:11.5px;color:var(--pri);cursor:pointer;font-weight:600;white-space:nowrap;">แก้เกณฑ์</span>'+
          '</div>'+
        '</div>';
   });
-  h+='</div>'+
-     '<div style="font-size:11px;color:var(--c-text-subtle);margin-top:12px;line-height:1.4;">* ตัวเลขเป็นค่าอ้างอิงเริ่มต้น — ยึดตามประกาศรับสมัครของรุ่นเป็นหลัก แล้วปรับให้ตรง</div>'+
-   '</div>';
+  h+='<div style="font-size:11px;color:var(--c-text-subtle);margin:2px 2px 6px;line-height:1.5;">* ตัวเลขเกณฑ์เป็นค่าอ้างอิงเริ่มต้น — ยึดตามประกาศรับสมัครของรุ่นเป็นหลัก (กด “แก้เกณฑ์” เพื่อปรับ) · สถานะตัดสินจากผลที่ทำได้ดีที่สุด</div>';
 
   h+='<div class="card">'+
        '<h3 style="margin-bottom:12px;">ตารางฝึกประจำสัปดาห์</h3>'+
@@ -2204,6 +2233,13 @@ var A={
   },
   // พละ
   target:function(k,v){ var t=Object.assign({},S.target); t[k]=v; set({target:t}); },
+  editTarget:function(k){
+    var e=physList().find(function(x){ return x.k===k; }); if(!e) return;
+    var cur=(S.target[k]!=null && S.target[k]!=="")?S.target[k]:e.def;
+    var v=prompt("เกณฑ์เป้าหมายของ "+e.name+" ("+e.unit+")\n"+(e.dir==="high"?"ยิ่งมากยิ่งดี":"ยิ่งน้อยยิ่งดี — เวลาใส่แบบ 4:30 ได้"), cur);
+    if(v==null) return;
+    A.target(k, String(v).trim());
+  },
   draft:function(k,v){
     var e=physList().find(function(x){ return x.k===k; });
     if(e && e.fmt==="mmss"){
