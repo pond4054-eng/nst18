@@ -92,7 +92,11 @@
   @keyframes fadeUp{ from{ transform:translateY(8px); opacity:0; } to{ transform:none; opacity:1; } }
 
   /* โครงหน้าจอ — เต็มจอบนมือถือ, จัดกลางบนคอม */
-  .shell{ max-width:460px; margin:0 auto; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; background:var(--c-bg); }
+  .shell{ max-width:460px; margin:0 auto; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; background:transparent; position:relative; z-index:1; }
+  /* พื้นหลังภาพของแอป (โหมดกลางวันเท่านั้น) — วางด้านหลังคงที่ ส่วนกลางขาวคอนเทนต์อ่านง่าย */
+  #appbg{ position:fixed; inset:0; z-index:0; pointer-events:none; background:#F4F6FA url('icons/app-bg.jpg') center top / cover no-repeat; }
+  [data-theme="night"] #appbg{ display:none; }
+  [data-theme="night"] .shell{ background:var(--c-bg); }
   .statusbar{ flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 22px;
     height:46px; padding-top:env(safe-area-inset-top); box-sizing:content-box; }
   /* โลโก้ + ชื่อสถาบัน มุมซ้ายบน = ปุ่มเข้าแผงแอดมิน */
@@ -265,6 +269,7 @@
 </script>
 </head>
 <body>
+<div id="appbg" class="noprint"></div>
 
 <!-- ══════════ หน้ากรอกรหัส ══════════ -->
 <div class="gate" id="gate" hidden>
@@ -892,7 +897,7 @@ function viewHome(c){
   // สองวง
   var ks=knowStats(), ps=physStats();
   var kS=statusOf(ks.pct), pS=statusOf(ps.pct);
-  h+='<div style="border:1px solid var(--c-border);border-radius:20px;padding:18px;background:linear-gradient(135deg,rgba(228,17,31,.11) 0%,rgba(30,158,90,.13) 100%);box-shadow:0 4px 16px rgba(0,0,0,.07);">'+
+  h+='<div style="border:1px solid var(--c-border);border-radius:20px;padding:18px;background-color:var(--c-surface);background-image:linear-gradient(135deg,rgba(228,17,31,.11) 0%,rgba(30,158,90,.13) 100%);box-shadow:0 4px 16px rgba(0,0,0,.07);">'+
        '<div style="font-size:12.5px;font-weight:700;color:var(--c-text);margin-bottom:14px;">ความพร้อมสอบโดยรวม</div>'+
        '<div style="display:flex;gap:16px;">'+
          ring(ks.pct,"#E4111F","ความรู้",kS)+
@@ -1404,7 +1409,7 @@ function viewReady(){
   var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"var(--c-text-muted)"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
   var h="";
 
-  h+='<div class="card" style="border-radius:20px;padding:18px;display:flex;gap:16px;background:linear-gradient(135deg,rgba(228,17,31,.11) 0%,rgba(30,158,90,.13) 100%);box-shadow:0 4px 16px rgba(0,0,0,.07);">'+
+  h+='<div class="card" style="border-radius:20px;padding:18px;display:flex;gap:16px;background-color:var(--c-surface);background-image:linear-gradient(135deg,rgba(228,17,31,.11) 0%,rgba(30,158,90,.13) 100%);box-shadow:0 4px 16px rgba(0,0,0,.07);">'+
        ring(ks.pct,"#E4111F","ความรู้",statusOf(ks.pct))+
        ring(ps.pct,"#1E9E5A","ร่างกาย",statusOf(ps.pct))+
      '</div>';
