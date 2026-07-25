@@ -791,6 +791,7 @@ function physStats(){
 /* ═══════════ RENDER ═══════════ */
 function render(){
   applyTheme();
+  if(S.tab==="study") S.tab="home";   // ลบฟีเจอร์ติวหนังสือแล้ว — เผื่อค่าเก่าค้างในเครื่อง
   var c=calc();
 
   // ── แถบบน
@@ -798,21 +799,21 @@ function render(){
   document.getElementById("clock").textContent=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
 
   //   = เว้นวรรคแบบไม่ให้ตัดบรรทัด กัน "ว่าที่" กับ "นสต.18" หลุดคนละบรรทัดบนจอเล็ก
-  var titles={ home:{k:"ยินดีต้อนรับ ว่าที่ นสต.18",t:"ภาพรวมวันนี้"}, study:{k:"แผนติวหนังสือ",t:"ตารางรายสัปดาห์"},
+  var titles={ home:{k:"ยินดีต้อนรับ ว่าที่ นสต.18",t:"ภาพรวมวันนี้"},
                phys:{k:"ฝึกสมรรถภาพ",t:"ตารางฝึกพละ"}, ready:{k:"วัดผล",t:"ความพร้อมสอบ"} };
   var tt=titles[S.tab]||titles.home;
   document.getElementById("kicker").textContent=tt.k;
   document.getElementById("tabtitle").textContent=tt.t;
 
   var cdNum, cdUnit;
-  if(c.daysLeft==null){ cdNum=String(c.planNo); cdUnit="สัปดาห์สู่วันสอบ"; }
+  if(c.daysLeft==null){ cdNum="—"; cdUnit="ยังไม่กำหนดวันสอบ"; }
   else if(c.daysLeft<0){ cdNum="0"; cdUnit="วันสู่วันสอบ"; }
   else { cdNum=String(c.daysLeft); cdUnit="วันสู่วันสอบ"; }
   document.getElementById("cdnum").textContent=cdNum;
   document.getElementById("cdunit").textContent=cdUnit;
 
   // ── แถบล่าง
-  var navDefs=[{k:"home",l:"หน้าแรก"},{k:"study",l:"ติวหนังสือ"},{k:"phys",l:"ฝึกพละ"},{k:"ready",l:"ความพร้อม"}];
+  var navDefs=[{k:"home",l:"หน้าแรก"},{k:"phys",l:"ฝึกพละ"},{k:"ready",l:"ความพร้อม"}];
   document.getElementById("nav").innerHTML=navDefs.map(function(n){
     return '<button class="navbtn'+(S.tab===n.k?" on":"")+'" onclick="A.tab(\''+n.k+'\')">'+n.l+'</button>';
   }).join("");
@@ -820,7 +821,6 @@ function render(){
   var v=document.getElementById("view");
   var top=v.scrollTop;
   if(S.tab==="home") v.innerHTML=viewHome(c);
-  else if(S.tab==="study") v.innerHTML=viewStudy(c);
   else if(S.tab==="phys") v.innerHTML=viewPhys();
   else v.innerHTML=viewReady();
   v.scrollTop=top;
@@ -870,47 +870,24 @@ function viewHome(c){
        '</div>'+
      '</div>';
 
-  // เป้าหมายวันนี้
+  // เป้าหมายวันนี้ (ฝึกพละ)
   var todayIdx=(new Date().getDay()+6)%7;
   var tIso=iso(today0());
-  var tWi=Math.min(Math.max(0,Math.floor(Math.round((today0()-c.anchorMon)/MS)/7)),c.T-1);
-  var tBlocks=blocksOf(todayIdx,tWi,c.T);
-  var ph=phaseInfo(phaseFor(tWi,c.T));
 
   h+='<div class="card">'+
-       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;">'+
-         '<div style="font-size:14px;font-weight:700;">เป้าหมายของวันนี้ · '+dayNames[todayIdx]+'</div>'+
-         '<span class="chip" style="background:'+ph.bg+';color:'+ph.fg+';">'+ph.name+'</span>'+
-       '</div>';
-  if(!tBlocks){
-    h+='<div style="font-size:13px;color:var(--c-text-muted);line-height:1.5;">วันนี้เป็นวันพัก — ฟื้นฟูร่างกายและทบทวนเบา ๆ</div>';
-  } else {
-    var studyRows=tBlocks.map(function(b,bi){
-      var m=merged(b,tWi,todayIdx,bi);
-      if(m.type==="phys") return "";
-      return taskRow(m.icon, m.act, m.subjName+" · "+m.time, tIso+":"+bi);
-    }).join("");
-    h+='<div style="display:flex;flex-direction:column;gap:14px;">'+
-         '<div>'+
-           '<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#0E7A4D;margin-bottom:9px;">📚 เนื้อหาติววันนี้</div>'+
-           '<div style="display:flex;flex-direction:column;gap:9px;">'+studyRows+'</div>'+
-         '</div>'+
-         '<div style="border-top:1px solid #F0F1F3;padding-top:12px;">'+
-           '<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#A40001;margin-bottom:9px;">🏃 ฝึกพละวันนี้</div>'+
-           '<div style="display:flex;flex-direction:column;gap:9px;">'+
-             taskRow("🏃", trainFocus[todayIdx], "โปรแกรมฝึกวันนี้", "phys:"+tIso)+
-           '</div>'+
-         '</div>'+
-       '</div>';
-  }
-  h+='</div>';
+       '<div style="font-size:14px;font-weight:700;margin-bottom:12px;">เป้าหมายของวันนี้ · '+dayNames[todayIdx]+'</div>'+
+       '<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#A40001;margin-bottom:9px;">🏃 ฝึกพละวันนี้</div>'+
+       '<div style="display:flex;flex-direction:column;gap:9px;">'+
+         taskRow("🏃", trainFocus[todayIdx], "โปรแกรมฝึกวันนี้", "phys:"+tIso)+
+       '</div>'+
+     '</div>';
 
   // ทางลัด
   h+='<div style="display:flex;gap:12px;">'+
-       '<div class="card" style="flex:1;padding:15px;border-radius:18px;cursor:pointer;" onclick="A.tab(\'study\')">'+
-         '<div style="font-size:12px;color:var(--c-text-muted);">แผนสัปดาห์</div>'+
-         '<div style="font-size:16px;font-weight:700;margin-top:3px;">สัปดาห์ที่ '+(c.weekIndex+1)+'<span style="color:var(--c-text-muted);font-weight:500;font-size:13px;"> / '+c.T+'</span></div>'+
-         '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">เปิดตารางติว →</div>'+
+       '<div class="card" style="flex:1;padding:15px;border-radius:18px;cursor:pointer;" onclick="A.tab(\'phys\')">'+
+         '<div style="font-size:12px;color:var(--c-text-muted);">ฝึกพละ</div>'+
+         '<div style="font-size:16px;font-weight:700;margin-top:3px;">ร่างกาย '+ps.pct+'%</div>'+
+         '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">ดูตารางฝึก →</div>'+
        '</div>'+
        '<div class="card" style="flex:1;padding:15px;border-radius:18px;cursor:pointer;" onclick="A.tab(\'ready\')">'+
          '<div style="font-size:12px;color:var(--c-text-muted);">เช็กความพร้อม</div>'+
@@ -922,13 +899,6 @@ function viewHome(c){
   // ตั้งค่า
   h+='<div class="card" style="border-radius:16px;padding:12px 16px;display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;">'+
        field("วันสอบ", '<input type="date" class="in" value="'+esc(S.examDate)+'" onchange="A.examDate(this.value)">')+
-       field("เริ่มอ่าน", '<input type="time" class="in" value="'+esc(S.studyStart)+'" onchange="A.start(this.value)">')+
-       field("ชม./วัน", '<select class="in" onchange="A.hours(this.value)">'+
-         [1.5,2,2.5,3,4].map(function(x){ return '<option value="'+x+'"'+(Number(S.hours)===x?" selected":"")+'>'+x+'</option>'; }).join("")+
-         '</select>')+
-       field("วันหยุด", '<select class="in" onchange="A.dayOff(this.value)">'+
-         dayNames.map(function(d,i){ return '<option value="'+i+'"'+(Number(S.dayOff)===i?" selected":"")+'>'+d+'</option>'; }).join("")+
-         '</select>')+
        field("ธีมสี", '<div style="display:flex;gap:9px;padding-top:1px;">'+
          themeDefs().map(function(t,i){
            var on=(S.theme||0)===i;
@@ -1008,153 +978,6 @@ function phaseInfo(phase){
   return { content:{name:"เฟสอ่านเนื้อหา",desc:"ช่วงต้น ~60% ปูพื้นทุกวิชา",bg:"#EEF0F3",fg:"#0E0F12"},
            drill:{name:"เฟสตะลุยข้อสอบ",desc:"ช่วงท้าย ~40% ทำข้อสอบเก่า",bg:"#0E0F12",fg:"#fff"},
            mock:{name:"เฟสสอบเสมือนจริง",desc:"2–3 สัปดาห์สุดท้าย จับเวลา",bg:"#F2B01E",fg:"#0E0F12"} }[phase];
-}
-
-/* ───── ติวหนังสือ ───── */
-function viewStudy(c){
-  var h="";
-  var phase=phaseFor(c.weekIndex,c.T), ph=phaseInfo(phase);
-
-  // ปฏิทิน
-  var calTitle=thMonthFull(S.calMonth)+" "+(S.calYear+543);
-  var gridStart=mondayOf(new Date(S.calYear,S.calMonth,1));
-  var isoToday=iso(today0());
-  var phaseDot={content:"var(--c-border)",drill:"#8A9099",mock:"#F2B01E"};
-  var cells="";
-  for(var i=0;i<42;i++){
-    var d=new Date(gridStart); d.setDate(d.getDate()+i); d.setHours(0,0,0,0);
-    var isoD=iso(d);
-    var inMonth=d.getMonth()===S.calMonth;
-    var isSel=isoD===S.selDate, isToday=isoD===isoToday, isExam=S.examDate===isoD;
-    var wi=Math.floor(Math.round((d-c.anchorMon)/MS)/7);
-    var inPlan=wi>=0 && wi<c.T;
-    var totalB=(((d.getDay()+6)%7)===Number(S.dayOff))?0:3;
-    var dc=0; for(var bi=0;bi<3;bi++){ if(S.done[isoD+":"+bi]) dc++; }
-    var fullDone=inPlan && totalB>0 && dc>=totalB;
-    var dot= isExam?"#F2B01E":(fullDone?"#1E9E5A":(inPlan?phaseDot[phaseFor(wi,c.T)]:"transparent"));
-    cells+='<div onclick="A.selDate(\''+isoD+'\','+d.getFullYear()+','+d.getMonth()+')" '+
-      'style="position:relative;height:38px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;'+
-      'border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:'+(isSel?700:500)+';'+
-      'background:'+(isSel?PRI():"transparent")+';color:'+(isSel?"#fff":(inMonth?"#0E0F12":"var(--c-border)"))+';'+
-      'border:1.5px solid '+((!isSel&&isToday)?PRI():"transparent")+';">'+
-      '<span>'+d.getDate()+'</span>'+
-      '<span style="width:5px;height:5px;border-radius:50%;background:'+dot+';"></span></div>';
-  }
-  h+='<div class="card" style="padding:14px;">'+
-       '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">'+
-         '<button onclick="A.month(-1)" style="background:var(--pri);color:var(--c-on-brand);border:none;border-radius:9px;width:32px;height:32px;font-size:14px;cursor:pointer;">◀</button>'+
-         '<div style="text-align:center;flex:1;min-width:0;">'+
-           '<div style="font-size:16px;font-weight:700;white-space:nowrap;">'+calTitle+'</div>'+
-           '<div style="font-size:11.5px;color:var(--c-text-muted);">สัปดาห์ที่ '+(c.weekIndex+1)+' / '+c.T+'</div>'+
-         '</div>'+
-         '<button onclick="A.month(1)" style="background:var(--pri);color:var(--c-on-brand);border:none;border-radius:9px;width:32px;height:32px;font-size:14px;cursor:pointer;">▶</button>'+
-       '</div>'+
-       '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:5px;">'+
-         chipLabels.map(function(w){ return '<div style="text-align:center;font-size:11px;font-weight:600;color:var(--c-text-subtle);padding:2px 0;">'+w+'</div>'; }).join("")+
-       '</div>'+
-       '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">'+cells+'</div>'+
-       '<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:10.5px;color:var(--c-text-muted);">'+
-         legend("var(--c-border)","เนื้อหา")+legend("#8A9099","ตะลุยข้อสอบ")+legend("#F2B01E","สอบเสมือน/วันสอบ")+legend("#1E9E5A","ทำครบแล้ว")+
-       '</div>'+
-     '</div>';
-
-  h+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'+
-       '<span class="chip" style="background:'+ph.bg+';color:'+ph.fg+';">'+ph.name+'</span>'+
-       '<span style="font-size:12px;color:var(--c-text-muted);">'+ph.desc+'</span>'+
-     '</div>';
-
-  // วันที่เลือก
-  var selDay=(c.selObj.getDay()+6)%7;
-  var blocks=blocksOf(selDay,c.weekIndex,c.T);
-  var doneCount=[0,1,2].filter(function(bi){ return S.done[S.selDate+":"+bi]; }).length;
-  h+='<div class="card">'+
-       '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">'+
-         '<div>'+
-           '<div style="font-size:16px;font-weight:700;">'+dayNames[selDay]+'</div>'+
-           '<div class="mono" style="font-size:12px;color:var(--c-text-muted);">'+thDate(c.selObj)+' '+(c.selObj.getFullYear()+543)+'</div>'+
-         '</div>'+
-         '<div style="display:flex;align-items:center;gap:8px;">'+
-           '<span style="font-size:11px;font-weight:600;color:var(--pri);background:color-mix(in srgb, '+PRI()+' 10%, #fff);padding:4px 9px;border-radius:999px;white-space:nowrap;">'+
-             (blocks?("ทำแล้ว "+doneCount+"/3"):"วันหยุดพัก")+'</span>'+
-           (blocks?'<button class="btn sm'+(S.editMode?"":" ghost")+'" onclick="A.toggleEdit()">'+(S.editMode?"เสร็จ":"✎ แก้ไข")+'</button>':"")+
-         '</div>'+
-       '</div>'+
-       '<div style="font-size:11.5px;color:var(--c-text-muted);margin:6px 0 12px;">หยิบวิชาที่อ่อนสุดก่อน · แตะวงกลมเมื่อทำหัวข้อนั้นเสร็จ</div>';
-  if(S.editMode && blocks)
-    h+='<div style="font-size:11.5px;color:var(--pri);margin:0 0 10px;">แตะช่องเพื่อพิมพ์วิชา/เนื้อหาติวของคุณเอง — ระบบจะจำไว้ให้</div>';
-
-  if(!blocks){
-    h+='<div style="display:flex;gap:10px;padding:11px 12px;border-radius:12px;border:1px dashed var(--c-border);background:#F7F8FA;color:var(--c-text-subtle);font-size:13px;">'+
-       '<span>🛌</span><span>วันหยุดพัก — ฟื้นฟูร่างกาย/ทบทวนเบา ๆ</span></div>';
-  } else {
-    h+='<div style="display:flex;flex-direction:column;">';
-    blocks.forEach(function(b,bi){
-      var m=merged(b,c.weekIndex,selDay,bi);
-      var dk=S.selDate+":"+bi, checked=!!S.done[dk];
-      var timeStart=(m.time||"").split("–")[0]||m.time;
-      h+='<div style="display:flex;gap:12px;align-items:stretch;">'+
-           '<div style="position:relative;width:48px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:14px;">'+
-             (bi<blocks.length-1?'<div style="position:absolute;top:44px;bottom:-2px;left:50%;width:2px;transform:translateX(-50%);background:var(--c-border);"></div>':"")+
-             '<div class="mono" style="font-size:11.5px;font-weight:700;background:var(--c-surface);z-index:1;">'+esc(timeStart)+'</div>'+
-             '<div style="width:15px;height:15px;border-radius:50%;border:3px solid var(--pri);background:var(--c-surface);margin-top:6px;z-index:1;"></div>'+
-           '</div>'+
-           '<div style="flex:1;min-width:0;border-radius:16px;border:1px solid var(--c-border);padding:12px;margin-bottom:12px;'+
-             'box-shadow:0 2px 8px rgba(14,15,18,.05);background:'+(checked?"#FAFBFC":"#fff")+';opacity:'+(checked?.72:1)+';">';
-      if(S.editMode){
-        h+='<div style="display:flex;gap:6px;margin-bottom:6px;">'+
-             '<input class="in mono" value="'+esc(m.time)+'" placeholder="เวลา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'time\',this.value)" style="flex:1;min-width:0;font-size:11px;text-align:center;padding:5px 8px;">'+
-           '</div>'+
-           '<select class="in" onchange="A.pick('+c.weekIndex+','+selDay+','+bi+',this.value)" style="width:100%;font-size:12.5px;margin-bottom:5px;padding:5px 8px;">'+
-             '<option value="">＋ เลือกกิจกรรม/เนื้อหา…</option>'+pickGroups()+
-           '</select>'+
-           '<input class="in" value="'+esc(m.subjName)+'" placeholder="วิชา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'subj\',this.value)" style="width:100%;font-weight:600;margin-bottom:5px;padding:5px 8px;font-size:13.5px;">'+
-           '<input class="in" value="'+esc(m.act)+'" placeholder="กิจกรรม/เนื้อหา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'act\',this.value)" style="width:100%;color:var(--c-text-muted);padding:5px 8px;font-size:12.5px;">';
-      } else {
-        h+='<div style="display:flex;align-items:center;gap:12px;">'+
-             '<div style="width:44px;height:44px;flex:none;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;'+
-               'background:color-mix(in srgb, '+PRI()+' 13%, #fff);">'+m.icon+'</div>'+
-             '<div style="flex:1;min-width:0;">'+
-               '<div style="font-size:14.5px;font-weight:600;line-height:1.25;'+(checked?"text-decoration:line-through;color:var(--c-text-subtle);":"")+'">'+esc(m.act)+'</div>'+
-               '<div style="font-size:12px;color:var(--c-text-muted);margin-top:1px;'+(checked?"text-decoration:line-through;":"")+'">'+esc(m.subjName+" · "+m.time)+'</div>'+
-             '</div>'+
-             '<div onclick="A.toggleDone(\''+dk+'\')" style="width:27px;height:27px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;'+
-               'cursor:pointer;font-size:14px;font-weight:700;color:var(--c-on-brand);'+(checked?"background:"+PRI()+";":"background:var(--c-surface);border:2px solid var(--c-border);")+'">'+(checked?"✓":"")+'</div>'+
-           '</div>';
-      }
-      h+='</div></div>';
-    });
-    h+='</div>';
-  }
-  h+='</div>';
-
-  // เป้าหมายสัปดาห์
-  var goalsBy={
-    content:["ปูพื้นเนื้อหาให้ครบทุกวิชา ทุ่มเวลาให้คณิตและอังกฤษมากสุด (วิชาละ 30 ข้อ)","ทุกหัวข้อที่จบต้องทำโจทย์ท้ายบท และทวนซ้ำตามรอบวันที่ 1 · 3 · 7","เน้นเข้าใจหลักการ ยังไม่ต้องรีบจับเวลา"],
-    drill:["เปลี่ยนเป็นโหมดตะลุยข้อสอบเก่า วนครบทุกวิชาในสัปดาห์","ทุกชุดต้องเฉลยและจดจุดพลาดลงสมุดจุดอ่อน แล้วทวนซ้ำ Day 3","เร่งความเร็ว·ความแม่นของคณิต·อังกฤษเป็นพิเศษ"],
-    mock:["สอบเสมือนจริงจับเวลา 150 ข้อ/3 ชม. สัปดาห์ละ 2 รอบ","วิเคราะห์คะแนนรายวิชา แล้วทุ่มเวลาแก้วิชาที่เสียคะแนนมากสุด","คุมสมาธิ·บริหารเวลาในห้องสอบ พักผ่อนให้พอ"]};
-  h+='<div class="card">'+
-       '<div class="lbl" style="margin-bottom:10px;">เป้าหมายของสัปดาห์นี้</div>'+
-       '<ul style="margin:0;padding-left:17px;display:flex;flex-direction:column;gap:8px;">'+
-         goalsBy[phase].map(function(g){ return '<li style="font-size:13.5px;line-height:1.5;">'+g+'</li>'; }).join("")+
-       '</ul>'+
-     '</div>';
-
-  return '<div class="stack">'+h+'</div>';
-}
-function legend(color,text){
-  return '<span style="display:inline-flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:'+color+';"></span>'+text+'</span>';
-}
-function pickGroups(){
-  var flat=function(pre){
-    return [].concat.apply([], subjects().map(function(su){
-      return (S.topics[su.k]||[]).map(function(t){
-        return '<option value="'+pre+'|'+su.k+'|'+t.id+'">'+esc(sName[su.k]+" — "+t.label)+'</option>';
-      });
-    })).join("");
-  };
-  return '<optgroup label="📚 ติวเนื้อหา">'+flat("c")+'</optgroup>'+
-         '<optgroup label="🏃 ฝึกพละ">'+physList().map(function(e){ return '<option value="p|'+e.k+'">'+esc(e.name)+'</option>'; }).join("")+'</optgroup>'+
-         '<optgroup label="🔁 อ่านทบทวน">'+flat("r")+'</optgroup>';
 }
 
 /* ───── ฝึกพละ ───── */
@@ -1905,12 +1728,12 @@ function adminSheet(){
        '<div style="margin-top:26px;padding:14px;border:1px solid #F5C6C8;border-radius:12px;background:#FEF4F4;">'+
          '<div class="lbl" style="margin-bottom:4px;color:#7A1219;">⚠️ รีเซ็ตความคืบหน้านักเรียนทุกคน</div>'+
          '<div style="font-size:12px;color:#7A1219;line-height:1.7;margin-bottom:12px;">'+
-           'ล้าง <b>คะแนนสอบ + สถานะเช็กลิสต์ + ช่องติ๊กแผนติว</b> ของนักเรียนทุกคนกลับเป็นค่าเริ่มต้น '+
+           'ล้าง <b>คะแนนสอบ + สถานะเช็กลิสต์ + ช่องติ๊กงานประจำวัน</b> ของนักเรียนทุกคนกลับเป็นค่าเริ่มต้น '+
            '(เก็บวันสอบ ตั้งค่าส่วนตัว และรหัสเปิดใช้งานไว้) — ต้องใส่รหัสผ่าน และต้องอัปโหลด questions.json ทับบนเว็บ '+
            'นักเรียนจะถูกรีเซ็ตเมื่อเปิดแอปครั้งถัดไปที่มีเน็ต · <b>ย้อนกลับไม่ได้</b></div>'+
          '<button class="btn sm" style="background:var(--pri);border-color:var(--pri);" onclick="A.resetStudents()">🔄 รีเซ็ตนักเรียนทุกคน…</button>'+
        '</div>'+
-       '<div style="font-size:11.5px;color:var(--c-text-subtle);margin-top:16px;line-height:1.5;">ส่วนหัวข้อและตารางติว ปรับแก้ได้จากปุ่ม “จัดการหัวข้อ” และ “✎ แก้ไข” ในแต่ละแท็บโดยตรง</div>'+
+       '<div style="font-size:11.5px;color:var(--c-text-subtle);margin-top:16px;line-height:1.5;">ส่วนหัวข้อ ปรับแก้ได้จากปุ่ม “จัดการหัวข้อ” และ “✎ แก้ไข” ในแต่ละแท็บโดยตรง</div>'+
        '</div>';
   } else if(S.adminView==="bank"){
     var tObj=(S.topics[S.adminSubj]||[]).find(function(x){ return x.id===S.adminTopic; });
@@ -2201,7 +2024,7 @@ var A={
   /* รีเซ็ตความคืบหน้านักเรียน "ทุกคน" กลับเป็นค่าเริ่มต้น (คะแนน+เช็กลิสต์+ช่องติ๊กแผน)
      ต้องใส่รหัสผ่าน RESET_PW · สั่งผ่าน resetToken ที่ฝังใน questions.json */
   resetStudents:function(){
-    var pw=prompt("⚠️ รีเซ็ตความคืบหน้าของนักเรียน “ทุกคน” กลับเป็นค่าเริ่มต้น\n\nจะล้าง: คะแนนสอบ + สถานะเช็กลิสต์ผ่าน/ไม่ผ่าน + ช่องติ๊กแผนติว\nจะเก็บไว้: วันสอบ ตั้งค่าส่วนตัว ธีมสี และรหัสเปิดใช้งาน\n\nพิมพ์รหัสผ่านเพื่อยืนยัน:");
+    var pw=prompt("⚠️ รีเซ็ตความคืบหน้าของนักเรียน “ทุกคน” กลับเป็นค่าเริ่มต้น\n\nจะล้าง: คะแนนสอบ + สถานะเช็กลิสต์ผ่าน/ไม่ผ่าน + ช่องติ๊กงานประจำวัน\nจะเก็บไว้: วันสอบ ตั้งค่าส่วนตัว ธีมสี และรหัสเปิดใช้งาน\n\nพิมพ์รหัสผ่านเพื่อยืนยัน:");
     if(pw===null) return;                              // กดยกเลิก
     if(String(pw).trim()!==RESET_PW){ alert("รหัสผ่านไม่ถูกต้อง — ยกเลิกการรีเซ็ต"); return; }
     if(!confirm("ยืนยันอีกครั้ง — นักเรียนทุกคนจะถูกรีเซ็ตความคืบหน้าเมื่อเปิดแอปครั้งถัดไปที่มีเน็ต\n\nการนี้ย้อนกลับไม่ได้ ดำเนินการต่อ?")) return;
