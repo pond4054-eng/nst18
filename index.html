@@ -175,6 +175,10 @@
   @keyframes tmpulse{ 0%,100%{ transform:scale(1); box-shadow:0 6px 18px rgba(0,0,0,.14); } 50%{ transform:scale(1.03); box-shadow:0 8px 24px rgba(0,0,0,.22); } }
   #quizTimerBar.tmup{ animation:tmpulse 1s ease-in-out infinite; }
   @media (prefers-reduced-motion:reduce){ #quizTimerBar.tmup{ animation:none; } }
+  /* วงเปอร์เซ็นต์แบบเปลวไฟ — แสงเรืองไหวระริกเหมือนไฟลุก */
+  @keyframes flameflick{ 0%,100%{ filter:drop-shadow(0 0 2px var(--fl)); } 45%{ filter:drop-shadow(0 0 7px var(--fl)); } 70%{ filter:drop-shadow(0 0 4px var(--fl)); } }
+  .flamearc{ filter:drop-shadow(0 0 3px var(--fl)); animation:flameflick 1.5s ease-in-out infinite; }
+  @media (prefers-reduced-motion:reduce){ .flamearc{ animation:none; } }
   .x{ width:32px; height:32px; flex:none; border-radius:9px; border:1px solid var(--c-border); background:var(--c-surface); color:var(--c-text-muted); cursor:pointer; font-size:14px; }
 
   /* ───── กระดาษข้อสอบเสมือนจริง ───── */
@@ -931,18 +935,34 @@ function viewHome(c){
 function field(label,inner){
   return '<div style="display:flex;flex-direction:column;gap:4px;"><label style="font-size:11px;color:var(--c-text-muted);">'+label+'</label>'+inner+'</div>';
 }
+/* จานสีเปลวไฟของวงเปอร์เซ็นต์ — ล่างเข้ม→บนสว่าง เหมือนไฟลุก + มีแสงเรือง/ไหวระริก
+   key = สีฐานที่ส่งเข้ามา (แดง=ความรู้, เขียว=ร่างกาย) ทำให้ทุกจุดที่เรียก ring() หน้าตาเหมือนกัน */
+var FLAME={
+  "#E4111F":{ base:"#E4111F", g0:"#FFCF3D", g1:"#FF6A1A", g2:"#D80E1B", glow:"#FF5A1E" }, // เปลวไฟแดง
+  "#1E9E5A":{ base:"#1E9E5A", g0:"#C4F24E", g1:"#37C46B", g2:"#0B7A41", glow:"#40CB74" }  // เปลวไฟเขียว
+};
+var _flN=0;
 function ring(pct,color,label,st){
   var C=2*Math.PI*46;
+  var p=Math.max(0,Math.min(100, pct||0));
+  var f=FLAME[color]||{ base:color, g0:color, g1:color, g2:color, glow:color };
+  var uid="flame"+(++_flN);
   return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">'+
     '<div style="position:relative;width:108px;height:108px;">'+
       '<svg width="108" height="108" viewBox="0 0 108 108">'+
+        '<defs><linearGradient id="'+uid+'" x1="0" y1="1" x2="0" y2="0">'+
+          '<stop offset="0%" stop-color="'+f.g2+'"></stop>'+
+          '<stop offset="55%" stop-color="'+f.g1+'"></stop>'+
+          '<stop offset="100%" stop-color="'+f.g0+'"></stop>'+
+        '</linearGradient></defs>'+
         '<circle cx="54" cy="54" r="46" fill="none" stroke="var(--c-border)" stroke-width="10"></circle>'+
-        '<circle cx="54" cy="54" r="46" fill="none" stroke="'+color+'" stroke-width="10" stroke-linecap="round" '+
-          'stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-pct/100))+'" transform="rotate(-90 54 54)" style="transition:stroke-dashoffset .6s;"></circle>'+
+        '<circle class="flamearc" cx="54" cy="54" r="46" fill="none" stroke="url(#'+uid+')" stroke-width="10" stroke-linecap="round" '+
+          'stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-p/100))+'" transform="rotate(-90 54 54)" '+
+          'style="--fl:'+f.glow+';transition:stroke-dashoffset .6s;"></circle>'+
       '</svg>'+
       '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
-        '<span class="mono" style="font-size:26px;font-weight:700;color:'+color+';">'+pct+'</span>'+
-        '<span style="font-size:11px;font-weight:600;color:'+color+';margin-top:-2px;">%</span>'+
+        '<span class="mono" style="font-size:26px;font-weight:700;color:'+f.base+';">'+pct+'</span>'+
+        '<span style="font-size:11px;font-weight:600;color:'+f.base+';margin-top:-2px;">%</span>'+
       '</div>'+
     '</div>'+
     '<div style="font-size:13px;font-weight:600;">'+label+'</div>'+
@@ -1183,9 +1203,9 @@ function viewReady(){
   var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"var(--c-text-muted)"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
   var h="";
 
-  h+='<div class="card" style="border-radius:20px;padding:18px;display:flex;gap:16px;">'+
-       ring(ks.pct,"#0E0F12","ความรู้",statusOf(ks.pct))+
-       ring(ps.pct,"var(--pri)","ร่างกาย",statusOf(ps.pct))+
+  h+='<div class="card" style="border-radius:20px;padding:18px;display:flex;gap:16px;background:linear-gradient(135deg,rgba(228,17,31,.11) 0%,rgba(30,158,90,.13) 100%);box-shadow:0 4px 16px rgba(0,0,0,.07);">'+
+       ring(ks.pct,"#E4111F","ความรู้",statusOf(ks.pct))+
+       ring(ps.pct,"#1E9E5A","ร่างกาย",statusOf(ps.pct))+
      '</div>';
 
   h+='<div class="card">'+
