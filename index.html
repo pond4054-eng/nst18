@@ -1552,26 +1552,52 @@ function quizSheet(){
   } else if(q.status==="active"){
     var cur=q.questions[q.idx];
     var rem=quizRemainMs();
+    var total=q.questions.length;
+    var answered=q.picked.filter(function(x){ return x!=null; }).length;
+    var left=total-answered;
     h+='<div id="quizTimerBar"'+(rem<=60000?' class="tmup"':'')+' style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--pri);color:var(--c-on-brand);border-radius:16px;padding:14px 20px;margin-bottom:16px;box-shadow:0 6px 18px rgba(0,0,0,.14);">'+
          '<span style="font-size:26px;line-height:1;">⏱</span>'+
          '<span style="font-size:13px;font-weight:600;opacity:.92;letter-spacing:.03em;">เวลาที่เหลือ</span>'+
          '<span id="quizClock" class="mono" style="font-size:34px;font-weight:800;line-height:1;letter-spacing:.02em;">'+fmtClock(rem)+'</span>'+
        '</div>'+
-       '<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:10px;">'+
-         '<div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(q.idx/q.questions.length*100)+'%;"></div></div>'+
-       '<div class="mono" style="font-size:12px;color:var(--c-text-muted);margin-bottom:8px;">ข้อ '+(q.idx+1)+' / '+q.questions.length+'</div>'+
+       // แถบสถานะ: ตอบแล้วกี่ข้อ
+       '<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:8px;">'+
+         '<div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(answered/total*100)+'%;"></div></div>'+
+       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">'+
+         '<div class="mono" style="font-size:12px;color:var(--c-text-muted);">ข้อ '+(q.idx+1)+' / '+total+'</div>'+
+         '<div style="font-size:12px;color:var(--c-text-muted);">ตอบแล้ว <b style="color:var(--pri);">'+answered+'</b> / '+total+'</div>'+
+       '</div>'+
+       // ตารางเลขข้อ: แตะเพื่อข้ามไปทำข้อไหนก็ได้ · สีเข้ม=ข้อปัจจุบัน · มีขอบ=ตอบแล้ว · จาง=ยังไม่ตอบ
+       '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;">'+
+         q.questions.map(function(_,i){
+           var isCur=i===q.idx, isAns=q.picked[i]!=null;
+           var bg=isCur?"var(--pri)":(isAns?"var(--c-bg)":"var(--c-surface)");
+           var col=isCur?"var(--c-on-brand)":(isAns?"var(--pri)":"var(--c-text-subtle)");
+           var bd=isCur?"var(--pri)":(isAns?"var(--pri)":"var(--c-border)");
+           return '<button onclick="A.goToQ('+i+')" class="mono" aria-label="ข้อ '+(i+1)+(isAns?" ตอบแล้ว":" ยังไม่ตอบ")+'" '+
+             'style="width:36px;height:36px;border-radius:10px;border:1.5px solid '+bd+';background:'+bg+';color:'+col+';font-size:14px;font-weight:700;cursor:pointer;padding:0;">'+(i+1)+'</button>';
+         }).join("")+
+       '</div>'+
        '<div style="font-size:16px;font-weight:600;line-height:1.7;margin-bottom:'+(cur.img?"4px":"16px")+';">'+mfrac(cur.q)+'</div>'+
        (cur.img ? imgHTML(cur.img, 300) + '<div style="height:12px;"></div>' : "")+
        cur.choices.map(function(ch,ci){
          var ci_img = (cur.cimg||[])[ci];
+         var sel = q.picked[q.idx]===ci;   // ตัวเลือกที่เลือกไว้ (แก้ไขได้โดยแตะตัวใหม่)
          return '<div onclick="A.answer('+ci+')" style="display:'+(ci_img?"flex":"block")+';align-items:center;gap:10px;width:100%;text-align:left;padding:13px 14px;border-radius:12px;'+
-           'border:1px solid var(--c-border);background:var(--c-surface);font-size:14px;line-height:1.7;cursor:pointer;margin-bottom:9px;">'+
-           (isLetterCh(cur.choices) ? "" : '<span style="flex:none;font-weight:600;">'+(THL[ci]||"")+'.</span>')+
+           'border:1.5px solid '+(sel?"var(--pri)":"var(--c-border)")+';background:'+(sel?"var(--c-bg)":"var(--c-surface)")+';'+(sel?"box-shadow:inset 0 0 0 1px var(--pri);":"")+'font-size:14px;line-height:1.7;cursor:pointer;margin-bottom:9px;">'+
+           (isLetterCh(cur.choices) ? "" : '<span style="flex:none;font-weight:600;color:'+(sel?"var(--pri)":"inherit")+';">'+(THL[ci]||"")+'.</span>')+
            (ci_img ? '<img src="'+esc(ci_img)+'" alt="" loading="lazy" style="flex:none;max-height:96px;max-width:60%;border-radius:8px;background:var(--c-surface);">' : "")+
-           '<span style="flex:1;min-width:0;'+(isLetterCh(cur.choices)?"font-weight:700;font-size:16px;":"")+'">'+
+           '<span style="flex:1;min-width:0;'+(isLetterCh(cur.choices)?"font-weight:700;font-size:16px;":"")+(sel?"font-weight:700;":"")+'">'+
              (isLetterCh(cur.choices) ? esc(ch) : mfrac(ch))+'</span>'+
+           (sel?'<span style="flex:none;color:var(--pri);font-weight:800;font-size:16px;">✓</span>':"")+
          '</div>';
-       }).join("");
+       }).join("")+
+       // ปุ่มเลื่อนข้อ ก่อนหน้า/ถัดไป + ส่งคำตอบ (กดส่งได้ตลอด แก้ไขคำตอบได้ก่อนส่ง)
+       '<div style="display:flex;gap:9px;margin-top:8px;">'+
+         '<button class="btn ghost" style="flex:1;'+(q.idx<=0?"opacity:.4;pointer-events:none;":"")+'" onclick="A.prevQ()">← ก่อนหน้า</button>'+
+         '<button class="btn ghost" style="flex:1;'+(q.idx>=total-1?"opacity:.4;pointer-events:none;":"")+'" onclick="A.nextQ()">ถัดไป →</button>'+
+       '</div>'+
+       '<button class="btn" style="width:100%;margin-top:10px;" onclick="A.submitQuiz()">ส่งคำตอบ'+(left>0?' · ยังเหลือ '+left+' ข้อ':'')+'</button>';
   } else if(q.status==="result"){
     h+='<div style="text-align:center;padding:14px 0;">'+
          '<div class="mono" style="font-size:52px;font-weight:600;line-height:1;color:'+(q.passed?"#1E9E5A":"var(--pri)")+';">'+q.pct+'%</div>'+
@@ -2011,20 +2037,30 @@ var A={
     S.quiz=q; render();
     loadQuiz(sk,id,t.label,short(sk));
   },
-  answer:function(ci){
+  answer:function(ci){                       // เลือก/เปลี่ยนคำตอบข้อปัจจุบัน (ไม่เด้งไปข้อถัดไปเอง แก้ไขได้)
     var q=S.quiz;
     if(!q || q.status!=="active") return;
-    var cur=q.questions[q.idx];
-    q.correct += (ci===cur.answer ? 1 : 0);
-    q.picked=q.picked.concat([ci]);
-    if(q.idx+1 < q.questions.length){ q.idx++; render(); return; }
-    q.pct=Math.round(q.correct/q.questions.length*100);
-    q.passed=q.pct>=80;
-    q.status="result";
-    clearQuizTimer();
-    var sc=Object.assign({},S.scores); sc[q.topicId]=q.pct;
-    var kn=Object.assign({},S.know); if(q.passed) kn[q.topicId]=true;
-    set({scores:sc, know:kn});
+    q.picked[q.idx]=ci;
+    render();
+  },
+  goToQ:function(i){                         // แตะเลขข้อเพื่อข้ามไปทำข้อไหนก็ได้
+    var q=S.quiz;
+    if(!q || q.status!=="active" || i<0 || i>=q.questions.length) return;
+    q.idx=i; render();
+    var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0;
+  },
+  nextQ:function(){ var q=S.quiz; if(q && q.status==="active" && q.idx<q.questions.length-1){ q.idx++; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; } },
+  prevQ:function(){ var q=S.quiz; if(q && q.status==="active" && q.idx>0){ q.idx--; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; } },
+  submitQuiz:function(){
+    var q=S.quiz;
+    if(!q || q.status!=="active") return;
+    var left=q.picked.filter(function(x){ return x==null; }).length;
+    if(left>0 && !q._confirm){            // ยังมีข้อไม่ตอบ — ยืนยันก่อนส่ง
+      q._confirm=true;
+      toast("ยังเหลือ "+left+" ข้อที่ยังไม่ได้ตอบ — กด “ส่งคำตอบ” อีกครั้งเพื่อยืนยัน");
+      return;
+    }
+    finishQuiz(false);
   },
   closeQuiz:function(){ clearQuizTimer(); S.quiz=null; render(); },
   retryQuiz:function(){ var q=S.quiz; if(q) A.openQuiz(q.subjKey,q.topicId); },
@@ -2186,7 +2222,9 @@ function loadQuiz(sk,id,label,subjName){
 }
 function startQuiz(id,qs){
   if(!S.quiz || S.quiz.topicId!==id) return;
-  S.quiz.status="active"; S.quiz.questions=qs; S.quiz.idx=0; S.quiz.picked=[]; S.quiz.correct=0;
+  S.quiz.status="active"; S.quiz.questions=qs; S.quiz.idx=0;
+  S.quiz.picked=qs.map(function(){ return null; });   // ยาวเท่าจำนวนข้อ, null=ยังไม่ตอบ (ข้ามไปทำข้ออื่น/แก้ไขได้)
+  S.quiz.correct=0; S.quiz._confirm=false;
   S.quiz.totalMs = qs.length * SEC_PER_Q * 1000;   // ข้อละ 1.2 นาที ตามจำนวนข้อ
   S.quiz.deadline = Date.now() + S.quiz.totalMs;
   S.quiz.timeUp = false;
@@ -2224,19 +2262,25 @@ function startQuizTimer(){
     }
   },500);
 }
-function timeUpQuiz(){
+function gradeQuiz(){                       // นับข้อถูกจากคำตอบที่เลือกไว้ (ข้อที่ไม่ตอบ = ผิด)
+  var q=S.quiz, c=0;
+  for(var i=0;i<q.questions.length;i++){ if(q.picked[i]===q.questions[i].answer) c++; }
+  q.correct=c;
+  q.pct=Math.round(c/q.questions.length*100);
+  q.passed=q.pct>=80;
+}
+function finishQuiz(timeUp){
   clearQuizTimer();
   var q=S.quiz;
   if(!q || q.status!=="active") return;
-  while(q.picked.length < q.questions.length) q.picked.push(null);   // ข้อที่ยังไม่ตอบ = ผิด
-  q.pct=Math.round(q.correct/q.questions.length*100);
-  q.passed=q.pct>=80;
-  q.timeUp=true;
+  gradeQuiz();
+  q.timeUp=!!timeUp;
   q.status="result";
   var sc=Object.assign({},S.scores); sc[q.topicId]=q.pct;
   var kn=Object.assign({},S.know); if(q.passed) kn[q.topicId]=true;
   set({scores:sc, know:kn});
 }
+function timeUpQuiz(){ finishQuiz(true); }   // หมดเวลา = ส่งอัตโนมัติ
 function aiQuiz(sk,id,label,subjName){
   var prompt="คุณเป็นผู้ออกข้อสอบและติวเตอร์นายสิบตำรวจ (สายปราบปราม) ระดับสนามสอบจริง\n"+
     "สร้างคลังข้อสอบปรนัย 30-50 ข้อ หัวข้อ: \""+subjName+" — "+label+"\" ครอบคลุมหลายแง่มุมและห้ามซ้ำกัน\n"+
