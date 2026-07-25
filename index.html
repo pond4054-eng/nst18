@@ -1078,6 +1078,8 @@ function featuredVid(){
   });
   return found;
 }
+// ไอคอนประจำวิชา — สีคุมโทนเดียวกับแบรนด์ (var(--pri)/--priD) แยกวิชาด้วยไอคอน
+function subjIcon(k){ return {math:"🔢",eng:"🔤",thai:"📖",com:"💻",law:"⚖️",social:"🌏"}[k]||"📚"; }
 function viewStudy(c){
   // จอเล่นอยู่บนสุดตายตัว — เล่นสดเมื่อเลือกคลิป, ไม่งั้นเป็นคลิปแนะนำ/ดูต่อ
   var h=studyTopScreen()+'<div style="height:10px;"></div>';
@@ -1088,26 +1090,33 @@ function viewStudy(c){
          '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">เลือกวิชาที่จะเรียน</div>'+
          '<div class="muted" style="margin-bottom:12px;">เลือกวิชา → หัวข้อ → แตะคลิป แล้ววิดีโอจะเล่นบนจอด้านบน</div>'+
          '<div style="display:flex;flex-direction:column;gap:10px;">';
+    var P=PRI();
     subjects().forEach(function(su){
       var s=subjVidStats(su.k);
-      h+='<div onclick="A.openStudySubj(\''+su.k+'\')" style="display:flex;align-items:center;gap:12px;cursor:pointer;border:1px solid var(--c-border);border-radius:14px;padding:13px 14px;">'+
-           '<div style="flex:1;min-width:0;">'+
-             '<div style="font-size:14px;font-weight:700;line-height:1.25;">'+esc(short(su.k))+'</div>'+
-             '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:3px;">'+(s.total?(s.total+" คลิป · ดูจบ "+s.done+"/"+s.total):"ยังไม่มีวิดีโอ")+'</div>'+
+      h+='<div onclick="A.openStudySubj(\''+su.k+'\')" style="position:relative;overflow:hidden;display:flex;align-items:center;gap:13px;cursor:pointer;border:1px solid var(--c-border);border-radius:16px;padding:13px 14px;background:linear-gradient(135deg,'+P+'14,'+P+'06);">'+
+           // ลวดลายทันสมัย: วงกลมไล่เฉดโทนแบรนด์มุมการ์ด
+           '<div style="position:absolute;right:-24px;top:-24px;width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--priD));opacity:.13;"></div>'+
+           '<div style="position:absolute;right:16px;bottom:-18px;width:46px;height:46px;border-radius:50%;background:var(--pri);opacity:.08;"></div>'+
+           // ไอคอนวิชา (โทนแบรนด์)
+           '<div style="position:relative;width:46px;height:46px;flex:none;border-radius:14px;background:linear-gradient(135deg,var(--pri),var(--priD));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 12px '+P+'4D;">'+subjIcon(su.k)+'</div>'+
+           '<div style="position:relative;flex:1;min-width:0;">'+
+             '<div style="font-size:14.5px;font-weight:800;line-height:1.25;">'+esc(short(su.k))+'</div>'+
+             '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">'+(s.total?(s.total+" คลิป · ดูจบ "+s.done+"/"+s.total):"ยังไม่มีวิดีโอ")+'</div>'+
            '</div>'+
-           (s.total?'<div class="mono" style="flex:none;font-size:13px;font-weight:700;color:var(--pri);">'+s.pct+'%</div>':"")+
-           '<div style="flex:none;font-size:18px;color:var(--c-text-subtle);">›</div>'+
+           (s.total?'<div class="mono" style="position:relative;flex:none;font-size:14px;font-weight:800;color:var(--pri);">'+s.pct+'%</div>':"")+
+           '<div style="position:relative;flex:none;font-size:18px;color:var(--c-text-subtle);">›</div>'+
          '</div>';
     });
     h+='</div></div>';
   } else {
     // ── รายหัวข้อของวิชาที่เลือก — แตะคลิปเล่นบนจอบน
-    var sk=S.studySubj, s=subjVidStats(sk);
-    h+='<div class="card" style="display:flex;align-items:center;gap:12px;">'+
-         '<button class="btn sm ghost" onclick="A.backStudy()">◀ วิชา</button>'+
+    var sk=S.studySubj, s=subjVidStats(sk), P=PRI();
+    h+='<div class="card" style="display:flex;align-items:center;gap:11px;">'+
+         '<button class="btn sm ghost" style="flex:none;" onclick="A.backStudy()">◀</button>'+
+         '<div style="width:42px;height:42px;flex:none;border-radius:13px;background:linear-gradient(135deg,var(--pri),var(--priD));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 11px '+P+'4D;">'+subjIcon(sk)+'</div>'+
          '<div style="flex:1;min-width:0;">'+
-           '<div style="font-size:15px;font-weight:700;line-height:1.2;">'+esc(short(sk))+'</div>'+
-           '<div style="font-size:11.5px;color:var(--c-text-muted);">เลือกหัวข้อ/คลิปเพื่อเล่นบนจอด้านบน · ดูจบ '+s.done+'/'+s.total+' คลิป</div>'+
+           '<div style="font-size:15px;font-weight:800;line-height:1.2;">'+esc(short(sk))+'</div>'+
+           '<div style="font-size:11.5px;color:var(--c-text-muted);">เลือกคลิปเพื่อเล่นบนจอด้านบน · ดูจบ '+s.done+'/'+s.total+' คลิป</div>'+
          '</div>'+
        '</div>';
     var any=false;
@@ -1115,8 +1124,8 @@ function viewStudy(c){
       var vs=studyVids(t.id);
       if(!vs.length) return;
       any=true;
-      h+='<div class="card">'+
-           '<div style="font-size:13.5px;font-weight:700;margin-bottom:2px;">'+esc(t.label)+'</div>'+
+      h+='<div class="card" style="border-left:3px solid var(--pri);">'+
+           '<div style="font-size:13.5px;font-weight:700;margin-bottom:2px;color:var(--pri);">'+esc(t.label)+'</div>'+
            '<div style="display:flex;flex-direction:column;">'+
              vs.map(function(v,i){ return (i?'<div style="border-top:1px solid #F0F1F3;"></div>':"")+vidRow(v,""); }).join("")+
            '</div>'+
