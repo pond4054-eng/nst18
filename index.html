@@ -178,6 +178,15 @@
   /* วงเปอร์เซ็นต์แบบเปลวไฟ — แสงเรืองไหวระริกเหมือนไฟลุก */
   @keyframes flameflick{ 0%,100%{ filter:drop-shadow(0 0 2px var(--fl)); } 45%{ filter:drop-shadow(0 0 7px var(--fl)); } 70%{ filter:drop-shadow(0 0 4px var(--fl)); } }
   #ytmount, #ytmount iframe{ position:absolute; inset:0; width:100%!important; height:100%!important; border:0; }
+  /* จอวิดีโอล็อก — ปุ่มควบคุมของเราเอง (กันกดเข้าลิงก์/ก็อปลิงก์) */
+  .ytbtn{ appearance:none; -webkit-appearance:none; border:0; background:rgba(255,255,255,.16); color:#fff; width:38px; height:38px; border-radius:50%; font-size:13px; font-weight:800; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; backdrop-filter:blur(3px); transition:transform .1s, background .15s; }
+  .ytbtn:hover{ background:rgba(255,255,255,.26); }
+  .ytbtn:active{ transform:scale(.9); }
+  .ytbtn.play{ background:var(--pri); width:46px; height:46px; font-size:18px; box-shadow:0 3px 10px rgba(0,0,0,.35); }
+  .ytstage:fullscreen{ width:100vw; height:100vh; border-radius:0; background:#000; display:flex; align-items:center; justify-content:center; }
+  .ytstage:-webkit-full-screen{ width:100vw; height:100vh; border-radius:0; background:#000; display:flex; align-items:center; justify-content:center; }
+  .ytstage.ytfs{ position:fixed!important; inset:0!important; z-index:9999!important; border-radius:0!important; background:#000; display:flex!important; align-items:center; justify-content:center; }
+  .ytstage:fullscreen .ytwrap, .ytstage:-webkit-full-screen .ytwrap, .ytstage.ytfs .ytwrap{ padding-top:0!important; width:min(100%, calc(100vh * 16 / 9)); aspect-ratio:16 / 9; }
   .flamearc{ filter:drop-shadow(0 0 3px var(--fl)); animation:flameflick 1.5s ease-in-out infinite; }
   /* ไฟลุกที่ปลายแถบ: ลิ้นไฟลุกขึ้น-ลง + แสงเรืองหายใจ */
   @keyframes fltongue{ 0%,100%{ transform:scaleY(1) scaleX(1); opacity:.95; } 35%{ transform:scaleY(1.28) scaleX(.88); opacity:1; } 65%{ transform:scaleY(.86) scaleX(1.08); opacity:.9; } }
@@ -1135,14 +1144,31 @@ function studyTopScreen(){
     var pr=prog(p.id), saved=!!(S.saved||{})[p.id];
     var vs=studyVids(p.tid), i=vs.map(function(v){return v.id;}).indexOf(p.id), hasNext=i>=0 && i<vs.length-1;
     return ''+
-      '<div style="position:relative;background:#0E0F12;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.18);">'+
-        '<div style="position:relative;width:100%;padding-top:56.25%;">'+
+      '<div id="ytstage" class="ytstage" oncontextmenu="return false" style="position:relative;background:#0E0F12;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.18);">'+
+        '<div class="ytwrap" style="position:relative;width:100%;padding-top:56.25%;">'+
           (p.yt
             ? '<div id="ytmount" style="position:absolute;inset:0;"></div>'+
               '<div id="ytload" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9AA0A8;font-size:13px;pointer-events:none;">กำลังโหลดวิดีโอ…</div>'
             : '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#E4111F;"><div style="font-size:30px;">⚠️</div><div style="font-weight:700;margin-top:6px;">ลิงก์วิดีโอไม่ถูกต้อง</div></div>')+
         '</div>'+
-        '<div style="position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.22);z-index:5;"><div id="ytbar" style="height:100%;background:var(--pri);width:'+(pr.pct||0)+'%;transition:width .4s;"></div></div>'+
+        (p.yt
+          ? // ชั้นบังคลิก: กันกดทะลุไป YouTube/ก็อปลิงก์ · แตะ = เล่น/หยุด · โชว์ปุ่มเล่นกลางจอเวลาหยุด
+            '<div id="ytshield" onclick="A.ytToggle()" style="position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;background:transparent;transition:background .2s;">'+
+              '<div id="ytbigplay" style="width:70px;height:70px;border-radius:50%;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;backdrop-filter:blur(2px);"><span style="font-size:28px;color:#fff;margin-left:5px;">▶</span></div>'+
+            '</div>'+
+            // แถบควบคุมของเรา (สีแบรนด์)
+            '<div style="position:absolute;left:0;right:0;bottom:0;z-index:6;background:linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0));">'+
+              '<div style="height:3px;width:100%;background:rgba(255,255,255,.25);"><div id="ytbar" style="height:100%;background:var(--pri);width:'+(pr.pct||0)+'%;transition:width .3s;"></div></div>'+
+              '<div style="display:flex;align-items:center;gap:8px;padding:9px 12px 11px;box-sizing:border-box;">'+
+                '<button class="ytbtn" onclick="A.ytSeek(-10)" aria-label="ถอย 10 วินาที">«10</button>'+
+                '<button class="ytbtn play" onclick="A.ytToggle()" aria-label="เล่นหรือหยุด"><span id="ytplayicon">▶</span></button>'+
+                '<button class="ytbtn" onclick="A.ytSeek(10)" aria-label="เดินหน้า 10 วินาที">10»</button>'+
+                '<span id="yttime" class="mono" style="font-size:11.5px;color:#fff;opacity:.92;margin-left:5px;letter-spacing:.02em;">0:00</span>'+
+                '<div style="flex:1;"></div>'+
+                '<button class="ytbtn" onclick="A.ytFull()" aria-label="ขยายเต็มจอ">⤢</button>'+
+              '</div>'+
+            '</div>'
+          : "")+
       '</div>'+
       '<div style="margin-top:12px;">'+
         '<div style="font-size:11.5px;font-weight:600;letter-spacing:.03em;color:var(--pri);">'+esc(short(p.sk))+' · '+esc(topicLabelOf(p.tid))+'</div>'+
@@ -1200,10 +1226,19 @@ function saveProg(id, patch){
   pr[id]=Object.assign({sec:0,pct:0}, pr[id]||{}, patch, {at:new Date().toISOString()});
   S.progress=pr; save();     // ไม่ render เพื่อไม่ให้ iframe รีโหลด
 }
+function fmtSec(sec){ var s=Math.floor(sec||0); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
+function setYtUI(){                       // อัปเดตปุ่มเล่น/หยุด + ชั้นหรี่จอเวลาหยุด (ไม่ render)
+  if(!_yt.player || !_yt.player.getPlayerState) return;
+  var playing=_yt.player.getPlayerState()===1;
+  var ic=document.getElementById("ytplayicon"); if(ic) ic.textContent=playing?"⏸":"▶";
+  var big=document.getElementById("ytbigplay"); if(big) big.style.display=playing?"none":"flex";
+  var sh=document.getElementById("ytshield"); if(sh) sh.style.background=playing?"transparent":"rgba(0,0,0,.4)";
+}
 function pollProg(){
   if(!_yt.player || !_yt.player.getCurrentTime || !S.player) return;
   var cur=_yt.player.getCurrentTime()||0;
   var dur=(_yt.player.getDuration&&_yt.player.getDuration())||0;
+  var tEl=document.getElementById("yttime"); if(tEl) tEl.textContent=fmtSec(cur)+(dur>0?" / "+fmtSec(dur):"");
   if(dur>0){
     var pct=Math.max(0,Math.min(100,Math.round(cur/dur*100)));
     saveProg(S.player.id,{sec:cur,pct:pct});
@@ -1226,10 +1261,11 @@ function mountPlayer(){
     if(!document.getElementById("ytmount")) return;
     _yt.player=new YT.Player("ytmount",{
       width:"100%", height:"100%", videoId:p.yt,
-      playerVars:{ rel:0, modestbranding:1, playsinline:1, start:startSec },
+      // controls:0 + fs:0 + disablekb + iv_load_policy:3 → ซ่อนคอนโทรล/โลโก้/คำบรรยายของ YouTube (ใช้ปุ่มเราแทน)
+      playerVars:{ rel:0, modestbranding:1, playsinline:1, controls:0, fs:0, disablekb:1, iv_load_policy:3, start:startSec },
       events:{
-        onReady:function(e){ var l=document.getElementById("ytload"); if(l) l.style.display="none"; try{ e.target.playVideo(); }catch(_){} startPoll(); },
-        onStateChange:function(e){ if(e.data===1) startPoll(); else { pollProg(); if(e.data===2||e.data===0) stopPoll(); } }
+        onReady:function(e){ var l=document.getElementById("ytload"); if(l) l.style.display="none"; try{ e.target.playVideo(); }catch(_){} startPoll(); setYtUI(); },
+        onStateChange:function(e){ setYtUI(); if(e.data===1) startPoll(); else { pollProg(); if(e.data===2||e.data===0) stopPoll(); } }
       }
     });
   });
@@ -2179,6 +2215,26 @@ var A={
     S.saved=sv; save();     // ไม่ render เพื่อไม่ให้วิดีโอรีโหลด — อัปเดตปุ่มตรง ๆ
     var on=!!S.saved[id], btn=document.getElementById("savebtn");
     if(btn){ btn.textContent=on?"✓ บันทึกแล้ว":"บันทึกไว้"; btn.style.color=on?"var(--pri)":""; btn.style.borderColor=on?"var(--pri)":""; }
+  },
+  // ── ปุ่มควบคุมจอวิดีโอของเราเอง (จอถูกล็อก controls ของ YouTube) ──
+  ytToggle:function(){
+    if(!_yt.player || !_yt.player.getPlayerState) return;
+    if(_yt.player.getPlayerState()===1) _yt.player.pauseVideo(); else _yt.player.playVideo();
+    setTimeout(setYtUI,80);
+  },
+  ytSeek:function(sec){
+    if(!_yt.player || !_yt.player.getCurrentTime) return;
+    var t=(_yt.player.getCurrentTime()||0)+sec; if(t<0) t=0;
+    _yt.player.seekTo(t,true); pollProg();
+  },
+  ytFull:function(){
+    var st=document.getElementById("ytstage"); if(!st) return;
+    var fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+    if(fsEl){ (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); return; }
+    if(st.classList.contains("ytfs")){ st.classList.remove("ytfs"); document.body.style.overflow=""; return; }  // ออกจากโหมดสำรอง (iOS)
+    if(st.requestFullscreen){ st.requestFullscreen().catch(function(){ st.classList.add("ytfs"); document.body.style.overflow="hidden"; }); }
+    else if(st.webkitRequestFullscreen){ st.webkitRequestFullscreen(); }
+    else { st.classList.add("ytfs"); document.body.style.overflow="hidden"; }
   },
   theme:function(i){ set({theme:i}); },
   examDate:function(v){ set({examDate:v}); },
