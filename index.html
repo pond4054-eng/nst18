@@ -178,7 +178,14 @@
   /* วงเปอร์เซ็นต์แบบเปลวไฟ — แสงเรืองไหวระริกเหมือนไฟลุก */
   @keyframes flameflick{ 0%,100%{ filter:drop-shadow(0 0 2px var(--fl)); } 45%{ filter:drop-shadow(0 0 7px var(--fl)); } 70%{ filter:drop-shadow(0 0 4px var(--fl)); } }
   .flamearc{ filter:drop-shadow(0 0 3px var(--fl)); animation:flameflick 1.5s ease-in-out infinite; }
-  @media (prefers-reduced-motion:reduce){ .flamearc{ animation:none; } }
+  /* ไฟลุกที่ปลายแถบ: ลิ้นไฟลุกขึ้น-ลง + แสงเรืองหายใจ */
+  @keyframes fltongue{ 0%,100%{ transform:scaleY(1) scaleX(1); opacity:.95; } 35%{ transform:scaleY(1.28) scaleX(.88); opacity:1; } 65%{ transform:scaleY(.86) scaleX(1.08); opacity:.9; } }
+  @keyframes flhalo{ 0%,100%{ opacity:.45; transform:scale(1); } 50%{ opacity:.9; transform:scale(1.2); } }
+  @keyframes flcore{ 0%,100%{ opacity:.9; } 50%{ opacity:1; } }
+  .fltongue{ transform-box:fill-box; transform-origin:50% 100%; filter:drop-shadow(0 0 2px var(--fl)); animation:fltongue .85s ease-in-out infinite; }
+  .flhalo{ transform-box:fill-box; transform-origin:center; animation:flhalo 1.1s ease-in-out infinite; }
+  .flcore{ filter:drop-shadow(0 0 3px var(--fl)); animation:flcore .85s ease-in-out infinite; }
+  @media (prefers-reduced-motion:reduce){ .flamearc,.fltongue,.flhalo,.flcore{ animation:none; } }
   .x{ width:32px; height:32px; flex:none; border-radius:9px; border:1px solid var(--c-border); background:var(--c-surface); color:var(--c-text-muted); cursor:pointer; font-size:14px; }
 
   /* ───── กระดาษข้อสอบเสมือนจริง ───── */
@@ -946,19 +953,34 @@ function ring(pct,color,label,st){
   var C=2*Math.PI*46;
   var p=Math.max(0,Math.min(100, pct||0));
   var f=FLAME[color]||{ base:color, g0:color, g1:color, g2:color, glow:color };
-  var uid="flame"+(++_flN);
+  var uid="flame"+(++_flN), hid=uid+"h";
+  // ตำแหน่ง "ปลาย" ของแถบ (หัวความคืบหน้า) — เริ่มที่ 12 นาฬิกา วนตามเข็ม
+  var th=2*Math.PI*(p/100);
+  var tx=54+46*Math.sin(th), ty=54-46*Math.cos(th);
+  var flameTip = p>0
+    ? '<g transform="translate('+tx.toFixed(2)+','+ty.toFixed(2)+')" style="--fl:'+f.glow+';">'+
+        '<circle class="flhalo" r="9" fill="url(#'+hid+')"></circle>'+
+        '<path class="fltongue" d="M0,-10 C5.2,-4 4.2,2.6 0,5.2 C-4.2,2.6 -5.2,-4 0,-10 Z" fill="url(#'+uid+')"></path>'+
+        '<circle class="flcore" r="2.6" fill="'+f.g0+'"></circle>'+
+      '</g>'
+    : '';
   return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">'+
     '<div style="position:relative;width:108px;height:108px;">'+
-      '<svg width="108" height="108" viewBox="0 0 108 108">'+
+      '<svg width="108" height="108" viewBox="0 0 108 108" style="overflow:visible;">'+
         '<defs><linearGradient id="'+uid+'" x1="0" y1="1" x2="0" y2="0">'+
           '<stop offset="0%" stop-color="'+f.g2+'"></stop>'+
           '<stop offset="55%" stop-color="'+f.g1+'"></stop>'+
           '<stop offset="100%" stop-color="'+f.g0+'"></stop>'+
-        '</linearGradient></defs>'+
+        '</linearGradient>'+
+        '<radialGradient id="'+hid+'">'+
+          '<stop offset="0%" stop-color="'+f.glow+'" stop-opacity="0.85"></stop>'+
+          '<stop offset="100%" stop-color="'+f.glow+'" stop-opacity="0"></stop>'+
+        '</radialGradient></defs>'+
         '<circle cx="54" cy="54" r="46" fill="none" stroke="var(--c-border)" stroke-width="10"></circle>'+
         '<circle class="flamearc" cx="54" cy="54" r="46" fill="none" stroke="url(#'+uid+')" stroke-width="10" stroke-linecap="round" '+
           'stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-p/100))+'" transform="rotate(-90 54 54)" '+
           'style="--fl:'+f.glow+';transition:stroke-dashoffset .6s;"></circle>'+
+        flameTip+
       '</svg>'+
       '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
         '<span class="mono" style="font-size:26px;font-weight:700;color:'+f.base+';">'+pct+'</span>'+
