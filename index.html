@@ -177,6 +177,7 @@
   @media (prefers-reduced-motion:reduce){ #quizTimerBar.tmup{ animation:none; } }
   /* วงเปอร์เซ็นต์แบบเปลวไฟ — แสงเรืองไหวระริกเหมือนไฟลุก */
   @keyframes flameflick{ 0%,100%{ filter:drop-shadow(0 0 2px var(--fl)); } 45%{ filter:drop-shadow(0 0 7px var(--fl)); } 70%{ filter:drop-shadow(0 0 4px var(--fl)); } }
+  #ytmount, #ytmount iframe{ position:absolute; inset:0; width:100%!important; height:100%!important; border:0; }
   .flamearc{ filter:drop-shadow(0 0 3px var(--fl)); animation:flameflick 1.5s ease-in-out infinite; }
   /* ไฟลุกที่ปลายแถบ: ลิ้นไฟลุกขึ้น-ลง + แสงเรืองหายใจ */
   @keyframes fltongue{ 0%,100%{ transform:scaleY(1) scaleX(1); opacity:.95; } 35%{ transform:scaleY(1.28) scaleX(.88); opacity:1; } 65%{ transform:scaleY(.86) scaleX(1.08); opacity:.9; } }
@@ -486,7 +487,7 @@ function defState(){
     selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
-    videos:{}, watched:{}, studySubj:null };
+    videos:{}, progress:{}, saved:{}, studySubj:null };
 }
 function load(){
   var saved={};
@@ -827,6 +828,9 @@ function render(){
   else v.innerHTML=viewReady();
   v.scrollTop=top;
 
+  // เครื่องเล่นวิดีโอ (ติวเนื้อหา) — สร้าง/คงไว้หลังวาดหน้า; ถ้าไม่ได้อยู่หน้าเล่นหรือมีแผงซ้อนทับ ก็ทำลายทิ้ง
+  if(S.tab==="study" && S.player && !S.adminOpen && !S.quiz && !S.mock) mountPlayer(); else destroyPlayer();
+
   renderOverlays();
 }
 
@@ -1000,10 +1004,12 @@ function videoIndex(){                       // id → {v, tid, sk} สำหร
   });
   return idx;
 }
+function prog(id){ return (S.progress||{})[id]||{sec:0,pct:0,at:null}; }
+function isDone(id){ return (prog(id).pct||0) >= 90; }   // ดูจบ ~90% ขึ้นไป = เรียนจบ
 function subjVidStats(sk){
-  var total=0, done=0, w=S.watched||{};
+  var total=0, done=0;
   (S.topics[sk]||[]).forEach(function(t){
-    studyVids(t.id).forEach(function(v){ total++; if(w[v.id]) done++; });
+    studyVids(t.id).forEach(function(v){ total++; if(isDone(v.id)) done++; });
   });
   return { total:total, done:done, pct: total?Math.round(done/total*100):0 };
 }
@@ -1013,8 +1019,8 @@ function allVidStats(){
   return { total:total, done:done, pct: total?Math.round(done/total*100):0 };
 }
 function learnHistory(){
-  var idx=videoIndex(), w=S.watched||{}, arr=[];
-  Object.keys(w).forEach(function(id){ if(idx[id]) arr.push({ id:id, at:w[id], v:idx[id].v, sk:idx[id].sk }); });
+  var idx=videoIndex(), pr=S.progress||{}, arr=[];
+  Object.keys(pr).forEach(function(id){ if(idx[id] && pr[id] && pr[id].at) arr.push({ id:id, at:pr[id].at, v:idx[id].v, sk:idx[id].sk, pct:pr[id].pct||0 }); });
   arr.sort(function(a,b){ return a.at<b.at?1:(a.at>b.at?-1:0); });
   return arr;
 }
@@ -1028,17 +1034,21 @@ function relTime(iso){
   var d=new Date(iso); return d.getDate()+"/"+(d.getMonth()+1);
 }
 function vidRow(v, subLabel){
-  var done=!!(S.watched||{})[v.id];
+  var pr=prog(v.id), done=isDone(v.id), started=(pr.pct||0)>0;
+  var badge = done ? '<div style="flex:none;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:#1E9E5A;color:#fff;">เรียนจบ ✓</div>'
+            : started ? '<div class="mono" style="flex:none;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:color-mix(in srgb, '+PRI()+' 14%, #fff);color:var(--pri);">ดูแล้ว '+pr.pct+'%</div>'
+            : '<div style="flex:none;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:#F4F6F9;color:var(--c-text-muted);">ยังไม่เรียน</div>';
   return '<div onclick="A.playVideo(\''+v.id+'\')" style="display:flex;align-items:center;gap:11px;cursor:pointer;padding:10px 0;">'+
     '<div style="width:44px;height:44px;flex:none;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;background:color-mix(in srgb, '+PRI()+' 13%, #fff);color:var(--pri);">▶</div>'+
     '<div style="flex:1;min-width:0;">'+
       '<div style="font-size:13.5px;font-weight:600;line-height:1.3;'+(done?"color:var(--c-text-subtle);":"")+'">'+esc(v.title)+'</div>'+
       '<div style="font-size:11.5px;color:var(--c-text-muted);">'+esc(subLabel||"")+(v.dur?(subLabel?" · ":"")+esc(v.dur):"")+'</div>'+
     '</div>'+
-    '<div style="flex:none;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;'+(done?"background:#1E9E5A;color:#fff;":"background:#F4F6F9;color:var(--c-text-muted);")+'">'+(done?"เรียนแล้ว ✓":"ยังไม่เรียน")+'</div>'+
+    badge+
   '</div>';
 }
 function viewStudy(c){
+  if(S.player) return playerPage();
   var h="";
   var all=allVidStats();
 
@@ -1120,28 +1130,113 @@ function viewStudy(c){
   }
   return '<div class="stack">'+h+'</div>';
 }
-function videoSheet(){
-  var p=S.player;
-  var src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(p.yt)+"?rel=0&modestbranding=1&playsinline=1&autoplay=1";
-  return '<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);">'+
-       '<div class="sheethead">'+
-         '<div style="flex:1;min-width:0;">'+
-           '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">'+esc(short(p.sk||""))+' · วิดีโอเรียนเนื้อหา</div>'+
-           '<div style="font-size:15px;font-weight:700;line-height:1.25;">'+esc(p.title)+'</div>'+
-         '</div>'+
-         '<button class="x" onclick="A.closeVideo()">✕</button>'+
-       '</div>'+
-       '<div class="sheetbody">'+
-         (p.yt
-           ? '<div style="position:relative;width:100%;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#000;">'+
-               '<iframe src="'+src+'" title="'+esc(p.title)+'" style="position:absolute;inset:0;width:100%;height:100%;border:0;" '+
-               'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>'+
-             '</div>'+
-             '<div style="margin-top:12px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:#1E9E5A;font-weight:600;"><span>✓</span><span>บันทึกลงประวัติการเรียนและความคืบหน้าแล้ว</span></div>'+
-             '<div style="margin-top:6px;font-size:11.5px;color:var(--c-text-subtle);line-height:1.6;">เล่นวิดีโอต้องต่ออินเทอร์เน็ต · ถ้าเล่นไม่ได้ให้ตรวจว่าลิงก์เปิดสาธารณะและอนุญาตให้ฝังได้</div>'
-           : '<div style="text-align:center;padding:30px 16px;color:var(--pri);"><div style="font-size:32px;margin-bottom:8px;">⚠️</div><div style="font-weight:700;">ลิงก์วิดีโอไม่ถูกต้อง</div></div>')+
-       '</div>'+
-     '</div></div>';
+// หน้าเล่นวิดีโอแบบเต็มหน้า (โหมดติวเนื้อหา)
+function topicLabelOf(tid){
+  var found="";
+  subjects().forEach(function(su){ (S.topics[su.k]||[]).forEach(function(t){ if(t.id===tid) found=t.label; }); });
+  return found;
+}
+function playerPage(){
+  var p=S.player, pr=prog(p.id);
+  var vs=studyVids(p.tid), i=vs.map(function(v){return v.id;}).indexOf(p.id);
+  var hasNext = i>=0 && i<vs.length-1;
+  var upnext = vs.filter(function(v,j){ return j!==i; });
+  var saved = !!(S.saved||{})[p.id];
+  var metaTxt=(p.dur?esc(p.dur)+" · ":"")+"ดูแล้ว "+(pr.pct||0)+"% · บันทึกตำแหน่งล่าสุดอัตโนมัติ";
+  var h=''+
+    // วิดีโอ + ปุ่มกลับ + แถบความคืบหน้า
+    '<div style="position:relative;background:#0E0F12;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.18);">'+
+      '<div style="position:relative;width:100%;padding-top:56.25%;">'+
+        (p.yt
+          ? '<div id="ytmount" style="position:absolute;inset:0;"></div>'+
+            '<div id="ytload" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9AA0A8;font-size:13px;pointer-events:none;">กำลังโหลดวิดีโอ…</div>'
+          : '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#E4111F;"><div style="font-size:30px;">⚠️</div><div style="font-weight:700;margin-top:6px;">ลิงก์วิดีโอไม่ถูกต้อง</div></div>')+
+      '</div>'+
+      '<button onclick="A.closeVideo()" style="position:absolute;top:12px;left:12px;z-index:6;background:rgba(0,0,0,.55);color:#fff;border:0;border-radius:999px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;backdrop-filter:blur(4px);">← กลับ</button>'+
+      '<div style="position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.22);z-index:5;"><div id="ytbar" style="height:100%;background:var(--pri);width:'+(pr.pct||0)+'%;transition:width .4s;"></div></div>'+
+    '</div>'+
+    // ชื่อ + เมทา
+    '<div style="margin-top:16px;">'+
+      '<div style="font-size:12px;font-weight:600;letter-spacing:.03em;color:var(--pri);">'+esc(short(p.sk))+' · '+esc(topicLabelOf(p.tid))+'</div>'+
+      '<div style="font-size:20px;font-weight:800;line-height:1.3;margin-top:5px;">'+esc(p.title)+'</div>'+
+      '<div id="ytmeta" style="font-size:12.5px;color:var(--c-text-muted);margin-top:7px;">'+metaTxt+'</div>'+
+    '</div>'+
+    // ปุ่ม เรียนบทถัดไป / บันทึกไว้
+    '<div style="display:flex;gap:12px;margin-top:16px;">'+
+      '<button class="btn" style="flex:1;'+(hasNext?'':'opacity:.45;pointer-events:none;')+'" onclick="A.nextLesson()">เรียนบทถัดไป</button>'+
+      '<button id="savebtn" class="btn ghost" style="flex:none;'+(saved?'color:var(--pri);border-color:var(--pri);':'')+'" onclick="A.toggleSaved(\''+p.id+'\')">'+(saved?'✓ บันทึกแล้ว':'บันทึกไว้')+'</button>'+
+    '</div>'+
+    // สรุปเนื้อหา
+    (p.desc
+      ? '<div class="card" style="margin-top:16px;"><div style="font-size:11px;font-weight:700;color:var(--c-text-muted);letter-spacing:.04em;margin-bottom:6px;">สรุปเนื้อหา</div><div style="font-size:14px;line-height:1.8;color:var(--c-text);white-space:pre-wrap;">'+esc(p.desc)+'</div></div>'
+      : '')+
+    // ถัดไปในบทนี้
+    (upnext.length
+      ? '<div style="margin-top:20px;">'+
+          '<div style="font-size:13px;font-weight:700;color:var(--c-text-muted);margin-bottom:10px;">ถัดไปในบทนี้</div>'+
+          '<div style="display:flex;flex-direction:column;gap:10px;">'+
+            upnext.map(function(v){
+              return '<div onclick="A.playVideo(\''+v.id+'\')" style="display:flex;align-items:center;gap:12px;cursor:pointer;border:1px solid var(--c-border);border-radius:14px;padding:10px 12px;background:var(--c-surface);">'+
+                '<div style="width:54px;height:40px;flex:none;border-radius:9px;background:linear-gradient(135deg,#2a2a2e,#3d3d44);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;">▶</div>'+
+                '<div style="flex:1;min-width:0;font-size:13.5px;font-weight:600;line-height:1.3;">'+esc(v.title)+(isDone(v.id)?' <span style="color:#1E9E5A;">✓</span>':'')+'</div>'+
+                '<div class="mono" style="flex:none;font-size:12px;color:var(--c-text-subtle);">'+esc(v.dur||"")+'</div>'+
+              '</div>';
+            }).join("")+
+          '</div>'+
+        '</div>'
+      : '')+
+    '<div style="height:8px;"></div>';
+  return '<div class="stack">'+h+'</div>';
+}
+
+/* ── YouTube IFrame API (ฟรี ไม่ต้องมี API key) — ทำ % ที่ดูจริง + จำตำแหน่งล่าสุด ── */
+var _yt={ player:null, vid:null, poll:0, apiReq:false };
+function ensureYTApi(cb){
+  if(window.YT && window.YT.Player){ cb(); return; }
+  window.onYouTubeIframeAPIReady=function(){ cb(); };
+  if(!_yt.apiReq){
+    _yt.apiReq=true;
+    var s=document.createElement("script"); s.src="https://www.youtube.com/iframe_api"; document.head.appendChild(s);
+  }
+}
+function saveProg(id, patch){
+  var pr=Object.assign({}, S.progress||{});
+  pr[id]=Object.assign({sec:0,pct:0}, pr[id]||{}, patch, {at:new Date().toISOString()});
+  S.progress=pr; save();     // ไม่ render เพื่อไม่ให้ iframe รีโหลด
+}
+function pollProg(){
+  if(!_yt.player || !_yt.player.getCurrentTime || !S.player) return;
+  var cur=_yt.player.getCurrentTime()||0;
+  var dur=(_yt.player.getDuration&&_yt.player.getDuration())||0;
+  if(dur>0){
+    var pct=Math.max(0,Math.min(100,Math.round(cur/dur*100)));
+    saveProg(S.player.id,{sec:cur,pct:pct});
+    var bar=document.getElementById("ytbar"); if(bar) bar.style.width=pct+"%";
+    var mp=document.getElementById("ytmeta"); if(mp) mp.textContent=(S.player.dur?S.player.dur+" · ":"")+"ดูแล้ว "+pct+"% · บันทึกตำแหน่งล่าสุดอัตโนมัติ";
+  }
+}
+function startPoll(){ stopPoll(); _yt.poll=setInterval(pollProg,1500); }
+function stopPoll(){ if(_yt.poll){ clearInterval(_yt.poll); _yt.poll=0; } }
+function destroyPlayer(){ stopPoll(); if(_yt.player && _yt.player.destroy){ try{ _yt.player.destroy(); }catch(e){} } _yt.player=null; _yt.vid=null; }
+function mountPlayer(){
+  var p=S.player; if(!p || !p.yt) return;
+  var el=document.getElementById("ytmount"); if(!el) return;
+  if(el.tagName==="IFRAME" && _yt.player && _yt.vid===p.id) return;   // ยังเล่นอยู่ ไม่ต้องสร้างใหม่
+  destroyPlayer();
+  _yt.vid=p.id;
+  var startSec=Math.floor(prog(p.id).sec||0);
+  ensureYTApi(function(){
+    if(!S.player || S.player.id!==p.id) return;
+    if(!document.getElementById("ytmount")) return;
+    _yt.player=new YT.Player("ytmount",{
+      width:"100%", height:"100%", videoId:p.yt,
+      playerVars:{ rel:0, modestbranding:1, playsinline:1, start:startSec },
+      events:{
+        onReady:function(e){ var l=document.getElementById("ytload"); if(l) l.style.display="none"; try{ e.target.playVideo(); }catch(_){} startPoll(); },
+        onStateChange:function(e){ if(e.data===1) startPoll(); else { pollProg(); if(e.data===2||e.data===0) stopPoll(); } }
+      }
+    });
+  });
 }
 
 /* ───── ฝึกพละ ───── */
@@ -1440,7 +1535,6 @@ function renderOverlays(){
   if(S.quiz) h+=quizSheet();
   if(S.adminOpen) h+=adminSheet();
   if(S.mock) h+=mockSheet();
-  if(S.player) h+=videoSheet();
   o.innerHTML=h;
   [].forEach.call(o.querySelectorAll(".sheetbody"), function(el,i){
     if(keep[i]) el.scrollTop=keep[i];
@@ -2010,7 +2104,9 @@ function adminSheet(){
            '<input class="in" value="'+esc(vd.url)+'" oninput="A.vidField(\'url\',this.value);A.vidPv(this.value)" placeholder="https://youtu.be/xxxxxxxxxxx" style="width:100%;margin:5px 0 6px;padding:10px;">'+
            '<div id="vidpv" style="font-size:11.5px;color:'+(pvYt?"#1E9E5A":"var(--c-text-subtle)")+';margin-bottom:12px;">'+(pvYt?("✓ อ่านรหัสวิดีโอได้: "+pvYt):"วางลิงก์ YouTube (watch / youtu.be / shorts)")+'</div>'+
            '<label style="font-size:12px;color:var(--c-text-muted);">ความยาว (ไม่บังคับ)</label>'+
-           '<input class="in" value="'+esc(vd.dur||"")+'" oninput="A.vidField(\'dur\',this.value)" placeholder="เช่น 12:30" style="width:100%;margin:5px 0 4px;padding:10px;">'+
+           '<input class="in" value="'+esc(vd.dur||"")+'" oninput="A.vidField(\'dur\',this.value)" placeholder="เช่น 12:30" style="width:100%;margin:5px 0 12px;padding:10px;">'+
+           '<label style="font-size:12px;color:var(--c-text-muted);">สรุปเนื้อหา (ไม่บังคับ)</label>'+
+           '<textarea oninput="A.vidField(\'desc\',this.value)" placeholder="สรุปสั้น ๆ ว่าคลิปนี้สอนอะไร ขึ้นบรรทัดใหม่ได้" style="width:100%;margin:5px 0 4px;padding:10px;border:1px solid var(--c-border);border-radius:10px;font-size:13.5px;line-height:1.6;min-height:74px;resize:vertical;">'+esc(vd.desc||"")+'</textarea>'+
            '<div style="display:flex;gap:10px;margin-top:16px;">'+
              '<button class="btn ghost" style="flex:1;" onclick="A.cancelVideo()">ยกเลิก</button>'+
              '<button class="btn" style="flex:1;" onclick="A.saveVideo()">บันทึก</button>'+
@@ -2042,17 +2138,32 @@ function adminSheet(){
 
 /* ═══════════ ACTIONS ═══════════ */
 var A={
-  tab:function(k){ set({tab:k}); document.getElementById("view").scrollTop=0; },
+  tab:function(k){ if(S.player){ destroyPlayer(); S.player=null; } set({tab:k}); document.getElementById("view").scrollTop=0; },
   // ── ติวหนังสือ (นักเรียน) ──
   openStudySubj:function(sk){ S.studySubj=sk; render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; },
   backStudy:function(){ S.studySubj=null; render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; },
   playVideo:function(id){
     var e=videoIndex()[id]; if(!e) return;
-    var w=Object.assign({},S.watched); w[id]=new Date().toISOString();   // บันทึกประวัติ+ความคืบหน้า
-    S.player={ id:id, title:e.v.title, yt:e.v.yt||ytId(e.v.url), sk:e.sk };
-    set({watched:w});   // save + render (renderOverlays จะเปิดเครื่องเล่น)
+    destroyPlayer();
+    S.player={ id:id, title:e.v.title, yt:e.v.yt||ytId(e.v.url), sk:e.sk, tid:e.tid, desc:e.v.desc||"", dur:e.v.dur||"" };
+    saveProg(id,{});    // แตะเวลาเข้าประวัติ (ไม่ render)
+    render();           // วาดหน้าเล่น แล้ว render จะเรียก mountPlayer เอง
+    var v=document.getElementById("view"); if(v) v.scrollTop=0;
   },
-  closeVideo:function(){ S.player=null; render(); },
+  closeVideo:function(){ destroyPlayer(); S.player=null; render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; },
+  nextLesson:function(){
+    var p=S.player; if(!p) return;
+    var vs=studyVids(p.tid), i=vs.map(function(v){return v.id;}).indexOf(p.id);
+    if(i>=0 && i<vs.length-1) A.playVideo(vs[i+1].id);
+    else toast("นี่คือคลิปสุดท้ายในหัวข้อนี้แล้ว");
+  },
+  toggleSaved:function(id){
+    var sv=Object.assign({},S.saved||{});
+    if(sv[id]) delete sv[id]; else sv[id]=true;
+    S.saved=sv; save();     // ไม่ render เพื่อไม่ให้วิดีโอรีโหลด — อัปเดตปุ่มตรง ๆ
+    var on=!!S.saved[id], btn=document.getElementById("savebtn");
+    if(btn){ btn.textContent=on?"✓ บันทึกแล้ว":"บันทึกไว้"; btn.style.color=on?"var(--pri)":""; btn.style.borderColor=on?"var(--pri)":""; }
+  },
   theme:function(i){ set({theme:i}); },
   examDate:function(v){ set({examDate:v}); },
   start:function(v){ set({studyStart:v}); },
@@ -2196,8 +2307,8 @@ var A={
   backPanel:function(){ S.adminView="panel"; S.adminDraft=null; S.vidDraft=null; render(); },
   // ── จัดการวิดีโอติวหนังสือ (แอดมิน) ──
   openVideos:function(sk,tid){ S.adminView="videos"; S.adminSubj=sk; S.adminTopic=tid; S.vidDraft=null; render(); },
-  newVideo:function(){ S.vidDraft={ index:null, title:"", url:"", dur:"" }; render(); },
-  editVideo:function(i){ var v=studyVids(S.adminTopic)[i]; if(!v) return; S.vidDraft={ index:i, title:v.title||"", url:v.url||"", dur:v.dur||"" }; render(); },
+  newVideo:function(){ S.vidDraft={ index:null, title:"", url:"", dur:"", desc:"" }; render(); },
+  editVideo:function(i){ var v=studyVids(S.adminTopic)[i]; if(!v) return; S.vidDraft={ index:i, title:v.title||"", url:v.url||"", dur:v.dur||"", desc:v.desc||"" }; render(); },
   vidField:function(f,val){ if(S.vidDraft) S.vidDraft[f]=val; },
   vidPv:function(val){ var el=document.getElementById("vidpv"); if(!el) return; var y=ytId(val);
     el.textContent = y ? ("✓ อ่านรหัสวิดีโอได้: "+y) : "วางลิงก์ YouTube (watch / youtu.be / shorts)";
@@ -2210,7 +2321,7 @@ var A={
     if(!yt){ alert("ลิงก์ YouTube ไม่ถูกต้อง\nวางลิงก์แบบ https://youtu.be/xxxx หรือ https://www.youtube.com/watch?v=xxxx"); return; }
     var arr=studyVids(S.adminTopic).slice();
     var id=(d.index==null)? "v"+Date.now().toString(36)+Math.floor(Math.random()*46656).toString(36) : arr[d.index].id;
-    var obj={ id:id, title:String(d.title).trim(), url:String(d.url).trim(), yt:yt, dur:String(d.dur||"").trim() };
+    var obj={ id:id, title:String(d.title).trim(), url:String(d.url).trim(), yt:yt, dur:String(d.dur||"").trim(), desc:String(d.desc||"").trim() };
     if(d.index==null) arr.push(obj); else arr[d.index]=obj;
     var vids=Object.assign({},S.videos); vids[S.adminTopic]=arr;
     S.vidDraft=null;
@@ -2479,7 +2590,7 @@ function syncContent(){
       // คำสั่งรีเซ็ตจากครู: ถ้า resetToken บนเว็บใหม่กว่าที่เครื่องนี้เคยทำ → ล้างความคืบหน้ากลับค่าเริ่มต้น 1 ครั้ง
       var rt=d.resetToken||0;
       if(rt > (S.resetAppliedToken||0)){
-        set({ scores:{}, know:{}, done:{}, watched:{}, resetAppliedToken:rt });
+        set({ scores:{}, know:{}, done:{}, progress:{}, resetAppliedToken:rt });
         toast("ครูรีเซ็ตความคืบหน้าใหม่ทั้งหมดแล้ว — เริ่มต้นใหม่ได้เลย");
       }
       var v=d.version||0, newer = v!==(S.contentVersion||0);
@@ -2515,7 +2626,7 @@ function abortQuizOnSwitch(){
 var lastSyncAt = 0;
 function maybeSync(){
   if(!isActivated()) return;                    // ยังไม่ได้เปิดใช้งาน
-  if(S.quiz || S.adminOpen || S.mock) return;   // ทำข้อสอบ/แอดมิน/กำลังดูชุดข้อสอบ อย่ารบกวน
+  if(S.quiz || S.adminOpen || S.mock || S.player) return;   // ทำข้อสอบ/แอดมิน/ดูชุดข้อสอบ/ดูวิดีโอ อย่ารบกวน
   if(Date.now()-lastSyncAt < 30000) return;     // เพิ่งเช็คไปไม่ถึงครึ่งนาที
   lastSyncAt = Date.now();
   syncContent();
@@ -2528,7 +2639,7 @@ function startApp(){
   lastSyncAt = Date.now();
   syncContent();
   setInterval(function(){
-    if(!S.quiz && !S.adminOpen && !S.mock) render();
+    if(!S.quiz && !S.adminOpen && !S.mock && !S.player) render();
   },60000);
   document.addEventListener("visibilitychange",function(){
     if(document.visibilityState==="hidden") abortQuizOnSwitch();
