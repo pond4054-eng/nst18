@@ -285,6 +285,9 @@
   <p class="note">รหัสนี้ผูกกับเครื่องนี้หลังเปิดใช้งาน<br>ถ้ารหัสมีปัญหา ติดต่อสถาบันที่ซื้อมา</p>
 </div>
 
+<!-- ══════════ หน้าเชิญติดตั้งลงหน้าจอ (หลังกรอกรหัสผ่าน) ══════════ -->
+<div class="gate" id="install" hidden></div>
+
 <!-- ══════════ ตัวแอป ══════════ -->
 <div class="shell" id="app" hidden>
   <div class="statusbar">
@@ -2786,6 +2789,56 @@ function startApp(){
   window.addEventListener("online", maybeSync);
   document.getElementById("brandtap").onclick=function(){ A.openAdmin(); };
 }
+/* ── เชิญติดตั้งลงหน้าจอ (หลังกรอกรหัสผ่าน) ── */
+var deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",function(e){ e.preventDefault(); deferredPrompt=e; });
+window.addEventListener("appinstalled",function(){ deferredPrompt=null; });
+function isStandalone(){
+  return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone===true;
+}
+function isIOSDevice(){
+  var ua=navigator.userAgent||"";
+  return /iPad|iPhone|iPod/.test(ua) || ((/Macintosh/.test(ua)) && navigator.maxTouchPoints>1);
+}
+function proceedToApp(){ document.getElementById("install").hidden=true; startApp(); }
+function showInstallScreen(){
+  var el=document.getElementById("install");
+  var ios=isIOSDevice(), canPrompt=!!deferredPrompt;
+  function step(n,txt){
+    return '<div style="display:flex;gap:12px;align-items:flex-start;">'+
+      '<div style="flex:none;width:24px;height:24px;border-radius:50%;background:var(--pri);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;">'+n+'</div>'+
+      '<div style="flex:1;font-size:13.5px;line-height:1.55;padding-top:1px;">'+txt+'</div></div>';
+  }
+  var h='';
+  h+='<img src="icons/icon-192.png" alt="" style="width:80px;height:80px;border-radius:20px;display:block;margin:0 auto 16px;box-shadow:0 12px 30px rgba(164,0,1,.3);">'+
+     '<h1>ติดตั้งแอปลงหน้าจอ</h1>'+
+     '<p class="sub">เปิดใช้ง่าย เร็ว ใช้ได้แม้ไม่มีเน็ต — เหมือนแอปจริงในเครื่อง</p>';
+  if(ios){
+    h+='<div style="display:flex;flex-direction:column;gap:14px;text-align:left;background:rgba(255,255,255,.75);border:1px solid var(--c-border);border-radius:16px;padding:16px 18px;">'+
+         step(1,'แตะปุ่ม <b>แชร์</b> <span style="display:inline-block;border:1.5px solid var(--pri);border-radius:5px;padding:0 4px;color:var(--pri);font-weight:800;">↑</span> ที่แถบด้านล่างของ Safari')+
+         step(2,'เลื่อนหา <b>“เพิ่มไปยังหน้าจอโฮม”</b> แล้วแตะ')+
+         step(3,'แตะ <b>“เพิ่ม”</b> มุมขวาบน — เสร็จเลย!')+
+       '</div>'+
+       '<p class="note" style="margin-top:14px;">* ต้องเปิดใน Safari เท่านั้น — ถ้าเปิดในไลน์/เฟซบุ๊ก ให้แตะ ⋯ มุมขวาบน → “เปิดใน Safari” ก่อน</p>';
+  } else if(canPrompt){
+    h+='<button class="btn" id="doInstall" type="button" style="width:100%;padding:14px;font-size:15px;">📲 ติดตั้งแอปเลย</button>';
+  } else {
+    h+='<div style="text-align:left;background:rgba(255,255,255,.75);border:1px solid var(--c-border);border-radius:16px;padding:16px 18px;font-size:13.5px;line-height:1.8;">'+
+         'แตะเมนู <b>⋮</b> มุมขวาบนของเบราว์เซอร์ → เลือก <b>“ติดตั้งแอป”</b> หรือ <b>“เพิ่มลงในหน้าจอหลัก”</b>'+
+       '</div>';
+  }
+  h+='<button class="btn ghost" type="button" onclick="proceedToApp()" style="width:100%;margin-top:12px;">ข้ามไปก่อน เริ่มใช้เลย →</button>';
+  el.innerHTML=h;
+  document.getElementById("gate").hidden=true;
+  document.getElementById("app").hidden=true;
+  el.hidden=false;
+  var di=document.getElementById("doInstall");
+  if(di) di.onclick=function(){
+    if(!deferredPrompt){ proceedToApp(); return; }
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(){ deferredPrompt=null; proceedToApp(); }).catch(function(){ proceedToApp(); });
+  };
+}
 function showGate(){
   document.getElementById("app").hidden=true;
   document.getElementById("gate").hidden=false;
@@ -2814,7 +2867,8 @@ function showGate(){
   function finish(v){
     try{ saveLic(v); }
     catch(e){ err.textContent="เครื่องนี้บันทึกข้อมูลไม่ได้ (ลองปิดโหมดไม่ระบุตัวตน)"; return; }
-    startApp();
+    if(isStandalone()) startApp();       // เปิดจากไอคอนแอปอยู่แล้ว → ข้ามหน้าติดตั้ง
+    else showInstallScreen();            // เพิ่งกรอกรหัสในเบราว์เซอร์ → เชิญติดตั้งลงหน้าจอ
   }
   /* ปุ่มเปิดใช้งานคือรูปโลโก้ — ห้ามแตะ textContent ของปุ่ม (รูปจะหาย)
      บอกสถานะที่บรรทัด "แตะโลโก้เพื่อเปิดใช้งาน" ใต้โลโก้แทน */
