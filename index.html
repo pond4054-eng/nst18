@@ -474,7 +474,7 @@ function defState(){
     know:{}, target:{}, editMode:false, edits:{}, topics:dtopics, manageMode:false, theme:0,
     selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
-    planWeeksNoDate:12 };
+    planWeeksNoDate:12, resetToken:0, resetAppliedToken:0 };
 }
 function load(){
   var saved={};
@@ -1639,6 +1639,7 @@ function quizSheet(){
 
 /* ═══════════ แผงแอดมิน ═══════════ */
 var ADMIN_PIN="1809";
+var RESET_PW="theerapol";   // รหัสยืนยันการสั่งรีเซ็ตความคืบหน้านักเรียนทุกคน
 
 /* ═══════════ รูปภาพประกอบโจทย์ ═══════════
    เก็บรูปเป็น data URI ฝังใน questions.json เลย → อัปโหลดไฟล์เดียวจบ
@@ -1857,8 +1858,17 @@ function adminSheet(){
              Math.round(JSON.stringify(S.bank||{}).length/1024)+' KB (อยู่ในไฟล์บนเว็บ ไม่กินพื้นที่เครื่อง)</div>'+
            '<div>ข้อมูลที่เก็บในเครื่องนี้: <b style="color:var(--c-text);">'+storeKB()+' KB</b> (ความคืบหน้า/ผลสอบ/ผลพละ)</div>'+
          '</div>'+
-       '</div>';
-    h+='<div style="font-size:11.5px;color:var(--c-text-subtle);margin-top:16px;line-height:1.5;">ส่วนหัวข้อและตารางติว ปรับแก้ได้จากปุ่ม “จัดการหัวข้อ” และ “✎ แก้ไข” ในแต่ละแท็บโดยตรง</div>'+
+       '</div>'+
+       // โซนอันตราย: รีเซ็ตนักเรียนทุกคน (ต้องใส่รหัสผ่าน)
+       '<div style="margin-top:26px;padding:14px;border:1px solid #F5C6C8;border-radius:12px;background:#FEF4F4;">'+
+         '<div class="lbl" style="margin-bottom:4px;color:#7A1219;">⚠️ รีเซ็ตความคืบหน้านักเรียนทุกคน</div>'+
+         '<div style="font-size:12px;color:#7A1219;line-height:1.7;margin-bottom:12px;">'+
+           'ล้าง <b>คะแนนสอบ + สถานะเช็กลิสต์ + ช่องติ๊กแผนติว</b> ของนักเรียนทุกคนกลับเป็นค่าเริ่มต้น '+
+           '(เก็บวันสอบ ตั้งค่าส่วนตัว และรหัสเปิดใช้งานไว้) — ต้องใส่รหัสผ่าน และต้องอัปโหลด questions.json ทับบนเว็บ '+
+           'นักเรียนจะถูกรีเซ็ตเมื่อเปิดแอปครั้งถัดไปที่มีเน็ต · <b>ย้อนกลับไม่ได้</b></div>'+
+         '<button class="btn sm" style="background:var(--pri);border-color:var(--pri);" onclick="A.resetStudents()">🔄 รีเซ็ตนักเรียนทุกคน…</button>'+
+       '</div>'+
+       '<div style="font-size:11.5px;color:var(--c-text-subtle);margin-top:16px;line-height:1.5;">ส่วนหัวข้อและตารางติว ปรับแก้ได้จากปุ่ม “จัดการหัวข้อ” และ “✎ แก้ไข” ในแต่ละแท็บโดยตรง</div>'+
        '</div>';
   } else if(S.adminView==="bank"){
     var tObj=(S.topics[S.adminSubj]||[]).find(function(x){ return x.id===S.adminTopic; });
@@ -2134,7 +2144,8 @@ var A={
     var v=(S.contentVersion||0)+1;
     var out={
       _comment:"คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อัปโหลดไฟล์นี้ทับของเดิมบนเว็บ",
-      version:v, topics:S.topics, bank:S.bank, physEvents:S.physEvents
+      version:v, topics:S.topics, bank:S.bank, physEvents:S.physEvents,
+      resetToken:S.resetToken||0
     };
     var blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
     var a=document.createElement("a");
@@ -2144,6 +2155,19 @@ var A={
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
     set({contentVersion:v, bankDirty:false});
     toast("ได้ไฟล์แล้ว — อัปโหลดทับ questions.json บนเว็บ");
+  },
+  /* รีเซ็ตความคืบหน้านักเรียน "ทุกคน" กลับเป็นค่าเริ่มต้น (คะแนน+เช็กลิสต์+ช่องติ๊กแผน)
+     ต้องใส่รหัสผ่าน RESET_PW · สั่งผ่าน resetToken ที่ฝังใน questions.json */
+  resetStudents:function(){
+    var pw=prompt("⚠️ รีเซ็ตความคืบหน้าของนักเรียน “ทุกคน” กลับเป็นค่าเริ่มต้น\n\nจะล้าง: คะแนนสอบ + สถานะเช็กลิสต์ผ่าน/ไม่ผ่าน + ช่องติ๊กแผนติว\nจะเก็บไว้: วันสอบ ตั้งค่าส่วนตัว ธีมสี และรหัสเปิดใช้งาน\n\nพิมพ์รหัสผ่านเพื่อยืนยัน:");
+    if(pw===null) return;                              // กดยกเลิก
+    if(String(pw).trim()!==RESET_PW){ alert("รหัสผ่านไม่ถูกต้อง — ยกเลิกการรีเซ็ต"); return; }
+    if(!confirm("ยืนยันอีกครั้ง — นักเรียนทุกคนจะถูกรีเซ็ตความคืบหน้าเมื่อเปิดแอปครั้งถัดไปที่มีเน็ต\n\nการนี้ย้อนกลับไม่ได้ ดำเนินการต่อ?")) return;
+    var rt=(S.resetToken||0)+1;
+    // ตั้ง token ใหม่ + กันเครื่องครูเองไม่ให้ถูกรีเซ็ตซ้ำ
+    set({resetToken:rt, resetAppliedToken:rt});
+    A.exportQuestions();                               // ได้ไฟล์ questions.json (มี resetToken) ไปอัปโหลด
+    alert("ตั้งคำสั่งรีเซ็ตเรียบร้อย (รอบที่ "+rt+")\n\nขั้นสุดท้าย: อัปโหลดไฟล์ questions.json ที่เพิ่งดาวน์โหลด ทับของเดิมบนเว็บ\nนักเรียนทุกคนจะถูกรีเซ็ตอัตโนมัติเมื่อเปิดแอปครั้งถัดไปที่มีเน็ต");
   },
   /* ปลดสถานะ "แก้ค้าง" แล้วดึงคลังล่าสุดจากเว็บมาทับ
      ใช้เมื่อเครื่องนี้ติดค้างที่ข้อสอบชุดเก่า เพราะเคยแตะแก้ในแอดมินแล้วไม่ได้ส่งออก */
@@ -2315,6 +2339,12 @@ function syncContent(){
     .then(function(r){ return r.ok?r.json():null; })
     .then(function(d){
       if(!d) return;
+      // คำสั่งรีเซ็ตจากครู: ถ้า resetToken บนเว็บใหม่กว่าที่เครื่องนี้เคยทำ → ล้างความคืบหน้ากลับค่าเริ่มต้น 1 ครั้ง
+      var rt=d.resetToken||0;
+      if(rt > (S.resetAppliedToken||0)){
+        set({ scores:{}, know:{}, done:{}, resetAppliedToken:rt });
+        toast("ครูรีเซ็ตความคืบหน้าใหม่ทั้งหมดแล้ว — เริ่มต้นใหม่ได้เลย");
+      }
       var v=d.version||0, newer = v!==(S.contentVersion||0);
       if(S.bankDirty){                             // ติวเตอร์มีข้อสอบแก้ค้าง ห้ามทับ
         if(newer) toast("มีเนื้อหาใหม่บนเว็บ — แต่ยังไม่ดึงมา เพราะมีข้อสอบที่ยังไม่ได้ส่งออก");
