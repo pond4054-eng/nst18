@@ -15,12 +15,74 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root{ --pri:#E4111F; --priD:#B60D18; }
+  :root{
+    --pri:#E4111F; --priD:#B60D18;
+    /* โทนกลางวัน (ค่าเดิมของแอป — กลางวันหน้าตาเหมือนเดิมทุกจุด) */
+    --c-bg:#F4F6FA;
+    --c-surface:#FFFFFF;
+    --c-border:#E4E5E7;
+    --c-text:#0E0F12;
+    --c-text-muted:#6E7378;
+    --c-text-subtle:#9AA0A8;
+    --c-on-brand:#FFFFFF;
+    --c-navpill:#FFFFFF;
+    --ec-dim:0;              /* ชั้นหรี่แสง 0–0.55 */
+  }
+  /* โทนกลางคืน — พื้นอุ่นถนอมสายตา */
+  [data-theme="night"]{
+    color-scheme:dark;
+    --c-bg:#1A1A1C;
+    --c-surface:#242427;
+    --c-border:#35353A;
+    --c-text:#E8E6E3;
+    --c-text-muted:#A3A099;
+    --c-text-subtle:#7A776F;
+    --c-on-brand:#F4EFEA;
+    --c-navpill:#ECE7DE;
+  }
+  body{ transition:background-color .2s ease, color .2s ease; }
+
+  /* ───── โหมดถนอมสายตา: ปุ่ม + แผงตั้งค่า + ชั้นหรี่แสง ───── */
+  .ec-toggle{ flex:none; width:34px; height:34px; border-radius:10px; border:1px solid var(--c-border);
+    background:var(--c-surface); color:var(--c-text); font-size:16px; line-height:1; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:background .15s, border-color .15s; }
+  .ec-toggle:active{ transform:scale(.92); }
+  .ec-statusgroup{ display:flex; align-items:center; gap:10px; }
+  .ec-panel{ position:fixed; z-index:2147483600; top:52px; right:14px; width:250px; max-width:calc(100vw - 28px);
+    background:var(--c-surface); color:var(--c-text); border:1px solid var(--c-border); border-radius:16px;
+    box-shadow:0 14px 40px rgba(0,0,0,.28); padding:14px 16px; }
+  .ec-panel[hidden]{ display:none !important; }
+  .ec-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .ec-row + .ec-row{ margin-top:16px; }
+  .ec-row .lbl2{ font-size:13px; font-weight:600; color:var(--c-text); }
+  .ec-row .sub2{ font-size:11px; color:var(--c-text-subtle); margin-top:2px; }
+  .ec-switch{ flex:none; width:46px; height:28px; border-radius:999px; border:none; cursor:pointer;
+    background:var(--c-border); position:relative; transition:background .18s ease; }
+  .ec-switch[aria-checked="true"]{ background:var(--pri); }
+  .ec-switch::after{ content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%;
+    background:var(--c-surface); box-shadow:0 1px 3px rgba(0,0,0,.3); transition:left .18s ease; }
+  .ec-switch[aria-checked="true"]::after{ left:21px; }
+  .ec-dimrow{ flex-direction:column; align-items:stretch; }
+  .ec-dimhead{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+  .ec-dimval{ font-size:12px; font-weight:600; color:var(--c-text-subtle); font-variant-numeric:tabular-nums; }
+  .ec-range{ -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:999px;
+    background:var(--c-border); outline:none; cursor:pointer; }
+  .ec-range::-webkit-slider-thumb{ -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+    background:var(--pri); border:2px solid var(--c-surface); cursor:pointer; }
+  .ec-range::-moz-range-thumb{ width:20px; height:20px; border-radius:50%; background:var(--pri);
+    border:2px solid var(--c-surface); cursor:pointer; }
+  .ec-toggle:focus-visible, .ec-switch:focus-visible, .ec-range:focus-visible{ outline:2px solid var(--pri); outline-offset:2px; }
+  /* ชั้นหรี่แสง: ทับทั้งจอ ไม่รับคลิก อยู่ใต้แผงตั้งค่าเพื่อให้ปรับสไลเดอร์ได้ชัด */
+  .ec-dimlayer{ position:fixed; inset:0; pointer-events:none; z-index:2147483000;
+    background:rgb(0 0 0 / var(--ec-dim)); transition:background-color .2s ease; }
+  @media (prefers-reduced-motion:reduce){
+    .ec-toggle,.ec-switch,.ec-switch::after,.ec-dimlayer,body{ transition:none !important; }
+  }
   *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   [hidden]{ display:none !important; }
   html,body{ margin:0; min-height:100%; }
   body{
-    font-family:'Anuphan',system-ui,sans-serif; color:#0E0F12; background:#F4F6FA;
+    font-family:'Anuphan',system-ui,sans-serif; color:var(--c-text); background:var(--c-bg);
     -webkit-text-size-adjust:100%;
   }
   input,select,textarea,button{ font-family:inherit; }
@@ -30,7 +92,7 @@
   @keyframes fadeUp{ from{ transform:translateY(8px); opacity:0; } to{ transform:none; opacity:1; } }
 
   /* โครงหน้าจอ — เต็มจอบนมือถือ, จัดกลางบนคอม */
-  .shell{ max-width:460px; margin:0 auto; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; background:#F4F6FA; }
+  .shell{ max-width:460px; margin:0 auto; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; background:var(--c-bg); }
   .statusbar{ flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 22px;
     height:46px; padding-top:env(safe-area-inset-top); box-sizing:content-box; }
   /* โลโก้ + ชื่อสถาบัน มุมซ้ายบน = ปุ่มเข้าแผงแอดมิน */
@@ -43,23 +105,23 @@
   .tabhead{ flex:none; padding:6px 20px 14px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
   .kicker{ font-size:18px; font-weight:600; letter-spacing:.08em; color:var(--pri); text-transform:uppercase; }
   .tabhead h1{ margin:2px 0 0; font-size:23px; font-weight:700; letter-spacing:-.01em; }
-  .cdchip{ text-align:right; color:#fff; border-radius:12px; padding:7px 12px; background:#A40001; flex:none; }
+  .cdchip{ text-align:right; color:var(--c-on-brand); border-radius:12px; padding:7px 12px; background:#A40001; flex:none; }
   .view{ flex:1; overflow-y:auto; padding:2px 16px 24px; -webkit-overflow-scrolling:touch; }
   .stack{ display:flex; flex-direction:column; gap:14px; }
-  .navwrap{ flex:none; padding:10px 14px calc(14px + env(safe-area-inset-bottom)); position:sticky; bottom:0; background:linear-gradient(180deg,rgba(244,246,250,0) 0%,#F4F6FA 42%); }
+  .navwrap{ flex:none; padding:10px 14px calc(14px + env(safe-area-inset-bottom)); position:sticky; bottom:0; background:linear-gradient(180deg,rgba(244,246,250,0) 0%,var(--c-bg) 42%); }
   .navbar{ background:var(--pri); border-radius:999px; display:flex; padding:5px; gap:3px; box-shadow:0 10px 26px rgba(14,15,18,.20); }
   .navbtn{ flex:1; text-align:center; white-space:nowrap; cursor:pointer; border-radius:999px; padding:10px 4px;
     font-size:11.5px; font-weight:600; color:rgba(255,255,255,.80); border:none; background:transparent; transition:background .15s; }
-  .navbtn.on{ background:#fff; color:var(--pri); font-weight:700; box-shadow:0 2px 6px rgba(14,15,18,.18); }
+  .navbtn.on{ background:var(--c-navpill); color:var(--pri); font-weight:700; box-shadow:0 2px 6px rgba(14,15,18,.18); }
 
-  .card{ background:#fff; border:1px solid #E4E5E7; border-radius:18px; padding:16px; }
+  .card{ background:var(--c-surface); border:1px solid var(--c-border); border-radius:18px; padding:16px; }
   .card h3{ margin:0; font-size:14px; font-weight:700; }
-  .lbl{ font-size:12px; font-weight:600; letter-spacing:.05em; color:#6E7378; text-transform:uppercase; }
-  .muted{ font-size:12px; color:#6E7378; }
-  .btn{ padding:11px 16px; border-radius:11px; border:none; background:var(--pri); color:#fff; font-size:14px; font-weight:700; cursor:pointer; }
-  .btn.ghost{ border:1px solid #E4E5E7; background:#fff; color:#0E0F12; font-weight:600; }
+  .lbl{ font-size:12px; font-weight:600; letter-spacing:.05em; color:var(--c-text-muted); text-transform:uppercase; }
+  .muted{ font-size:12px; color:var(--c-text-muted); }
+  .btn{ padding:11px 16px; border-radius:11px; border:none; background:var(--pri); color:var(--c-on-brand); font-size:14px; font-weight:700; cursor:pointer; }
+  .btn.ghost{ border:1px solid var(--c-border); background:var(--c-surface); color:var(--c-text); font-weight:600; }
   .btn.sm{ padding:6px 12px; font-size:12px; border-radius:9px; font-weight:600; }
-  .in{ border:1px solid #E4E5E7; border-radius:9px; padding:7px 10px; font-size:14px; background:#fff; color:#0E0F12; }
+  .in{ border:1px solid var(--c-border); border-radius:9px; padding:7px 10px; font-size:14px; background:var(--c-surface); color:var(--c-text); }
   .chip{ font-size:11.5px; font-weight:600; padding:5px 11px; border-radius:999px; white-space:nowrap; }
 
   /* ───── การแสดงผลสมการคณิตศาสตร์ ───── */
@@ -84,7 +146,7 @@
     max-width:460px; margin:0 auto; padding:28px 24px calc(28px + env(safe-area-inset-bottom));
     background:linear-gradient(180deg,#FFFFFF 0%,#EAEFF6 100%); animation:fadeUp .35s ease-out; }
   .gate h1{ margin:0; font-size:22px; font-weight:700; text-align:center; letter-spacing:-.01em; }
-  .gate .sub{ margin:8px 0 24px; font-size:13.5px; color:#6E7378; text-align:center; line-height:1.55; text-wrap:pretty; }
+  .gate .sub{ margin:8px 0 24px; font-size:13.5px; color:var(--c-text-muted); text-align:center; line-height:1.55; text-wrap:pretty; }
   /* โลโก้ = ปุ่มเข้าใช้งาน */
   .logobtn{ display:block; margin:18px auto 0; padding:0; border:none; background:none; cursor:pointer;
     border-radius:34px; line-height:0; transition:transform .12s ease, box-shadow .12s ease;
@@ -95,28 +157,28 @@
   .logobtn.busy{ animation:pulse .5s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(.96); } }
   .taphint{ margin:14px 0 0; font-size:13.5px; font-weight:700; color:var(--pri); text-align:center; }
-  .codein{ width:100%; border:1.5px solid #D8DBE0; border-radius:14px; padding:16px 14px; background:#fff;
+  .codein{ width:100%; border:1.5px solid var(--c-border); border-radius:14px; padding:16px 14px; background:var(--c-surface);
     font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:600; text-align:center; letter-spacing:.06em; text-transform:uppercase; }
   .codein:focus{ outline:none; border-color:var(--pri); }
   .gate .err{ font-size:13px; color:var(--pri); font-weight:600; margin-top:10px; text-align:center; min-height:19px; white-space:pre-line; line-height:1.5; }
-  .gate .note{ font-size:11.5px; color:#9AA0A8; line-height:1.6; margin-top:22px; text-align:center; text-wrap:pretty; }
+  .gate .note{ font-size:11.5px; color:var(--c-text-subtle); line-height:1.6; margin-top:22px; text-align:center; text-wrap:pretty; }
 
   .toast{ position:fixed; left:50%; transform:translateX(-50%); bottom:calc(96px + env(safe-area-inset-bottom));
-    background:#0E0F12; color:#fff; font-size:13px; font-weight:600; padding:11px 18px; border-radius:999px;
+    background:#0E0F12; color:var(--c-on-brand); font-size:13px; font-weight:600; padding:11px 18px; border-radius:999px;
     z-index:90; box-shadow:0 8px 24px rgba(0,0,0,.3); animation:fadeUp .2s ease-out; max-width:88%; text-align:center; }
 
   .sheet{ position:fixed; inset:0; z-index:60; background:rgba(14,15,18,.5); display:flex; flex-direction:column; justify-content:flex-end; }
-  .sheetin{ background:#F4F6FA; border-radius:24px 24px 0 0; max-height:92%; display:flex; flex-direction:column; overflow:hidden;
+  .sheetin{ background:var(--c-bg); border-radius:24px 24px 0 0; max-height:92%; display:flex; flex-direction:column; overflow:hidden;
     max-width:460px; width:100%; margin:0 auto; animation:fadeUp .22s ease-out; padding-bottom:env(safe-area-inset-bottom); }
-  .sheethead{ padding:16px 18px; border-bottom:1px solid #E4E5E7; background:#fff; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .sheethead{ padding:16px 18px; border-bottom:1px solid var(--c-border); background:var(--c-surface); display:flex; justify-content:space-between; align-items:center; gap:12px; }
   .sheetbody{ padding:16px 18px; overflow-y:auto; }
-  .x{ width:32px; height:32px; flex:none; border-radius:9px; border:1px solid #E4E5E7; background:#fff; color:#6E7378; cursor:pointer; font-size:14px; }
+  .x{ width:32px; height:32px; flex:none; border-radius:9px; border:1px solid var(--c-border); background:var(--c-surface); color:var(--c-text-muted); cursor:pointer; font-size:14px; }
 
   /* ───── กระดาษข้อสอบเสมือนจริง ───── */
   .paperhead{ text-align:center; padding-bottom:14px; margin-bottom:16px; border-bottom:2px solid #0E0F12; }
   .ph-org{ font-size:11px; font-weight:700; letter-spacing:.12em; color:var(--pri); }
   .ph-title{ font-size:17px; font-weight:800; margin-top:3px; line-height:1.3; }
-  .ph-sub{ font-size:11.5px; color:#6E7378; margin-top:3px; }
+  .ph-sub{ font-size:11.5px; color:var(--c-text-muted); margin-top:3px; }
   .ph-name{ font-size:12px; margin-top:12px; text-align:left; }
   .psec{ font-size:12px; font-weight:700; color:var(--pri); background:#FBEFF0; padding:5px 10px;
          border-radius:6px; margin:18px 0 10px; page-break-after:avoid; break-after:avoid; }
@@ -126,9 +188,9 @@
   .pch{ list-style:none; margin:5px 0 0 1.7em; padding:0; }
   .pch li{ font-size:13px; line-height:1.7; }
   .pans{ font-size:13px; font-weight:700; color:#1E9E5A; margin:4px 0 0 1.7em; }
-  .ptopic{ font-size:10.5px; color:#9AA0A8; margin:2px 0 0 1.7em; }
+  .ptopic{ font-size:10.5px; color:var(--c-text-subtle); margin:2px 0 0 1.7em; }
   .pexp{ font-size:12.5px; line-height:1.7; color:#3D4348; margin:5px 0 0 1.7em;
-         padding-left:10px; border-left:2px solid #E4E5E7; }
+         padding-left:10px; border-left:2px solid var(--c-border); }
   .keygrid{ display:flex; flex-wrap:wrap; gap:5px 12px; font-size:12.5px; margin-bottom:6px; }
   .kg{ min-width:58px; font-variant-numeric:tabular-nums; }
 
@@ -150,7 +212,7 @@
     @page{ size:A4; margin:12mm; }
     /* พิมพ์ออกมาเป็นภาพสีเหมือนที่เห็นบนจอ */
     html, body{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-    body{ background:#fff !important; }
+    body{ background:var(--c-surface) !important; }
     /* ซ่อนทุกอย่าง แล้วค่อยเปิดเฉพาะกระดาษข้อสอบ — กันแผงแอดมินติดไปด้วย */
     .shell, .gate, .noprint, .sheethead, .sheet{ display:none !important; }
     .sheet.mockwrap{ position:static !important; background:none !important; display:block !important;
@@ -158,11 +220,22 @@
     .mockwrap .sheetin{ max-height:none !important; border-radius:0 !important; box-shadow:none !important;
               width:100% !important; max-width:none !important; }
     .mockwrap .printarea{ overflow:visible !important; max-height:none !important;
-                          padding:0 !important; background:#fff !important; }
+                          padding:0 !important; background:var(--c-surface) !important; }
     .paperbody{ background-size:100% auto !important; }
     img{ max-height:170px !important; }
   }
 </style>
+<script>
+  /* ใช้โหมด/ระดับหรี่แสงที่บันทึกไว้ ก่อนหน้าจอวาด กันจอกระพริบ */
+  (function () {
+    try {
+      if (localStorage.getItem('np18_night') === '1')
+        document.documentElement.setAttribute('data-theme', 'night')
+      var d = localStorage.getItem('np18_dim')
+      if (d !== null) document.documentElement.style.setProperty('--ec-dim', d)
+    } catch (e) {}
+  })()
+</script>
 </head>
 <body>
 
@@ -187,8 +260,29 @@
       <img src="icons/icon-192.png" alt="นสต. รุ่น 18">
       <span class="brandname">LION KING ACADEMY</span>
     </button>
-    <span class="mono" id="clock" style="font-size:13px;font-weight:600;"></span>
+    <div class="ec-statusgroup">
+      <button class="ec-toggle" id="ecBtn" type="button" aria-label="โหมดถนอมสายตา" aria-expanded="false">☾</button>
+      <span class="mono" id="clock" style="font-size:13px;font-weight:600;"></span>
+    </div>
   </div>
+
+  <div class="ec-panel" id="ecPanel" hidden role="dialog" aria-label="โหมดถนอมสายตา">
+    <div class="ec-row">
+      <div>
+        <div class="lbl2">โหมดกลางคืน</div>
+        <div class="sub2">พื้นอุ่น ถนอมสายตา</div>
+      </div>
+      <button class="ec-switch" id="ecNight" type="button" role="switch" aria-checked="false" aria-label="โหมดกลางคืน"></button>
+    </div>
+    <div class="ec-row ec-dimrow">
+      <div class="ec-dimhead">
+        <span class="lbl2">หรี่แสง</span>
+        <span class="ec-dimval" id="ecDimVal">0%</span>
+      </div>
+      <input class="ec-range" id="ecDim" type="range" min="0" max="0.55" step="0.01" value="0" aria-label="ระดับการหรี่แสง">
+    </div>
+  </div>
+  <div class="ec-dimlayer" id="ecDimLayer" aria-hidden="true"></div>
   <div class="tabhead">
     <div>
       <div class="kicker" id="kicker"></div>
@@ -602,8 +696,8 @@ function physList(){ return (S.physEvents && S.physEvents.length) ? S.physEvents
 function statusOf(p){
   if(p>=90) return {t:"พร้อมสอบ", c:"var(--pri)"};
   if(p>=70) return {t:"ใกล้พร้อม", c:"#0E0F12"};
-  if(p>=40) return {t:"กำลังไปได้", c:"#6E7378"};
-  return {t:"ต้องเร่ง", c:"#6E7378"};
+  if(p>=40) return {t:"กำลังไปได้", c:"var(--c-text-muted)"};
+  return {t:"ต้องเร่ง", c:"var(--c-text-muted)"};
 }
 var dayNames=["จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์","อาทิตย์"];
 var chipLabels=["จ","อ","พ","พฤ","ศ","ส","อา"];
@@ -728,16 +822,16 @@ function viewHome(c){
   if(S.examDate){ var ex=new Date(S.examDate+"T00:00:00"); examText=thDate(ex)+" "+(ex.getFullYear()+543); }
 
   // นับถอยหลัง
-  h+='<div style="border-radius:22px;padding:18px;color:#fff;background:#E4101F;">'+
+  h+='<div style="border-radius:22px;padding:18px;color:var(--c-on-brand);background:#E4101F;">'+
        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'+
          '<div style="font-size:18px;font-weight:600;letter-spacing:.05em;">นับถอยหลังสู่วันสอบ</div>'+
-         '<span style="width:7px;height:7px;border-radius:50%;background:#fff;"></span>'+
+         '<span style="width:7px;height:7px;border-radius:50%;background:var(--c-surface);"></span>'+
        '</div>';
   if(c.daysLeft!=null){
     h+='<div style="display:flex;align-items:flex-end;gap:8px;">'+
         flip.map(function(d){
           return '<div class="mono" style="position:relative;width:52px;height:70px;border-radius:11px;display:flex;align-items:center;justify-content:center;'+
-                 'font-size:40px;font-weight:700;color:#0B0000;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35);animation:flipIn .55s ease-out both;">'+d+
+                 'font-size:40px;font-weight:700;color:#0B0000;background:var(--c-surface);box-shadow:0 6px 16px rgba(0,0,0,.35);animation:flipIn .55s ease-out both;">'+d+
                  '<div style="position:absolute;left:6px;right:6px;top:50%;height:1px;background:rgba(0,0,0,.55);"></div></div>';
         }).join("")+
         '<span style="font-size:14px;font-weight:500;padding-bottom:8px;">วัน</span>'+
@@ -754,8 +848,8 @@ function viewHome(c){
   // สองวง
   var ks=knowStats(), ps=physStats();
   var kS=statusOf(ks.pct), pS=statusOf(ps.pct);
-  h+='<div style="border:1px solid #E4E5E7;border-radius:20px;padding:18px;background:#E3F4EA3F;">'+
-       '<div style="font-size:12px;font-weight:600;color:#6E7378;margin-bottom:14px;">ความพร้อมสอบโดยรวม</div>'+
+  h+='<div style="border:1px solid var(--c-border);border-radius:20px;padding:18px;background:#E3F4EA3F;">'+
+       '<div style="font-size:12px;font-weight:600;color:var(--c-text-muted);margin-bottom:14px;">ความพร้อมสอบโดยรวม</div>'+
        '<div style="display:flex;gap:16px;">'+
          ring(ks.pct,"#0E0F12","ความรู้",kS)+
          ring(ps.pct,"var(--pri)","ร่างกาย",pS)+
@@ -775,7 +869,7 @@ function viewHome(c){
          '<span class="chip" style="background:'+ph.bg+';color:'+ph.fg+';">'+ph.name+'</span>'+
        '</div>';
   if(!tBlocks){
-    h+='<div style="font-size:13px;color:#6E7378;line-height:1.5;">วันนี้เป็นวันพัก — ฟื้นฟูร่างกายและทบทวนเบา ๆ</div>';
+    h+='<div style="font-size:13px;color:var(--c-text-muted);line-height:1.5;">วันนี้เป็นวันพัก — ฟื้นฟูร่างกายและทบทวนเบา ๆ</div>';
   } else {
     var studyRows=tBlocks.map(function(b,bi){
       var m=merged(b,tWi,todayIdx,bi);
@@ -800,12 +894,12 @@ function viewHome(c){
   // ทางลัด
   h+='<div style="display:flex;gap:12px;">'+
        '<div class="card" style="flex:1;padding:15px;border-radius:18px;cursor:pointer;" onclick="A.tab(\'study\')">'+
-         '<div style="font-size:12px;color:#6E7378;">แผนสัปดาห์</div>'+
-         '<div style="font-size:16px;font-weight:700;margin-top:3px;">สัปดาห์ที่ '+(c.weekIndex+1)+'<span style="color:#6E7378;font-weight:500;font-size:13px;"> / '+c.T+'</span></div>'+
+         '<div style="font-size:12px;color:var(--c-text-muted);">แผนสัปดาห์</div>'+
+         '<div style="font-size:16px;font-weight:700;margin-top:3px;">สัปดาห์ที่ '+(c.weekIndex+1)+'<span style="color:var(--c-text-muted);font-weight:500;font-size:13px;"> / '+c.T+'</span></div>'+
          '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">เปิดตารางติว →</div>'+
        '</div>'+
        '<div class="card" style="flex:1;padding:15px;border-radius:18px;cursor:pointer;" onclick="A.tab(\'ready\')">'+
-         '<div style="font-size:12px;color:#6E7378;">เช็กความพร้อม</div>'+
+         '<div style="font-size:12px;color:var(--c-text-muted);">เช็กความพร้อม</div>'+
          '<div style="font-size:16px;font-weight:700;margin-top:3px;">รวม '+Math.round((ks.pct+ps.pct)/2)+'%</div>'+
          '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">อัปเดตสถานะ →</div>'+
        '</div>'+
@@ -825,27 +919,27 @@ function viewHome(c){
          themeDefs().map(function(t,i){
            var on=(S.theme||0)===i;
            return '<div onclick="A.theme('+i+')" style="width:28px;height:28px;border-radius:50%;cursor:pointer;background:'+t.pri+';'+
-                  (on?"box-shadow:0 0 0 2px #fff,0 0 0 4px "+t.pri+";":"border:2px solid #E4E5E7;")+'"></div>';
+                  (on?"box-shadow:0 0 0 2px #fff,0 0 0 4px "+t.pri+";":"border:2px solid var(--c-border);")+'"></div>';
          }).join("")+'</div>')+
      '</div>';
 
   return '<div class="stack">'+h+'</div>';
 }
 function field(label,inner){
-  return '<div style="display:flex;flex-direction:column;gap:4px;"><label style="font-size:11px;color:#6E7378;">'+label+'</label>'+inner+'</div>';
+  return '<div style="display:flex;flex-direction:column;gap:4px;"><label style="font-size:11px;color:var(--c-text-muted);">'+label+'</label>'+inner+'</div>';
 }
 function ring(pct,color,label,st){
   var C=2*Math.PI*46;
   return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">'+
     '<div style="position:relative;width:108px;height:108px;">'+
       '<svg width="108" height="108" viewBox="0 0 108 108">'+
-        '<circle cx="54" cy="54" r="46" fill="none" stroke="#E4E5E7" stroke-width="10"></circle>'+
+        '<circle cx="54" cy="54" r="46" fill="none" stroke="var(--c-border)" stroke-width="10"></circle>'+
         '<circle cx="54" cy="54" r="46" fill="none" stroke="'+color+'" stroke-width="10" stroke-linecap="round" '+
           'stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-pct/100))+'" transform="rotate(-90 54 54)" style="transition:stroke-dashoffset .6s;"></circle>'+
       '</svg>'+
       '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
         '<span class="mono" style="font-size:26px;font-weight:600;">'+pct+'</span>'+
-        '<span style="font-size:11px;color:#6E7378;margin-top:-2px;">%</span>'+
+        '<span style="font-size:11px;color:var(--c-text-muted);margin-top:-2px;">%</span>'+
       '</div>'+
     '</div>'+
     '<div style="font-size:13px;font-weight:600;">'+label+'</div>'+
@@ -858,11 +952,11 @@ function taskRow(icon,title,sub,doneKey){
     '<div style="width:40px;height:40px;flex:none;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;'+
       'background:color-mix(in srgb, '+PRI()+' 13%, #fff);">'+icon+'</div>'+
     '<div style="flex:1;min-width:0;">'+
-      '<div style="font-size:13.5px;font-weight:600;line-height:1.25;'+(checked?"text-decoration:line-through;color:#9AA0A8;":"")+'">'+esc(title)+'</div>'+
-      '<div style="font-size:11.5px;color:#6E7378;'+(checked?"text-decoration:line-through;":"")+'">'+esc(sub)+'</div>'+
+      '<div style="font-size:13.5px;font-weight:600;line-height:1.25;'+(checked?"text-decoration:line-through;color:var(--c-text-subtle);":"")+'">'+esc(title)+'</div>'+
+      '<div style="font-size:11.5px;color:var(--c-text-muted);'+(checked?"text-decoration:line-through;":"")+'">'+esc(sub)+'</div>'+
     '</div>'+
-    '<div style="width:25px;height:25px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;'+
-      (checked?"background:"+PRI()+";":"background:#fff;border:2px solid #C9CED6;")+'">'+(checked?"✓":"")+'</div>'+
+    '<div style="width:25px;height:25px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--c-on-brand);'+
+      (checked?"background:"+PRI()+";":"background:var(--c-surface);border:2px solid var(--c-border);")+'">'+(checked?"✓":"")+'</div>'+
   '</div>';
 }
 function phaseInfo(phase){
@@ -880,7 +974,7 @@ function viewStudy(c){
   var calTitle=thMonthFull(S.calMonth)+" "+(S.calYear+543);
   var gridStart=mondayOf(new Date(S.calYear,S.calMonth,1));
   var isoToday=iso(today0());
-  var phaseDot={content:"#C9CED6",drill:"#8A9099",mock:"#F2B01E"};
+  var phaseDot={content:"var(--c-border)",drill:"#8A9099",mock:"#F2B01E"};
   var cells="";
   for(var i=0;i<42;i++){
     var d=new Date(gridStart); d.setDate(d.getDate()+i); d.setHours(0,0,0,0);
@@ -896,32 +990,32 @@ function viewStudy(c){
     cells+='<div onclick="A.selDate(\''+isoD+'\','+d.getFullYear()+','+d.getMonth()+')" '+
       'style="position:relative;height:38px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;'+
       'border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:'+(isSel?700:500)+';'+
-      'background:'+(isSel?PRI():"transparent")+';color:'+(isSel?"#fff":(inMonth?"#0E0F12":"#C9CCD1"))+';'+
+      'background:'+(isSel?PRI():"transparent")+';color:'+(isSel?"#fff":(inMonth?"#0E0F12":"var(--c-border)"))+';'+
       'border:1.5px solid '+((!isSel&&isToday)?PRI():"transparent")+';">'+
       '<span>'+d.getDate()+'</span>'+
       '<span style="width:5px;height:5px;border-radius:50%;background:'+dot+';"></span></div>';
   }
   h+='<div class="card" style="padding:14px;">'+
        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">'+
-         '<button onclick="A.month(-1)" style="background:var(--pri);color:#fff;border:none;border-radius:9px;width:32px;height:32px;font-size:14px;cursor:pointer;">◀</button>'+
+         '<button onclick="A.month(-1)" style="background:var(--pri);color:var(--c-on-brand);border:none;border-radius:9px;width:32px;height:32px;font-size:14px;cursor:pointer;">◀</button>'+
          '<div style="text-align:center;flex:1;min-width:0;">'+
            '<div style="font-size:16px;font-weight:700;white-space:nowrap;">'+calTitle+'</div>'+
-           '<div style="font-size:11.5px;color:#6E7378;">สัปดาห์ที่ '+(c.weekIndex+1)+' / '+c.T+'</div>'+
+           '<div style="font-size:11.5px;color:var(--c-text-muted);">สัปดาห์ที่ '+(c.weekIndex+1)+' / '+c.T+'</div>'+
          '</div>'+
-         '<button onclick="A.month(1)" style="background:var(--pri);color:#fff;border:none;border-radius:9px;width:32px;height:32px;font-size:14px;cursor:pointer;">▶</button>'+
+         '<button onclick="A.month(1)" style="background:var(--pri);color:var(--c-on-brand);border:none;border-radius:9px;width:32px;height:32px;font-size:14px;cursor:pointer;">▶</button>'+
        '</div>'+
        '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:5px;">'+
-         chipLabels.map(function(w){ return '<div style="text-align:center;font-size:11px;font-weight:600;color:#9AA0A8;padding:2px 0;">'+w+'</div>'; }).join("")+
+         chipLabels.map(function(w){ return '<div style="text-align:center;font-size:11px;font-weight:600;color:var(--c-text-subtle);padding:2px 0;">'+w+'</div>'; }).join("")+
        '</div>'+
        '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">'+cells+'</div>'+
-       '<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:10.5px;color:#6E7378;">'+
-         legend("#C9CED6","เนื้อหา")+legend("#8A9099","ตะลุยข้อสอบ")+legend("#F2B01E","สอบเสมือน/วันสอบ")+legend("#1E9E5A","ทำครบแล้ว")+
+       '<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:10.5px;color:var(--c-text-muted);">'+
+         legend("var(--c-border)","เนื้อหา")+legend("#8A9099","ตะลุยข้อสอบ")+legend("#F2B01E","สอบเสมือน/วันสอบ")+legend("#1E9E5A","ทำครบแล้ว")+
        '</div>'+
      '</div>';
 
   h+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'+
        '<span class="chip" style="background:'+ph.bg+';color:'+ph.fg+';">'+ph.name+'</span>'+
-       '<span style="font-size:12px;color:#6E7378;">'+ph.desc+'</span>'+
+       '<span style="font-size:12px;color:var(--c-text-muted);">'+ph.desc+'</span>'+
      '</div>';
 
   // วันที่เลือก
@@ -932,7 +1026,7 @@ function viewStudy(c){
        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">'+
          '<div>'+
            '<div style="font-size:16px;font-weight:700;">'+dayNames[selDay]+'</div>'+
-           '<div class="mono" style="font-size:12px;color:#6E7378;">'+thDate(c.selObj)+' '+(c.selObj.getFullYear()+543)+'</div>'+
+           '<div class="mono" style="font-size:12px;color:var(--c-text-muted);">'+thDate(c.selObj)+' '+(c.selObj.getFullYear()+543)+'</div>'+
          '</div>'+
          '<div style="display:flex;align-items:center;gap:8px;">'+
            '<span style="font-size:11px;font-weight:600;color:var(--pri);background:color-mix(in srgb, '+PRI()+' 10%, #fff);padding:4px 9px;border-radius:999px;white-space:nowrap;">'+
@@ -940,12 +1034,12 @@ function viewStudy(c){
            (blocks?'<button class="btn sm'+(S.editMode?"":" ghost")+'" onclick="A.toggleEdit()">'+(S.editMode?"เสร็จ":"✎ แก้ไข")+'</button>':"")+
          '</div>'+
        '</div>'+
-       '<div style="font-size:11.5px;color:#6E7378;margin:6px 0 12px;">หยิบวิชาที่อ่อนสุดก่อน · แตะวงกลมเมื่อทำหัวข้อนั้นเสร็จ</div>';
+       '<div style="font-size:11.5px;color:var(--c-text-muted);margin:6px 0 12px;">หยิบวิชาที่อ่อนสุดก่อน · แตะวงกลมเมื่อทำหัวข้อนั้นเสร็จ</div>';
   if(S.editMode && blocks)
     h+='<div style="font-size:11.5px;color:var(--pri);margin:0 0 10px;">แตะช่องเพื่อพิมพ์วิชา/เนื้อหาติวของคุณเอง — ระบบจะจำไว้ให้</div>';
 
   if(!blocks){
-    h+='<div style="display:flex;gap:10px;padding:11px 12px;border-radius:12px;border:1px dashed #E4E5E7;background:#F7F8FA;color:#9AA0A8;font-size:13px;">'+
+    h+='<div style="display:flex;gap:10px;padding:11px 12px;border-radius:12px;border:1px dashed var(--c-border);background:#F7F8FA;color:var(--c-text-subtle);font-size:13px;">'+
        '<span>🛌</span><span>วันหยุดพัก — ฟื้นฟูร่างกาย/ทบทวนเบา ๆ</span></div>';
   } else {
     h+='<div style="display:flex;flex-direction:column;">';
@@ -955,11 +1049,11 @@ function viewStudy(c){
       var timeStart=(m.time||"").split("–")[0]||m.time;
       h+='<div style="display:flex;gap:12px;align-items:stretch;">'+
            '<div style="position:relative;width:48px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:14px;">'+
-             (bi<blocks.length-1?'<div style="position:absolute;top:44px;bottom:-2px;left:50%;width:2px;transform:translateX(-50%);background:#E4E5E7;"></div>':"")+
-             '<div class="mono" style="font-size:11.5px;font-weight:700;background:#fff;z-index:1;">'+esc(timeStart)+'</div>'+
-             '<div style="width:15px;height:15px;border-radius:50%;border:3px solid var(--pri);background:#fff;margin-top:6px;z-index:1;"></div>'+
+             (bi<blocks.length-1?'<div style="position:absolute;top:44px;bottom:-2px;left:50%;width:2px;transform:translateX(-50%);background:var(--c-border);"></div>':"")+
+             '<div class="mono" style="font-size:11.5px;font-weight:700;background:var(--c-surface);z-index:1;">'+esc(timeStart)+'</div>'+
+             '<div style="width:15px;height:15px;border-radius:50%;border:3px solid var(--pri);background:var(--c-surface);margin-top:6px;z-index:1;"></div>'+
            '</div>'+
-           '<div style="flex:1;min-width:0;border-radius:16px;border:1px solid #E4E5E7;padding:12px;margin-bottom:12px;'+
+           '<div style="flex:1;min-width:0;border-radius:16px;border:1px solid var(--c-border);padding:12px;margin-bottom:12px;'+
              'box-shadow:0 2px 8px rgba(14,15,18,.05);background:'+(checked?"#FAFBFC":"#fff")+';opacity:'+(checked?.72:1)+';">';
       if(S.editMode){
         h+='<div style="display:flex;gap:6px;margin-bottom:6px;">'+
@@ -969,17 +1063,17 @@ function viewStudy(c){
              '<option value="">＋ เลือกกิจกรรม/เนื้อหา…</option>'+pickGroups()+
            '</select>'+
            '<input class="in" value="'+esc(m.subjName)+'" placeholder="วิชา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'subj\',this.value)" style="width:100%;font-weight:600;margin-bottom:5px;padding:5px 8px;font-size:13.5px;">'+
-           '<input class="in" value="'+esc(m.act)+'" placeholder="กิจกรรม/เนื้อหา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'act\',this.value)" style="width:100%;color:#6E7378;padding:5px 8px;font-size:12.5px;">';
+           '<input class="in" value="'+esc(m.act)+'" placeholder="กิจกรรม/เนื้อหา" onchange="A.editBlock('+c.weekIndex+','+selDay+','+bi+',\'act\',this.value)" style="width:100%;color:var(--c-text-muted);padding:5px 8px;font-size:12.5px;">';
       } else {
         h+='<div style="display:flex;align-items:center;gap:12px;">'+
              '<div style="width:44px;height:44px;flex:none;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;'+
                'background:color-mix(in srgb, '+PRI()+' 13%, #fff);">'+m.icon+'</div>'+
              '<div style="flex:1;min-width:0;">'+
-               '<div style="font-size:14.5px;font-weight:600;line-height:1.25;'+(checked?"text-decoration:line-through;color:#9AA0A8;":"")+'">'+esc(m.act)+'</div>'+
-               '<div style="font-size:12px;color:#6E7378;margin-top:1px;'+(checked?"text-decoration:line-through;":"")+'">'+esc(m.subjName+" · "+m.time)+'</div>'+
+               '<div style="font-size:14.5px;font-weight:600;line-height:1.25;'+(checked?"text-decoration:line-through;color:var(--c-text-subtle);":"")+'">'+esc(m.act)+'</div>'+
+               '<div style="font-size:12px;color:var(--c-text-muted);margin-top:1px;'+(checked?"text-decoration:line-through;":"")+'">'+esc(m.subjName+" · "+m.time)+'</div>'+
              '</div>'+
              '<div onclick="A.toggleDone(\''+dk+'\')" style="width:27px;height:27px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;'+
-               'cursor:pointer;font-size:14px;font-weight:700;color:#fff;'+(checked?"background:"+PRI()+";":"background:#fff;border:2px solid #C9CED6;")+'">'+(checked?"✓":"")+'</div>'+
+               'cursor:pointer;font-size:14px;font-weight:700;color:var(--c-on-brand);'+(checked?"background:"+PRI()+";":"background:var(--c-surface);border:2px solid var(--c-border);")+'">'+(checked?"✓":"")+'</div>'+
            '</div>';
       }
       h+='</div></div>';
@@ -1021,7 +1115,7 @@ function pickGroups(){
 /* ───── ฝึกพละ ───── */
 function viewPhys(){
   var ps=physStats();
-  var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"#6E7378"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
+  var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"var(--c-text-muted)"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
   var h="";
 
   h+='<div class="card">'+
@@ -1033,24 +1127,24 @@ function viewPhys(){
        '<div style="display:flex;flex-direction:column;gap:10px;">';
   ps.per.forEach(function(p){
     var e=p.e, st=stMap[p.stKey];
-    h+='<div style="border:1px solid #E4E5E7;border-radius:14px;padding:12px;background:#fff;">'+
+    h+='<div style="border:1px solid var(--c-border);border-radius:14px;padding:12px;background:var(--c-surface);">'+
          '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">'+
            '<div><div style="font-size:14px;font-weight:600;">'+esc(e.name)+'</div>'+
-                '<div style="font-size:11.5px;color:#6E7378;">'+esc(e.hint)+'</div></div>'+
+                '<div style="font-size:11.5px;color:var(--c-text-muted);">'+esc(e.hint)+'</div></div>'+
            '<div class="chip" style="background:'+st.bg+';color:'+st.fg+';">'+st.t+'</div>'+
          '</div>'+
          '<div style="display:flex;align-items:center;gap:8px;margin-top:10px;">'+
-           '<span style="font-size:12px;color:#6E7378;">เกณฑ์เป้าหมาย</span>'+
+           '<span style="font-size:12px;color:var(--c-text-muted);">เกณฑ์เป้าหมาย</span>'+
            '<input class="in mono" value="'+esc(p.targetRaw)+'" onchange="A.target(\''+e.k+'\',this.value)" style="width:74px;text-align:center;padding:4px 8px;font-size:13px;">'+
-           '<span style="font-size:12px;color:#6E7378;">'+esc(e.unit)+'</span>'+
+           '<span style="font-size:12px;color:var(--c-text-muted);">'+esc(e.unit)+'</span>'+
          '</div>'+
-         '<div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed #E4E5E7;">'+
-           '<span style="font-size:12px;color:#6E7378;white-space:nowrap;">ผลที่ทำได้</span>'+
+         '<div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--c-border);">'+
+           '<span style="font-size:12px;color:var(--c-text-muted);white-space:nowrap;">ผลที่ทำได้</span>'+
            '<input class="in mono" id="dr_'+e.k+'" value="'+esc((S.testDraft||{})[e.k]||"")+'" placeholder="เช่น '+esc(p.targetRaw)+'" '+
              'oninput="A.draft(\''+e.k+'\',this.value)" style="flex:1;min-width:0;text-align:center;padding:6px 9px;font-size:13px;">'+
            '<button class="btn sm" onclick="A.addTest(\''+e.k+'\')" style="flex:none;">＋ บันทึกผล</button>'+
          '</div>'+
-         '<div style="font-size:11.5px;color:#6E7378;margin-top:8px;">'+
+         '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:8px;">'+
            (p.n?("ทดสอบ "+p.n+" ครั้ง · ผ่าน "+p.passCount+" ครั้ง ("+p.ratePct+"%)"):"ยังไม่มีผลการทดสอบ")+'</div>'+
          '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">'+
            p.list.map(function(v,i){
@@ -1062,7 +1156,7 @@ function viewPhys(){
        '</div>';
   });
   h+='</div>'+
-     '<div style="font-size:11px;color:#9AA0A8;margin-top:12px;line-height:1.4;">* ตัวเลขเป็นค่าอ้างอิงเริ่มต้น — ยึดตามประกาศรับสมัครของรุ่นเป็นหลัก แล้วปรับให้ตรง</div>'+
+     '<div style="font-size:11px;color:var(--c-text-subtle);margin-top:12px;line-height:1.4;">* ตัวเลขเป็นค่าอ้างอิงเริ่มต้น — ยึดตามประกาศรับสมัครของรุ่นเป็นหลัก แล้วปรับให้ตรง</div>'+
    '</div>';
 
   h+='<div class="card">'+
@@ -1071,7 +1165,7 @@ function viewPhys(){
          dayNames.map(function(nm,idx){
            var rest=idx===6;
            return '<div style="display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:11px;background:'+(rest?"#F7F8FA":"#F4F6F9")+';opacity:'+(rest?.75:1)+';">'+
-             '<span style="width:38px;flex:none;font-size:12px;font-weight:600;color:#6E7378;">'+chipLabels[idx]+'</span>'+
+             '<span style="width:38px;flex:none;font-size:12px;font-weight:600;color:var(--c-text-muted);">'+chipLabels[idx]+'</span>'+
              '<span style="flex:1;font-size:13px;line-height:1.35;">'+trainFocus[idx]+'</span></div>';
          }).join("")+
        '</div>'+
@@ -1083,7 +1177,7 @@ function viewPhys(){
 /* ───── ความพร้อม ───── */
 function viewReady(){
   var ks=knowStats(), ps=physStats();
-  var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"#6E7378"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
+  var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"var(--c-text-muted)"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
   var h="";
 
   h+='<div class="card" style="border-radius:20px;padding:18px;display:flex;gap:16px;">'+
@@ -1116,17 +1210,17 @@ function viewReady(){
         /* หัวข้อที่ยังไม่มีข้อสอบในคลัง: บอกให้ชัดว่ายังไม่เปิด อย่าให้กดแล้วเงียบ */
         h+='<div '+(nq?('onclick="A.openQuiz(\''+su.k+'\',\''+t.id+'\')"'):'')+
              ' style="display:flex;align-items:center;gap:10px;'+(nq?"cursor:pointer;":"opacity:.5;")+'">'+
-             '<div style="width:24px;height:24px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;'+
-               (passed?"background:#1E9E5A;":"background:#fff;border:1.5px solid #C9CCD1;")+'">'+(passed?"✓":"")+'</div>'+
+             '<div style="width:24px;height:24px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--c-on-brand);'+
+               (passed?"background:#1E9E5A;":"background:var(--c-surface);border:1.5px solid var(--c-border);")+'">'+(passed?"✓":"")+'</div>'+
              '<div style="flex:1;min-width:0;">'+
                '<div style="font-size:13.5px;font-weight:500;">'+esc(t.label)+'</div>'+
-               '<div style="font-size:10.5px;color:#9AA0A8;">'+
+               '<div style="font-size:10.5px;color:var(--c-text-subtle);">'+
                  (!nq ? "ยังไม่มีข้อสอบในหัวข้อนี้" :
                    ((sc!=null ? ("คะแนนล่าสุด "+sc+"% · "+(sc>=80 ? "ผ่าน" : (passed?"เคยผ่านแล้ว":"ยังไม่ผ่าน"))) : "ยังไม่ได้ทดสอบ")+
                     " · คลัง "+nq+" ข้อ"))+
                '</div>'+
              '</div>'+
-             '<span style="font-size:11px;font-weight:600;white-space:nowrap;color:'+(!nq?"#9AA0A8":(passed?"#1E9E5A":"var(--pri)"))+';">'+
+             '<span style="font-size:11px;font-weight:600;white-space:nowrap;color:'+(!nq?"var(--c-text-subtle)":(passed?"#1E9E5A":"var(--pri)"))+';">'+
                (!nq?"เร็ว ๆ นี้":(passed?"ผ่านแล้ว":("ทำข้อสอบ "+Math.min(10,nq)+" ข้อ ›")))+'</span>'+
            '</div>';
       }
@@ -1218,12 +1312,12 @@ function mockPlanHTML(){
     rows+='<tr>'+
       '<td style="padding:5px 8px;">'+esc(sName[p.k]||p.k)+'</td>'+
       '<td style="padding:5px 8px;text-align:right;font-variant-numeric:tabular-nums;">'+p.n+'</td>'+
-      '<td style="padding:5px 8px;text-align:right;font-variant-numeric:tabular-nums;color:'+(ok?"#6E7378":"var(--pri)")+';">'+have+'</td>'+
+      '<td style="padding:5px 8px;text-align:right;font-variant-numeric:tabular-nums;color:'+(ok?"var(--c-text-muted)":"var(--pri)")+';">'+have+'</td>'+
       '<td style="padding:5px 8px;text-align:right;font-weight:700;color:'+(ok?"#1E9E5A":"var(--pri)")+';">'+
         (ok?"พอ":"ขาด "+(p.n-have))+'</td></tr>';
   });
   return '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12.5px;">'+
-      '<thead><tr style="color:#9AA0A8;font-size:11px;">'+
+      '<thead><tr style="color:var(--c-text-subtle);font-size:11px;">'+
         '<th style="text-align:left;padding:4px 8px;">วิชา</th>'+
         '<th style="text-align:right;padding:4px 8px;">ต้องใช้</th>'+
         '<th style="text-align:right;padding:4px 8px;">มีในคลัง</th>'+
@@ -1284,23 +1378,23 @@ function pickFormHTML(){
       return '<option value="'+t.id+'"'+(t.id===S.pickTopic?" selected":"")+(n?"":" disabled")+'>'+
         esc(t.label)+' ('+n+' ข้อ)</option>';
     }).join("");
-  var st='width:100%;padding:9px 10px;border:1px solid #D8DBE0;border-radius:9px;font-size:13.5px;font-family:inherit;background:#fff;';
+  var st='width:100%;padding:9px 10px;border:1px solid var(--c-border);border-radius:9px;font-size:13.5px;font-family:inherit;background:var(--c-surface);';
   return '<div style="display:flex;flex-direction:column;gap:10px;">'+
-      '<div><div style="font-size:11.5px;color:#6E7378;margin-bottom:4px;">วิชา</div>'+
+      '<div><div style="font-size:11.5px;color:var(--c-text-muted);margin-bottom:4px;">วิชา</div>'+
         '<select style="'+st+'" onchange="A.setPick(\'subj\',this.value)">'+subjOpts+'</select></div>'+
-      '<div><div style="font-size:11.5px;color:#6E7378;margin-bottom:4px;">หัวข้อ</div>'+
+      '<div><div style="font-size:11.5px;color:var(--c-text-muted);margin-bottom:4px;">หัวข้อ</div>'+
         '<select style="'+st+'" onchange="A.setPick(\'topic\',this.value)">'+topicOpts+'</select></div>'+
       '<div style="display:flex;gap:10px;">'+
-        '<div style="flex:1;"><div style="font-size:11.5px;color:#6E7378;margin-bottom:4px;">จำนวนข้อ</div>'+
+        '<div style="flex:1;"><div style="font-size:11.5px;color:var(--c-text-muted);margin-bottom:4px;">จำนวนข้อ</div>'+
           '<input type="number" min="1" max="'+Math.max(1,pool.length)+'" value="'+(S.pickN||10)+'" '+
             'style="'+st+'" onchange="A.setPick(\'n\',this.value)"></div>'+
-        '<div style="flex:1;"><div style="font-size:11.5px;color:#6E7378;margin-bottom:4px;">การเรียง</div>'+
+        '<div style="flex:1;"><div style="font-size:11.5px;color:var(--c-text-muted);margin-bottom:4px;">การเรียง</div>'+
           '<select style="'+st+'" onchange="A.setPick(\'order\',this.value)">'+
             '<option value="rand"'+(S.pickOrder!=="bank"?" selected":"")+'>สุ่ม</option>'+
             '<option value="bank"'+(S.pickOrder==="bank"?" selected":"")+'>ตามลำดับในคลัง</option>'+
           '</select></div>'+
       '</div>'+
-      '<div style="font-size:12px;color:'+(pool.length?"#6E7378":"var(--pri)")+';">'+
+      '<div style="font-size:12px;color:'+(pool.length?"var(--c-text-muted)":"var(--pri)")+';">'+
         (pool.length ? "หัวข้อที่เลือกมี <b>"+pool.length+"</b> ข้อในคลัง" : "⚠️ หัวข้อที่เลือกยังไม่มีข้อสอบ")+'</div>'+
       '<button class="btn sm" '+(pool.length?"":"disabled style=\"opacity:.4;\"")+' onclick="A.makePick()">📄 สร้างไฟล์ข้อสอบ</button>'+
     '</div>';
@@ -1323,7 +1417,7 @@ function renderOverlays(){
 /* ── กระดาษข้อสอบ + เฉลย (ออกแบบให้พิมพ์ลงกระดาษ A4 ได้เลย) ── */
 function mockSheet(){
   var m=S.mock, showAns=S.mockView==="key";
-  var h='<div class="sheet mockwrap"><div class="sheetin" style="border-radius:24px 24px 0 0;background:#fff;max-height:94vh;">'+
+  var h='<div class="sheet mockwrap"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);max-height:94vh;">'+
     '<div class="sheethead noprint" style="align-items:flex-start;">'+
       '<div style="min-width:0;">'+
         '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">'+
@@ -1409,7 +1503,7 @@ function mockKeyBlocks(m){
 
 function quizSheet(){
   var q=S.quiz, h="";
-  h+='<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:#fff;">'+
+  h+='<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);">'+
        '<div class="sheethead" style="align-items:flex-start;">'+
          '<div style="min-width:0;">'+
            '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">แบบทดสอบ'+(q.questions.length?(" "+q.questions.length+" ข้อ"):"")+' · ผ่าน 80%</div>'+
@@ -1420,22 +1514,22 @@ function quizSheet(){
        '<div class="sheetbody">';
 
   if(q.status==="loading"){
-    h+='<div style="text-align:center;padding:40px 10px;color:#6E7378;">'+
+    h+='<div style="text-align:center;padding:40px 10px;color:var(--c-text-muted);">'+
          '<div style="font-size:30px;margin-bottom:10px;">⏳</div>'+
-         '<div style="font-size:14px;font-weight:600;color:#0E0F12;">กำลังออกข้อสอบจากหัวข้อนี้…</div>'+
+         '<div style="font-size:14px;font-weight:600;color:var(--c-text);">กำลังออกข้อสอบจากหัวข้อนี้…</div>'+
        '</div>';
   } else if(q.status==="empty"){
     h+='<div style="text-align:center;padding:30px 10px;">'+
          '<div style="font-size:34px;margin-bottom:12px;">📭</div>'+
          '<div style="font-size:15px;font-weight:700;">ยังไม่มีข้อสอบในหัวข้อนี้</div>'+
-         '<div style="font-size:12.5px;color:#6E7378;margin:8px 0 20px;line-height:1.6;">'+
+         '<div style="font-size:12.5px;color:var(--c-text-muted);margin:8px 0 20px;line-height:1.6;">'+
            'ให้ติวเตอร์เพิ่มข้อสอบเข้าคลังก่อน<br>(แตะโลโก้มุมซ้ายบน → ใส่รหัสแอดมิน → คลังข้อสอบรายหัวข้อ)</div>'+
          '<button class="btn ghost" onclick="A.closeQuiz()">ปิด</button>'+
        '</div>';
   } else if(q.status==="error"){
     h+='<div style="text-align:center;padding:34px 10px;">'+
          '<div style="font-size:14px;font-weight:600;">ออกข้อสอบไม่สำเร็จ</div>'+
-         '<div style="font-size:12.5px;color:#6E7378;margin:6px 0 18px;">ลองใหม่อีกครั้ง หรือปิดหน้าต่างนี้</div>'+
+         '<div style="font-size:12.5px;color:var(--c-text-muted);margin:6px 0 18px;">ลองใหม่อีกครั้ง หรือปิดหน้าต่างนี้</div>'+
          '<div style="display:flex;gap:10px;justify-content:center;">'+
            '<button class="btn" onclick="A.retryQuiz()">ลองใหม่</button>'+
            '<button class="btn ghost" onclick="A.closeQuiz()">ปิด</button>'+
@@ -1444,15 +1538,15 @@ function quizSheet(){
     var cur=q.questions[q.idx];
     h+='<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:10px;">'+
          '<div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(q.idx/q.questions.length*100)+'%;"></div></div>'+
-       '<div class="mono" style="font-size:12px;color:#6E7378;margin-bottom:8px;">ข้อ '+(q.idx+1)+' / '+q.questions.length+'</div>'+
+       '<div class="mono" style="font-size:12px;color:var(--c-text-muted);margin-bottom:8px;">ข้อ '+(q.idx+1)+' / '+q.questions.length+'</div>'+
        '<div style="font-size:16px;font-weight:600;line-height:1.7;margin-bottom:'+(cur.img?"4px":"16px")+';">'+mfrac(cur.q)+'</div>'+
        (cur.img ? imgHTML(cur.img, 300) + '<div style="height:12px;"></div>' : "")+
        cur.choices.map(function(ch,ci){
          var ci_img = (cur.cimg||[])[ci];
          return '<div onclick="A.answer('+ci+')" style="display:'+(ci_img?"flex":"block")+';align-items:center;gap:10px;width:100%;text-align:left;padding:13px 14px;border-radius:12px;'+
-           'border:1px solid #E4E5E7;background:#fff;font-size:14px;line-height:1.7;cursor:pointer;margin-bottom:9px;">'+
+           'border:1px solid var(--c-border);background:var(--c-surface);font-size:14px;line-height:1.7;cursor:pointer;margin-bottom:9px;">'+
            (isLetterCh(cur.choices) ? "" : '<span style="flex:none;font-weight:600;">'+(THL[ci]||"")+'.</span>')+
-           (ci_img ? '<img src="'+esc(ci_img)+'" alt="" loading="lazy" style="flex:none;max-height:96px;max-width:60%;border-radius:8px;background:#fff;">' : "")+
+           (ci_img ? '<img src="'+esc(ci_img)+'" alt="" loading="lazy" style="flex:none;max-height:96px;max-width:60%;border-radius:8px;background:var(--c-surface);">' : "")+
            '<span style="flex:1;min-width:0;'+(isLetterCh(cur.choices)?"font-weight:700;font-size:16px;":"")+'">'+
              (isLetterCh(cur.choices) ? esc(ch) : mfrac(ch))+'</span>'+
          '</div>';
@@ -1461,14 +1555,14 @@ function quizSheet(){
     h+='<div style="text-align:center;padding:14px 0;">'+
          '<div class="mono" style="font-size:52px;font-weight:600;line-height:1;color:'+(q.passed?"#1E9E5A":"var(--pri)")+';">'+q.pct+'%</div>'+
          '<div style="font-size:18px;font-weight:700;margin-top:10px;">'+(q.passed?"ผ่านเกณฑ์ 🎉":"ยังไม่ผ่านเกณฑ์")+'</div>'+
-         '<div style="font-size:12.5px;color:#6E7378;margin-top:6px;">ทำถูก '+q.correct+' / '+q.questions.length+' ข้อ · เกณฑ์ผ่าน 80%'+(q.passed?" · บันทึกเป็นผ่านแล้ว":"")+'</div>'+
+         '<div style="font-size:12.5px;color:var(--c-text-muted);margin-top:6px;">ทำถูก '+q.correct+' / '+q.questions.length+' ข้อ · เกณฑ์ผ่าน 80%'+(q.passed?" · บันทึกเป็นผ่านแล้ว":"")+'</div>'+
          '<div style="text-align:left;margin-top:20px;display:flex;flex-direction:column;gap:9px;">'+
            '<div class="lbl">เฉลยรายข้อ</div>'+
            q.questions.map(function(qq,i){
              var you=q.picked[i], ok=you===qq.answer;
-             return '<div style="border:1px solid #E4E5E7;border-radius:12px;padding:11px;">'+
+             return '<div style="border:1px solid var(--c-border);border-radius:12px;padding:11px;">'+
                '<div style="display:flex;gap:9px;align-items:flex-start;">'+
-                 '<div style="width:20px;height:20px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;'+
+                 '<div style="width:20px;height:20px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--c-on-brand);'+
                    'background:'+(ok?"#1E9E5A":"var(--pri)")+';">'+(ok?"✓":"✗")+'</div>'+
                  '<div style="flex:1;min-width:0;">'+
                    '<div style="font-size:13px;font-weight:600;line-height:1.7;">'+(i+1)+'. '+mfrac(qq.q)+'</div>'+
@@ -1478,8 +1572,8 @@ function quizSheet(){
                    '<div style="font-size:12px;color:#1E9E5A;margin-top:2px;font-weight:600;line-height:1.7;">เฉลย: '+chLabel(qq.choices,qq.answer)+'</div>'+
                    (((qq.cimg||[])[qq.answer])?imgHTML(qq.cimg[qq.answer],90):"")+
                    ((qq.explain&&qq.explain.trim())||qq.ximg?
-                     '<div style="margin-top:9px;background:#F4F6FA;border-radius:9px;padding:10px 11px;">'+
-                       '<div style="font-size:11px;font-weight:700;color:#6E7378;margin-bottom:4px;">วิธีทำโดยละเอียด</div>'+
+                     '<div style="margin-top:9px;background:var(--c-bg);border-radius:9px;padding:10px 11px;">'+
+                       '<div style="font-size:11px;font-weight:700;color:var(--c-text-muted);margin-bottom:4px;">วิธีทำโดยละเอียด</div>'+
                        (qq.ximg ? imgHTML(qq.ximg, 220) : "")+
                        '<div style="font-size:12.5px;line-height:1.9;white-space:pre-wrap;">'+mfrac(qq.explain||"")+'</div></div>':"")+
                  '</div></div></div>';
@@ -1558,16 +1652,16 @@ function kb(s){ return Math.round((s ? s.length : 0) * 0.75 / 1024); }
 function imgHTML(src, max){
   if(!src) return "";
   return '<img src="'+esc(src)+'" alt="รูปประกอบโจทย์" loading="lazy" '+
-    'style="display:block;max-width:100%;max-height:'+(max||260)+'px;margin:8px 0;border-radius:10px;border:1px solid #E4E5E7;background:#fff;">';
+    'style="display:block;max-width:100%;max-height:'+(max||260)+'px;margin:8px 0;border-radius:10px;border:1px solid var(--c-border);background:var(--c-surface);">';
 }
 /* ปุ่มเลือก/ลบรูป ในแผงแอดมิน */
 function imgBtn(label, t, i, cur){
   if(cur){
     return '<div style="display:flex;align-items:center;gap:8px;margin:6px 0;">'+
-      '<img src="'+esc(cur)+'" style="width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid #E4E5E7;">'+
-      '<span style="font-size:11.5px;color:#6E7378;">'+kb(cur)+' KB</span>'+
+      '<img src="'+esc(cur)+'" style="width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid var(--c-border);">'+
+      '<span style="font-size:11.5px;color:var(--c-text-muted);">'+kb(cur)+' KB</span>'+
       '<button class="btn sm ghost" onclick="pickImage(\''+t+'\','+(i==null?"null":i)+')">เปลี่ยน</button>'+
-      '<button class="btn sm ghost" style="color:#6E7378;" onclick="delDraftImage(\''+t+'\','+(i==null?"null":i)+')">ลบรูป</button>'+
+      '<button class="btn sm ghost" style="color:var(--c-text-muted);" onclick="delDraftImage(\''+t+'\','+(i==null?"null":i)+')">ลบรูป</button>'+
     '</div>';
   }
   return '<button class="btn sm ghost" style="margin:6px 0;" onclick="pickImage(\''+t+'\','+(i==null?"null":i)+')">🖼 '+label+'</button>';
@@ -1576,14 +1670,14 @@ function imgBtn(label, t, i, cur){
 function pvSet(id, v){
   var el = document.getElementById(id);
   if(!el) return;
-  el.innerHTML = (v && v.trim()) ? mrender(v) : '<span style="color:#9AA0A8;font-size:12px;">— ยังไม่ได้พิมพ์ —</span>';
+  el.innerHTML = (v && v.trim()) ? mrender(v) : '<span style="color:var(--c-text-subtle);font-size:12px;">— ยังไม่ได้พิมพ์ —</span>';
 }
 /* กล่องแสดงตัวอย่างสด ๆ ว่าสมการที่พิมพ์จะออกมาหน้าตาแบบไหน */
 function pvBox(id, val, multi){
-  return '<div style="background:#F4F6FA;border:1px dashed #D4D8DE;border-radius:9px;padding:9px 11px;">'+
-    '<div style="font-size:10.5px;font-weight:700;color:#9AA0A8;margin-bottom:3px;">ตัวอย่างที่นักเรียนจะเห็น</div>'+
+  return '<div style="background:var(--c-bg);border:1px dashed var(--c-border);border-radius:9px;padding:9px 11px;">'+
+    '<div style="font-size:10.5px;font-weight:700;color:var(--c-text-subtle);margin-bottom:3px;">ตัวอย่างที่นักเรียนจะเห็น</div>'+
     '<div id="'+id+'" style="font-size:'+(multi?"12.5px":"15px")+';line-height:1.9;'+(multi?"white-space:pre-wrap;":"")+'">'+
-      (val ? mrender(val) : '<span style="color:#9AA0A8;font-size:12px;">— ยังไม่ได้พิมพ์ —</span>')+
+      (val ? mrender(val) : '<span style="color:var(--c-text-subtle);font-size:12px;">— ยังไม่ได้พิมพ์ —</span>')+
     '</div></div>';
 }
 /* ตารางสอนวิธีพิมพ์สมการ — แสดงผลจริงให้ดูเทียบกัน */
@@ -1592,28 +1686,28 @@ var MATH_HELP = [["1/2","เศษส่วน"],["2 1/2","จำนวนคล
   ["sqrt(2)","กรณฑ์"],["sqrt(a^2+b^2)","กรณฑ์หลายพจน์"],
   ["<=","น้อยกว่าเท่ากับ"],[">=","มากกว่าเท่ากับ"],["!=","ไม่เท่ากับ"],["+-","บวกลบ"],["*","คูณ"]];
 function mathHelp(){
-  return '<details style="margin-bottom:12px;background:#F4F6FA;border:1px solid #E4E5E7;border-radius:10px;padding:9px 11px;">'+
+  return '<details style="margin-bottom:12px;background:var(--c-bg);border:1px solid var(--c-border);border-radius:10px;padding:9px 11px;">'+
     '<summary style="font-size:12.5px;font-weight:700;cursor:pointer;color:var(--pri);">📐 วิธีพิมพ์สมการ (แตะดู)</summary>'+
-    '<div style="font-size:11.5px;color:#6E7378;margin:8px 0 6px;">พิมพ์แบบธรรมดาทางซ้าย → นักเรียนจะเห็นแบบขวา</div>'+
+    '<div style="font-size:11.5px;color:var(--c-text-muted);margin:8px 0 6px;">พิมพ์แบบธรรมดาทางซ้าย → นักเรียนจะเห็นแบบขวา</div>'+
     '<div style="display:grid;grid-template-columns:auto auto 1fr;gap:6px 10px;align-items:center;">'+
       MATH_HELP.map(function(r){
-        return '<code style="background:#fff;border:1px solid #E4E5E7;border-radius:5px;padding:2px 6px;font-size:12px;">'+esc(r[0])+'</code>'+
-               '<span style="color:#C9CED6;">→</span>'+
-               '<span style="font-size:14px;line-height:1.8;">'+mrender(r[0])+'<span style="font-size:11px;color:#9AA0A8;margin-left:8px;">'+r[1]+'</span></span>';
+        return '<code style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:5px;padding:2px 6px;font-size:12px;">'+esc(r[0])+'</code>'+
+               '<span style="color:var(--c-border);">→</span>'+
+               '<span style="font-size:14px;line-height:1.8;">'+mrender(r[0])+'<span style="font-size:11px;color:var(--c-text-subtle);margin-left:8px;">'+r[1]+'</span></span>';
       }).join("")+
     '</div></details>';
 }
 function adminSheet(){
   var h='<div class="sheet"><div class="sheetin">';
   if(S.adminView==="login"){
-    h+='<div style="padding:26px 22px 30px;background:#F4F6FA;">'+
+    h+='<div style="padding:26px 22px 30px;background:var(--c-bg);">'+
          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">'+
            '<div style="font-size:18px;font-weight:700;">🔒 เข้าสู่ระบบแอดมิน</div>'+
            '<button class="x" onclick="A.closeAdmin()">✕</button>'+
          '</div>'+
-         '<label style="font-size:12px;color:#6E7378;">รหัสแอดมิน</label>'+
+         '<label style="font-size:12px;color:var(--c-text-muted);">รหัสแอดมิน</label>'+
          '<input type="password" id="adpin" value="'+esc(S.adminCode)+'" oninput="A.adminCode(this.value)" placeholder="กรอกรหัส" '+
-           'style="width:100%;margin-top:6px;border:1px solid #E4E5E7;border-radius:11px;padding:12px 14px;font-size:16px;background:#fff;">'+
+           'style="width:100%;margin-top:6px;border:1px solid var(--c-border);border-radius:11px;padding:12px 14px;font-size:16px;background:var(--c-surface);">'+
          (S.adminErr?'<div style="font-size:12.5px;color:var(--pri);margin-top:8px;">รหัสไม่ถูกต้อง ลองอีกครั้ง</div>':"")+
          '<button class="btn" style="width:100%;margin-top:16px;padding:13px;font-size:15px;" onclick="A.submitAdmin()">เข้าสู่ระบบ</button>'+
        '</div>';
@@ -1629,13 +1723,13 @@ function adminSheet(){
          '<div class="muted" style="margin-bottom:14px;">ลงข้อสอบเองต่อหัวข้อ — นักเรียนจะได้สุ่ม 10 ข้อจากคลังนี้ ใช้ได้แม้ไม่มีเน็ต</div>'+
          '<div style="display:flex;flex-direction:column;gap:14px;">';
     subjects().forEach(function(su){
-      h+='<div style="background:#fff;border:1px solid #E4E5E7;border-radius:14px;padding:12px 14px;">'+
+      h+='<div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:12px 14px;">'+
            '<div style="font-size:13.5px;font-weight:700;margin-bottom:8px;">'+short(su.k)+'</div>'+
            '<div style="display:flex;flex-direction:column;gap:7px;">';
       (S.topics[su.k]||[]).forEach(function(t){
         h+='<div style="display:flex;align-items:center;gap:10px;">'+
              '<div style="flex:1;min-width:0;font-size:13px;">'+esc(t.label)+'</div>'+
-             '<span class="mono" style="font-size:11px;color:#6E7378;white-space:nowrap;">'+(((S.bank||{})[t.id]||[]).length)+' ข้อ</span>'+
+             '<span class="mono" style="font-size:11px;color:var(--c-text-muted);white-space:nowrap;">'+(((S.bank||{})[t.id]||[]).length)+' ข้อ</span>'+
              '<button class="btn sm" onclick="A.openBank(\''+su.k+'\',\''+t.id+'\')">จัดการ</button>'+
            '</div>';
       });
@@ -1649,15 +1743,15 @@ function adminSheet(){
          '<div class="muted" style="margin-bottom:12px;">แก้ชื่อ · คำอธิบาย · เกณฑ์ · หน่วย · ทิศทางที่ถือว่าดี หรือเพิ่ม/ลบท่า</div>'+
          '<div style="display:flex;flex-direction:column;gap:12px;">';
     physList().forEach(function(e){
-      h+='<div style="background:#fff;border:1px solid #E4E5E7;border-radius:14px;padding:12px;">'+
+      h+='<div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:12px;">'+
            '<input class="in" value="'+esc(e.name)+'" placeholder="ชื่อท่า" onchange="A.setPhys(\''+e.k+'\',\'name\',this.value)" style="width:100%;font-weight:600;margin-bottom:6px;">'+
-           '<input class="in" value="'+esc(e.hint||"")+'" placeholder="คำอธิบายสั้น" onchange="A.setPhys(\''+e.k+'\',\'hint\',this.value)" style="width:100%;font-size:12.5px;color:#6E7378;margin-bottom:9px;">'+
+           '<input class="in" value="'+esc(e.hint||"")+'" placeholder="คำอธิบายสั้น" onchange="A.setPhys(\''+e.k+'\',\'hint\',this.value)" style="width:100%;font-size:12.5px;color:var(--c-text-muted);margin-bottom:9px;">'+
            '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">'+
-             '<span style="font-size:12px;color:#6E7378;">เกณฑ์</span>'+
+             '<span style="font-size:12px;color:var(--c-text-muted);">เกณฑ์</span>'+
              '<input class="in mono" value="'+esc(e.def)+'" onchange="A.setPhys(\''+e.k+'\',\'def\',this.value)" style="width:62px;text-align:center;padding:5px 8px;font-size:13px;">'+
              '<input class="in" value="'+esc(e.unit)+'" placeholder="หน่วย" onchange="A.setPhys(\''+e.k+'\',\'unit\',this.value)" style="width:66px;text-align:center;padding:5px 8px;font-size:12.5px;">'+
              '<button class="btn sm ghost" onclick="A.toggleDir(\''+e.k+'\')">'+(e.dir==="high"?"ค่ามาก = ดี":"ค่าน้อย = ดี")+'</button>'+
-             '<button class="btn sm ghost" style="margin-left:auto;color:#6E7378;" onclick="A.delPhys(\''+e.k+'\')">ลบ</button>'+
+             '<button class="btn sm ghost" style="margin-left:auto;color:var(--c-text-muted);" onclick="A.delPhys(\''+e.k+'\')">ลบ</button>'+
            '</div>'+
          '</div>';
     });
@@ -1680,7 +1774,7 @@ function adminSheet(){
          '<div class="muted" style="margin-bottom:12px;">ข้อสอบที่ลงไว้ยังอยู่แค่ในเครื่องนี้ — กดปุ่มนี้เพื่อได้ไฟล์ <b>questions.json</b> '+
            'แล้วอัปโหลดทับไฟล์เดิมบนเว็บ นักเรียนจะได้ข้อสอบชุดใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
          '<button class="btn sm" onclick="A.exportQuestions()">⬇︎ ส่งออกคลังข้อสอบ (questions.json)</button>'+
-         '<div style="font-size:11px;color:#9AA0A8;margin-top:8px;">เวอร์ชันเนื้อหาปัจจุบัน: '+(S.contentVersion||0)+' → จะส่งออกเป็นเวอร์ชัน '+((S.contentVersion||0)+1)+'</div>'+
+         '<div style="font-size:11px;color:var(--c-text-subtle);margin-top:8px;">เวอร์ชันเนื้อหาปัจจุบัน: '+(S.contentVersion||0)+' → จะส่งออกเป็นเวอร์ชัน '+((S.contentVersion||0)+1)+'</div>'+
          (S.bankDirty
            ? '<div style="margin-top:12px;padding:12px 14px;background:#FEF4F4;border:1px solid #F5C6C8;border-left:3px solid var(--pri);border-radius:9px;">'+
                '<div style="font-size:13px;font-weight:700;color:#7A1219;margin-bottom:5px;">⚠️ เครื่องนี้ติดค้างที่ข้อสอบชุดเก่า</div>'+
@@ -1710,21 +1804,21 @@ function adminSheet(){
        '</div>'+
        '<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">ขนาดข้อมูล</div>'+
-         '<div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:#6E7378;">'+
-           '<div>คลังข้อสอบ: <b style="color:#0E0F12;">'+Object.values(S.bank||{}).reduce(function(a,b){return a+b.length;},0)+' ข้อ</b> · '+
+         '<div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--c-text-muted);">'+
+           '<div>คลังข้อสอบ: <b style="color:var(--c-text);">'+Object.values(S.bank||{}).reduce(function(a,b){return a+b.length;},0)+' ข้อ</b> · '+
              Math.round(JSON.stringify(S.bank||{}).length/1024)+' KB (อยู่ในไฟล์บนเว็บ ไม่กินพื้นที่เครื่อง)</div>'+
-           '<div>ข้อมูลที่เก็บในเครื่องนี้: <b style="color:#0E0F12;">'+storeKB()+' KB</b> (ความคืบหน้า/ผลสอบ/ผลพละ)</div>'+
+           '<div>ข้อมูลที่เก็บในเครื่องนี้: <b style="color:var(--c-text);">'+storeKB()+' KB</b> (ความคืบหน้า/ผลสอบ/ผลพละ)</div>'+
          '</div>'+
        '</div>';
-    h+='<div style="font-size:11.5px;color:#9AA0A8;margin-top:16px;line-height:1.5;">ส่วนหัวข้อและตารางติว ปรับแก้ได้จากปุ่ม “จัดการหัวข้อ” และ “✎ แก้ไข” ในแต่ละแท็บโดยตรง</div>'+
+    h+='<div style="font-size:11.5px;color:var(--c-text-subtle);margin-top:16px;line-height:1.5;">ส่วนหัวข้อและตารางติว ปรับแก้ได้จากปุ่ม “จัดการหัวข้อ” และ “✎ แก้ไข” ในแต่ละแท็บโดยตรง</div>'+
        '</div>';
   } else if(S.adminView==="bank"){
     var tObj=(S.topics[S.adminSubj]||[]).find(function(x){ return x.id===S.adminTopic; });
     var list=((S.bank||{})[S.adminTopic]||[]);
     h+='<div class="sheethead">'+
-         '<button class="x" style="color:#0E0F12;" onclick="A.backPanel()">◀</button>'+
+         '<button class="x" style="color:var(--c-text);" onclick="A.backPanel()">◀</button>'+
          '<div style="flex:1;min-width:0;">'+
-           '<div style="font-size:11px;color:#6E7378;">'+esc(sName[S.adminSubj]||"")+'</div>'+
+           '<div style="font-size:11px;color:var(--c-text-muted);">'+esc(sName[S.adminSubj]||"")+'</div>'+
            '<div style="font-size:15px;font-weight:700;line-height:1.2;">'+esc(tObj?tObj.label:"")+'</div>'+
          '</div>'+
          '<button class="x" onclick="A.closeAdmin()">✕</button>'+
@@ -1732,22 +1826,22 @@ function adminSheet(){
        '<div class="sheetbody">';
     var d=S.adminDraft;
     if(d){
-      h+='<div style="background:#fff;border:1px solid #E4E5E7;border-radius:14px;padding:14px;">'+
+      h+='<div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:14px;">'+
            '<div style="font-size:14px;font-weight:700;margin-bottom:10px;">'+(d.index==null?"เพิ่มข้อสอบใหม่":"แก้ไขข้อสอบ")+'</div>'+
            mathHelp()+
-           '<label style="font-size:12px;color:#6E7378;">โจทย์</label>'+
+           '<label style="font-size:12px;color:var(--c-text-muted);">โจทย์</label>'+
            '<textarea id="dq" oninput="A.draftQ(this.value)" placeholder="พิมพ์โจทย์ เช่น  2/3 + 3/4  หรือ  sqrt(a^2 + b^2)" '+
-             'style="width:100%;margin:5px 0 6px;border:1px solid #E4E5E7;border-radius:10px;padding:10px;font-size:14px;min-height:64px;resize:vertical;">'+esc(d.q)+'</textarea>'+
+             'style="width:100%;margin:5px 0 6px;border:1px solid var(--c-border);border-radius:10px;padding:10px;font-size:14px;min-height:64px;resize:vertical;">'+esc(d.q)+'</textarea>'+
            pvBox("pvq", d.q)+
            imgBtn("เพิ่มรูปประกอบโจทย์", "q", null, d.img)+
-           '<label style="font-size:12px;color:#6E7378;display:block;margin-top:12px;">ตัวเลือก (แตะวงกลมเพื่อเลือกเฉลย · ใส่รูปแทนข้อความได้)</label>'+
+           '<label style="font-size:12px;color:var(--c-text-muted);display:block;margin-top:12px;">ตัวเลือก (แตะวงกลมเพื่อเลือกเฉลย · ใส่รูปแทนข้อความได้)</label>'+
            '<div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">'+
              d.choices.map(function(ch,ci){
                var on=d.answer===ci, cim=(d.cimg||[])[ci];
                return '<div style="border:1px solid #F0F1F3;border-radius:10px;padding:8px;">'+
                  '<div style="display:flex;align-items:center;gap:9px;">'+
                    '<div onclick="A.draftAnswer('+ci+')" style="width:22px;height:22px;flex:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;'+
-                     'font-size:12px;color:#fff;font-weight:700;'+(on?"background:#1E9E5A;":"background:#fff;border:2px solid #C9CED6;")+'">✓</div>'+
+                     'font-size:12px;color:var(--c-on-brand);font-weight:700;'+(on?"background:#1E9E5A;":"background:var(--c-surface);border:2px solid var(--c-border);")+'">✓</div>'+
                    '<input class="in" value="'+esc(ch)+'" placeholder="ตัวเลือก '+THL[ci]+'" oninput="A.draftChoice('+ci+',this.value)" style="flex:1;min-width:0;padding:9px 11px;">'+
                    '<div id="pvc'+ci+'" style="flex:none;min-width:36px;max-width:100px;overflow:hidden;font-size:13px;line-height:1.7;">'+(ch?mrender(ch):"")+'</div>'+
                  '</div>'+
@@ -1755,9 +1849,9 @@ function adminSheet(){
                '</div>';
              }).join("")+
            '</div>'+
-           '<label style="font-size:12px;color:#6E7378;display:block;margin-top:12px;">เฉลยละเอียด (วิธีทำ · สูตร · ขั้นตอน)</label>'+
+           '<label style="font-size:12px;color:var(--c-text-muted);display:block;margin-top:12px;">เฉลยละเอียด (วิธีทำ · สูตร · ขั้นตอน)</label>'+
            '<textarea id="dx" oninput="A.draftExplain(this.value)" placeholder="อธิบายเป็นขั้นตอนให้มือใหม่เข้าใจง่าย ขึ้นบรรทัดใหม่ได้" '+
-             'style="width:100%;margin:5px 0 6px;border:1px solid #E4E5E7;border-radius:10px;padding:10px;font-size:13.5px;line-height:1.5;min-height:90px;resize:vertical;">'+esc(d.explain||"")+'</textarea>'+
+             'style="width:100%;margin:5px 0 6px;border:1px solid var(--c-border);border-radius:10px;padding:10px;font-size:13.5px;line-height:1.5;min-height:90px;resize:vertical;">'+esc(d.explain||"")+'</textarea>'+
            pvBox("pvx", d.explain||"", true)+
            imgBtn("เพิ่มรูปประกอบเฉลย", "x", null, d.ximg)+
            '<div style="display:flex;gap:10px;margin-top:16px;">'+
@@ -1767,18 +1861,18 @@ function adminSheet(){
          '</div>';
     } else {
       h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'+
-           '<div style="font-size:12.5px;color:#6E7378;">ทั้งหมด '+list.length+' ข้อ</div>'+
+           '<div style="font-size:12.5px;color:var(--c-text-muted);">ทั้งหมด '+list.length+' ข้อ</div>'+
            '<button class="btn sm" onclick="A.newQuestion()">＋ เพิ่มข้อสอบ</button>'+
          '</div>'+
          '<div style="display:flex;flex-direction:column;gap:10px;">'+
            list.map(function(qq,i){
-             return '<div style="background:#fff;border:1px solid #E4E5E7;border-radius:12px;padding:12px;">'+
+             return '<div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;padding:12px;">'+
                '<div style="font-size:13.5px;font-weight:600;line-height:1.7;">'+(i+1)+'. '+mfrac(qq.q)+'</div>'+
                (qq.img?imgHTML(qq.img,110):"")+
                '<div style="font-size:12px;color:#1E9E5A;margin-top:5px;line-height:1.7;">เฉลย: '+chLabel(qq.choices,qq.answer)+'</div>'+
                '<div style="display:flex;gap:8px;margin-top:10px;">'+
                  '<button class="btn sm ghost" onclick="A.editQuestion('+i+')">แก้ไข</button>'+
-                 '<button class="btn sm ghost" style="color:#6E7378;" onclick="A.delQuestion('+i+')">ลบ</button>'+
+                 '<button class="btn sm ghost" style="color:var(--c-text-muted);" onclick="A.delQuestion('+i+')">ลบ</button>'+
                '</div></div>';
            }).join("")+
            (list.length?"":'<div class="muted" style="text-align:center;padding:24px 0;">ยังไม่มีข้อสอบในหัวข้อนี้</div>')+
@@ -2234,6 +2328,66 @@ if("serviceWorker" in navigator && location.protocol!=="file:"){
     }).catch(function(){});
   });
 }
+</script>
+<script>
+/* ───── โหมดถนอมสายตา (ทำงานแยกจากตัวแอป ไม่ยุ่งกับ state/render เดิม) ───── */
+(function () {
+  var K_NIGHT = 'np18_night', K_DIM = 'np18_dim', DIM_MAX = 0.55
+  var root = document.documentElement
+  var btn = document.getElementById('ecBtn')
+  var panel = document.getElementById('ecPanel')
+  var sw = document.getElementById('ecNight')
+  var dim = document.getElementById('ecDim')
+  var dimVal = document.getElementById('ecDimVal')
+  if (!btn || !panel || !sw || !dim) return
+
+  function get(k) { try { return localStorage.getItem(k) } catch (e) { return null } }
+  function set(k, v) { try { localStorage.setItem(k, v) } catch (e) {} }
+  function del(k) { try { localStorage.removeItem(k) } catch (e) {} }
+
+  var isNight = get(K_NIGHT) === '1'
+  var dimVer = Math.min(DIM_MAX, Math.max(0, parseFloat(get(K_DIM)) || 0))
+
+  function applyNight() {
+    if (isNight) root.setAttribute('data-theme', 'night')
+    else root.removeAttribute('data-theme')
+    sw.setAttribute('aria-checked', isNight ? 'true' : 'false')
+    btn.textContent = isNight ? '☀' : '☾'
+  }
+  function applyDim() {
+    root.style.setProperty('--ec-dim', String(dimVer))
+    dim.value = String(dimVer)
+    dimVal.textContent = Math.round((dimVer / DIM_MAX) * 100) + '%'
+  }
+  applyNight()
+  applyDim()
+
+  function openPanel(open) {
+    panel.hidden = !open
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false')
+  }
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation()
+    openPanel(panel.hidden)
+  })
+  sw.addEventListener('click', function () {
+    isNight = !isNight
+    if (isNight) set(K_NIGHT, '1'); else del(K_NIGHT)
+    applyNight()
+  })
+  dim.addEventListener('input', function () {
+    dimVer = Math.min(DIM_MAX, Math.max(0, parseFloat(dim.value) || 0))
+    set(K_DIM, String(dimVer))
+    applyDim()
+  })
+  // ปิดแผงเมื่อคลิกที่อื่น หรือกด Esc
+  document.addEventListener('click', function (e) {
+    if (!panel.hidden && !panel.contains(e.target) && e.target !== btn) openPanel(false)
+  })
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !panel.hidden) openPanel(false)
+  })
+})()
 </script>
 </body>
 </html>
