@@ -1268,6 +1268,17 @@ function pollProg(){
 function startPoll(){ stopPoll(); _yt.poll=setInterval(pollProg,1500); }
 function stopPoll(){ if(_yt.poll){ clearInterval(_yt.poll); _yt.poll=0; } }
 function destroyPlayer(){ stopPoll(); if(_yt.player && _yt.player.destroy){ try{ _yt.player.destroy(); }catch(e){} } _yt.player=null; _yt.vid=null; }
+// สลับวิชา/ย้อนกลับ — ถ้ามีวิดีโอเล่นอยู่ อัปเดตแค่ลิสต์ (ไม่รีโหลด iframe = วิดีโอไม่หยุด)
+function studyNav(){
+  var mnt=document.getElementById("ytmount");
+  var br=document.getElementById("studyBrowse");
+  if(S.player && _yt.player && br && mnt && mnt.tagName==="IFRAME"){
+    br.innerHTML=studyBrowseHTML();
+  } else {
+    render();
+  }
+  var v=document.getElementById("view"); if(v) v.scrollTop=0;
+}
 // สลับคลิปในเครื่องเล่นเดิม (ไม่รีโหลด iframe) — อัปเดตเฉพาะส่วนใต้จอ+ลิสต์ วิดีโอเล่นต่อทันที
 function switchClip(id){
   var e=videoIndex()[id]; if(!e) return;
@@ -2225,8 +2236,8 @@ function adminSheet(){
 var A={
   tab:function(k){ if(S.player){ destroyPlayer(); S.player=null; } set({tab:k}); document.getElementById("view").scrollTop=0; },
   // ── ติวหนังสือ (นักเรียน) ──
-  openStudySubj:function(sk){ S.studySubj=sk; render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; },
-  backStudy:function(){ S.studySubj=null; render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; },
+  openStudySubj:function(sk){ S.studySubj=sk; studyNav(); },
+  backStudy:function(){ S.studySubj=null; studyNav(); },
   playVideo:function(id){
     var e=videoIndex()[id]; if(!e) return;
     // ถ้ากดคลิปเดิมที่กำลังเล่นอยู่ ไม่ต้องทำอะไร (แค่เลื่อนขึ้นให้เห็นจอ)
