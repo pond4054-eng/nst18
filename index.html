@@ -851,11 +851,11 @@ function viewHome(c){
   // สองวง
   var ks=knowStats(), ps=physStats();
   var kS=statusOf(ks.pct), pS=statusOf(ps.pct);
-  h+='<div style="border:1px solid var(--c-border);border-radius:20px;padding:18px;background:#E3F4EA3F;">'+
-       '<div style="font-size:12px;font-weight:600;color:var(--c-text-muted);margin-bottom:14px;">ความพร้อมสอบโดยรวม</div>'+
+  h+='<div style="border:1px solid var(--c-border);border-radius:20px;padding:18px;background:linear-gradient(135deg,rgba(228,17,31,.11) 0%,rgba(30,158,90,.13) 100%);box-shadow:0 4px 16px rgba(0,0,0,.07);">'+
+       '<div style="font-size:12.5px;font-weight:700;color:var(--c-text);margin-bottom:14px;">ความพร้อมสอบโดยรวม</div>'+
        '<div style="display:flex;gap:16px;">'+
-         ring(ks.pct,"#0E0F12","ความรู้",kS)+
-         ring(ps.pct,"var(--pri)","ร่างกาย",pS)+
+         ring(ks.pct,"#E4111F","ความรู้",kS)+
+         ring(ps.pct,"#1E9E5A","ร่างกาย",pS)+
        '</div>'+
      '</div>';
 
@@ -941,8 +941,8 @@ function ring(pct,color,label,st){
           'stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-pct/100))+'" transform="rotate(-90 54 54)" style="transition:stroke-dashoffset .6s;"></circle>'+
       '</svg>'+
       '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
-        '<span class="mono" style="font-size:26px;font-weight:600;">'+pct+'</span>'+
-        '<span style="font-size:11px;color:var(--c-text-muted);margin-top:-2px;">%</span>'+
+        '<span class="mono" style="font-size:26px;font-weight:700;color:'+color+';">'+pct+'</span>'+
+        '<span style="font-size:11px;font-weight:600;color:'+color+';margin-top:-2px;">%</span>'+
       '</div>'+
     '</div>'+
     '<div style="font-size:13px;font-weight:600;">'+label+'</div>'+
