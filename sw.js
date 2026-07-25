@@ -2,7 +2,7 @@
    ────────────────────────────────────────────────
    เวลาแก้ไฟล์แอปแล้วอยากให้เครื่องนักเรียนอัปเดต ให้เปลี่ยนเลข VERSION ข้างล่างนี้
    (เช่น v1 → v2) แล้วอัปโหลดใหม่ทั้งโฟลเดอร์ เท่านี้ทุกเครื่องจะเห็นของใหม่เอง */
-const VERSION = "v48";
+const VERSION = "v49";
 
 const CACHE = "nst18-" + VERSION;
 const SHELL = [
@@ -21,6 +21,7 @@ const SHELL = [
   "./icons/subj-com.jpg",
   "./icons/subj-law.jpg",
   "./icons/subj-social.jpg",
+  "./icons/countdown-bg.jpg",
 ];
 
 // ฟอนต์จาก Google — เก็บลงแคชไว้ใช้ตอนออฟไลน์

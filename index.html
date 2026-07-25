@@ -863,11 +863,15 @@ function viewHome(c){
   var examText="";
   if(S.examDate){ var ex=new Date(S.examDate+"T00:00:00"); examText=thDate(ex)+" "+(ex.getFullYear()+543); }
 
-  // นับถอยหลัง
-  h+='<div style="border-radius:22px;padding:18px;color:var(--c-on-brand);background:#E4101F;">'+
+  // นับถอยหลัง — พื้นหลังภาพนายสิบตำรวจ + เกรเดียนต์ดำให้อ่านตัวเลขออก
+  h+='<div style="position:relative;border-radius:22px;overflow:hidden;padding:18px;color:#fff;background:#0B0000;">'+
+       '<img src="icons/countdown-bg.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;">'+
+       '<div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(6,0,0,.96) 0%, rgba(6,0,0,.86) 34%, rgba(6,0,0,.55) 62%, rgba(6,0,0,.28) 100%);"></div>'+
+       '<div style="position:absolute;inset:0;background:linear-gradient(0deg, rgba(6,0,0,.55) 0%, rgba(6,0,0,0) 55%);"></div>'+
+       '<div style="position:relative;">'+
        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'+
          '<div style="font-size:18px;font-weight:600;letter-spacing:.05em;">นับถอยหลังสู่วันสอบ</div>'+
-         '<span style="width:7px;height:7px;border-radius:50%;background:var(--c-surface);"></span>'+
+         '<span style="width:7px;height:7px;border-radius:50%;background:#fff;"></span>'+
        '</div>';
   if(c.daysLeft!=null){
     h+='<div style="display:flex;align-items:flex-end;gap:8px;">'+
@@ -885,7 +889,7 @@ function viewHome(c){
   } else {
     h+='<div style="font-size:13.5px;color:#F3D9DB;line-height:1.5;">ยังไม่กำหนดวันสอบ — เลือกวันสอบด้านล่างเพื่อเริ่มนับถอยหลัง (ใช้แผน '+c.T+' สัปดาห์ไปก่อน)</div>';
   }
-  h+='</div>';
+  h+='</div></div>';
 
   // สองวง
   var ks=knowStats(), ps=physStats();
