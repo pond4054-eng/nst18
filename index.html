@@ -1963,16 +1963,16 @@ function adminSheet(){
          '<input type="file" id="importfile" accept="application/json" hidden onchange="A.importFile(this)">'+
        '</div>'+
        '<div style="margin-top:22px;">'+
-         '<div class="lbl" style="margin-bottom:4px;">ส่งข้อสอบให้นักเรียนทุกคน</div>'+
-         '<div class="muted" style="margin-bottom:12px;">ข้อสอบที่ลงไว้ยังอยู่แค่ในเครื่องนี้ — กดปุ่มนี้เพื่อได้ไฟล์ <b>questions.json</b> '+
-           'แล้วอัปโหลดทับไฟล์เดิมบนเว็บ นักเรียนจะได้ข้อสอบชุดใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
-         '<button class="btn sm" onclick="A.exportQuestions()">⬇︎ ส่งออกคลังข้อสอบ (questions.json)</button>'+
+         '<div class="lbl" style="margin-bottom:4px;">ส่งข้อสอบ + วิดีโอ ให้นักเรียนทุกคน</div>'+
+         '<div class="muted" style="margin-bottom:12px;"><b>ข้อสอบและวิดีโอที่ลงไว้ยังอยู่แค่ในเครื่องนี้</b> — ต้องกดปุ่มนี้เพื่อได้ไฟล์ <b>questions.json</b> '+
+           '(รวมทั้งข้อสอบและลิงก์วิดีโอ) แล้ว<b>อัปโหลดทับไฟล์เดิมบนเว็บ</b> นักเรียนถึงจะเห็นของใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
+         '<button class="btn sm" onclick="A.exportQuestions()">⬇︎ ส่งออกข้อสอบ + วิดีโอ (questions.json)</button>'+
          '<div style="font-size:11px;color:var(--c-text-subtle);margin-top:8px;">เวอร์ชันเนื้อหาปัจจุบัน: '+(S.contentVersion||0)+' → จะส่งออกเป็นเวอร์ชัน '+((S.contentVersion||0)+1)+'</div>'+
          (S.bankDirty
            ? '<div style="margin-top:12px;padding:12px 14px;background:#FEF4F4;border:1px solid #F5C6C8;border-left:3px solid var(--pri);border-radius:9px;">'+
-               '<div style="font-size:13px;font-weight:700;color:#7A1219;margin-bottom:5px;">⚠️ เครื่องนี้ติดค้างที่ข้อสอบชุดเก่า</div>'+
+               '<div style="font-size:13px;font-weight:700;color:#7A1219;margin-bottom:5px;">⚠️ มีของแก้ไว้ในเครื่องนี้ ยังไม่ได้ส่งออก</div>'+
                '<div style="font-size:12px;color:#7A1219;line-height:1.6;">'+
-                 'มีข้อสอบที่แก้ไว้ในเครื่องนี้แต่ยังไม่ได้ส่งออก ระบบจึงหยุดดึงข้อสอบใหม่จากเว็บไว้ก่อน เพื่อไม่ให้ที่แก้ไว้หาย<br>'+
+                 'มีข้อสอบหรือวิดีโอที่แก้ไว้ในเครื่องนี้แต่ยังไม่ได้ส่งออก ระบบจึงหยุดดึงของใหม่จากเว็บไว้ก่อน เพื่อไม่ให้ที่แก้ไว้หาย<br>'+
                  '<b>ถ้าแก้เสร็จแล้ว</b> → กดปุ่มส่งออกด้านบน · <b>ถ้าไม่ต้องการที่แก้ไว้</b> → กดปุ่มด้านล่าง'+
                '</div>'+
              '</div>'
@@ -2402,7 +2402,7 @@ var A={
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
     set({contentVersion:v, bankDirty:false});
-    toast("ได้ไฟล์แล้ว — อัปโหลดทับ questions.json บนเว็บ");
+    toast("ได้ไฟล์แล้ว (รวมข้อสอบ+วิดีโอ) — อัปโหลดทับ questions.json บนเว็บ");
   },
   /* รีเซ็ตความคืบหน้านักเรียน "ทุกคน" กลับเป็นค่าเริ่มต้น (คะแนน+เช็กลิสต์+ช่องติ๊กแผน)
      ต้องใส่รหัสผ่าน RESET_PW · สั่งผ่าน resetToken ที่ฝังใน questions.json */
