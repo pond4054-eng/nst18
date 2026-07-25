@@ -179,10 +179,11 @@
   @keyframes flameflick{ 0%,100%{ filter:drop-shadow(0 0 2px var(--fl)); } 45%{ filter:drop-shadow(0 0 7px var(--fl)); } 70%{ filter:drop-shadow(0 0 4px var(--fl)); } }
   #ytmount, #ytmount iframe{ position:absolute; inset:0; width:100%!important; height:100%!important; border:0; }
   /* จอวิดีโอล็อก — ปุ่มควบคุมของเราเอง (กันกดเข้าลิงก์/ก็อปลิงก์) */
-  .ytbtn{ appearance:none; -webkit-appearance:none; border:0; background:rgba(255,255,255,.22); color:#fff; width:38px; height:38px; border-radius:50%; font-size:13px; font-weight:800; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; transition:transform .1s, background .15s; }
-  .ytbtn:hover{ background:rgba(255,255,255,.32); }
+  .ytctrl{ background:var(--c-surface); border-top:1px solid var(--c-border); }
+  .ytbtn{ appearance:none; -webkit-appearance:none; border:0; background:var(--c-bg); color:var(--c-text); width:38px; height:38px; border-radius:50%; font-size:13px; font-weight:800; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; transition:transform .1s, background .15s; }
+  .ytbtn:hover{ background:var(--c-border); }
   .ytbtn:active{ transform:scale(.9); }
-  .ytbtn.play{ background:var(--pri); width:46px; height:46px; font-size:18px; box-shadow:0 3px 10px rgba(0,0,0,.35); }
+  .ytbtn.play{ background:var(--pri); color:var(--c-on-brand); width:46px; height:46px; font-size:18px; box-shadow:0 3px 9px rgba(0,0,0,.18); }
   .ytstage:fullscreen{ width:100vw; height:100vh; border-radius:0; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; }
   .ytstage:-webkit-full-screen{ width:100vw; height:100vh; border-radius:0; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; }
   .ytstage.ytfs{ position:fixed!important; inset:0!important; z-index:9999!important; border-radius:0!important; background:#000; display:flex!important; flex-direction:column; align-items:center; justify-content:center; }
@@ -1164,14 +1165,14 @@ function studyTopScreen(){
         // แถบควบคุม "ใต้จอ" — ไม่ทับวิดีโอ
         (p.yt
           ? '<div class="ytctrl">'+
-              '<div style="height:3px;width:100%;background:rgba(255,255,255,.18);"><div id="ytbar" style="height:100%;background:var(--pri);width:'+(pr.pct||0)+'%;transition:width .3s;"></div></div>'+
+              '<div style="height:3px;width:100%;background:var(--c-border);"><div id="ytbar" style="height:100%;background:var(--pri);width:'+(pr.pct||0)+'%;transition:width .3s;"></div></div>'+
               '<div style="display:flex;align-items:center;gap:8px;padding:10px 12px 11px;box-sizing:border-box;">'+
                 '<button class="ytbtn" onclick="A.ytSeek(-10)" aria-label="ถอย 10 วินาที">«10</button>'+
                 '<button class="ytbtn play" onclick="A.ytToggle()" aria-label="เล่นหรือหยุด"><span id="ytplayicon">▶</span></button>'+
                 '<button class="ytbtn" onclick="A.ytSeek(10)" aria-label="เดินหน้า 10 วินาที">10»</button>'+
-                '<span id="yttime" class="mono" style="font-size:11.5px;color:#fff;opacity:.92;margin-left:5px;letter-spacing:.02em;">0:00</span>'+
+                '<span id="yttime" class="mono" style="font-size:11.5px;color:var(--c-text-muted);margin-left:5px;letter-spacing:.02em;">0:00</span>'+
                 '<div style="flex:1;"></div>'+
-                '<button class="ytbtn" onclick="A.ytFull()" aria-label="ขยายเต็มจอ"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg></button>'+
+                '<button class="ytbtn" onclick="A.ytFull()" aria-label="ขยายเต็มจอ"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg></button>'+
               '</div>'+
             '</div>'
           : "")+
