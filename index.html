@@ -172,6 +172,9 @@
     max-width:460px; width:100%; margin:0 auto; animation:fadeUp .22s ease-out; padding-bottom:env(safe-area-inset-bottom); }
   .sheethead{ padding:16px 18px; border-bottom:1px solid var(--c-border); background:var(--c-surface); display:flex; justify-content:space-between; align-items:center; gap:12px; }
   .sheetbody{ padding:16px 18px; overflow-y:auto; }
+  @keyframes tmpulse{ 0%,100%{ transform:scale(1); box-shadow:0 6px 18px rgba(0,0,0,.14); } 50%{ transform:scale(1.03); box-shadow:0 8px 24px rgba(0,0,0,.22); } }
+  #quizTimerBar.tmup{ animation:tmpulse 1s ease-in-out infinite; }
+  @media (prefers-reduced-motion:reduce){ #quizTimerBar.tmup{ animation:none; } }
   .x{ width:32px; height:32px; flex:none; border-radius:9px; border:1px solid var(--c-border); background:var(--c-surface); color:var(--c-text-muted); cursor:pointer; font-size:14px; }
 
   /* ───── กระดาษข้อสอบเสมือนจริง ───── */
@@ -1549,12 +1552,14 @@ function quizSheet(){
   } else if(q.status==="active"){
     var cur=q.questions[q.idx];
     var rem=quizRemainMs();
-    h+='<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:10px;">'+
-         '<div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(q.idx/q.questions.length*100)+'%;"></div></div>'+
-       '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;">'+
-         '<div class="mono" style="font-size:12px;color:var(--c-text-muted);">ข้อ '+(q.idx+1)+' / '+q.questions.length+'</div>'+
-         '<div id="quizClock" class="mono" style="font-size:13px;font-weight:700;padding:3px 11px;border-radius:999px;background:'+(rem<=60000?"var(--pri)":"var(--c-bg)")+';color:'+(rem<=60000?"var(--c-on-brand)":"var(--c-text)")+';">⏱ '+fmtClock(rem)+'</div>'+
+    h+='<div id="quizTimerBar"'+(rem<=60000?' class="tmup"':'')+' style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--pri);color:var(--c-on-brand);border-radius:16px;padding:14px 20px;margin-bottom:16px;box-shadow:0 6px 18px rgba(0,0,0,.14);">'+
+         '<span style="font-size:26px;line-height:1;">⏱</span>'+
+         '<span style="font-size:13px;font-weight:600;opacity:.92;letter-spacing:.03em;">เวลาที่เหลือ</span>'+
+         '<span id="quizClock" class="mono" style="font-size:34px;font-weight:800;line-height:1;letter-spacing:.02em;">'+fmtClock(rem)+'</span>'+
        '</div>'+
+       '<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:10px;">'+
+         '<div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(q.idx/q.questions.length*100)+'%;"></div></div>'+
+       '<div class="mono" style="font-size:12px;color:var(--c-text-muted);margin-bottom:8px;">ข้อ '+(q.idx+1)+' / '+q.questions.length+'</div>'+
        '<div style="font-size:16px;font-weight:600;line-height:1.7;margin-bottom:'+(cur.img?"4px":"16px")+';">'+mfrac(cur.q)+'</div>'+
        (cur.img ? imgHTML(cur.img, 300) + '<div style="height:12px;"></div>' : "")+
        cur.choices.map(function(ch,ci){
@@ -2213,8 +2218,9 @@ function startQuizTimer(){
     if(rem<=0){ timeUpQuiz(); return; }
     var el=document.getElementById("quizClock");
     if(el){
-      el.textContent="⏱ "+fmtClock(rem);
-      if(rem<=60000){ el.style.color="var(--c-on-brand)"; el.style.background="var(--pri)"; }  // เหลือ 1 นาทีสุดท้าย เตือนเป็นสีแดง
+      el.textContent=fmtClock(rem);
+      var bar=document.getElementById("quizTimerBar");
+      if(bar && rem<=60000) bar.classList.add("tmup");   // เหลือ 1 นาทีสุดท้าย ให้กล่องกะพริบเตือน
     }
   },500);
 }
