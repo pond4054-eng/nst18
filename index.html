@@ -1997,12 +1997,13 @@ function adminSheet(){
            '(รวมทั้งข้อสอบและลิงก์วิดีโอ) แล้ว<b>อัปโหลดทับไฟล์เดิมบนเว็บ</b> นักเรียนถึงจะเห็นของใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
          '<button class="btn sm" onclick="A.exportQuestions()">⬇︎ ส่งออกข้อสอบ + วิดีโอ (questions.json)</button>'+
          '<div style="font-size:11px;color:var(--c-text-subtle);margin-top:8px;">เวอร์ชันเนื้อหาปัจจุบัน: '+(S.contentVersion||0)+' → จะส่งออกเป็นเวอร์ชัน '+((S.contentVersion||0)+1)+'</div>'+
-         (S.bankDirty
+         ((S.bankDirty||S.videosDirty)
            ? '<div style="margin-top:12px;padding:12px 14px;background:#FEF4F4;border:1px solid #F5C6C8;border-left:3px solid var(--pri);border-radius:9px;">'+
-               '<div style="font-size:13px;font-weight:700;color:#7A1219;margin-bottom:5px;">⚠️ มีของแก้ไว้ในเครื่องนี้ ยังไม่ได้ส่งออก</div>'+
+               '<div style="font-size:13px;font-weight:700;color:#7A1219;margin-bottom:5px;">⚠️ มีของที่เพิ่ม/แก้ไว้ ยังไม่ได้ส่งออก</div>'+
                '<div style="font-size:12px;color:#7A1219;line-height:1.6;">'+
-                 'มีข้อสอบหรือวิดีโอที่แก้ไว้ในเครื่องนี้แต่ยังไม่ได้ส่งออก ระบบจึงหยุดดึงของใหม่จากเว็บไว้ก่อน เพื่อไม่ให้ที่แก้ไว้หาย<br>'+
-                 '<b>ถ้าแก้เสร็จแล้ว</b> → กดปุ่มส่งออกด้านบน · <b>ถ้าไม่ต้องการที่แก้ไว้</b> → กดปุ่มด้านล่าง'+
+                 'มี'+(S.bankDirty?"ข้อสอบ":"")+(S.bankDirty&&S.videosDirty?"และ":"")+(S.videosDirty?"วิดีโอ":"")+'ที่เพิ่ม/แก้ในเครื่องนี้ แต่ยังไม่ได้ส่งออก '+
+                 '<b>นักเรียนจะยังไม่เห็นจนกว่าจะกดปุ่มส่งออกด้านบน แล้วอัปโหลดไฟล์ทับบนเว็บ</b>'+
+                 (S.bankDirty?'<br>(ระหว่างนี้ระบบหยุดดึงข้อสอบใหม่จากเว็บไว้ก่อน เพื่อไม่ให้ที่แก้ไว้หาย)':"")+
                '</div>'+
              '</div>'
            : "")+
@@ -2361,14 +2362,14 @@ var A={
     if(d.index==null) arr.push(obj); else arr[d.index]=obj;
     var vids=Object.assign({},S.videos); vids[S.adminTopic]=arr;
     S.vidDraft=null;
-    set({ videos:vids, bankDirty:true });
+    set({ videos:vids, videosDirty:true });   // แยกจาก bankDirty — ไม่ต้องยัดคลังข้อสอบทั้งก้อนลงเครื่อง
     toast("บันทึกวิดีโอแล้ว — อย่าลืมส่งออก questions.json เพื่อให้นักเรียนเห็น");
   },
   delVideo:function(i){
     if(!confirm("ลบวิดีโอนี้?")) return;
     var arr=studyVids(S.adminTopic).slice(); arr.splice(i,1);
     var vids=Object.assign({},S.videos); vids[S.adminTopic]=arr;
-    set({ videos:vids, bankDirty:true });
+    set({ videos:vids, videosDirty:true });
   },
   newQuestion:function(){ S.adminDraft={index:null, q:"", choices:["","","",""], answer:0, explain:"", img:"", ximg:"", cimg:["","","",""]}; render(); },
   editQuestion:function(i){
@@ -2437,7 +2438,7 @@ var A={
     a.download="questions.json";
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
-    set({contentVersion:v, bankDirty:false});
+    set({contentVersion:v, bankDirty:false, videosDirty:false});
     toast("ได้ไฟล์แล้ว (รวมข้อสอบ+วิดีโอ) — อัปโหลดทับ questions.json บนเว็บ");
   },
   /* รีเซ็ตความคืบหน้านักเรียน "ทุกคน" กลับเป็นค่าเริ่มต้น (คะแนน+เช็กลิสต์+ช่องติ๊กแผน)
@@ -2639,7 +2640,7 @@ function syncContent(){
       if(d.topics) patch.topics=d.topics;
       if(d.bank) patch.bank=d.bank;
       if(d.physEvents) patch.physEvents=d.physEvents;
-      if(d.videos) patch.videos=d.videos;
+      if(d.videos && !S.videosDirty) patch.videos=d.videos;   // ไม่ทับวิดีโอที่แก้ค้างในเครื่อง
       set(patch);
       if(newer && v>1) toast("อัปเดตเนื้อหาใหม่แล้ว");
     })
