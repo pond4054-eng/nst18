@@ -1534,6 +1534,18 @@ function quizSheet(){
            '<button class="btn" onclick="A.retryQuiz()">ลองใหม่</button>'+
            '<button class="btn ghost" onclick="A.closeQuiz()">ปิด</button>'+
          '</div></div>';
+  } else if(q.status==="aborted"){
+    h+='<div style="text-align:center;padding:22px 6px;">'+
+         '<div style="font-size:46px;margin-bottom:10px;">🚫</div>'+
+         '<div style="font-size:18px;font-weight:800;color:var(--pri);line-height:1.4;">ห้ามสลับหน้าจอระหว่างทำข้อสอบ<br>โดยเด็ดขาด</div>'+
+         '<div style="font-size:13px;color:var(--c-text-muted);margin:12px 0 4px;line-height:1.75;">'+
+           'ระบบตรวจพบว่าคุณสลับไปหน้าจอหรือแอปอื่นระหว่างทำข้อสอบ<br>จึงออกจากการทำข้อสอบให้อัตโนมัติ และ<b>ไม่บันทึกคะแนน</b>รอบนี้</div>'+
+         '<div style="font-size:12.5px;color:var(--c-text-subtle);margin:14px 0 22px;line-height:1.7;">ถ้าจะทำใหม่ ให้ทำให้จบในครั้งเดียว โดยไม่ออกจากหน้าจอนี้</div>'+
+         '<div style="display:flex;gap:10px;justify-content:center;">'+
+           '<button class="btn" onclick="A.retryQuiz()">เริ่มทำใหม่</button>'+
+           '<button class="btn ghost" onclick="A.closeQuiz()">ปิด</button>'+
+         '</div>'+
+       '</div>';
   } else if(q.status==="active"){
     var cur=q.questions[q.idx];
     h+='<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:10px;">'+
@@ -2215,6 +2227,16 @@ function syncContent(){
     })
     .catch(function(){});
 }
+/* ── กันสลับหน้าจอระหว่างทำข้อสอบ ──
+   ถ้าสลับไปหน้าจอ/แอปอื่นขณะกำลังทำข้อสอบ ให้เด้งออกทันที ไม่บันทึกคะแนน
+   ครอบคลุม: สลับแท็บ สลับแอป กดปุ่มโฮม ล็อกหน้าจอ */
+function abortQuizOnSwitch(){
+  if(S.quiz && S.quiz.status==="active"){
+    S.quiz.status="aborted";
+    render();
+  }
+}
+
 /* ── ดึงข้อสอบใหม่ตอนกลับมาที่แอป ──
    นักเรียนส่วนใหญ่ไม่ได้ปิดแอปสนิท แค่สลับไปแอปอื่นแล้วกดกลับมา
    ถ้าไม่เช็คตรงนี้ เขาจะไม่ได้ข้อสอบชุดใหม่จนกว่าจะปิดแอปแล้วเปิดใหม่เอง */
@@ -2237,7 +2259,8 @@ function startApp(){
     if(!S.quiz && !S.adminOpen && !S.mock) render();
   },60000);
   document.addEventListener("visibilitychange",function(){
-    if(document.visibilityState==="visible") maybeSync();
+    if(document.visibilityState==="hidden") abortQuizOnSwitch();
+    else maybeSync();
   });
   window.addEventListener("online", maybeSync);
   document.getElementById("brandtap").onclick=function(){ A.openAdmin(); };
