@@ -194,12 +194,6 @@
   .ytstage:fullscreen .ytwrap, .ytstage:-webkit-full-screen .ytwrap, .ytstage.ytfs .ytwrap,
   .ytstage:fullscreen .ytctrl, .ytstage:-webkit-full-screen .ytctrl, .ytstage.ytfs .ytctrl{ width:min(100%, calc((100vh - 54px) * 16 / 9)); }
   .ytstage:fullscreen .ytwrap, .ytstage:-webkit-full-screen .ytwrap, .ytstage.ytfs .ytwrap{ padding-top:0!important; aspect-ratio:16 / 9; }
-  /* มือชี้ + วงไฮไลต์บนภาพขั้นตอนติดตั้ง */
-  .ptr-wrap{ position:relative; }
-  .ptr-ring{ position:absolute; border:3px solid var(--pri); border-radius:9px; box-sizing:border-box; box-shadow:0 0 0 3px rgba(255,255,255,.55), 0 0 10px rgba(228,17,31,.5); animation:ptrpulse 1.2s ease-in-out infinite; pointer-events:none; }
-  .ptr-hand{ position:absolute; font-size:30px; line-height:1; filter:drop-shadow(0 2px 3px rgba(0,0,0,.5)); animation:ptrbob 1s ease-in-out infinite; pointer-events:none; }
-  @keyframes ptrpulse{ 0%,100%{ opacity:1; } 55%{ opacity:.35; } }
-  @keyframes ptrbob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-6px); } }
   .flamearc{ filter:drop-shadow(0 0 3px var(--fl)); animation:flameflick 1.5s ease-in-out infinite; }
   /* ไฟลุกที่ปลายแถบ: ลิ้นไฟลุกขึ้น-ลง + แสงเรืองหายใจ */
   @keyframes fltongue{ 0%,100%{ transform:scaleY(1) scaleX(1); opacity:.95; } 35%{ transform:scaleY(1.28) scaleX(.88); opacity:1; } 65%{ transform:scaleY(.86) scaleX(1.08); opacity:.9; } }
@@ -2866,14 +2860,15 @@ function showInstallScreen(){
       '<div style="flex:1;font-size:13.5px;line-height:1.55;padding-top:1px;">'+txt+'</div></div>';
   }
   var h='';
-  h+='<img src="icons/icon-192.png" alt="" style="width:80px;height:80px;border-radius:20px;display:block;margin:0 auto 16px;box-shadow:0 12px 30px rgba(164,0,1,.3);">'+
+  h+='<img src="icons/app-preview.jpg" alt="นสต.18" style="width:128px;display:block;margin:0 auto 12px;border-radius:16px;border:1px solid var(--c-border);box-shadow:0 10px 26px rgba(164,0,1,.22);">'+
      '<h1>ติดตั้งแอปลงหน้าจอ</h1>'+
-     '<p class="sub">เปิดใช้ง่าย เร็ว ใช้ได้แม้ไม่มีเน็ต — เหมือนแอปจริงในเครื่อง</p>';
+     '<p class="sub">ติดตั้งแล้วได้ไอคอนนี้บนหน้าจอ — เปิดง่าย เร็ว ใช้ได้แม้ไม่มีเน็ต</p>';
   if(ios){
     h+='<div style="display:flex;flex-direction:column;gap:14px;text-align:left;background:rgba(255,255,255,.75);border:1px solid var(--c-border);border-radius:16px;padding:16px 18px;">'+
-         step(1,'แตะปุ่ม <b>แชร์</b> <span style="display:inline-block;border:1.5px solid var(--pri);border-radius:5px;padding:0 4px;color:var(--pri);font-weight:800;">↑</span> ที่แถบด้านล่างของ Safari')+
-         step(2,'เลื่อนหา <b>“เพิ่มไปยังหน้าจอโฮม”</b> แล้วแตะ')+
-         step(3,'แตะ <b>“เพิ่ม”</b> มุมขวาบน — เสร็จเลย!')+
+         step(1,'แตะปุ่ม <b>“แชร์”</b> <span style="display:inline-block;border:1.5px solid var(--pri);border-radius:5px;padding:0 4px;color:var(--pri);font-weight:800;">↑</span>')+
+         step(2,'ในแผ่นแชร์ เลื่อนลง แล้วแตะ <b>“ดูเพิ่มเติม”</b>')+
+         step(3,'แตะ <b>“เพิ่มไปยังหน้าจอโฮม”</b>')+
+         step(4,'แตะ <b>“เพิ่ม”</b> มุมขวาบน — เสร็จเลย!')+
        '</div>'+
        '<p class="note" style="margin-top:14px;">* ต้องเปิดใน Safari เท่านั้น — ถ้าเปิดในไลน์/เฟซบุ๊ก ให้แตะ ⋯ มุมขวาบน → “เปิดใน Safari” ก่อน</p>'+
        // ภาพประกอบทีละขั้น
@@ -2881,17 +2876,14 @@ function showInstallScreen(){
          '<summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--pri);text-align:center;">📷 ภาพประกอบทีละขั้น</summary>'+
          '<div style="display:flex;flex-direction:column;gap:14px;margin-top:12px;">'+
            [
-             {t:'แตะปุ่มแชร์ ⬆️ → เมนูนี้เด้งขึ้น แล้วเลื่อนลง', ring:'', hand:'', ic:''},
-             {t:'แตะ “เพิ่มไปยังหน้าจอโฮม”', ring:'left:3%;top:80%;width:82%;height:15%;', hand:'left:66%;top:66%;', ic:'👇'},
-             {t:'แตะ “เพิ่ม” มุมขวาบน — เสร็จเลย!', ring:'right:2%;top:5%;width:24%;height:13%;', hand:'right:5%;top:20%;', ic:'👆'}
+             {img:'inst-share', t:'แตะปุ่ม “แชร์” (วงแดง)'},
+             {img:'inst1', t:'เลื่อนลง แล้วแตะ “ดูเพิ่มเติม” (วงแดง)'},
+             {img:'inst2', t:'แตะ “เพิ่มไปยังหน้าจอโฮม”'},
+             {img:'inst3', t:'แตะ “เพิ่ม” (กรอบแดง) มุมขวาบน — เสร็จ!'}
            ].map(function(s,i){
              return '<div>'+
                '<div style="font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:5px;">ขั้น '+(i+1)+' · '+s.t+'</div>'+
-               '<div class="ptr-wrap">'+
-                 '<img src="icons/inst'+(i+1)+'.jpg" alt="ขั้นตอนที่ '+(i+1)+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);box-shadow:0 3px 10px rgba(0,0,0,.1);">'+
-                 (s.ring?'<div class="ptr-ring" style="'+s.ring+'"></div>':'')+
-                 (s.ic?'<div class="ptr-hand" style="'+s.hand+'">'+s.ic+'</div>':'')+
-               '</div>'+
+               '<img src="icons/'+s.img+'.jpg" alt="ขั้นตอนที่ '+(i+1)+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);box-shadow:0 3px 10px rgba(0,0,0,.1);">'+
              '</div>';
            }).join("")+
          '</div>'+
