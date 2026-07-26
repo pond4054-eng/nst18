@@ -1791,14 +1791,13 @@ function planSheet(){
     var opts;
     if(dr.type==="phys") opts=physList().map(function(e){ return '<option value="'+esc(e.k)+'"'+(dr.sub===e.k?' selected':'')+'>'+esc(e.name)+'</option>'; }).join("");
     else opts=subjects().map(function(su){ return '<option value="'+su.k+'"'+(dr.sub===su.k?' selected':'')+'>'+esc(short(su.k))+'</option>'; }).join("");
-    var timeOpts='<option value="">— เวลา —</option>';
-    for(var _hh=5; _hh<=23; _hh++){ for(var _mm=0; _mm<60; _mm+=30){ var _tv=String(_hh).padStart(2,"0")+":"+String(_mm).padStart(2,"0"); timeOpts+='<option value="'+_tv+'"'+(dr.time===_tv?' selected':'')+'>'+_tv+' น.</option>'; } }
-    var selCss='border:1px solid var(--c-border);border-radius:10px;padding:10px;font-size:13px;background:var(--c-surface);color:var(--c-text);';
+    // font-size 16px กัน iOS ซูม/เด้งจอตอนโฟกัสช่อง (บั๊กเมื่อ font < 16px)
+    var selCss='border:1px solid var(--c-border);border-radius:10px;padding:10px;font-size:16px;background:var(--c-surface);color:var(--c-text);';
     h+='<div style="display:flex;gap:8px;margin-bottom:11px;">'+
          '<select onchange="A.planDraftSub(this.value)" style="flex:1;min-width:0;'+selCss+'">'+
            '<option value="">— เลือก'+(dr.type==="phys"?"ท่า":"วิชา")+' —</option>'+opts+
          '</select>'+
-         '<select onchange="A.planDraftTime(this.value)" style="width:104px;flex:none;'+selCss+'">'+timeOpts+'</select>'+
+         '<input type="time" onchange="A.planDraftTime(this.value)" value="'+esc(dr.time||"")+'" style="width:120px;flex:none;'+selCss+'">'+
        '</div>'+
        '<button class="btn" onclick="A.planAdd()" style="width:100%;padding:12px;font-size:14px;">เพิ่มลง '+thDate(selD)+'</button>';
   }
