@@ -194,6 +194,12 @@
   .ytstage:fullscreen .ytwrap, .ytstage:-webkit-full-screen .ytwrap, .ytstage.ytfs .ytwrap,
   .ytstage:fullscreen .ytctrl, .ytstage:-webkit-full-screen .ytctrl, .ytstage.ytfs .ytctrl{ width:min(100%, calc((100vh - 54px) * 16 / 9)); }
   .ytstage:fullscreen .ytwrap, .ytstage:-webkit-full-screen .ytwrap, .ytstage.ytfs .ytwrap{ padding-top:0!important; aspect-ratio:16 / 9; }
+  /* มือชี้ + วงไฮไลต์บนภาพขั้นตอนติดตั้ง */
+  .ptr-wrap{ position:relative; }
+  .ptr-ring{ position:absolute; border:3px solid var(--pri); border-radius:9px; box-sizing:border-box; box-shadow:0 0 0 3px rgba(255,255,255,.55), 0 0 10px rgba(228,17,31,.5); animation:ptrpulse 1.2s ease-in-out infinite; pointer-events:none; }
+  .ptr-hand{ position:absolute; font-size:30px; line-height:1; filter:drop-shadow(0 2px 3px rgba(0,0,0,.5)); animation:ptrbob 1s ease-in-out infinite; pointer-events:none; }
+  @keyframes ptrpulse{ 0%,100%{ opacity:1; } 55%{ opacity:.35; } }
+  @keyframes ptrbob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-6px); } }
   .flamearc{ filter:drop-shadow(0 0 3px var(--fl)); animation:flameflick 1.5s ease-in-out infinite; }
   /* ไฟลุกที่ปลายแถบ: ลิ้นไฟลุกขึ้น-ลง + แสงเรืองหายใจ */
   @keyframes fltongue{ 0%,100%{ transform:scaleY(1) scaleX(1); opacity:.95; } 35%{ transform:scaleY(1.28) scaleX(.88); opacity:1; } 65%{ transform:scaleY(.86) scaleX(1.08); opacity:.9; } }
@@ -2874,10 +2880,18 @@ function showInstallScreen(){
        '<details open style="margin-top:14px;text-align:left;">'+
          '<summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--pri);text-align:center;">📷 ภาพประกอบทีละขั้น</summary>'+
          '<div style="display:flex;flex-direction:column;gap:14px;margin-top:12px;">'+
-           ['แตะปุ่มแชร์ → เมนูนี้เด้งขึ้น','เลื่อนลงหา “เพิ่มไปยังหน้าจอโฮม”','แตะ “เพิ่ม” มุมขวาบน'].map(function(t,i){
+           [
+             {t:'แตะปุ่มแชร์ ⬆️ → เมนูนี้เด้งขึ้น แล้วเลื่อนลง', ring:'', hand:'', ic:''},
+             {t:'แตะ “เพิ่มไปยังหน้าจอโฮม”', ring:'left:3%;top:80%;width:82%;height:15%;', hand:'left:66%;top:66%;', ic:'👇'},
+             {t:'แตะ “เพิ่ม” มุมขวาบน — เสร็จเลย!', ring:'right:2%;top:5%;width:24%;height:13%;', hand:'right:5%;top:20%;', ic:'👆'}
+           ].map(function(s,i){
              return '<div>'+
-               '<div style="font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:5px;">ขั้น '+(i+1)+' · '+t+'</div>'+
-               '<img src="icons/inst'+(i+1)+'.jpg" alt="ขั้นตอนที่ '+(i+1)+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);box-shadow:0 3px 10px rgba(0,0,0,.1);">'+
+               '<div style="font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:5px;">ขั้น '+(i+1)+' · '+s.t+'</div>'+
+               '<div class="ptr-wrap">'+
+                 '<img src="icons/inst'+(i+1)+'.jpg" alt="ขั้นตอนที่ '+(i+1)+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);box-shadow:0 3px 10px rgba(0,0,0,.1);">'+
+                 (s.ring?'<div class="ptr-ring" style="'+s.ring+'"></div>':'')+
+                 (s.ic?'<div class="ptr-hand" style="'+s.hand+'">'+s.ic+'</div>':'')+
+               '</div>'+
              '</div>';
            }).join("")+
          '</div>'+
