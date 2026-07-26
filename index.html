@@ -296,6 +296,7 @@
       <span class="brandname">LION KING ACADEMY</span>
     </button>
     <div class="ec-statusgroup">
+      <button class="ec-toggle" id="installbtn" type="button" hidden aria-label="ติดตั้งแอปลงหน้าจอ" style="width:auto;padding:0 11px;gap:5px;font-size:12px;font-weight:800;color:var(--pri);white-space:nowrap;">⤓ ติดตั้ง</button>
       <button class="ec-toggle" id="ecBtn" type="button" aria-label="โหมดถนอมสายตา" aria-expanded="false">☾</button>
       <span class="mono" id="clock" style="font-size:13px;font-weight:600;"></span>
     </div>
@@ -2772,9 +2773,16 @@ function maybeSync(){
   lastSyncAt = Date.now();
   syncContent();
 }
+var appStarted=false;
 function startApp(){
   document.getElementById("gate").hidden=true;
+  document.getElementById("install").hidden=true;
   document.getElementById("app").hidden=false;
+  // ปุ่มติดตั้งบนแถบบน — โชว์เฉพาะเครื่องที่ยังไม่ได้ติดตั้ง (อัปเดตทุกครั้งที่แสดงแอป)
+  var ib=document.getElementById("installbtn");
+  if(ib){ ib.hidden=isStandalone(); ib.onclick=openInstallFromApp; }
+  if(appStarted){ render(); return; }   // เคยเริ่มแล้ว (เช่นกลับจากหน้าติดตั้ง) — แค่แสดงแอป
+  appStarted=true;
   load();
   render();
   lastSyncAt = Date.now();
@@ -2801,6 +2809,48 @@ function isIOSDevice(){
   return /iPad|iPhone|iPod/.test(ua) || ((/Macintosh/.test(ua)) && navigator.maxTouchPoints>1);
 }
 function proceedToApp(){ document.getElementById("install").hidden=true; startApp(); }
+function isInAppBrowser(){
+  var ua=navigator.userAgent||"";
+  return /Line\/|FBAN|FBAV|FB_IAB|Instagram|Messenger|TikTok|musical_ly|Twitter/i.test(ua);
+}
+function inAppName(){
+  var ua=navigator.userAgent||"";
+  if(/Line\//i.test(ua)) return "ไลน์";
+  if(/FBAN|FBAV|FB_IAB|Messenger/i.test(ua)) return "เฟซบุ๊ก/Messenger";
+  if(/Instagram/i.test(ua)) return "Instagram";
+  if(/TikTok|musical_ly/i.test(ua)) return "TikTok";
+  return "แอปนี้";
+}
+// หน้าแนะนำ "เปิดใน Safari/Chrome" (เมื่อเปิดในเบราว์เซอร์ในแอปอย่างไลน์/เฟซ — ติดตั้งลงหน้าจอไม่ได้)
+function showOpenInBrowser(onContinue){
+  var el=document.getElementById("install");
+  var ios=isIOSDevice();
+  var how = ios
+    ? 'แตะปุ่ม <b>⋯</b> (จุดสามจุด) ที่มุมขวา → เลือก <b>“เปิดใน Safari”</b>'
+    : 'แตะปุ่ม <b>⋮</b> (จุดสามจุด) มุมขวาบน → เลือก <b>“เปิดในเบราว์เซอร์”</b> หรือ <b>“เปิดด้วย Chrome”</b>';
+  var h=''+
+    '<div style="font-size:46px;text-align:center;margin-bottom:6px;">🌐</div>'+
+    '<h1>เปิดใน '+(ios?"Safari":"Chrome/เบราว์เซอร์")+'</h1>'+
+    '<p class="sub">ตอนนี้เปิดอยู่ใน<b>'+inAppName()+'</b> ซึ่ง<b>ติดตั้งลงหน้าจอไม่ได้</b><br>เปิดในเบราว์เซอร์จริงเพื่อใช้เต็มที่และติดตั้งได้</p>'+
+    '<div style="text-align:left;background:rgba(255,255,255,.78);border:1px solid var(--c-border);border-radius:16px;padding:16px 18px;font-size:13.5px;line-height:1.8;">'+how+'</div>'+
+    '<button class="btn" type="button" id="copyLinkBtn" style="width:100%;margin-top:14px;">📋 คัดลอกลิงก์แอป</button>'+
+    '<button class="btn ghost" type="button" id="useHereBtn" style="width:100%;margin-top:10px;">ใช้ต่อในนี้ก่อน →</button>';
+  el.innerHTML=h;
+  document.getElementById("gate").hidden=true; document.getElementById("app").hidden=true;
+  el.hidden=false;
+  document.getElementById("copyLinkBtn").onclick=function(){
+    var url=location.href.split("#")[0];
+    var done=function(){ var b=document.getElementById("copyLinkBtn"); if(b) b.textContent="✓ คัดลอกแล้ว — เปิดเบราว์เซอร์แล้ววาง"; };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done).catch(done); }
+    else { try{ var t=document.createElement("textarea"); t.value=url; t.style.position="fixed"; t.style.opacity="0"; document.body.appendChild(t); t.focus(); t.select(); document.execCommand("copy"); t.remove(); done(); }catch(e){} }
+  };
+  document.getElementById("useHereBtn").onclick=function(){ el.hidden=true; if(onContinue) onContinue(); };
+}
+// ปุ่ม "ติดตั้ง" บนแถบบน (ข้อ 2) — เปิดในไลน์=แนะนำเปิดเบราว์เซอร์, ไม่งั้น=หน้าติดตั้ง
+function openInstallFromApp(){
+  if(isInAppBrowser()) showOpenInBrowser(function(){ startApp(); });
+  else showInstallScreen();
+}
 function showInstallScreen(){
   var el=document.getElementById("install");
   var ios=isIOSDevice(), canPrompt=!!deferredPrompt;
@@ -2903,7 +2953,9 @@ function showGate(){
   input.addEventListener("keydown",function(e){ if(e.key==="Enter") submit(); });
 }
 
-if(isActivated()){ startApp(); revalidate(); } else showGate();
+function boot(){ if(isActivated()){ startApp(); revalidate(); } else showGate(); }
+// เปิดในเบราว์เซอร์ในแอป (ไลน์/เฟซ) และยังไม่ได้ติดตั้ง → แนะนำเปิดใน Safari/Chrome ก่อน
+if(isInAppBrowser() && !isStandalone()){ showOpenInBrowser(boot); } else boot();
 
 /* ── service worker: ทำให้ใช้ออฟไลน์ได้ + แจ้งเตือนเมื่อมีเวอร์ชันใหม่ ── */
 if("serviceWorker" in navigator && location.protocol!=="file:"){
