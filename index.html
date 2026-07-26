@@ -508,7 +508,7 @@ function defState(){
     selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
-    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null };
+    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null };
 }
 function load(){
   var saved={};
@@ -517,13 +517,13 @@ function load(){
   S.quiz=null; S.adminOpen=false; S.adminMode=false; S.adminView="login";
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
   S.player=null; S.studySubj=null; S.vidDraft=null;
-  S.planOpen=false; S.planDraft=null; S.focus=null;
+  S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null;
 }
 function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
-     "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
+     "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
@@ -1718,6 +1718,49 @@ function focusTick(){
   if(S.focus.mode==="work"){ S.focus={label:S.focus.label, mode:"break", endTs:Date.now()+5*60000, paused:false}; toast("ครบ 25 นาที! พัก 5 นาที ☕"); render(); }
   else { S.focus=null; toast("จบ 1 รอบโฟกัส เก่งมาก! 🎉"); render(); }
 }
+
+/* ───── แจ้งเตือนตามแผน: เสียง + เด้งป๊อปอัป ───── */
+var _audioCtx=null;
+function unlockAudio(){ try{ if(!_audioCtx){ var AC=window.AudioContext||window.webkitAudioContext; if(AC) _audioCtx=new AC(); } if(_audioCtx && _audioCtx.state==="suspended") _audioCtx.resume(); }catch(e){} }
+function playAlarmSound(){
+  try{ unlockAudio(); var ctx=_audioCtx; if(!ctx) return;
+    var beep=function(freq,start,dur){ var o=ctx.createOscillator(), g=ctx.createGain(); o.type="sine"; o.frequency.value=freq; o.connect(g); g.connect(ctx.destination);
+      var t0=ctx.currentTime+start; g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.35,t0+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur); o.start(t0); o.stop(t0+dur+0.03); };
+    beep(880,0,0.2); beep(1175,0.24,0.2); beep(880,0.5,0.3);   // บี๊บ 3 จังหวะ
+  }catch(e){}
+}
+var _alerted={};
+function checkAlarms(){
+  if(S.alarm || S.quiz || S.mock) return;                     // มีป๊อปอัปค้าง/กำลังทำข้อสอบ อย่ารบกวน
+  var t=iso(today0()), tasks=(S.plan||{})[t]||[];
+  var now=new Date(), nowMin=now.getHours()*60+now.getMinutes();
+  for(var i=0;i<tasks.length;i++){ var tk=tasks[i]; if(tk.done||!tk.time) continue;
+    var m=toMin(tk.time);
+    if(nowMin>=m && nowMin<=m+1){ var key=t+"#"+tk.time+"#"+tk.label; if(_alerted[key]) continue; _alerted[key]=1; fireAlarm(t,i,tk); return; }
+  }
+}
+function fireAlarm(isoD,idx,task){
+  S.alarm={label:task.label, iso:isoD, idx:idx, time:task.time};
+  playAlarmSound();
+  if(navigator.vibrate){ try{ navigator.vibrate([300,120,300,120,400]); }catch(e){} }
+  if(window.Notification && Notification.permission==="granted"){ try{ new Notification("⏰ ถึงเวลาทำตามแผน", {body:task.time+" น. · "+task.label, tag:"nst18plan"}); }catch(e){} }
+  render();
+}
+function alarmSheet(){
+  var a=S.alarm;
+  return '<div class="sheet" style="justify-content:center;align-items:center;padding:20px;">'+
+    '<div style="background:var(--c-surface);border-radius:22px;padding:26px 22px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.45);">'+
+      '<div style="font-size:46px;line-height:1;margin-bottom:6px;">⏰</div>'+
+      '<div style="font-size:19px;font-weight:800;color:var(--pri);">ถึงเวลาทำตามแผน!</div>'+
+      '<div style="font-size:13px;color:var(--c-text-muted);margin-top:4px;">'+esc(a.time)+' น.</div>'+
+      '<div style="font-size:16px;font-weight:700;margin:12px 0 20px;">'+esc(a.label)+'</div>'+
+      '<button class="btn" onclick="A.alarmFocus()" style="width:100%;padding:13px;font-size:15px;margin-bottom:9px;">▶ เริ่มโฟกัสเลย</button>'+
+      '<div style="display:flex;gap:9px;">'+
+        '<button class="btn ghost" onclick="A.alarmDone()" style="flex:1;">✓ ทำแล้ว</button>'+
+        '<button class="btn ghost" onclick="A.alarmClose()" style="flex:1;">ปิด</button>'+
+      '</div>'+
+    '</div></div>';
+}
 function planSheet(){
   var y=S.calYear, m=S.calMonth;
   var thM=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
@@ -1753,6 +1796,11 @@ function planSheet(){
       '</div>';
   }
   h+='</div>';
+
+  // ปุ่มขออนุญาตแจ้งเตือนระบบ (โชว์เฉพาะยังไม่ได้อนุญาต)
+  if(window.Notification && Notification.permission!=="granted"){
+    h+='<button class="btn sm ghost" onclick="A.enableNotify()" style="width:100%;margin-top:14px;justify-content:center;gap:6px;">🔔 อนุญาตการแจ้งเตือนเด้ง (เสียง+ป๊อปอัป)</button>';
+  }
 
   // งานของวันที่เลือก
   h+='<div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 9px;">'+
@@ -1816,6 +1864,7 @@ function renderOverlays(){
   if(S.adminOpen) h+=adminSheet();
   if(S.mock) h+=mockSheet();
   if(S.planOpen) h+=planSheet();
+  if(S.alarm) h+=alarmSheet();
   o.innerHTML=h;
   [].forEach.call(o.querySelectorAll(".sheetbody"), function(el,i){
     if(keep[i]) el.scrollTop=keep[i];
@@ -2516,6 +2565,11 @@ var A={
   focusStart:function(d,idx){ var t=(S.plan[d]||[])[idx]; if(!t) return; S.focus={label:t.label, mode:"work", endTs:Date.now()+25*60000, paused:false}; render(); window.scrollTo(0,0); },
   focusPause:function(){ if(!S.focus) return; if(S.focus.paused){ S.focus.endTs=Date.now()+(S.focus.remainMs||0); S.focus.paused=false; } else { S.focus.remainMs=Math.max(0,S.focus.endTs-Date.now()); S.focus.paused=true; } render(); },
   focusStop:function(){ S.focus=null; render(); },
+  // ── ป๊อปอัปแจ้งเตือนตามแผน ──
+  alarmClose:function(){ S.alarm=null; render(); },
+  alarmDone:function(){ var a=S.alarm; S.alarm=null; if(a) this.planToggle(a.iso,a.idx); else render(); },
+  alarmFocus:function(){ var a=S.alarm; if(!a){ render(); return; } S.alarm=null; S.tab="home"; this.focusStart(a.iso,a.idx); },
+  enableNotify:function(){ if(window.Notification){ try{ Notification.requestPermission().then(function(){ render(); }); }catch(e){ render(); } } },
   // ── เตือนผ่านปฏิทินมือถือ (ไฟล์ .ics) ──
   remind:function(d,idx){
     var t=(S.plan[d]||[])[idx]; if(!t) return;
@@ -3014,9 +3068,12 @@ function startApp(){
     if(!S.quiz && !S.adminOpen && !S.mock && !S.player && !S.planOpen) render();
   },60000);
   setInterval(focusTick,1000);   // นาฬิกาจับเวลาโฟกัส
+  setInterval(checkAlarms,15000); // ตรวจเวลางานตามแผน แล้วเด้งเตือน
+  document.addEventListener("touchstart", unlockAudio, {passive:true});
+  document.addEventListener("click", unlockAudio);
   document.addEventListener("visibilitychange",function(){
     if(document.visibilityState==="hidden") abortQuizOnSwitch();
-    else maybeSync();
+    else { maybeSync(); checkAlarms(); }
   });
   window.addEventListener("online", maybeSync);
   document.getElementById("brandtap").onclick=function(){ A.openAdmin(); };
