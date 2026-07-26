@@ -508,7 +508,7 @@ function defState(){
     selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
-    videos:{}, progress:{}, saved:{}, studySubj:null };
+    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{} };
 }
 function load(){
   var saved={};
@@ -517,12 +517,13 @@ function load(){
   S.quiz=null; S.adminOpen=false; S.adminMode=false; S.adminView="login";
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
   S.player=null; S.studySubj=null; S.vidDraft=null;
+  S.planOpen=false; S.planDraft=null;
 }
 function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
-     "mock","mockView","player","studySubj","vidDraft"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
+     "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
@@ -902,15 +903,37 @@ function viewHome(c){
   // 1) นับถอยหลัง — ตัวกระตุ้นหลัก อยู่บนสุดใต้แบนเนอร์
   h+=cd;
 
-  // 2) เป้าหมายวันนี้ (ฝึกพละ) — สิ่งที่ต้องทำวันนี้
+  // 2) เป้าหมายวันนี้ — งานจากปฏิทินแผน + ปุ่มวางแผนล่วงหน้า
   var todayIdx=(new Date().getDay()+6)%7;
   var tIso=iso(today0());
+  var todayTasks=(S.plan&&S.plan[tIso])||[];
+  var doneCnt=todayTasks.filter(function(x){ return x.done; }).length;
   h+='<div class="card">'+
-       '<div style="font-size:14px;font-weight:700;margin-bottom:12px;">เป้าหมายของวันนี้ · '+dayNames[todayIdx]+'</div>'+
-       '<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#A40001;margin-bottom:9px;">🏃 ฝึกพละวันนี้</div>'+
+       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'+
+         '<div style="font-size:14px;font-weight:700;">เป้าหมายของวันนี้ · '+dayNames[todayIdx]+'</div>'+
+         (todayTasks.length?'<span style="font-size:12px;font-weight:700;color:'+(doneCnt===todayTasks.length?'#1E9E5A':'var(--c-text-muted)')+';">ทำแล้ว '+doneCnt+'/'+todayTasks.length+'</span>':'')+
+       '</div>';
+  if(todayTasks.length){
+    h+='<div style="display:flex;flex-direction:column;gap:10px;">'+
+        todayTasks.map(function(t,idx){
+          return '<div style="display:flex;align-items:center;gap:10px;">'+
+            '<span onclick="A.planToggle(\''+tIso+'\','+idx+')" style="cursor:pointer;width:24px;height:24px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;'+(t.done?'background:#1E9E5A;color:#fff;':'background:var(--c-surface);border:1.5px solid var(--c-border);')+'">'+(t.done?'✓':'')+'</span>'+
+            '<span style="font-size:16px;flex:none;">'+planEmoji(t.t)+'</span>'+
+            '<div style="flex:1;min-width:0;">'+
+              '<div style="font-size:13.5px;font-weight:500;'+(t.done?'text-decoration:line-through;color:var(--c-text-muted);':'')+'">'+esc(t.label)+'</div>'+
+              (t.time?'<div style="font-size:10.5px;color:var(--c-text-subtle);">'+esc(t.time)+' น.</div>':'')+
+            '</div>'+
+          '</div>';
+        }).join("")+
+       '</div>';
+  } else {
+    h+='<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#A40001;margin-bottom:9px;">🏃 ฝึกพละวันนี้</div>'+
        '<div style="display:flex;flex-direction:column;gap:9px;">'+
          taskRow("🏃", trainFocus[todayIdx], "โปรแกรมฝึกวันนี้", "phys:"+tIso)+
        '</div>'+
+       '<div style="font-size:11.5px;color:var(--c-text-subtle);margin-top:10px;">ยังไม่ได้วางแผนวันนี้ — แตะปุ่มด้านล่างเพื่อจัดแผน</div>';
+  }
+  h+='<button class="btn sm ghost" onclick="A.openPlan()" style="width:100%;margin-top:12px;justify-content:center;gap:6px;">🗓️ วางแผนล่วงหน้า (ปฏิทิน)</button>'+
      '</div>';
 
   // 3) ความพร้อมสอบโดยรวม (สองวง) — ความคืบหน้า
@@ -1627,6 +1650,93 @@ function pickFormHTML(){
       '<button class="btn sm" '+(pool.length?"":"disabled style=\"opacity:.4;\"")+' onclick="A.makePick()">📄 สร้างไฟล์ข้อสอบ</button>'+
     '</div>';
 }
+/* ───── ปฏิทินวางแผนล่วงหน้า ───── */
+function planEmoji(t){ return t==="study"?"📖":t==="quiz"?"📝":"🏃"; }
+function planSheet(){
+  var y=S.calYear, m=S.calMonth;
+  var thM=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+  var startCol=(new Date(y,m,1).getDay()+6)%7, dim=new Date(y,m+1,0).getDate();
+  var todayIso=iso(today0()), sel=S.selDate||todayIso, selD=parseISO(sel);
+  var tasks=(S.plan||{})[sel]||[], dr=S.planDraft||{};
+
+  var h='<div class="sheet"><div class="sheetin">'+
+    '<div class="sheethead">'+
+      '<div style="font-size:17px;font-weight:700;">🗓️ วางแผนล่วงหน้า</div>'+
+      '<button class="x" onclick="A.closePlan()">✕</button>'+
+    '</div>'+
+    '<div class="sheetbody">';
+
+  // เลื่อนเดือน
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">'+
+       '<button class="x" onclick="A.month(-1)" style="width:36px;height:36px;font-size:18px;">‹</button>'+
+       '<div style="font-size:15px;font-weight:700;">'+thM[m]+' '+(y+543)+'</div>'+
+       '<button class="x" onclick="A.month(1)" style="width:36px;height:36px;font-size:18px;">›</button>'+
+     '</div>'+
+     '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:5px;">'+
+       ["จ","อ","พ","พฤ","ศ","ส","อา"].map(function(d){ return '<div style="text-align:center;font-size:11px;color:var(--c-text-muted);">'+d+'</div>'; }).join("")+
+     '</div>'+
+     '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">';
+  for(var i=0;i<startCol;i++) h+='<div></div>';
+  for(var d=1; d<=dim; d++){
+    var diso=iso(new Date(y,m,d)), n=((S.plan||{})[diso]||[]).length;
+    var isToday=diso===todayIso, isSel=diso===sel;
+    h+='<div onclick="A.planPick(\''+diso+'\')" style="cursor:pointer;text-align:center;padding:7px 0 4px;border-radius:9px;'+
+        (isSel?'background:var(--pri);color:#fff;':(isToday?'border:1.5px solid var(--pri);':'background:var(--c-bg);'))+'">'+
+        '<div style="font-size:13px;font-weight:600;">'+d+'</div>'+
+        '<div style="height:6px;display:flex;justify-content:center;align-items:center;">'+(n?'<span style="width:5px;height:5px;border-radius:50%;background:'+(isSel?'#fff':'var(--pri)')+';"></span>':'')+'</div>'+
+      '</div>';
+  }
+  h+='</div>';
+
+  // งานของวันที่เลือก
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 9px;">'+
+       '<div style="font-size:14px;font-weight:700;">งาน '+thDate(selD)+(sel===todayIso?' · วันนี้':'')+'</div>'+
+       '<span style="font-size:12px;color:var(--c-text-muted);">'+tasks.length+' งาน</span>'+
+     '</div>';
+  if(tasks.length){
+    h+='<div style="display:flex;flex-direction:column;gap:7px;">'+
+        tasks.map(function(t,idx){
+          return '<div style="display:flex;align-items:center;gap:9px;background:var(--c-bg);border-radius:10px;padding:8px 11px;">'+
+            '<span onclick="A.planToggle(\''+sel+'\','+idx+')" style="cursor:pointer;width:22px;height:22px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;'+(t.done?'background:#1E9E5A;color:#fff;':'border:1.5px solid var(--c-border);')+'">'+(t.done?'✓':'')+'</span>'+
+            '<span style="font-size:16px;flex:none;">'+planEmoji(t.t)+'</span>'+
+            '<div style="flex:1;min-width:0;">'+
+              '<div style="font-size:13px;font-weight:500;'+(t.done?'text-decoration:line-through;color:var(--c-text-muted);':'')+'">'+esc(t.label)+'</div>'+
+              (t.time?'<div style="font-size:11px;color:var(--c-text-subtle);">'+esc(t.time)+' น.</div>':'')+
+            '</div>'+
+            '<button class="x" onclick="A.planDel(\''+sel+'\','+idx+')" style="width:26px;height:26px;font-size:11px;flex:none;">✕</button>'+
+          '</div>';
+        }).join("")+
+       '</div>';
+  } else {
+    h+='<div style="font-size:12.5px;color:var(--c-text-subtle);padding:4px 2px;">ยังไม่มีงานในวันนี้ — เพิ่มด้านล่างได้เลย</div>';
+  }
+
+  // เพิ่มงาน
+  h+='<div style="margin-top:16px;border-top:1px solid var(--c-border);padding-top:14px;">'+
+       '<div style="font-size:13px;font-weight:700;margin-bottom:9px;">＋ เพิ่มงาน</div>'+
+       '<div style="display:flex;gap:7px;margin-bottom:11px;">'+
+         [["study","📖 ติวหนังสือ"],["quiz","📝 ทำข้อสอบ"],["phys","🏃 ฝึกพละ"]].map(function(x){
+           var on=dr.type===x[0];
+           return '<button onclick="A.planDraftType(\''+x[0]+'\')" class="btn sm'+(on?'':' ghost')+'" style="flex:1;font-size:11.5px;padding:9px 4px;">'+x[1]+'</button>';
+         }).join("")+
+       '</div>';
+  if(dr.type){
+    var opts;
+    if(dr.type==="phys") opts=physList().map(function(e){ return '<option value="'+esc(e.k)+'"'+(dr.sub===e.k?' selected':'')+'>'+esc(e.name)+'</option>'; }).join("");
+    else opts=subjects().map(function(su){ return '<option value="'+su.k+'"'+(dr.sub===su.k?' selected':'')+'>'+esc(short(su.k))+'</option>'; }).join("");
+    h+='<div style="display:flex;gap:8px;margin-bottom:11px;">'+
+         '<select onchange="A.planDraftSub(this.value)" style="flex:1;min-width:0;border:1px solid var(--c-border);border-radius:10px;padding:10px;font-size:13px;background:var(--c-surface);color:var(--c-text);">'+
+           '<option value="">— เลือก'+(dr.type==="phys"?"ท่า":"วิชา")+' —</option>'+opts+
+         '</select>'+
+         '<input type="time" onchange="A.planDraftTime(this.value)" value="'+esc(dr.time||"")+'" style="width:118px;flex:none;border:1px solid var(--c-border);border-radius:10px;padding:10px;font-size:13px;background:var(--c-surface);color:var(--c-text);">'+
+       '</div>'+
+       '<button class="btn" onclick="A.planAdd()" style="width:100%;padding:12px;font-size:14px;">เพิ่มลง '+thDate(selD)+'</button>';
+  }
+  h+='</div>';
+
+  return h+'</div></div></div>';
+}
+
 function renderOverlays(){
   var o=document.getElementById("overlays");
   /* จำตำแหน่งที่เลื่อนอยู่ของแต่ละแผง ไม่ให้เด้งกลับไปบนสุดทุกครั้งที่วาดใหม่
@@ -1636,6 +1746,7 @@ function renderOverlays(){
   if(S.quiz) h+=quizSheet();
   if(S.adminOpen) h+=adminSheet();
   if(S.mock) h+=mockSheet();
+  if(S.planOpen) h+=planSheet();
   o.innerHTML=h;
   [].forEach.call(o.querySelectorAll(".sheetbody"), function(el,i){
     if(keep[i]) el.scrollTop=keep[i];
@@ -2308,6 +2419,29 @@ var A={
     if(m<0){ m=11; y--; } if(m>11){ m=0; y++; }
     set({calMonth:m, calYear:y});
   },
+  // ── ปฏิทินวางแผนล่วงหน้า ──
+  openPlan:function(){ var t=today0(); S.selDate=iso(t); S.calYear=t.getFullYear(); S.calMonth=t.getMonth(); S.planOpen=true; render(); },
+  closePlan:function(){ S.planOpen=false; S.planDraft=null; render(); },
+  planPick:function(d){ set({selDate:d}); },
+  planDraftType:function(t){ set({planDraft:Object.assign({},S.planDraft,{type:t,sub:null})}); },
+  planDraftSub:function(v){ set({planDraft:Object.assign({},S.planDraft,{sub:v||null})}); },
+  planDraftTime:function(v){ set({planDraft:Object.assign({},S.planDraft,{time:v})}); },
+  planAdd:function(){
+    var dr=S.planDraft||{};
+    if(!dr.type){ toast("เลือกประเภทก่อน"); return; }
+    if(!dr.sub){ toast("เลือก"+(dr.type==="phys"?"ท่า":"วิชา")+"ก่อน"); return; }
+    var label;
+    if(dr.type==="phys"){ var e=physList().find(function(x){ return x.k===dr.sub; }); label=e?e.name:"ฝึกพละ"; }
+    else label=(dr.type==="study"?"ดูวิดีโอ: ":"ทำข้อสอบ: ")+short(dr.sub);
+    var pl=Object.assign({},S.plan), day=(pl[S.selDate]||[]).slice();
+    day.push({t:dr.type, sub:dr.sub, label:label, time:dr.time||"", done:false});
+    day.sort(function(a,b){ var x=a.time||"99:99", y=b.time||"99:99"; return x<y?-1:x>y?1:0; });
+    pl[S.selDate]=day;
+    set({plan:pl, planDraft:{type:dr.type}});
+    toast("เพิ่มลงแผนแล้ว");
+  },
+  planDel:function(d,idx){ var pl=Object.assign({},S.plan), day=(pl[d]||[]).slice(); day.splice(idx,1); if(day.length) pl[d]=day; else delete pl[d]; set({plan:pl}); },
+  planToggle:function(d,idx){ var pl=Object.assign({},S.plan), day=(pl[d]||[]).slice(); if(!day[idx]) return; day[idx]=Object.assign({},day[idx],{done:!day[idx].done}); pl[d]=day; set({plan:pl}); },
   editBlock:function(wi,day,bi,f,v){
     var key=wi+":"+day+":"+bi;
     var e=Object.assign({},S.edits);
@@ -2763,7 +2897,7 @@ function abortQuizOnSwitch(){
 var lastSyncAt = 0;
 function maybeSync(){
   if(!isActivated()) return;                    // ยังไม่ได้เปิดใช้งาน
-  if(S.quiz || S.adminOpen || S.mock || S.player) return;   // ทำข้อสอบ/แอดมิน/ดูชุดข้อสอบ/ดูวิดีโอ อย่ารบกวน
+  if(S.quiz || S.adminOpen || S.mock || S.player || S.planOpen) return;   // ทำข้อสอบ/แอดมิน/ดูชุดข้อสอบ/ดูวิดีโอ/วางแผน อย่ารบกวน
   if(Date.now()-lastSyncAt < 30000) return;     // เพิ่งเช็คไปไม่ถึงครึ่งนาที
   lastSyncAt = Date.now();
   syncContent();
@@ -2783,7 +2917,7 @@ function startApp(){
   lastSyncAt = Date.now();
   syncContent();
   setInterval(function(){
-    if(!S.quiz && !S.adminOpen && !S.mock && !S.player) render();
+    if(!S.quiz && !S.adminOpen && !S.mock && !S.player && !S.planOpen) render();
   },60000);
   document.addEventListener("visibilitychange",function(){
     if(document.visibilityState==="hidden") abortQuizOnSwitch();
