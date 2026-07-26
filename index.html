@@ -871,29 +871,28 @@ function viewHome(c){
   var examText="";
   if(S.examDate){ var ex=new Date(S.examDate+"T00:00:00"); examText=thDate(ex)+" "+(ex.getFullYear()+543); }
 
-  // แบนเนอร์ภาพด้านบน (เหนือกล่องนับถอยหลัง)
-  h+='<img src="icons/countdown-bg.jpg" alt="เตรียมความพร้อม สู่เส้นทางนายสิบตำรวจ" loading="lazy" style="width:100%;display:block;border-radius:18px;box-shadow:0 4px 16px rgba(0,0,0,.12);">';
-  // นับถอยหลัง
-  h+='<div style="border-radius:22px;padding:18px;color:var(--c-on-brand);background:#E4101F;">'+
-       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'+
-         '<div style="font-size:18px;font-weight:600;letter-spacing:.05em;">นับถอยหลังสู่วันสอบ</div>'+
-         '<span style="width:7px;height:7px;border-radius:50%;background:var(--c-surface);"></span>'+
+  // นับถอยหลัง — ใช้ภาพเป็นพื้นหลัง (ตราอยู่ขวา ตัวเลขวางบนพื้นที่สว่างด้านซ้าย)
+  h+='<div style="position:relative;overflow:hidden;border-radius:22px;padding:18px 20px;border:1px solid var(--c-border);box-shadow:0 4px 16px rgba(0,0,0,.1);'+
+       'background:linear-gradient(90deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.78) 40%,rgba(255,255,255,0) 68%),url(\'icons/countdown-bg.jpg\') right center / cover no-repeat;">'+
+       '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">'+
+         '<span style="width:8px;height:8px;border-radius:50%;background:#E4101F;box-shadow:0 0 0 4px rgba(228,17,31,.18);"></span>'+
+         '<div style="font-size:17px;font-weight:800;letter-spacing:.02em;color:#A40001;">นับถอยหลังสู่วันสอบ</div>'+
        '</div>';
   if(c.daysLeft!=null){
     h+='<div style="display:flex;align-items:flex-end;gap:8px;">'+
         flip.map(function(d){
           return '<div class="mono" style="position:relative;width:52px;height:70px;border-radius:11px;display:flex;align-items:center;justify-content:center;'+
-                 'font-size:40px;font-weight:700;color:#0B0000;background:var(--c-surface);box-shadow:0 6px 16px rgba(0,0,0,.35);animation:flipIn .55s ease-out both;">'+d+
-                 '<div style="position:absolute;left:6px;right:6px;top:50%;height:1px;background:rgba(0,0,0,.55);"></div></div>';
+                 'font-size:40px;font-weight:700;color:#fff;background:#E4101F;box-shadow:0 6px 16px rgba(164,0,1,.4);animation:flipIn .55s ease-out both;">'+d+
+                 '<div style="position:absolute;left:6px;right:6px;top:50%;height:1px;background:rgba(255,255,255,.5);"></div></div>';
         }).join("")+
-        '<span style="font-size:14px;font-weight:500;padding-bottom:8px;">วัน</span>'+
+        '<span style="font-size:14px;font-weight:800;padding-bottom:8px;color:#A40001;">วัน</span>'+
        '</div>'+
-       '<div style="font-size:12.5px;margin-top:12px;font-weight:700;">'+
+       '<div style="font-size:12.5px;margin-top:12px;font-weight:700;color:#6B0B0B;max-width:64%;">'+
          (c.daysLeft<0 ? "เลยวันสอบที่กำหนดแล้ว ("+esc(examText)+")"
                        : "สอบวันที่ "+esc(examText)+" · เหลืออีก ~"+c.T+" สัปดาห์")+
        '</div>';
   } else {
-    h+='<div style="font-size:13.5px;color:#F3D9DB;line-height:1.5;">ยังไม่กำหนดวันสอบ — เลือกวันสอบด้านล่างเพื่อเริ่มนับถอยหลัง (ใช้แผน '+c.T+' สัปดาห์ไปก่อน)</div>';
+    h+='<div style="font-size:13.5px;color:#6B0B0B;line-height:1.5;font-weight:600;max-width:62%;">ยังไม่กำหนดวันสอบ — เลือกวันสอบด้านล่างเพื่อเริ่มนับถอยหลัง (ใช้แผน '+c.T+' สัปดาห์ไปก่อน)</div>';
   }
   h+='</div>';
 
