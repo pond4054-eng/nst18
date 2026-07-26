@@ -899,7 +899,21 @@ function viewHome(c){
   // แบนเนอร์บนสุด (เหนือความพร้อมสอบโดยรวม)
   h+='<img src="icons/home-banner.jpg" alt="เตรียมความพร้อม สู่เส้นทางนายสิบตำรวจ" loading="lazy" style="width:100%;display:block;border-radius:18px;box-shadow:0 4px 16px rgba(0,0,0,.12);">';
 
-  // สองวง
+  // 1) นับถอยหลัง — ตัวกระตุ้นหลัก อยู่บนสุดใต้แบนเนอร์
+  h+=cd;
+
+  // 2) เป้าหมายวันนี้ (ฝึกพละ) — สิ่งที่ต้องทำวันนี้
+  var todayIdx=(new Date().getDay()+6)%7;
+  var tIso=iso(today0());
+  h+='<div class="card">'+
+       '<div style="font-size:14px;font-weight:700;margin-bottom:12px;">เป้าหมายของวันนี้ · '+dayNames[todayIdx]+'</div>'+
+       '<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#A40001;margin-bottom:9px;">🏃 ฝึกพละวันนี้</div>'+
+       '<div style="display:flex;flex-direction:column;gap:9px;">'+
+         taskRow("🏃", trainFocus[todayIdx], "โปรแกรมฝึกวันนี้", "phys:"+tIso)+
+       '</div>'+
+     '</div>';
+
+  // 3) ความพร้อมสอบโดยรวม (สองวง) — ความคืบหน้า
   var ks=knowStats(), ps=physStats();
   var kS=statusOf(ks.pct), pS=statusOf(ps.pct);
   h+='<div style="border:1px solid var(--c-border);border-radius:20px;padding:18px;background-color:var(--c-surface);background-image:linear-gradient(135deg,rgba(228,17,31,.11) 0%,rgba(30,158,90,.13) 100%);box-shadow:0 4px 16px rgba(0,0,0,.07);">'+
@@ -909,21 +923,6 @@ function viewHome(c){
          ring(ps.pct,"#1E9E5A","ร่างกาย",pS)+
        '</div>'+
      '</div>';
-
-  // เป้าหมายวันนี้ (ฝึกพละ)
-  var todayIdx=(new Date().getDay()+6)%7;
-  var tIso=iso(today0());
-
-  h+='<div class="card">'+
-       '<div style="font-size:14px;font-weight:700;margin-bottom:12px;">เป้าหมายของวันนี้ · '+dayNames[todayIdx]+'</div>'+
-       '<div style="font-size:15px;font-weight:700;letter-spacing:.04em;color:#A40001;margin-bottom:9px;">🏃 ฝึกพละวันนี้</div>'+
-       '<div style="display:flex;flex-direction:column;gap:9px;">'+
-         taskRow("🏃", trainFocus[todayIdx], "โปรแกรมฝึกวันนี้", "phys:"+tIso)+
-       '</div>'+
-     '</div>';
-
-  // นับถอยหลัง (ย้ายมาแทนการ์ดทางลัด "ฝึกพละ/ทำข้อสอบ" ที่ลบออกแล้ว)
-  h+=cd;
 
   // ตั้งค่า
   h+='<div class="card" style="border-radius:16px;padding:12px 16px;display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;">'+
