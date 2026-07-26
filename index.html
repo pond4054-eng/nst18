@@ -803,14 +803,13 @@ function physStats(){
       if(isNaN(val)||isNaN(target)) return false;
       return e.dir==="high" ? val>=target : val<=target;
     });
-    // ผลที่ดีที่สุด (วิ่ง=เร็วสุด, กระโดด=ไกลสุด) — ใช้ตัดสินสถานะ "ผ่าน/ยังไม่ผ่าน" ให้เข้าใจง่าย
-    var bestObj=null;
-    list.forEach(function(v){ var val=pv(v); if(isNaN(val)) return;
-      if(!bestObj || (e.dir==="high"?val>bestObj.val:val<bestObj.val)) bestObj={raw:v,val:val}; });
-    var passed = bestObj!=null && !isNaN(target) && (e.dir==="high"?bestObj.val>=target:bestObj.val<=target);
+    // ผลครั้งล่าสุด (รายการท้ายสุด) — ใช้ตัดสินสถานะ "ผ่าน/ไม่ผ่าน" ตามผลล่าสุดที่ทำได้
+    var lastObj=null;
+    for(var li=list.length-1; li>=0; li--){ var lval=pv(list[li]); if(!isNaN(lval)){ lastObj={raw:list[li],val:lval}; break; } }
+    var passed = lastObj!=null && !isNaN(target) && (e.dir==="high"?lastObj.val>=target:lastObj.val<=target);
     if(passed) passedCount++;
     return { e:e, targetRaw:targetRaw, target:target, list:list, passArr:passArr, n:list.length,
-             best:(bestObj?bestObj.val:null), bestRaw:(bestObj?bestObj.raw:null), passed:passed,
+             last:(lastObj?lastObj.val:null), lastRaw:(lastObj?lastObj.raw:null), passed:passed,
              stKey: list.length===0?"none":(passed?"pass":"improve") };
   });
   return { per:per, passed:passedCount, total:evs.length, pct: evs.length?Math.round(passedCount/evs.length*100):0 };
@@ -1343,12 +1342,12 @@ function viewPhys(){
        '</div>'+
      '</div>';
 
-  // การ์ดรายท่า — เทียบเป้าหมายกับผลดีที่สุด บันทึกผลง่าย
+  // การ์ดรายท่า — เทียบเป้าหมายกับผลครั้งล่าสุด บันทึกผลง่าย
   ps.per.forEach(function(p){
     var e=p.e, st=stMap[p.stKey];
     var gapLine="";
-    if(p.best!=null && !isNaN(p.target)){
-      var diff=p.best-p.target, good=(e.dir==="high"?diff>=0:diff<=0);
+    if(p.last!=null && !isNaN(p.target)){
+      var diff=p.last-p.target, good=(e.dir==="high"?diff>=0:diff<=0);
       gapLine = good
         ? '<div style="font-size:12px;margin-top:8px;color:#1E9E5A;font-weight:600;">✓ ดีกว่าเกณฑ์ '+fmtGap(e,diff)+'</div>'
         : '<div style="font-size:12px;margin-top:8px;color:#C77700;font-weight:600;">ขาดอีก '+fmtGap(e,diff)+' ก็ผ่าน</div>';
@@ -1359,15 +1358,15 @@ function viewPhys(){
                 '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">'+esc(e.hint||"")+'</div></div>'+
            '<div class="chip" style="flex:none;background:'+st.bg+';color:'+st.fg+';">'+st.t+'</div>'+
          '</div>'+
-         // เป้าหมาย vs ทำได้ดีที่สุด
+         // เป้าหมาย vs ผลครั้งล่าสุด
          '<div style="display:flex;gap:10px;margin-top:12px;">'+
            '<div style="flex:1;background:var(--c-bg);border-radius:12px;padding:10px 12px;">'+
              '<div style="font-size:11px;color:var(--c-text-muted);">เป้าหมาย</div>'+
              '<div class="mono" style="font-size:18px;font-weight:800;margin-top:2px;">'+esc(p.targetRaw)+' <span style="font-size:11px;font-weight:500;color:var(--c-text-muted);">'+esc(e.unit)+'</span></div>'+
            '</div>'+
            '<div style="flex:1;background:var(--c-bg);border-radius:12px;padding:10px 12px;">'+
-             '<div style="font-size:11px;color:var(--c-text-muted);">ทำได้ดีที่สุด</div>'+
-             '<div class="mono" style="font-size:18px;font-weight:800;margin-top:2px;color:'+(p.best!=null?(p.passed?"#1E9E5A":"var(--c-text)"):"var(--c-text-subtle)")+';">'+(p.bestRaw!=null?esc(p.bestRaw)+' <span style="font-size:11px;font-weight:500;color:var(--c-text-muted);">'+esc(e.unit)+'</span>':"—")+'</div>'+
+             '<div style="font-size:11px;color:var(--c-text-muted);">ครั้งล่าสุด</div>'+
+             '<div class="mono" style="font-size:18px;font-weight:800;margin-top:2px;color:'+(p.last!=null?(p.passed?"#1E9E5A":"var(--c-text)"):"var(--c-text-subtle)")+';">'+(p.lastRaw!=null?esc(p.lastRaw)+' <span style="font-size:11px;font-weight:500;color:var(--c-text-muted);">'+esc(e.unit)+'</span>':"—")+'</div>'+
            '</div>'+
          '</div>'+
          gapLine+
@@ -1381,8 +1380,8 @@ function viewPhys(){
          '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;">'+
            '<div style="display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0;">'+
              (p.n
-               ? p.list.map(function(v,i){ var ok=p.passArr[i];
-                   return '<span onclick="A.delTest(\''+e.k+'\','+i+')" class="mono" title="แตะเพื่อลบ" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:999px;cursor:pointer;background:'+(ok?"#E3F4EA":"#FDECEC")+';color:'+(ok?"#1E9E5A":PRI())+';">'+(ok?"✓":"✗")+' '+esc(v)+' ✕</span>';
+               ? p.list.map(function(v,i){ var ok=p.passArr[i]; var isLast=(i===p.list.length-1);
+                   return '<span onclick="A.delTest(\''+e.k+'\','+i+')" class="mono" title="แตะเพื่อลบ" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:999px;cursor:pointer;background:'+(ok?"#E3F4EA":"#FDECEC")+';color:'+(ok?"#1E9E5A":PRI())+';'+(isLast?'outline:2px solid '+(ok?"#1E9E5A":PRI())+';outline-offset:1px;font-weight:700;':'')+'">'+(ok?"✓":"✗")+' '+esc(v)+(isLast?' · ล่าสุด':'')+' ✕</span>';
                  }).join("")
                : '<span style="font-size:11.5px;color:var(--c-text-subtle);">ยังไม่มีผลการทดสอบ · กรอกผลด้านบนได้เลย</span>')+
            '</div>'+
@@ -1395,7 +1394,7 @@ function viewPhys(){
        '• <b>กลุ่ม 1</b> วิ่ง 1,000 ม. + ว่ายน้ำ 25 ม. — <b>ต้องผ่านทั้งคู่</b> ก่อนถึงมีสิทธิ์สอบกลุ่ม 2<br>'+
        '• <b>กลุ่ม 2</b> กระโดดไกล / วิ่งเก็บของ 10 ม. / วิ่ง 50 ม. — <b>ผ่าน 2 ใน 3</b> ก็พอ<br>'+
        '• <b>ผู้หญิง</b> เกณฑ์ต่างกัน: วิ่ง 800 ม. ≤5 นาที · ว่ายน้ำ ≤50 วิ · กระโดด ≥120 · เก็บของ ≤15 วิ · วิ่ง 50 ≤13 วิ (กด “แก้เกณฑ์” เพื่อปรับ)<br>'+
-       '<span style="color:var(--c-text-muted);">* ยึดตาม<b>ประกาศรับสมัครรุ่น 18</b> เป็นหลัก · สถานะแต่ละท่าตัดสินจากผลที่ทำได้ดีที่สุด</span>'+
+       '<span style="color:var(--c-text-muted);">* ยึดตาม<b>ประกาศรับสมัครรุ่น 18</b> เป็นหลัก · สถานะแต่ละท่าตัดสินจาก<b>ผลครั้งล่าสุด</b> (ผลเก่าเก็บเป็นประวัติ)</span>'+
      '</div>';
 
   h+='<div class="card">'+
