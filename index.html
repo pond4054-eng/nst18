@@ -2854,46 +2854,21 @@ function openInstallFromApp(){
 function showInstallScreen(){
   var el=document.getElementById("install");
   var ios=isIOSDevice(), canPrompt=!!deferredPrompt;
-  function step(n,txt){
-    return '<div style="display:flex;gap:12px;align-items:flex-start;">'+
-      '<div style="flex:none;width:24px;height:24px;border-radius:50%;background:var(--pri);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;">'+n+'</div>'+
-      '<div style="flex:1;font-size:13.5px;line-height:1.55;padding-top:1px;">'+txt+'</div></div>';
-  }
   var h='';
-  h+='<img src="icons/app-preview.jpg" alt="นสต.18" style="width:128px;display:block;margin:0 auto 12px;border-radius:16px;border:1px solid var(--c-border);box-shadow:0 10px 26px rgba(164,0,1,.22);">'+
-     '<h1>ติดตั้งแอปลงหน้าจอ</h1>'+
-     '<p class="sub">ติดตั้งแล้วได้ไอคอนนี้บนหน้าจอ — เปิดง่าย เร็ว ใช้ได้แม้ไม่มีเน็ต</p>';
   if(ios){
-    h+='<div style="display:flex;flex-direction:column;gap:14px;text-align:left;background:rgba(255,255,255,.75);border:1px solid var(--c-border);border-radius:16px;padding:16px 18px;">'+
-         step(1,'แตะปุ่ม <b>“แชร์”</b> <span style="display:inline-block;border:1.5px solid var(--pri);border-radius:5px;padding:0 4px;color:var(--pri);font-weight:800;">↑</span>')+
-         step(2,'ในแผ่นแชร์ เลื่อนลง แล้วแตะ <b>“ดูเพิ่มเติม”</b>')+
-         step(3,'แตะ <b>“เพิ่มไปยังหน้าจอโฮม”</b>')+
-         step(4,'แตะ <b>“เพิ่ม”</b> มุมขวาบน — เสร็จเลย!')+
-       '</div>'+
-       '<p class="note" style="margin-top:14px;">* ต้องเปิดใน Safari เท่านั้น — ถ้าเปิดในไลน์/เฟซบุ๊ก ให้แตะ ⋯ มุมขวาบน → “เปิดใน Safari” ก่อน</p>'+
-       // ภาพประกอบทีละขั้น
-       '<details open style="margin-top:14px;text-align:left;">'+
-         '<summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--pri);text-align:center;">📷 ภาพประกอบทีละขั้น</summary>'+
-         '<div style="display:flex;flex-direction:column;gap:14px;margin-top:12px;">'+
-           [
-             {img:'inst-share', t:'แตะปุ่ม “แชร์” (วงแดง)'},
-             {img:'inst1', t:'เลื่อนลง แล้วแตะ “ดูเพิ่มเติม” (วงแดง)'},
-             {img:'inst2', t:'แตะ “เพิ่มไปยังหน้าจอโฮม”'},
-             {img:'inst3', t:'แตะ “เพิ่ม” (กรอบแดง) มุมขวาบน — เสร็จ!'}
-           ].map(function(s,i){
-             return '<div>'+
-               '<div style="font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:5px;">ขั้น '+(i+1)+' · '+s.t+'</div>'+
-               '<img src="icons/'+s.img+'.jpg" alt="ขั้นตอนที่ '+(i+1)+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);box-shadow:0 3px 10px rgba(0,0,0,.1);">'+
-             '</div>';
-           }).join("")+
-         '</div>'+
-       '</details>';
-  } else if(canPrompt){
-    h+='<button class="btn" id="doInstall" type="button" style="width:100%;padding:14px;font-size:15px;">📲 ติดตั้งแอปเลย</button>';
+    // อินโฟกราฟิกวิธีติดตั้ง 5 ขั้น (ใบเดียวจบ)
+    h+='<img src="icons/install-guide.jpg" alt="วิธีติดตั้งแอปลงหน้าจอ 5 ขั้นตอน" style="width:100%;display:block;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.15);">';
   } else {
-    h+='<div style="text-align:left;background:rgba(255,255,255,.75);border:1px solid var(--c-border);border-radius:16px;padding:16px 18px;font-size:13.5px;line-height:1.8;">'+
-         'แตะเมนู <b>⋮</b> มุมขวาบนของเบราว์เซอร์ → เลือก <b>“ติดตั้งแอป”</b> หรือ <b>“เพิ่มลงในหน้าจอหลัก”</b>'+
-       '</div>';
+    h+='<img src="icons/app-preview.jpg" alt="นสต.18" style="width:128px;display:block;margin:0 auto 12px;border-radius:16px;border:1px solid var(--c-border);box-shadow:0 10px 26px rgba(164,0,1,.22);">'+
+       '<h1>ติดตั้งแอปลงหน้าจอ</h1>'+
+       '<p class="sub">ติดตั้งแล้วได้ไอคอนนี้บนหน้าจอ — เปิดง่าย เร็ว ใช้ได้แม้ไม่มีเน็ต</p>';
+    if(canPrompt){
+      h+='<button class="btn" id="doInstall" type="button" style="width:100%;padding:14px;font-size:15px;">📲 ติดตั้งแอปเลย</button>';
+    } else {
+      h+='<div style="text-align:left;background:rgba(255,255,255,.75);border:1px solid var(--c-border);border-radius:16px;padding:16px 18px;font-size:13.5px;line-height:1.8;">'+
+           'แตะเมนู <b>⋮</b> มุมขวาบนของเบราว์เซอร์ → เลือก <b>“ติดตั้งแอป”</b> หรือ <b>“เพิ่มลงในหน้าจอหลัก”</b>'+
+         '</div>';
+    }
   }
   h+='<button class="btn ghost" type="button" onclick="proceedToApp()" style="width:100%;margin-top:12px;">ข้ามไปก่อน เริ่มใช้เลย →</button>';
   el.innerHTML=h;

@@ -2,7 +2,7 @@
    ────────────────────────────────────────────────
    เวลาแก้ไฟล์แอปแล้วอยากให้เครื่องนักเรียนอัปเดต ให้เปลี่ยนเลข VERSION ข้างล่างนี้
    (เช่น v1 → v2) แล้วอัปโหลดใหม่ทั้งโฟลเดอร์ เท่านี้ทุกเครื่องจะเห็นของใหม่เอง */
-const VERSION = "v59";
+const VERSION = "v60";
 
 const CACHE = "nst18-" + VERSION;
 const SHELL = [
@@ -23,10 +23,7 @@ const SHELL = [
   "./icons/subj-social.jpg",
   "./icons/countdown-bg.jpg",
   "./icons/app-bg.jpg",
-  "./icons/inst1.jpg",
-  "./icons/inst2.jpg",
-  "./icons/inst3.jpg",
-  "./icons/inst-share.jpg",
+  "./icons/install-guide.jpg",
   "./icons/app-preview.jpg",
 ];
 
