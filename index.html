@@ -896,6 +896,9 @@ function viewHome(c){
   }
   cd+='</div>';
 
+  // แบนเนอร์บนสุด (เหนือความพร้อมสอบโดยรวม)
+  h+='<img src="icons/home-banner.jpg" alt="เตรียมความพร้อม สู่เส้นทางนายสิบตำรวจ" loading="lazy" style="width:100%;display:block;border-radius:18px;box-shadow:0 4px 16px rgba(0,0,0,.12);">';
+
   // สองวง
   var ks=knowStats(), ps=physStats();
   var kS=statusOf(ks.pct), pS=statusOf(ps.pct);
