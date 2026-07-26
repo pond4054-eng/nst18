@@ -2491,8 +2491,9 @@ var A={
   closePlan:function(){ S.planOpen=false; S.planDraft=null; render(); },
   planPick:function(d){ set({selDate:d}); },
   planDraftType:function(t){ set({planDraft:Object.assign({},S.planDraft,{type:t,sub:null})}); },
-  planDraftSub:function(v){ set({planDraft:Object.assign({},S.planDraft,{sub:v||null})}); },
-  planDraftTime:function(v){ set({planDraft:Object.assign({},S.planDraft,{time:v})}); },
+  // เก็บค่าเงียบ ๆ ไม่ render ระหว่างเลือก — กันวงล้อเลือกเวลาบนมือถือปิดตัวเอง
+  planDraftSub:function(v){ if(!S.planDraft) S.planDraft={}; S.planDraft.sub=v||null; },
+  planDraftTime:function(v){ if(!S.planDraft) S.planDraft={}; S.planDraft.time=v; },
   planAdd:function(){
     var dr=S.planDraft||{};
     if(!dr.type){ toast("เลือกประเภทก่อน"); return; }
