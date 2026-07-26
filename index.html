@@ -2869,7 +2869,19 @@ function showInstallScreen(){
          step(2,'เลื่อนหา <b>“เพิ่มไปยังหน้าจอโฮม”</b> แล้วแตะ')+
          step(3,'แตะ <b>“เพิ่ม”</b> มุมขวาบน — เสร็จเลย!')+
        '</div>'+
-       '<p class="note" style="margin-top:14px;">* ต้องเปิดใน Safari เท่านั้น — ถ้าเปิดในไลน์/เฟซบุ๊ก ให้แตะ ⋯ มุมขวาบน → “เปิดใน Safari” ก่อน</p>';
+       '<p class="note" style="margin-top:14px;">* ต้องเปิดใน Safari เท่านั้น — ถ้าเปิดในไลน์/เฟซบุ๊ก ให้แตะ ⋯ มุมขวาบน → “เปิดใน Safari” ก่อน</p>'+
+       // ภาพประกอบทีละขั้น
+       '<details open style="margin-top:14px;text-align:left;">'+
+         '<summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--pri);text-align:center;">📷 ภาพประกอบทีละขั้น</summary>'+
+         '<div style="display:flex;flex-direction:column;gap:14px;margin-top:12px;">'+
+           ['แตะปุ่มแชร์ → เมนูนี้เด้งขึ้น','เลื่อนลงหา “เพิ่มไปยังหน้าจอโฮม”','แตะ “เพิ่ม” มุมขวาบน'].map(function(t,i){
+             return '<div>'+
+               '<div style="font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:5px;">ขั้น '+(i+1)+' · '+t+'</div>'+
+               '<img src="icons/inst'+(i+1)+'.jpg" alt="ขั้นตอนที่ '+(i+1)+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);box-shadow:0 3px 10px rgba(0,0,0,.1);">'+
+             '</div>';
+           }).join("")+
+         '</div>'+
+       '</details>';
   } else if(canPrompt){
     h+='<button class="btn" id="doInstall" type="button" style="width:100%;padding:14px;font-size:15px;">📲 ติดตั้งแอปเลย</button>';
   } else {
