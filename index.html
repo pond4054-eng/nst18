@@ -832,7 +832,7 @@ function render(){
 
   //   = เว้นวรรคแบบไม่ให้ตัดบรรทัด กัน "ว่าที่" กับ "นสต.18" หลุดคนละบรรทัดบนจอเล็ก
   var titles={ home:{k:"ยินดีต้อนรับ ว่าที่ นสต.18",t:"ภาพรวมวันนี้"}, study:{k:"ติวหนังสือ",t:"วิดีโอเรียนเนื้อหา"},
-               phys:{k:"ฝึกสมรรถภาพ",t:"ตารางฝึกพละ"}, ready:{k:"วัดผล",t:"ความพร้อมสอบ"} };
+               phys:{k:"ฝึกสมรรถภาพ",t:"ตารางฝึกพละ"}, ready:{k:"ทำข้อสอบ",t:"เลือกหัวข้อทำข้อสอบ"} };
   var tt=titles[S.tab]||titles.home;
   document.getElementById("kicker").textContent=tt.k;
   document.getElementById("tabtitle").textContent=tt.t;
@@ -845,7 +845,7 @@ function render(){
   document.getElementById("cdunit").textContent=cdUnit;
 
   // ── แถบล่าง
-  var navDefs=[{k:"home",l:"หน้าแรก"},{k:"study",l:"ติวหนังสือ"},{k:"phys",l:"ฝึกพละ"},{k:"ready",l:"ความพร้อม"}];
+  var navDefs=[{k:"home",l:"หน้าแรก"},{k:"study",l:"ติวหนังสือ"},{k:"ready",l:"ทำข้อสอบ"},{k:"phys",l:"ฝึกพละ"}];
   document.getElementById("nav").innerHTML=navDefs.map(function(n){
     return '<button class="navbtn'+(S.tab===n.k?" on":"")+'" onclick="A.tab(\''+n.k+'\')">'+n.l+'</button>';
   }).join("");
@@ -928,9 +928,9 @@ function viewHome(c){
          '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">ดูตารางฝึก →</div>'+
        '</div>'+
        '<div class="card" style="flex:1;padding:15px;border-radius:18px;cursor:pointer;" onclick="A.tab(\'ready\')">'+
-         '<div style="font-size:12px;color:var(--c-text-muted);">เช็กความพร้อม</div>'+
-         '<div style="font-size:16px;font-weight:700;margin-top:3px;">รวม '+Math.round((ks.pct+ps.pct)/2)+'%</div>'+
-         '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">อัปเดตสถานะ →</div>'+
+         '<div style="font-size:12px;color:var(--c-text-muted);">ทำข้อสอบ</div>'+
+         '<div style="font-size:16px;font-weight:700;margin-top:3px;">ความรู้ '+ks.pct+'%</div>'+
+         '<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">เลือกหัวข้อ →</div>'+
        '</div>'+
      '</div>';
 
