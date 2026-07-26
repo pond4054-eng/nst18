@@ -1713,7 +1713,7 @@ function computeStreak(){
 function focusTick(){
   if(!S.focus || S.focus.paused) return;
   var remain=S.focus.endTs-Date.now();
-  if(remain>0){ var el=document.getElementById("focusTime"); if(el) el.textContent=fmtMMSS(remain); else render(); return; }
+  if(remain>0){ var el=document.getElementById("focusTime"); if(el) el.textContent=fmtMMSS(remain); return; }   // ไม่มีการ์ดบนจอ = อยู่แท็บอื่น อย่าวาดใหม่ทั้งแอป (กันกระตุก)
   if(navigator.vibrate){ try{ navigator.vibrate([120,60,120]); }catch(e){} }
   if(S.focus.mode==="work"){ S.focus={label:S.focus.label, mode:"break", endTs:Date.now()+5*60000, paused:false}; toast("ครบ 25 นาที! พัก 5 นาที ☕"); render(); }
   else { S.focus=null; toast("จบ 1 รอบโฟกัส เก่งมาก! 🎉"); render(); }
