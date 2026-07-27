@@ -508,7 +508,7 @@ function defState(){
     selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
-    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null };
+    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{} };
 }
 function load(){
   var saved={};
@@ -518,16 +518,18 @@ function load(){
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
   S.player=null; S.studySubj=null; S.vidDraft=null;
   S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null;
+  S.studyMode="video"; S.knowSubj=null; S.adminKnowSubj=null;
 }
 function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
-     "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
+     "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
     if(!S.bankDirty){ delete c.bank; delete c.pool; }
+    if(!S.knowledgeDirty){ delete c.knowledge; }   // คลังความรู้มาจาก questions.json (มีรูปฝัง) ไม่ยัดลง localStorage นอกจากแอดมินแก้ค้าง
     localStorage.setItem(LS, JSON.stringify(c));
   }catch(e){
     toast("บันทึกไม่สำเร็จ — พื้นที่เครื่องเต็ม");
@@ -860,7 +862,7 @@ function render(){
   v.scrollTop=top;
 
   // เครื่องเล่นวิดีโอ (ติวเนื้อหา) — สร้าง/คงไว้หลังวาดหน้า; ถ้าไม่ได้อยู่หน้าเล่นหรือมีแผงซ้อนทับ ก็ทำลายทิ้ง
-  if(S.tab==="study" && S.player && !S.adminOpen && !S.quiz && !S.mock) mountPlayer(); else destroyPlayer();
+  if(S.tab==="study" && S.studyMode!=="know" && S.player && !S.adminOpen && !S.quiz && !S.mock) mountPlayer(); else destroyPlayer();
 
   renderOverlays();
 }
@@ -1136,11 +1138,52 @@ function featuredVid(){
 function subjImg(k){ return "icons/subj-"+k+".jpg"; }
 function subjIcon(k){ return {math:"🔢",eng:"🔤",thai:"📖",com:"💻",law:"⚖️",social:"🌏"}[k]||"📚"; }
 function viewStudy(c){
-  // จอเล่นอยู่บนสุดตายตัว — เล่นสดเมื่อเลือกคลิป, ไม่งั้นเป็นคลิปแนะนำ/ดูต่อ
-  return '<div class="stack">'+
+  var mode=S.studyMode||"video";
+  var toggle='<div class="card" style="display:flex;gap:6px;padding:5px;border-radius:14px;margin-bottom:0;">'+
+       '<button class="btn sm'+(mode==="video"?"":" ghost")+'" style="flex:1;justify-content:center;gap:5px;" onclick="A.studyMode(\'video\')">▶ วิดีโอ</button>'+
+       '<button class="btn sm'+(mode==="know"?"":" ghost")+'" style="flex:1;justify-content:center;gap:5px;" onclick="A.studyMode(\'know\')">📚 คลังความรู้</button>'+
+     '</div>';
+  if(mode==="know") return '<div class="stack">'+toggle+'<div id="studyBrowse">'+knowledgeHTML()+'</div></div>';
+  // โหมดวิดีโอ: จอเล่นอยู่บนสุดตายตัว — เล่นสดเมื่อเลือกคลิป, ไม่งั้นเป็นคลิปแนะนำ/ดูต่อ
+  return '<div class="stack">'+toggle+
     studyTopScreen()+'<div style="height:10px;"></div>'+
     '<div id="studyBrowse">'+studyBrowseHTML()+'</div>'+
   '</div>';
+}
+/* ───── คลังความรู้ (ในติวหนังสือ) ───── */
+function knowledgeHTML(){
+  var h="";
+  if(!S.knowSubj){
+    h+='<div class="card">'+
+         '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">คลังความรู้ — เลือกวิชา</div>'+
+         '<div class="muted" style="margin-bottom:12px;">คำศัพท์ · ภาพ · ไฟล์ PDF ของแต่ละวิชา</div>'+
+         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+    subjects().forEach(function(su){
+      var n=((S.knowledge||{})[su.k]||[]).length;
+      h+='<div onclick="A.openKnowSubj(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:16px;overflow:hidden;background:var(--c-surface);box-shadow:0 3px 10px rgba(0,0,0,.07);">'+
+           '<img src="'+subjImg(su.k)+'" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">'+
+           '<div style="padding:8px 10px 9px;text-align:center;font-size:11px;color:var(--c-text-muted);">'+(n?(n+" รายการ"):"ยังไม่มี")+'</div>'+
+         '</div>';
+    });
+    return h+'</div></div>';
+  }
+  var sk=S.knowSubj, items=(S.knowledge||{})[sk]||[];
+  h+='<div class="card" style="display:flex;align-items:center;gap:11px;">'+
+       '<button class="btn sm ghost" style="flex:none;" onclick="A.backKnow()">◀</button>'+
+       '<img src="'+subjImg(sk)+'" alt="" style="width:44px;height:44px;flex:none;border-radius:12px;object-fit:cover;box-shadow:0 3px 9px rgba(0,0,0,.16);">'+
+       '<div style="flex:1;min-width:0;"><div style="font-size:15px;font-weight:800;">'+esc(short(sk))+'</div><div style="font-size:11.5px;color:var(--c-text-muted);">คลังความรู้ · '+items.length+' รายการ</div></div>'+
+     '</div>';
+  if(!items.length) return h+'<div class="card" style="text-align:center;color:var(--c-text-subtle);font-size:13px;padding:26px 16px;">ยังไม่มีเนื้อหาในวิชานี้<br><span style="font-size:11.5px;">(แอดมินเพิ่มได้: แตะโลโก้มุมซ้ายบน → รหัสแอดมิน → คลังความรู้)</span></div>';
+  var vocab=items.filter(function(x){return x.type==="vocab";}),
+      imgs=items.filter(function(x){return x.type==="image";}),
+      pdfs=items.filter(function(x){return x.type==="pdf";});
+  if(vocab.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📖 คำศัพท์</div><div style="display:flex;flex-direction:column;gap:10px;">'+
+      vocab.map(function(v){ return '<div style="border-left:3px solid var(--pri);padding-left:10px;"><div style="font-size:14px;font-weight:700;">'+esc(v.term)+'</div><div style="font-size:13px;color:var(--c-text-muted);line-height:1.5;margin-top:2px;">'+esc(v.def)+'</div></div>'; }).join("")+'</div></div>';
+  if(imgs.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">🖼️ ภาพ</div><div style="display:flex;flex-direction:column;gap:14px;">'+
+      imgs.map(function(im){ return '<div><img src="'+esc(im.data)+'" alt="'+esc(im.cap||"")+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);">'+(im.cap?'<div style="font-size:12px;color:var(--c-text-muted);margin-top:5px;">'+esc(im.cap)+'</div>':"")+'</div>'; }).join("")+'</div></div>';
+  if(pdfs.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📄 ไฟล์ PDF</div><div style="display:flex;flex-direction:column;gap:9px;">'+
+      pdfs.map(function(p){ return '<a href="'+esc(p.url)+'" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;text-decoration:none;background:var(--c-bg);border-radius:10px;padding:11px 13px;"><span style="font-size:24px;flex:none;">📄</span><div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:600;color:var(--c-text);">'+esc(p.title||"เอกสาร PDF")+'</div><div style="font-size:11px;color:var(--c-text-muted);">แตะเพื่อเปิด</div></div><span style="color:var(--pri);font-size:16px;flex:none;">↗</span></a>'; }).join("")+'</div></div>';
+  return h;
 }
 function studyBrowseHTML(){
   var h="";
@@ -2282,6 +2325,47 @@ function adminSheet(){
        '<button class="btn sm" style="margin-top:10px;padding:9px 14px;" onclick="A.addPhys()">＋ เพิ่มท่าฝึก</button>'+
      '</div>';
 
+    // ── คลังความรู้ ──
+    h+='<div style="margin-top:22px;">'+
+         '<div class="lbl" style="margin-bottom:4px;">คลังความรู้ (คำศัพท์ / ภาพ / PDF)</div>'+
+         '<div class="muted" style="margin-bottom:12px;">เลือกวิชา แล้วเพิ่ม: คำศัพท์ · อัปโหลดภาพ (แอปย่อให้อัตโนมัติ) · ลิงก์ PDF (Google Drive)</div>'+
+         '<select onchange="A.adminKnowSubj(this.value)" style="width:100%;border:1px solid var(--c-border);border-radius:10px;padding:11px;font-size:16px;background:var(--c-surface);color:var(--c-text);margin-bottom:14px;">'+
+           '<option value="">— เลือกวิชา —</option>'+
+           subjects().map(function(su){ return '<option value="'+su.k+'"'+(S.adminKnowSubj===su.k?' selected':'')+'>'+esc(short(su.k))+'</option>'; }).join("")+
+         '</select>';
+    if(S.adminKnowSubj){
+      var ksub=S.adminKnowSubj, kitems=(S.knowledge||{})[ksub]||[];
+      if(kitems.length){
+        h+='<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">'+
+          kitems.map(function(it,idx){
+            var label = it.type==="vocab" ? ("📖 "+esc(it.term)) : it.type==="image" ? ("🖼️ ภาพ"+(it.cap?" · "+esc(it.cap):"")) : ("📄 "+esc(it.title||"PDF"));
+            return '<div style="display:flex;align-items:center;gap:8px;background:var(--c-bg);border-radius:9px;padding:8px 11px;">'+
+              '<div style="flex:1;min-width:0;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+label+'</div>'+
+              '<button class="x" onclick="A.delKnow(\''+ksub+'\','+idx+')" style="width:26px;height:26px;font-size:11px;flex:none;">✕</button>'+
+            '</div>';
+          }).join("")+
+        '</div>';
+      } else h+='<div style="font-size:12px;color:var(--c-text-subtle);margin-bottom:14px;">ยังไม่มีรายการในวิชานี้</div>';
+      h+='<div style="background:var(--c-bg);border-radius:12px;padding:12px;margin-bottom:10px;">'+
+           '<div style="font-size:12.5px;font-weight:700;margin-bottom:8px;">📖 เพิ่มคำศัพท์</div>'+
+           '<input id="kvTerm" class="in" placeholder="คำศัพท์ เช่น โจทก์" style="width:100%;font-size:16px;margin-bottom:7px;">'+
+           '<input id="kvDef" class="in" placeholder="ความหมาย" style="width:100%;font-size:16px;margin-bottom:9px;">'+
+           '<button class="btn sm" onclick="A.addVocab()">＋ เพิ่มคำศัพท์</button>'+
+         '</div>'+
+         '<div style="background:var(--c-bg);border-radius:12px;padding:12px;margin-bottom:10px;">'+
+           '<div style="font-size:12.5px;font-weight:700;margin-bottom:8px;">🖼️ เพิ่มภาพ (อัปโหลดจากเครื่อง)</div>'+
+           '<input id="kImgCap" class="in" placeholder="คำอธิบายภาพ (ไม่ใส่ก็ได้)" style="width:100%;font-size:16px;margin-bottom:9px;">'+
+           '<input type="file" accept="image/*" onchange="A.addKnowImg(this)" style="font-size:13px;">'+
+         '</div>'+
+         '<div style="background:var(--c-bg);border-radius:12px;padding:12px;">'+
+           '<div style="font-size:12.5px;font-weight:700;margin-bottom:8px;">📄 เพิ่ม PDF (ลิงก์ Google Drive)</div>'+
+           '<input id="kpTitle" class="in" placeholder="ชื่อเอกสาร" style="width:100%;font-size:16px;margin-bottom:7px;">'+
+           '<input id="kpUrl" class="in" placeholder="วางลิงก์ https://..." style="width:100%;font-size:16px;margin-bottom:9px;">'+
+           '<button class="btn sm" onclick="A.addPdf()">＋ เพิ่ม PDF</button>'+
+         '</div>';
+    }
+    h+='</div>';
+
     // สำรองข้อมูล
     h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">สำรอง / ย้ายข้อมูล</div>'+
@@ -2298,11 +2382,11 @@ function adminSheet(){
            '(รวมทั้งข้อสอบและลิงก์วิดีโอ) แล้ว<b>อัปโหลดทับไฟล์เดิมบนเว็บ</b> นักเรียนถึงจะเห็นของใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
          '<button class="btn sm" onclick="A.exportQuestions()">⬇︎ ส่งออกข้อสอบ + วิดีโอ (questions.json)</button>'+
          '<div style="font-size:11px;color:var(--c-text-subtle);margin-top:8px;">เวอร์ชันเนื้อหาปัจจุบัน: '+(S.contentVersion||0)+' → จะส่งออกเป็นเวอร์ชัน '+((S.contentVersion||0)+1)+'</div>'+
-         ((S.bankDirty||S.videosDirty)
+         ((S.bankDirty||S.videosDirty||S.knowledgeDirty)
            ? '<div style="margin-top:12px;padding:12px 14px;background:#FEF4F4;border:1px solid #F5C6C8;border-left:3px solid var(--pri);border-radius:9px;">'+
                '<div style="font-size:13px;font-weight:700;color:#7A1219;margin-bottom:5px;">⚠️ มีของที่เพิ่ม/แก้ไว้ ยังไม่ได้ส่งออก</div>'+
                '<div style="font-size:12px;color:#7A1219;line-height:1.6;">'+
-                 'มี'+(S.bankDirty?"ข้อสอบ":"")+(S.bankDirty&&S.videosDirty?"และ":"")+(S.videosDirty?"วิดีโอ":"")+'ที่เพิ่ม/แก้ในเครื่องนี้ แต่ยังไม่ได้ส่งออก '+
+                 'มี'+[S.bankDirty?"ข้อสอบ":"",S.videosDirty?"วิดีโอ":"",S.knowledgeDirty?"คลังความรู้":""].filter(Boolean).join(" · ")+' ที่เพิ่ม/แก้ในเครื่องนี้ แต่ยังไม่ได้ส่งออก '+
                  '<b>นักเรียนจะยังไม่เห็นจนกว่าจะกดปุ่มส่งออกด้านบน แล้วอัปโหลดไฟล์ทับบนเว็บ</b>'+
                  (S.bankDirty?'<br>(ระหว่างนี้ระบบหยุดดึงข้อสอบใหม่จากเว็บไว้ก่อน เพื่อไม่ให้ที่แก้ไว้หาย)':"")+
                '</div>'+
@@ -2473,6 +2557,44 @@ var A={
   // ── ติวหนังสือ (นักเรียน) ──
   openStudySubj:function(sk){ S.studySubj=sk; studyNav(); },
   backStudy:function(){ S.studySubj=null; studyNav(); },
+  // ── คลังความรู้ (นักเรียน) ──
+  studyMode:function(m){ S.studyMode=m; if(m==="know"){ S.player=null; } render(); window.scrollTo(0,0); },
+  openKnowSubj:function(sk){ S.knowSubj=sk; render(); window.scrollTo(0,0); },
+  backKnow:function(){ S.knowSubj=null; render(); },
+  // ── คลังความรู้ (แอดมิน) ──
+  adminKnowSubj:function(v){ S.adminKnowSubj=v||null; render(); },
+  addVocab:function(){
+    if(!S.adminKnowSubj){ toast("เลือกวิชาก่อน"); return; }
+    var term=((document.getElementById("kvTerm")||{}).value||"").trim(), def=((document.getElementById("kvDef")||{}).value||"").trim();
+    if(!term){ toast("ใส่คำศัพท์ก่อน"); return; }
+    var k=Object.assign({},S.knowledge), arr=(k[S.adminKnowSubj]||[]).slice(); arr.push({type:"vocab",term:term,def:def}); k[S.adminKnowSubj]=arr;
+    set({knowledge:k, knowledgeDirty:true}); toast("เพิ่มคำศัพท์แล้ว");
+  },
+  addPdf:function(){
+    if(!S.adminKnowSubj){ toast("เลือกวิชาก่อน"); return; }
+    var url=((document.getElementById("kpUrl")||{}).value||"").trim(), title=((document.getElementById("kpTitle")||{}).value||"").trim();
+    if(!/^https?:\/\//.test(url)){ toast("ใส่ลิงก์ PDF (ขึ้นต้น http)"); return; }
+    var k=Object.assign({},S.knowledge), arr=(k[S.adminKnowSubj]||[]).slice(); arr.push({type:"pdf",url:url,title:title||"เอกสาร PDF"}); k[S.adminKnowSubj]=arr;
+    set({knowledge:k, knowledgeDirty:true}); toast("เพิ่ม PDF แล้ว");
+  },
+  addKnowImg:function(input){
+    var subj=S.adminKnowSubj; if(!subj){ toast("เลือกวิชาก่อน"); input.value=""; return; }
+    var file=input.files&&input.files[0]; if(!file) return;
+    if(!/^image\//.test(file.type)){ toast("ต้องเป็นไฟล์ภาพ"); input.value=""; return; }
+    var cap=((document.getElementById("kImgCap")||{}).value||"").trim();
+    var rd=new FileReader();
+    rd.onload=function(){ var img=new Image(); img.onload=function(){
+        var mx=1000, w=img.width, hh=img.height;
+        if(w>mx||hh>mx){ if(w>=hh){ hh=Math.round(hh*mx/w); w=mx; } else { w=Math.round(w*mx/hh); hh=mx; } }
+        var cv=document.createElement("canvas"); cv.width=w; cv.height=hh; cv.getContext("2d").drawImage(img,0,0,w,hh);
+        var data=cv.toDataURL("image/jpeg",0.72);
+        var k=Object.assign({},S.knowledge), arr=(k[subj]||[]).slice(); arr.push({type:"image",data:data,cap:cap}); k[subj]=arr;
+        set({knowledge:k, knowledgeDirty:true}); toast("เพิ่มภาพแล้ว ("+Math.round(data.length/1024)+" KB)");
+      }; img.onerror=function(){ toast("เปิดภาพไม่ได้"); }; img.src=rd.result; };
+    rd.onerror=function(){ toast("อ่านไฟล์ไม่ได้"); };
+    rd.readAsDataURL(file); input.value="";
+  },
+  delKnow:function(subj,idx){ var k=Object.assign({},S.knowledge), arr=(k[subj]||[]).slice(); arr.splice(idx,1); if(arr.length) k[subj]=arr; else delete k[subj]; set({knowledge:k, knowledgeDirty:true}); },
   playVideo:function(id){
     var e=videoIndex()[id]; if(!e) return;
     // ถ้ากดคลิปเดิมที่กำลังเล่นอยู่ ไม่ต้องทำอะไร (แค่เลื่อนขึ้นให้เห็นจอ)
@@ -2812,7 +2934,7 @@ var A={
     var out={
       _comment:"คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อัปโหลดไฟล์นี้ทับของเดิมบนเว็บ",
       version:v, topics:S.topics, bank:S.bank, physEvents:S.physEvents,
-      videos:S.videos||{}, resetToken:S.resetToken||0
+      videos:S.videos||{}, knowledge:S.knowledge||{}, resetToken:S.resetToken||0
     };
     var blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
     var a=document.createElement("a");
@@ -2820,8 +2942,8 @@ var A={
     a.download="questions.json";
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
-    set({contentVersion:v, bankDirty:false, videosDirty:false});
-    toast("ได้ไฟล์แล้ว (รวมข้อสอบ+วิดีโอ) — อัปโหลดทับ questions.json บนเว็บ");
+    set({contentVersion:v, bankDirty:false, videosDirty:false, knowledgeDirty:false});
+    toast("ได้ไฟล์แล้ว (รวมข้อสอบ+วิดีโอ+คลังความรู้) — อัปโหลดทับ questions.json บนเว็บ");
   },
   /* รีเซ็ตความคืบหน้านักเรียน "ทุกคน" กลับเป็นค่าเริ่มต้น (คะแนน+เช็กลิสต์+ช่องติ๊กแผน)
      ต้องใส่รหัสผ่าน RESET_PW · สั่งผ่าน resetToken ที่ฝังใน questions.json */
@@ -3023,6 +3145,7 @@ function syncContent(){
       if(d.bank) patch.bank=d.bank;
       if(d.physEvents) patch.physEvents=d.physEvents;
       if(d.videos && !S.videosDirty) patch.videos=d.videos;   // ไม่ทับวิดีโอที่แก้ค้างในเครื่อง
+      if(d.knowledge && !S.knowledgeDirty) patch.knowledge=d.knowledge;   // คลังความรู้จากเว็บ
       set(patch);
       if(newer && v>1) toast("อัปเดตเนื้อหาใหม่แล้ว");
     })
