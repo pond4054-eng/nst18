@@ -508,7 +508,7 @@ function defState(){
     selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
-    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{} };
+    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{}, newAt:{}, bankPub:{} };
 }
 function load(){
   var saved={};
@@ -825,6 +825,18 @@ function fmtGap(e, diff){
 }
 
 /* ═══════════ RENDER ═══════════ */
+/* ───── ป้าย "ใหม่" — นับ 3 วันจากตอนที่นักเรียนคนนี้เห็นครั้งแรก ───── */
+var _newAtDirty=false;
+function isNew(id, pub){
+  if(!pub) return false;
+  if(Date.now()-pub > 14*MS) return false;          // เนื้อหาเก่ากว่า 14 วัน ไม่ทำป้าย (กันของเก่าเด้งกับนักเรียนใหม่)
+  if(!S.newAt) S.newAt={};
+  if(!S.newAt[id]){ S.newAt[id]=Date.now(); _newAtDirty=true; }   // นักเรียนคนนี้เห็นครั้งแรกตอนนี้
+  return Date.now()-S.newAt[id] < 3*MS;
+}
+function newBadge(id, pub){
+  return isNew(id,pub) ? '<span style="flex:none;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;">ใหม่</span>' : '';
+}
 function render(){
   applyTheme();
   var c=calc();
@@ -865,6 +877,7 @@ function render(){
   if(S.tab==="study" && S.studyMode!=="know" && S.player && !S.adminOpen && !S.quiz && !S.mock) mountPlayer(); else destroyPlayer();
 
   renderOverlays();
+  if(_newAtDirty){ _newAtDirty=false; save(); }   // จำ "เวลาที่เห็นครั้งแรก" ของรายการใหม่
 }
 
 /* ───── หน้าแรก ───── */
@@ -1118,7 +1131,7 @@ function vidRow(v, subLabel){
   return '<div onclick="A.playVideo(\''+v.id+'\')" style="display:flex;align-items:center;gap:11px;cursor:pointer;padding:10px 8px;margin:0 -8px;border-radius:10px;'+(playing?"background:color-mix(in srgb, "+PRI()+" 9%, transparent);":"")+'">'+
     '<div style="width:44px;height:44px;flex:none;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;background:color-mix(in srgb, '+PRI()+' 13%, #fff);color:var(--pri);">▶</div>'+
     '<div style="flex:1;min-width:0;">'+
-      '<div style="font-size:13.5px;font-weight:600;line-height:1.3;color:'+(playing?"var(--pri)":(done?"var(--c-text-subtle)":"var(--c-text)"))+';">'+esc(v.title)+'</div>'+
+      '<div style="font-size:13.5px;font-weight:600;line-height:1.3;color:'+(playing?"var(--pri)":(done?"var(--c-text-subtle)":"var(--c-text)"))+';">'+esc(v.title)+newBadge('vid:'+v.id,v.ts)+'</div>'+
       '<div style="font-size:11.5px;color:var(--c-text-muted);">'+esc(subLabel||"")+(v.dur?(subLabel?" · ":"")+esc(v.dur):"")+'</div>'+
     '</div>'+
     badge+
@@ -1178,11 +1191,11 @@ function knowledgeHTML(){
       imgs=items.filter(function(x){return x.type==="image";}),
       pdfs=items.filter(function(x){return x.type==="pdf";});
   if(vocab.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📖 คำศัพท์</div><div style="display:flex;flex-direction:column;gap:10px;">'+
-      vocab.map(function(v){ return '<div style="border-left:3px solid var(--pri);padding-left:10px;"><div style="font-size:14px;font-weight:700;">'+esc(v.term)+'</div><div style="font-size:13px;color:var(--c-text-muted);line-height:1.5;margin-top:2px;">'+esc(v.def)+'</div></div>'; }).join("")+'</div></div>';
+      vocab.map(function(v){ return '<div style="border-left:3px solid var(--pri);padding-left:10px;"><div style="font-size:14px;font-weight:700;">'+esc(v.term)+newBadge('know:'+v.ts,v.ts)+'</div><div style="font-size:13px;color:var(--c-text-muted);line-height:1.5;margin-top:2px;">'+esc(v.def)+'</div></div>'; }).join("")+'</div></div>';
   if(imgs.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">🖼️ ภาพ</div><div style="display:flex;flex-direction:column;gap:14px;">'+
-      imgs.map(function(im){ return '<div><img src="'+esc(im.data)+'" alt="'+esc(im.cap||"")+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);">'+(im.cap?'<div style="font-size:12px;color:var(--c-text-muted);margin-top:5px;">'+esc(im.cap)+'</div>':"")+'</div>'; }).join("")+'</div></div>';
+      imgs.map(function(im){ return '<div style="position:relative;">'+(isNew('know:'+im.ts,im.ts)?'<span style="position:absolute;top:7px;left:7px;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:2px 8px;border-radius:20px;z-index:1;">ใหม่</span>':"")+'<img src="'+esc(im.data)+'" alt="'+esc(im.cap||"")+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);">'+(im.cap?'<div style="font-size:12px;color:var(--c-text-muted);margin-top:5px;">'+esc(im.cap)+'</div>':"")+'</div>'; }).join("")+'</div></div>';
   if(pdfs.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📄 ไฟล์ PDF</div><div style="display:flex;flex-direction:column;gap:9px;">'+
-      pdfs.map(function(p){ return '<a href="'+esc(p.url)+'" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;text-decoration:none;background:var(--c-bg);border-radius:10px;padding:11px 13px;"><span style="font-size:24px;flex:none;">📄</span><div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:600;color:var(--c-text);">'+esc(p.title||"เอกสาร PDF")+'</div><div style="font-size:11px;color:var(--c-text-muted);">แตะเพื่อเปิด</div></div><span style="color:var(--pri);font-size:16px;flex:none;">↗</span></a>'; }).join("")+'</div></div>';
+      pdfs.map(function(p){ return '<a href="'+esc(p.url)+'" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;text-decoration:none;background:var(--c-bg);border-radius:10px;padding:11px 13px;"><span style="font-size:24px;flex:none;">📄</span><div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:600;color:var(--c-text);">'+esc(p.title||"เอกสาร PDF")+newBadge('know:'+p.ts,p.ts)+'</div><div style="font-size:11px;color:var(--c-text-muted);">แตะเพื่อเปิด</div></div><span style="color:var(--pri);font-size:16px;flex:none;">↗</span></a>'; }).join("")+'</div></div>';
   return h;
 }
 function studyBrowseHTML(){
@@ -1535,7 +1548,7 @@ function viewReady(){
              '<div style="width:24px;height:24px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--c-on-brand);'+
                (passed?"background:#1E9E5A;":"background:var(--c-surface);border:1.5px solid var(--c-border);")+'">'+(passed?"✓":"")+'</div>'+
              '<div style="flex:1;min-width:0;">'+
-               '<div style="font-size:13.5px;font-weight:500;">'+esc(t.label)+'</div>'+
+               '<div style="font-size:13.5px;font-weight:500;">'+esc(t.label)+newBadge('quiz:'+t.id,(S.bankPub||{})[t.id])+'</div>'+
                '<div style="font-size:10.5px;color:var(--c-text-subtle);">'+
                  (!nq ? "ยังไม่มีข้อสอบในหัวข้อนี้" :
                    ((sc!=null ? ("คะแนนล่าสุด "+sc+"% · "+(sc>=80 ? "ผ่าน" : (passed?"เคยผ่านแล้ว":"ยังไม่ผ่าน"))) : "ยังไม่ได้ทดสอบ")+
@@ -2567,14 +2580,14 @@ var A={
     if(!S.adminKnowSubj){ toast("เลือกวิชาก่อน"); return; }
     var term=((document.getElementById("kvTerm")||{}).value||"").trim(), def=((document.getElementById("kvDef")||{}).value||"").trim();
     if(!term){ toast("ใส่คำศัพท์ก่อน"); return; }
-    var k=Object.assign({},S.knowledge), arr=(k[S.adminKnowSubj]||[]).slice(); arr.push({type:"vocab",term:term,def:def}); k[S.adminKnowSubj]=arr;
+    var k=Object.assign({},S.knowledge), arr=(k[S.adminKnowSubj]||[]).slice(); arr.push({type:"vocab",term:term,def:def,ts:Date.now()}); k[S.adminKnowSubj]=arr;
     set({knowledge:k, knowledgeDirty:true}); toast("เพิ่มคำศัพท์แล้ว");
   },
   addPdf:function(){
     if(!S.adminKnowSubj){ toast("เลือกวิชาก่อน"); return; }
     var url=((document.getElementById("kpUrl")||{}).value||"").trim(), title=((document.getElementById("kpTitle")||{}).value||"").trim();
     if(!/^https?:\/\//.test(url)){ toast("ใส่ลิงก์ PDF (ขึ้นต้น http)"); return; }
-    var k=Object.assign({},S.knowledge), arr=(k[S.adminKnowSubj]||[]).slice(); arr.push({type:"pdf",url:url,title:title||"เอกสาร PDF"}); k[S.adminKnowSubj]=arr;
+    var k=Object.assign({},S.knowledge), arr=(k[S.adminKnowSubj]||[]).slice(); arr.push({type:"pdf",url:url,title:title||"เอกสาร PDF",ts:Date.now()}); k[S.adminKnowSubj]=arr;
     set({knowledge:k, knowledgeDirty:true}); toast("เพิ่ม PDF แล้ว");
   },
   addKnowImg:function(input){
@@ -2588,7 +2601,7 @@ var A={
         if(w>mx||hh>mx){ if(w>=hh){ hh=Math.round(hh*mx/w); w=mx; } else { w=Math.round(w*mx/hh); hh=mx; } }
         var cv=document.createElement("canvas"); cv.width=w; cv.height=hh; cv.getContext("2d").drawImage(img,0,0,w,hh);
         var data=cv.toDataURL("image/jpeg",0.72);
-        var k=Object.assign({},S.knowledge), arr=(k[subj]||[]).slice(); arr.push({type:"image",data:data,cap:cap}); k[subj]=arr;
+        var k=Object.assign({},S.knowledge), arr=(k[subj]||[]).slice(); arr.push({type:"image",data:data,cap:cap,ts:Date.now()}); k[subj]=arr;
         set({knowledge:k, knowledgeDirty:true}); toast("เพิ่มภาพแล้ว ("+Math.round(data.length/1024)+" KB)");
       }; img.onerror=function(){ toast("เปิดภาพไม่ได้"); }; img.src=rd.result; };
     rd.onerror=function(){ toast("อ่านไฟล์ไม่ได้"); };
@@ -2862,7 +2875,7 @@ var A={
     if(!yt){ alert("ลิงก์ YouTube ไม่ถูกต้อง\nวางลิงก์แบบ https://youtu.be/xxxx หรือ https://www.youtube.com/watch?v=xxxx"); return; }
     var arr=studyVids(S.adminTopic).slice();
     var id=(d.index==null)? "v"+Date.now().toString(36)+Math.floor(Math.random()*46656).toString(36) : arr[d.index].id;
-    var obj={ id:id, title:String(d.title).trim(), url:String(d.url).trim(), yt:yt, dur:String(d.dur||"").trim(), desc:String(d.desc||"").trim() };
+    var obj={ id:id, title:String(d.title).trim(), url:String(d.url).trim(), yt:yt, dur:String(d.dur||"").trim(), desc:String(d.desc||"").trim(), ts:(d.index==null?Date.now():((arr[d.index]&&arr[d.index].ts)||Date.now())) };
     if(d.index==null) arr.push(obj); else arr[d.index]=obj;
     var vids=Object.assign({},S.videos); vids[S.adminTopic]=arr;
     S.vidDraft=null;
@@ -3146,6 +3159,7 @@ function syncContent(){
       if(d.physEvents) patch.physEvents=d.physEvents;
       if(d.videos && !S.videosDirty) patch.videos=d.videos;   // ไม่ทับวิดีโอที่แก้ค้างในเครื่อง
       if(d.knowledge && !S.knowledgeDirty) patch.knowledge=d.knowledge;   // คลังความรู้จากเว็บ
+      if(d.bankPub) patch.bankPub=d.bankPub;   // เวลาที่เผยแพร่ข้อสอบแต่ละหัวข้อ (สำหรับป้าย "ใหม่")
       set(patch);
       if(newer && v>1) toast("อัปเดตเนื้อหาใหม่แล้ว");
     })
