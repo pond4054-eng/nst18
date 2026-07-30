@@ -1988,7 +1988,7 @@ function mockPaperBlocks(m){
   m.items.forEach(function(q,i){
     if(q._subj!==last){ last=q._subj; out.push({ keep:true, html:'<div class="psec">'+esc(last)+'</div>' }); }
     out.push({ html:'<div class="pq">'+
-        '<div class="pq-t"><span class="pq-n">'+(i+1)+'.</span><span>'+mrender(q.q)+'</span></div>'+
+        '<div class="pq-t"><span class="pq-n">'+(i+1)+'.</span><span>'+mrender(q.q).replace(/\n/g,"<br>")+'</span></div>'+
         (q.img?imgHTML(q.img,200):"")+
         '<ol class="pch">'+ q.choices.map(function(c,ci){
             /* ข้อสอบรูปภาพ ตัวเลือกเป็นตัวอักษร A–D อยู่ในตัวมันเองแล้ว ใช้ c ตรง ๆ
@@ -2013,7 +2013,7 @@ function mockKeyBlocks(m){
   m.items.forEach(function(q,i){
     if(q._subj!==last){ last=q._subj; out.push({ keep:true, html:'<div class="psec">'+esc(last)+' — เฉลยละเอียด</div>' }); }
     out.push({ html:'<div class="pq">'+
-        '<div class="pq-t"><span class="pq-n">'+(i+1)+'.</span><span>'+mrender(q.q)+'</span></div>'+
+        '<div class="pq-t"><span class="pq-n">'+(i+1)+'.</span><span>'+mrender(q.q).replace(/\n/g,"<br>")+'</span></div>'+
         '<div class="pans">ตอบ '+THL[q.answer]+'. '+mrender(q.choices[q.answer])+'</div>'+
         (q._topic?'<div class="ptopic">'+esc(q._topic)+'</div>':"")+
         (q.explain?'<div class="pexp">'+mrender(q.explain).replace(/\n/g,"<br>")+'</div>':"")+
@@ -2097,7 +2097,7 @@ function quizSheet(){
              'style="width:36px;height:36px;border-radius:10px;border:1.5px solid '+bd+';background:'+bg+';color:'+col+';font-size:14px;font-weight:700;cursor:pointer;padding:0;">'+(i+1)+'</button>';
          }).join("")+
        '</div>'+
-       '<div style="font-size:16px;font-weight:600;line-height:1.7;margin-bottom:'+(cur.img?"4px":"16px")+';">'+mfrac(cur.q)+'</div>'+
+       '<div style="font-size:16px;font-weight:600;line-height:1.7;margin-bottom:'+(cur.img?"4px":"16px")+';">'+mfrac(cur.q).replace(/\n/g,"<br>")+'</div>'+
        (cur.img ? imgHTML(cur.img, 300) + '<div style="height:12px;"></div>' : "")+
        cur.choices.map(function(ch,ci){
          var ci_img = (cur.cimg||[])[ci];
@@ -2132,7 +2132,7 @@ function quizSheet(){
                  '<div style="width:20px;height:20px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--c-on-brand);'+
                    'background:'+(ok?"#1E9E5A":"var(--pri)")+';">'+(ok?"✓":"✗")+'</div>'+
                  '<div style="flex:1;min-width:0;">'+
-                   '<div style="font-size:13px;font-weight:600;line-height:1.7;">'+(i+1)+'. '+mfrac(qq.q)+'</div>'+
+                   '<div style="font-size:13px;font-weight:600;line-height:1.7;">'+(i+1)+'. '+mfrac(qq.q).replace(/\n/g,"<br>")+'</div>'+
                    (qq.img ? imgHTML(qq.img, 200) : "")+
                    (!ok?'<div style="font-size:12px;color:var(--pri);margin-top:4px;line-height:1.7;">คุณตอบ: '+((you!=null&&qq.choices[you]!=null)?chLabel(qq.choices,you):"—")+'</div>'+
                         (((qq.cimg||[])[you])?imgHTML(qq.cimg[you],90):""):"")+
@@ -2506,7 +2506,7 @@ function adminSheet(){
          '<div style="display:flex;flex-direction:column;gap:10px;">'+
            list.map(function(qq,i){
              return '<div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;padding:12px;">'+
-               '<div style="font-size:13.5px;font-weight:600;line-height:1.7;">'+(i+1)+'. '+mfrac(qq.q)+'</div>'+
+               '<div style="font-size:13.5px;font-weight:600;line-height:1.7;">'+(i+1)+'. '+mfrac(qq.q).replace(/\n/g,"<br>")+'</div>'+
                (qq.img?imgHTML(qq.img,110):"")+
                '<div style="font-size:12px;color:#1E9E5A;margin-top:5px;line-height:1.7;">เฉลย: '+chLabel(qq.choices,qq.answer)+'</div>'+
                '<div style="display:flex;gap:8px;margin-top:10px;">'+
