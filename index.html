@@ -1531,7 +1531,9 @@ function viewReady(){
        '</div>'+
        '<div style="display:flex;flex-direction:column;gap:14px;">';
   subjects().forEach(function(su){
-    var sStatus=(S.subjStatus||{})[su.k], sLocked=!!(sStatus&&sStatus.locked);
+    var sStatus=(S.subjStatus||{})[su.k];
+    var sLocked=!!(sStatus&&sStatus.locked);       // ล็อกทั้งวิชา
+    var sUpdating=!!(sStatus&&sStatus.updating);   // ทยอยเปิด: หัวข้อที่มีข้อสอบแล้วเปิดได้ หัวข้อที่ยังไม่มีขึ้น "อยู่ระหว่างอัปเดต"
     h+='<div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px;">'+
          '<span style="font-size:13px;font-weight:600;">'+short(su.k)+'</span>'+
          (sLocked?'<span class="chip" style="background:#F2B01E;color:#0E0F12;font-size:10.5px;font-weight:700;">🔄 '+esc(sStatus.label||"อยู่ระหว่างอัปเดต · ยังไม่เปิดให้ทำข้อสอบ")+'</span>':'')+
@@ -1540,29 +1542,30 @@ function viewReady(){
     (S.topics[su.k]||[]).forEach(function(t){
       var passed=!!S.know[t.id], sc=(S.scores||{})[t.id];
       var nq=((S.bank||{})[t.id]||[]).length;
+      var upd = sLocked || (sUpdating && !nq);   // หัวข้อที่อยู่ระหว่างอัปเดต (ล็อกทั้งวิชา หรือ วิชากำลังทยอยเปิดแต่หัวข้อนี้ยังไม่มีข้อสอบ)
       if(S.manageMode){
         h+='<div style="display:flex;align-items:center;gap:8px;">'+
              '<input class="in" value="'+esc(t.label)+'" onchange="A.editTopic(\''+su.k+'\',\''+t.id+'\',this.value)" style="flex:1;min-width:0;padding:5px 8px;font-size:13px;">'+
              '<button class="x" style="width:28px;height:28px;font-size:12px;" onclick="A.delTopic(\''+su.k+'\',\''+t.id+'\')">✕</button>'+
            '</div>';
       } else {
-        /* หัวข้อที่ยังไม่มีข้อสอบในคลัง หรือทั้งวิชาถูกล็อก (อยู่ระหว่างอัปเดต): บอกให้ชัดว่ายังไม่เปิด อย่าให้กดแล้วเงียบ */
-        var canOpen = nq && !sLocked;
+        /* หัวข้อที่ยังไม่มีข้อสอบในคลัง หรืออยู่ระหว่างอัปเดต: บอกให้ชัดว่ายังไม่เปิด อย่าให้กดแล้วเงียบ */
+        var canOpen = nq && !upd;
         h+='<div '+(canOpen?('onclick="A.openQuiz(\''+su.k+'\',\''+t.id+'\')"'):'')+
              ' style="display:flex;align-items:center;gap:10px;'+(canOpen?"cursor:pointer;":"opacity:.5;")+'">'+
              '<div style="width:24px;height:24px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--c-on-brand);'+
                (passed?"background:#1E9E5A;":"background:var(--c-surface);border:1.5px solid var(--c-border);")+'">'+(passed?"✓":"")+'</div>'+
              '<div style="flex:1;min-width:0;">'+
-               '<div style="font-size:13.5px;font-weight:500;">'+esc(t.label)+newBadge('quiz:'+t.id,(S.bankPub||{})[t.id])+'</div>'+
+               '<div style="font-size:13.5px;font-weight:500;">'+esc(t.label)+(upd?'<span class="chip" style="background:#F2B01E;color:#0E0F12;font-size:9.5px;font-weight:700;margin-left:6px;padding:2px 7px;">🔄 อยู่ระหว่างอัปเดต</span>':newBadge('quiz:'+t.id,(S.bankPub||{})[t.id]))+'</div>'+
                '<div style="font-size:10.5px;color:var(--c-text-subtle);">'+
-                 (sLocked ? "อยู่ระหว่างอัปเดต — เปิดให้ทำเร็ว ๆ นี้" :
+                 (upd ? "อยู่ระหว่างอัปเดต — เปิดให้ทำเร็ว ๆ นี้" :
                   (!nq ? "ยังไม่มีข้อสอบในหัวข้อนี้" :
                    ((sc!=null ? ("คะแนนล่าสุด "+sc+"% · "+(sc>=80 ? "ผ่าน" : (passed?"เคยผ่านแล้ว":"ยังไม่ผ่าน"))) : "ยังไม่ได้ทดสอบ")+
                     " · คลัง "+nq+" ข้อ")))+
                '</div>'+
              '</div>'+
-             '<span style="font-size:11px;font-weight:600;white-space:nowrap;color:'+(sLocked?"#B8860B":(!nq?"var(--c-text-subtle)":(passed?"#1E9E5A":"var(--pri)")))+';">'+
-               (sLocked?"ยังไม่เปิด":(!nq?"เร็ว ๆ นี้":(passed?"ผ่านแล้ว":("ทำข้อสอบ "+Math.min(10,nq)+" ข้อ ›"))))+'</span>'+
+             '<span style="font-size:11px;font-weight:600;white-space:nowrap;color:'+(upd?"#B8860B":(!nq?"var(--c-text-subtle)":(passed?"#1E9E5A":"var(--pri)")))+';">'+
+               (upd?"ยังไม่เปิด":(!nq?"เร็ว ๆ นี้":(passed?"ผ่านแล้ว":("ทำข้อสอบ "+Math.min(10,nq)+" ข้อ ›"))))+'</span>'+
            '</div>';
       }
     });
@@ -2820,7 +2823,10 @@ var A={
   // ข้อสอบ
   openQuiz:function(sk,id){
     var st=(S.subjStatus||{})[sk];
-    if(st && st.locked){ toast(st.label || "วิชานี้อยู่ระหว่างอัปเดต ยังไม่เปิดให้ทำข้อสอบ"); return; }
+    if(st){
+      var _nq=((S.bank||{})[id]||[]).length;
+      if(st.locked || (st.updating && !_nq)){ toast(st.label || "หัวข้อนี้อยู่ระหว่างอัปเดต ยังไม่เปิดให้ทำข้อสอบ"); return; }
+    }
     var t=(S.topics[sk]||[]).find(function(x){ return x.id===id; });
     if(!t) return;
     var q={ status:"loading", subjKey:sk, topicId:id, topicLabel:t.label, subjName:short(sk),
