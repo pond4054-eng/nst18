@@ -635,12 +635,17 @@ function mScript(t){
   }
   return out;
 }
+/* เศษส่วนต้องเป็น "เลข/เลข" จริง ๆ — ไม่ใช่ศัพท์อย่าง TCP/IP, N/A, BIOS/UEFI, OS/2 (มีตัวอักษร)
+   และตัวส่วนต้องไม่ใช่เลข 4 หลัก (พ.ศ./เลขอ้างอิง เช่น 2/2548) */
+function mNum(a){ return !!(a && (a.grouped || /^[0-9]+(\.[0-9]+)?$/.test(a.txt||""))); }
+function mDen(a){ return mNum(a) && !(a && !a.grouped && /^[0-9]{4,}$/.test(a.txt||"")); }
 function mFrac(t){
   var out = [];
   for(var i = 0; i < t.length; i++){
-    // ต้องติดกันสนิท "3/4" เท่านั้น — "1 / 10" ไม่ใช่เศษส่วน
+    // ต้องติดกันสนิท "3/4" เท่านั้น — "1 / 10" ไม่ใช่เศษส่วน และทั้งเศษ/ส่วนต้องเป็นตัวเลข
     if(t[i].k === "op" && t[i].op === "/" &&
-       out.length && out[out.length-1].k === "atom" && t[i+1] && t[i+1].k === "atom"){
+       out.length && out[out.length-1].k === "atom" && t[i+1] && t[i+1].k === "atom" &&
+       mNum(out[out.length-1]) && mDen(t[i+1])){
       var num = out.pop(), den = t[i+1];
       var nh = num.grouped ? mrender(num.txt) : num.html;
       var dh = den.grouped ? mrender(den.txt) : den.html;
@@ -661,7 +666,10 @@ function mFrac(t){
   return out;
 }
 function mrender(s){
-  var t = mtok(String(s == null ? "" : s));
+  var raw = String(s == null ? "" : s);
+  // เลขอ้างอิงกฎหมาย/ระเบียบ เช่น "ข้อ 89/1" "มาตรา 9/1" ไม่ใช่เศษส่วน — คั่นด้วยอักขระกว้างศูนย์ กันไม่ให้แปลงเป็นเศษ
+  raw = raw.replace(/((?:ข้อ|มาตรา|ฉบับที่|ระเบียบที่|ประกาศที่)\s*[0-9]+)\/([0-9]+)/g, "$1​/$2");
+  var t = mtok(raw);
   t = mSqrt(t); t = mScript(t); t = mFrac(t);
   // สัญลักษณ์ที่ไม่ได้ถูกใช้สร้างเศษส่วน/ยกกำลัง ต้องคืนเป็นตัวอักษรตามเดิม
   // ไม่งั้นหน่วยอย่าง "ลิตร/ชม." จะกลายเป็น "ลิตรชม." (ขีดหายไปเฉย ๆ)
