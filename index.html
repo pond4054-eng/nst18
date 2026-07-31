@@ -650,7 +650,7 @@ function mScript(t){
 }
 /* เศษส่วนต้องเป็น "เลข/เลข" จริง ๆ — ไม่ใช่ศัพท์อย่าง TCP/IP, N/A, BIOS/UEFI, OS/2 (มีตัวอักษร)
    และตัวส่วนต้องไม่ใช่เลข 4 หลัก (พ.ศ./เลขอ้างอิง เช่น 2/2548) */
-function mNum(a){ return !!(a && (a.grouped || /^[0-9]+(\.[0-9]+)?$/.test(a.txt||""))); }
+function mNum(a){ if(!a) return false; if(a.grouped) return true; var t=a.txt||""; return /^[0-9]+(\.[0-9]+)?$/.test(t) && !/^0[0-9]/.test(t); }
 function mDen(a){ return mNum(a) && !(a && !a.grouped && /^[0-9]{4,}$/.test(a.txt||"")); }
 function mFrac(t){
   var out = [];
@@ -705,11 +705,11 @@ function expHeadClass(label){
 }
 function expHL(h){   // ไฮไลต์จุดสำคัญ: คำในเครื่องหมายคำพูด + ตัวเลข+หน่วย
   h=h.replace(/“([^”<]{1,40})”/g,'<mark class="ex-hl">“$1”</mark>');
-  h=h.replace(/(\d[\d.,]*\s?(?:dpi|วัน|ชั่วโมง|ชม\.|ปี|เดือน|บาท|คน|ฉบับ|เท่า|กลุ่ม|เปอร์เซ็นต์|%))/g,'<mark class="ex-hl">$1</mark>');
+  h=h.replace(/(\d+(?:[.,]\d+)*\s?(?:dpi|วัน|ชั่วโมง|ชม\.|ปี|เดือน|บาท|คน|ฉบับ|เท่า|กลุ่ม|เปอร์เซ็นต์|%))/g,'<mark class="ex-hl">$1</mark>');
   return h;
 }
 function fmtExp(s){
-  var lines = String(s==null?"":s).split("\n").map(function(x){ return x.trim(); }).filter(Boolean);
+  var lines = String(s==null?"":s).split("\n").map(function(x){ return x.replace(/[─-╿]/g," ").replace(/\s{2,}/g," ").trim(); }).filter(Boolean);   // ล้างตัวอักษรกรอบ (┌─┐│└┘) กันตารางเพี้ยน
   var out="", i=0;
   while(i<lines.length){
     var ln=lines[i];
@@ -741,6 +741,16 @@ function fmtExp(s){
         } else { out+='<div class="ex-p">'+expHL(mrender(rest))+'</div>'; }
       }
       i++; continue;
+    }
+    // ลิสต์เลขในบรรทัดเดียว "... 1. a 2. b 3. c" → นำ + บูลเล็ต
+    if(/(^|\s)1[.)]\s/.test(ln) && /\s2[.)]\s/.test(ln)){
+      var segs=ln.split(/\s(?=[1-9]\d?[.)]\s)/);
+      if(segs.length>=2){
+        var lead=segs[0].trim();
+        if(lead && !/^[1-9]\d?[.)]/.test(lead)){ out+='<div class="ex-p">'+expHL(mrender(lead))+'</div>'; segs=segs.slice(1); }
+        for(var s2=0;s2<segs.length;s2++){ var it=segs[s2].replace(/^[1-9]\d?[.)]\s*/,"").trim(); if(it) out+='<div class="ex-li">'+expHL(mrender(it))+'</div>'; }
+        i++; continue;
+      }
     }
     out+='<div class="ex-p">'+expHL(mrender(ln))+'</div>'; i++;
   }
