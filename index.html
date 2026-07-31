@@ -508,7 +508,7 @@ function defState(){
     selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
-    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{}, newAt:{}, bankPub:{}, subjStatus:{} };
+    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{}, newAt:{}, bankPub:{}, subjStatus:{}, mockTracks:{} };
 }
 function load(){
   var saved={};
@@ -517,14 +517,14 @@ function load(){
   S.quiz=null; S.adminOpen=false; S.adminMode=false; S.adminView="login";
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
   S.player=null; S.studySubj=null; S.vidDraft=null;
-  S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null;
+  S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null; S.trackDetail=null;
   S.studyMode="video"; S.knowSubj=null; S.adminKnowSubj=null;
 }
 function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
-     "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
+     "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj","trackDetail"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ ไม่ต้องเก็บลงเครื่อง
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
@@ -1513,7 +1513,7 @@ function viewPhys(){
 function viewReady(){
   var ks=knowStats(), ps=physStats();
   var stMap={ none:{t:"ยังไม่ฝึก",bg:"#EEF0F3",fg:"var(--c-text-muted)"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์",bg:"#1E9E5A",fg:"#fff"} };
-  var h="";
+  var h=mockCardsHTML();
 
   h+='<div class="card" style="border-radius:20px;padding:18px;display:flex;gap:16px;background-color:var(--c-surface);background-image:linear-gradient(135deg,rgba(228,17,31,.11) 0%,rgba(30,158,90,.13) 100%);box-shadow:0 4px 16px rgba(0,0,0,.07);">'+
        ring(ks.pct,"#E4111F","ความรู้",statusOf(ks.pct))+
@@ -1688,6 +1688,66 @@ function buildMock(){
   });
   return { items:items, gaps:gaps, at:new Date(), mockSet:true,
            label:"ข้อสอบเสมือนจริง นายสิบตำรวจ รุ่น 18" };
+}
+
+/* ══════════ ข้อสอบเสมือนจริงรายสาย (สายปราบปราม / สายอำนวยการ) ══════════
+   สัดส่วนวิชาแต่ละสายมาจาก questions.json (mockTracks) — ครูแก้จำนวนข้อ/รูปได้โดยไม่ต้องแตะโค้ด */
+function trackStat(tr){
+  var need=0, have=0, gaps=[];
+  (tr.plan||[]).forEach(function(p){
+    var pool=poolOf(p.k).length, take=Math.min(p.n,pool);
+    need+=p.n; have+=take; if(take<p.n) gaps.push({k:p.k, want:p.n, got:take});
+  });
+  return { need:need, have:have, gaps:gaps };
+}
+function buildTrackItems(tr){
+  var items=[];
+  (tr.plan||[]).forEach(function(p){
+    shuffled(poolOf(p.k)).slice(0,Math.min(p.n,poolOf(p.k).length)).forEach(function(qq){ qq._subj=sName[p.k]||p.k; items.push(qq); });
+  });
+  return items;
+}
+function mockCardsHTML(){
+  var m=S.mockTracks||{}, ids=Object.keys(m); if(!ids.length) return "";
+  var cards=ids.map(function(id){
+    var tr=m[id];
+    return '<div onclick="A.openTrack(\''+id+'\')" style="flex:1;min-width:0;cursor:pointer;border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.14);border:1px solid var(--c-border);background:#0E0F12;">'+
+      '<img src="'+esc(tr.img||"")+'" alt="'+esc((tr.name||"")+" 150 ข้อ")+'" loading="lazy" style="display:block;width:100%;aspect-ratio:16/10;object-fit:cover;">'+
+    '</div>';
+  }).join("");
+  return '<div class="card" style="padding:14px;">'+
+      '<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;"><span style="font-size:15px;">🎯</span><h3 style="margin:0;">ทำข้อสอบเสมือนจริง 150 ข้อ</h3></div>'+
+      '<div style="display:flex;gap:10px;">'+cards+'</div>'+
+      '<div class="muted" style="margin-top:9px;font-size:11.5px;">แตะการ์ดเพื่อดูรายละเอียดและเริ่มจับเวลาเหมือนสอบจริง</div>'+
+    '</div>';
+}
+function trackDetailSheet(){
+  var tr=(S.mockTracks||{})[S.trackDetail]; if(!tr) return "";
+  var st=trackStat(tr), mins=Math.round(st.have*SEC_PER_Q/60), canStart=st.have>0;
+  var rows=(tr.plan||[]).map(function(p){
+    var have=poolOf(p.k).length, ok=have>=p.n;
+    return '<tr>'+
+      '<td style="padding:5px 8px;">'+esc(sName[p.k]||p.k)+'</td>'+
+      '<td style="padding:5px 8px;text-align:right;">'+p.n+'</td>'+
+      '<td style="padding:5px 8px;text-align:right;color:'+(ok?"var(--c-text-muted)":"var(--pri)")+';">'+Math.min(have,p.n)+'</td>'+
+      '<td style="padding:5px 8px;text-align:right;font-weight:700;color:'+(ok?"#1E9E5A":"var(--pri)")+';">'+(ok?"พอ":"ขาด "+(p.n-have))+'</td></tr>';
+  }).join("");
+  return '<div class="sheet"><div class="sheetin">'+
+    '<div style="position:relative;flex:none;">'+
+      '<img src="'+esc(tr.img||"")+'" alt="" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;">'+
+      '<button class="x" onclick="A.closeTrack()" style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);color:#fff;border:none;">✕</button>'+
+    '</div>'+
+    '<div class="sheetbody">'+
+      '<h3 style="margin:0 0 2px;">'+esc(tr.name||"")+' · เสมือนจริง</h3>'+
+      '<div class="muted" style="margin-bottom:14px;">สุ่มข้อสอบตามสัดส่วนสนามสอบจริง · จับเวลา · จบแล้วสรุปคะแนน + เฉลย</div>'+
+      '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12.5px;">'+
+        '<thead><tr style="color:var(--c-text-subtle);font-size:11px;"><th style="text-align:left;padding:4px 8px;">วิชา</th><th style="text-align:right;padding:4px 8px;">ต้องใช้</th><th style="text-align:right;padding:4px 8px;">มีในคลัง</th><th style="text-align:right;padding:4px 8px;">สถานะ</th></tr></thead>'+
+        '<tbody>'+rows+'</tbody></table></div>'+
+      '<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-top:10px;padding-top:10px;border-top:1px solid var(--c-border);"><span>พร้อมทำได้ '+st.have+' / '+st.need+' ข้อ</span><span>~'+mins+' นาที</span></div>'+
+      (st.gaps.length?'<div style="margin-top:10px;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">⚠️ บางวิชายังไม่มีข้อสอบครบ ระบบจะข้ามส่วนที่ขาดไปก่อน แล้วเต็มเองเมื่อครูลงข้อสอบเพิ่ม</div>':"")+
+      '<button class="btn" style="width:100%;margin-top:16px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.startTrackExam(\''+S.trackDetail+'\')">'+(canStart?("เริ่มทำข้อสอบ · "+st.have+" ข้อ"):"ยังไม่มีข้อสอบในคลัง")+'</button>'+
+    '</div>'+
+  '</div></div>';
 }
 
 /* ── ดึงข้อสอบเอง: เลือกวิชา / หัวข้อ / จำนวน ── */
@@ -1931,6 +1991,7 @@ function renderOverlays(){
   if(S.quiz) h+=quizSheet();
   if(S.adminOpen) h+=adminSheet();
   if(S.mock) h+=mockSheet();
+  if(S.trackDetail) h+=trackDetailSheet();
   if(S.planOpen) h+=planSheet();
   if(S.alarm) h+=alarmSheet();
   o.innerHTML=h;
@@ -2863,7 +2924,20 @@ var A={
     finishQuiz(false);
   },
   closeQuiz:function(){ clearQuizTimer(); S.quiz=null; render(); },
-  retryQuiz:function(){ var q=S.quiz; if(q) A.openQuiz(q.subjKey,q.topicId); },
+  retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
+  // ข้อสอบเสมือนจริงรายสาย
+  openTrack:function(id){ if(!(S.mockTracks||{})[id]) return; S.trackDetail=id; render(); },
+  closeTrack:function(){ S.trackDetail=null; render(); },
+  startTrackExam:function(id){
+    var tr=(S.mockTracks||{})[id]; if(!tr) return;
+    var items=buildTrackItems(tr);
+    if(!items.length){ toast("ยังไม่มีข้อสอบในคลังสำหรับชุดนี้"); return; }
+    S.quiz={ status:"loading", isMock:true, _track:id, subjKey:"all", topicId:"mock_"+id,
+             topicLabel:"ข้อสอบเสมือนจริง", subjName:(tr.name||"เสมือนจริง"),
+             questions:[], idx:0, picked:[], correct:0 };
+    S.trackDetail=null;
+    startQuiz("mock_"+id, items);
+  },
   // แอดมิน
   openAdmin:function(){ S.adminOpen=true; S.adminView=S.adminMode?"panel":"login"; S.adminCode=""; S.adminErr=false; render(); },
   closeAdmin:function(){ S.adminOpen=false; S.adminDraft=null; render(); },
@@ -3119,6 +3193,7 @@ function finishQuiz(timeUp){
   gradeQuiz();
   q.timeUp=!!timeUp;
   q.status="result";
+  if(q.isMock){ render(); return; }   // ข้อสอบเสมือนจริงรายสาย — ไม่บันทึกทับคะแนน/สถานะผ่านรายหัวข้อ
   var sc=Object.assign({},S.scores); sc[q.topicId]=q.pct;
   var kn=Object.assign({},S.know); if(q.passed) kn[q.topicId]=true;
   set({scores:sc, know:kn});
@@ -3178,6 +3253,7 @@ function syncContent(){
       if(d.knowledge && !S.knowledgeDirty) patch.knowledge=d.knowledge;   // คลังความรู้จากเว็บ
       if(d.bankPub) patch.bankPub=d.bankPub;   // เวลาที่เผยแพร่ข้อสอบแต่ละหัวข้อ (สำหรับป้าย "ใหม่")
       patch.subjStatus = d.subjStatus || {};   // สถานะรายวิชา เช่น "อยู่ระหว่างอัปเดต" (เว้นว่าง = ปกติ) — ครูเปลี่ยนได้จาก questions.json
+      patch.mockTracks = d.mockTracks || {};   // ชุดข้อสอบเสมือนจริงรายสาย (สายปราบปราม/สายอำนวยการ) + สัดส่วนวิชา — ครูแก้ได้จาก questions.json
       set(patch);
       if(newer && v>1) toast("อัปเดตเนื้อหาใหม่แล้ว");
     })
@@ -3200,7 +3276,7 @@ function abortQuizOnSwitch(){
 var lastSyncAt = 0;
 function maybeSync(){
   if(!isActivated()) return;                    // ยังไม่ได้เปิดใช้งาน
-  if(S.quiz || S.adminOpen || S.mock || S.player || S.planOpen) return;   // ทำข้อสอบ/แอดมิน/ดูชุดข้อสอบ/ดูวิดีโอ/วางแผน อย่ารบกวน
+  if(S.quiz || S.adminOpen || S.mock || S.player || S.planOpen || S.trackDetail) return;   // ทำข้อสอบ/แอดมิน/ดูชุดข้อสอบ/ดูวิดีโอ/วางแผน/ดูรายละเอียดชุดเสมือนจริง อย่ารบกวน
   if(Date.now()-lastSyncAt < 30000) return;     // เพิ่งเช็คไปไม่ถึงครึ่งนาที
   lastSyncAt = Date.now();
   syncContent();
