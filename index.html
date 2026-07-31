@@ -1711,13 +1711,13 @@ function mockCardsHTML(){
   var m=S.mockTracks||{}, ids=Object.keys(m); if(!ids.length) return "";
   var cards=ids.map(function(id){
     var tr=m[id];
-    return '<div onclick="A.openTrack(\''+id+'\')" style="flex:1;min-width:0;cursor:pointer;border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.14);border:1px solid var(--c-border);background:#0E0F12;">'+
-      '<img src="'+esc(tr.img||"")+'" alt="'+esc((tr.name||"")+" 150 ข้อ")+'" loading="lazy" style="display:block;width:100%;aspect-ratio:16/10;object-fit:cover;">'+
+    return '<div onclick="A.openTrack(\''+id+'\')" style="min-width:0;cursor:pointer;border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.14);border:1px solid var(--c-border);background:#0E0F12;">'+
+      '<img src="'+esc(tr.img||"")+'" alt="'+esc((tr.name||"")+" 150 ข้อ")+'" loading="lazy" style="display:block;width:100%;height:auto;">'+
     '</div>';
   }).join("");
   return '<div class="card" style="padding:14px;">'+
       '<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;"><span style="font-size:15px;">🎯</span><h3 style="margin:0;">ทำข้อสอบเสมือนจริง 150 ข้อ</h3></div>'+
-      '<div style="display:flex;gap:10px;">'+cards+'</div>'+
+      '<div style="display:flex;flex-direction:column;gap:10px;">'+cards+'</div>'+
       '<div class="muted" style="margin-top:9px;font-size:11.5px;">แตะการ์ดเพื่อดูรายละเอียดและเริ่มจับเวลาเหมือนสอบจริง</div>'+
     '</div>';
 }
