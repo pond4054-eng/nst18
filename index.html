@@ -222,6 +222,16 @@
   .ptopic{ font-size:10.5px; color:var(--c-text-subtle); margin:2px 0 0 1.7em; }
   .pexp{ font-size:12.5px; line-height:1.7; color:#3D4348; margin:5px 0 0 1.7em;
          padding-left:10px; border-left:2px solid var(--c-border); }
+  .ex-h{ font-weight:800; color:var(--pri); font-size:12.5px; margin:11px 0 3px; }
+  .pexp .ex-h:first-child{ margin-top:0; }
+  .ex-p{ font-size:12.5px; line-height:1.7; color:#3D4348; margin:3px 0; }
+  .ex-li{ font-size:12.5px; line-height:1.6; color:#3D4348; margin:3px 0 3px 2px; padding-left:15px; position:relative; }
+  .ex-li::before{ content:"•"; position:absolute; left:2px; color:var(--pri); font-weight:800; }
+  .ex-warn{ background:#FFF7E6; border-left:3px solid #F2B01E; border-radius:0 8px 8px 0; padding:8px 11px; margin:9px 0; font-size:12px; color:#7A5B00; line-height:1.6; }
+  .ex-tblwrap{ overflow-x:auto; margin:8px 0; -webkit-overflow-scrolling:touch; }
+  .ex-tbl{ border-collapse:collapse; font-size:11.5px; min-width:100%; }
+  .ex-tbl th, .ex-tbl td{ border:1px solid var(--c-border); padding:5px 8px; text-align:left; vertical-align:top; line-height:1.5; }
+  .ex-tbl th{ background:#F2F4F7; font-weight:700; color:#0E0F12; }
   .keygrid{ display:flex; flex-wrap:wrap; gap:5px 12px; font-size:12.5px; margin-bottom:6px; }
   .kg{ min-width:58px; font-variant-numeric:tabular-nums; }
 
@@ -681,6 +691,48 @@ function mrender(s){
   return t.map(function(x){ return x.html; }).join("");
 }
 function mfrac(s){ return mrender(s); }
+
+/* จัดรูปแบบเฉลยให้อ่านง่าย — หัวข้อ / ย่อหน้า / ตาราง / บูลเล็ต / กล่องเน้น "จุดล่อ"
+   ทำงานจากข้อความที่คั่นด้วย \n และแถวตารางที่คั่นด้วย " | " */
+var EXP_HEAD = /^(อ้างอิง|คำอธิบาย|เหตุผล|หลักคิดสำคัญ|หลักคิด|หลักการ|วิธีจำที่ไม่หลง|วิธีจำ|วิธีคิด|ตัวอย่างให้เห็นภาพ|ตัวอย่าง|ประโยคจำ|เกร็ดเพิ่มเติม|เกร็ดเพิ่ม|เกร็ด|ข้อควรจำ|ข้อควรระวัง|จุดล่อ\S*|ทำไมข้ออื่นผิด|สรุป|ตารางเปรียบเทียบ\S*|ประเด็น)\s*[:：]?\s*/;
+function fmtExp(s){
+  var lines = String(s==null?"":s).split("\n").map(function(x){ return x.trim(); }).filter(Boolean);
+  var out="", i=0;
+  while(i<lines.length){
+    var ln=lines[i];
+    if(/^ข้อ\s*\d+\s*[—–\-]\s*ตอบ\s*[ก-ง]/.test(ln)){ i++; continue; }   // ตัดบรรทัดเฉลยที่ซ้ำกับด้านบน
+    if(ln.indexOf(" | ")>=0){                                            // ตาราง
+      var rows=[];
+      while(i<lines.length && lines[i].indexOf(" | ")>=0){ rows.push(lines[i].split(" | ")); i++; }
+      out+='<div class="ex-tblwrap"><table class="ex-tbl">';
+      for(var r=0;r<rows.length;r++){
+        out+='<tr>';
+        for(var c=0;c<rows[r].length;c++){
+          var cell=mrender(rows[r][c].trim());
+          out+= (r===0 ? '<th>'+cell+'</th>' : '<td>'+cell+'</td>');
+        }
+        out+='</tr>';
+      }
+      out+='</table></div>'; continue;
+    }
+    if(/^⚠️/.test(ln)){ out+='<div class="ex-warn">'+mrender(ln)+'</div>'; i++; continue; }
+    if(/^[-–•●▪✓]\s+/.test(ln)){ out+='<div class="ex-li">'+mrender(ln.replace(/^[-–•●▪✓]\s+/,""))+'</div>'; i++; continue; }
+    var m=ln.match(EXP_HEAD);
+    if(m){
+      out+='<div class="ex-h">'+esc(m[1])+'</div>';
+      var rest=ln.slice(m[0].length).trim();
+      if(rest){
+        var parts=rest.split(/\s[-–]\s/);                              // แยกลิสต์ "... - ก. ... - ง. ..."
+        if(parts.length>=2){
+          for(var p2=0;p2<parts.length;p2++){ var pp=parts[p2].replace(/^[-–•]\s*/,"").trim(); if(pp) out+='<div class="ex-li">'+mrender(pp)+'</div>'; }
+        } else { out+='<div class="ex-p">'+mrender(rest)+'</div>'; }
+      }
+      i++; continue;
+    }
+    out+='<div class="ex-p">'+mrender(ln)+'</div>'; i++;
+  }
+  return out;
+}
 function pv(str){
   if(str==null) return NaN;
   var s=String(str).trim();
@@ -2102,7 +2154,7 @@ function mockKeyBlocks(m){
         '<div class="pq-t"><span class="pq-n">'+(i+1)+'.</span><span>'+mrender(q.q).replace(/\n/g,"<br>")+'</span></div>'+
         '<div class="pans">ตอบ '+THL[q.answer]+'. '+mrender(q.choices[q.answer])+'</div>'+
         (q._topic?'<div class="ptopic">'+esc(q._topic)+'</div>':"")+
-        (q.explain?'<div class="pexp">'+mrender(q.explain).replace(/\n/g,"<br>")+'</div>':"")+
+        (q.explain?'<div class="pexp">'+fmtExp(q.explain)+'</div>':"")+
         (q.ximg?imgHTML(q.ximg,200):"")+
       '</div>' });
   });
