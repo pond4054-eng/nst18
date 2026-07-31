@@ -1711,16 +1711,28 @@ function buildTrackItems(tr){
 }
 function mockCardsHTML(){
   var m=S.mockTracks||{}, ids=Object.keys(m); if(!ids.length) return "";
+  var anyOpen=false;
   var cards=ids.map(function(id){
     var tr=m[id];
-    return '<div onclick="A.openTrack(\''+id+'\')" style="min-width:0;cursor:pointer;border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.14);border:1px solid var(--c-border);background:#0E0F12;">'+
+    var locked = tr.locked && !S.adminMode;      // ยังไม่เปิดให้นักเรียนใช้ — ยกเว้นแอดมิน
+    if(!locked) anyOpen=true;
+    var overlay="";
+    if(locked){
+      overlay='<div style="position:absolute;inset:0;background:rgba(14,15,18,.55);display:flex;align-items:center;justify-content:center;">'+
+                '<span style="background:#F2B01E;color:#0E0F12;font-size:13px;font-weight:800;padding:7px 16px;border-radius:999px;box-shadow:0 3px 10px rgba(0,0,0,.3);">🔒 เร็ว ๆ นี้ · ยังไม่เปิดให้ใช้</span>'+
+              '</div>';
+    } else if(tr.locked && S.adminMode){
+      overlay='<span style="position:absolute;top:10px;left:10px;background:var(--pri);color:#fff;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,.3);">แอดมิน · พรีวิว</span>';
+    }
+    return '<div onclick="A.openTrack(\''+id+'\')" style="position:relative;min-width:0;cursor:pointer;border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.14);border:1px solid var(--c-border);background:#0E0F12;">'+
       '<img src="'+esc(tr.img||"")+'" alt="'+esc((tr.name||"")+" 150 ข้อ")+'" loading="lazy" style="display:block;width:100%;height:auto;">'+
+      overlay+
     '</div>';
   }).join("");
   return '<div class="card" style="padding:14px;">'+
       '<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;"><span style="font-size:15px;">🎯</span><h3 style="margin:0;">ทำข้อสอบเสมือนจริง 150 ข้อ</h3></div>'+
       '<div style="display:flex;flex-direction:column;gap:10px;">'+cards+'</div>'+
-      '<div class="muted" style="margin-top:9px;font-size:11.5px;">แตะการ์ดเพื่อดูรายละเอียดและเริ่มจับเวลาเหมือนสอบจริง</div>'+
+      '<div class="muted" style="margin-top:9px;font-size:11.5px;">'+(anyOpen?"แตะการ์ดเพื่อดูรายละเอียดและเริ่มจับเวลาเหมือนสอบจริง":"กำลังเตรียมข้อสอบ — เปิดให้ใช้เร็ว ๆ นี้")+'</div>'+
     '</div>';
 }
 function trackDetailSheet(){
@@ -2928,7 +2940,7 @@ var A={
   closeQuiz:function(){ clearQuizTimer(); S.quiz=null; render(); },
   retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
   // ข้อสอบเสมือนจริงรายสาย
-  openTrack:function(id){ if(!(S.mockTracks||{})[id]) return; S.trackDetail=id; render(); },
+  openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
   closeTrack:function(){ S.trackDetail=null; render(); },
   startTrackExam:function(id){
     var tr=(S.mockTracks||{})[id]; if(!tr) return;
