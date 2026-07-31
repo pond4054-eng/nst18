@@ -3561,19 +3561,25 @@ if(isInAppBrowser() && !isStandalone()){ showOpenInBrowser(boot); } else boot();
 
 /* ── service worker: ทำให้ใช้ออฟไลน์ได้ + แจ้งเตือนเมื่อมีเวอร์ชันใหม่ ── */
 if("serviceWorker" in navigator && location.protocol!=="file:"){
+  /* อัปเดตอัตโนมัติ: พอมีเวอร์ชันใหม่ให้โหลดโค้ดใหม่เองเงียบ ๆ (นักเรียนไม่ต้องกดอะไร)
+     — ยกเว้นตอนกำลังทำข้อสอบ จะรอจนออกจากข้อสอบก่อนค่อยรีโหลด (กันคะแนนหาย) */
+  var _hadCtrl = !!navigator.serviceWorker.controller, _refreshing=false, _pendingReload=false;
+  function _safeReload(){
+    if(_refreshing) return;
+    if(window.S && (S.quiz || S.mock || S.trackDetail)){ _pendingReload=true; return; }   // กำลังทำข้อสอบ/ดูชุด — ยังไม่รีโหลด
+    _refreshing=true; try{ location.reload(); }catch(e){}
+  }
+  setInterval(function(){ if(_pendingReload) _safeReload(); }, 3000);
+  navigator.serviceWorker.addEventListener("controllerchange",function(){ if(_hadCtrl) _safeReload(); });
   window.addEventListener("load",function(){
     navigator.serviceWorker.register("sw.js").then(function(reg){
+      try{ reg.update(); }catch(e){}                                   // เช็คเวอร์ชันใหม่ทุกครั้งที่เปิดแอป
       reg.addEventListener("updatefound",function(){
         var nw=reg.installing;
         if(!nw) return;
         nw.addEventListener("statechange",function(){
           if(nw.state==="installed" && navigator.serviceWorker.controller){
-            var t=document.createElement("div");
-            t.className="toast";
-            t.style.cursor="pointer";
-            t.textContent="มีเวอร์ชันใหม่ — แตะเพื่ออัปเดต";
-            t.onclick=function(){ nw.postMessage("skip-waiting"); location.reload(); };
-            document.body.appendChild(t);
+            nw.postMessage("skip-waiting");                           // เปิดใช้เวอร์ชันใหม่ทันที → controllerchange → รีโหลดอัตโนมัติ
           }
         });
       });
