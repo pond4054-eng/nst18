@@ -484,10 +484,10 @@ function revalidate(){
 var LS="np18_assistant_v1";
 var S={};
 
-function subjects(){ return [{k:"math"},{k:"eng"},{k:"thai"},{k:"com"},{k:"law"},{k:"social"}]; }
+function subjects(){ return [{k:"math"},{k:"eng"},{k:"thai"},{k:"com"},{k:"law"},{k:"social"},{k:"saraban"}]; }
 function milestones(){ return ["เรียนเนื้อหาครบทุกหัวข้อ","ตะลุยข้อสอบ ≥ 3 ชุด","ทำโจทย์เก่า/ทวนจนแม่น"]; }
-function short(k){ return {math:"คณิต/ความสามารถทั่วไป",eng:"ภาษาอังกฤษ",thai:"ภาษาไทย",com:"คอมพิวเตอร์ & IT",law:"กฎหมาย",social:"สังคม/จริยธรรม/อาเซียน",all:"รวมทุกวิชา"}[k]||k; }
-var sName={math:"คณิต",eng:"อังกฤษ",thai:"ไทย",com:"คอม & IT",law:"กฎหมาย",social:"สังคม"};
+function short(k){ return {math:"คณิต/ความสามารถทั่วไป",eng:"ภาษาอังกฤษ",thai:"ภาษาไทย",com:"คอมพิวเตอร์ & IT",law:"กฎหมาย",social:"สังคม/จริยธรรม/อาเซียน",saraban:"งานสารบรรณ",all:"รวมทุกวิชา"}[k]||k; }
+var sName={math:"คณิต",eng:"อังกฤษ",thai:"ไทย",com:"คอม & IT",law:"กฎหมาย",social:"สังคม",saraban:"สารบรรณ"};
 
 function defEvents(){ return [
   {k:"run1000", name:"วิ่ง 1,000 เมตร", unit:"นาที", def:"4:55", hint:"กลุ่ม 1 · ต้องผ่าน (ชาย ≤4:55)", dir:"low", fmt:"mmss"},
@@ -731,7 +731,7 @@ function iconFor(k,type){
   if(type==="phys") return "🏃";
   if(type==="mock") return "📝";
   if(type==="review") return "🔁";
-  return {math:"🔢",eng:"🌐",thai:"📕",com:"💻",law:"⚖️",social:"🌏",all:"📚"}[k]||"📘";
+  return {math:"🔢",eng:"🌐",thai:"📕",com:"💻",law:"⚖️",social:"🌏",saraban:"📄",all:"📚"}[k]||"📘";
 }
 function physList(){ return (S.physEvents && S.physEvents.length) ? S.physEvents : defEvents(); }
 function statusOf(p){
@@ -1149,7 +1149,7 @@ function featuredVid(){
 }
 // รูปไอคอนประจำวิชา (ภาพประกอบพร้อมป้ายชื่อ)
 function subjImg(k){ return "icons/subj-"+k+".jpg"; }
-function subjIcon(k){ return {math:"🔢",eng:"🔤",thai:"📖",com:"💻",law:"⚖️",social:"🌏"}[k]||"📚"; }
+function subjIcon(k){ return {math:"🔢",eng:"🔤",thai:"📖",com:"💻",law:"⚖️",social:"🌏",saraban:"📄"}[k]||"📚"; }
 function viewStudy(c){
   var mode=S.studyMode||"video";
   var toggle='<div class="card" style="display:flex;gap:6px;padding:5px;border-radius:14px;margin-bottom:0;">'+
