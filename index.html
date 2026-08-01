@@ -494,6 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
+var APP_VER="v82";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -966,6 +967,8 @@ function render(){
 /* ───── หน้าแรก ───── */
 function viewHome(c){
   var h="";
+  // แถบเวอร์ชันมุมบนขวา — บอกว่าเครื่องนี้อยู่โค้ด/ข้อสอบเวอร์ชันไหน (ไว้เช็กเวลานักเรียนทัก)
+  h+='<div style="display:flex;justify-content:flex-end;margin:-4px 2px 6px;"><span style="font-size:10px;color:var(--c-text-subtle);letter-spacing:.02em;">'+APP_VER+' · ข้อสอบ v'+(S.contentVersion||0)+'</span></div>';
   var flip = c.daysLeft!=null ? String(Math.max(0,c.daysLeft)).padStart(2,"0").split("") : [];
   var examText="";
   if(S.examDate){ var ex=new Date(S.examDate+"T00:00:00"); examText=thDate(ex)+" "+(ex.getFullYear()+543); }
