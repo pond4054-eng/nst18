@@ -3560,6 +3560,17 @@ function boot(){ if(isActivated()){ startApp(); revalidate(); } else showGate();
 if(isInAppBrowser() && !isStandalone()){ showOpenInBrowser(boot); } else boot();
 
 /* ── service worker: ทำให้ใช้ออฟไลน์ได้ + แจ้งเตือนเมื่อมีเวอร์ชันใหม่ ── */
+/* ขอ persistent storage — บอก Android/เบราว์เซอร์ว่า "อย่าลบข้อมูลแอปนี้ทิ้งเมื่อพื้นที่เหลือน้อย"
+   กันไม่ให้ล็อกอิน/รหัสเครื่อง (np18_*) หาย → ลดปัญหาแอนดรอยด์เด้งออกแล้วกรอกรหัสเดิมไม่ได้
+   หมายเหตุ: เป็นการ "ขอ" เท่านั้น ไม่แตะการตรวจรหัส/เครื่อง ไม่กระทบบัญชีที่เปิดใช้อยู่ */
+try{
+  if(navigator.storage && navigator.storage.persist){
+    navigator.storage.persisted().then(function(already){
+      if(!already){ navigator.storage.persist().catch(function(){}); }
+    }).catch(function(){});
+  }
+}catch(e){}
+
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   /* อัปเดตอัตโนมัติ: พอมีเวอร์ชันใหม่ให้โหลดโค้ดใหม่เองเงียบ ๆ (นักเรียนไม่ต้องกดอะไร)
      — ยกเว้นตอนกำลังทำข้อสอบ จะรอจนออกจากข้อสอบก่อนค่อยรีโหลด (กันคะแนนหาย) */
