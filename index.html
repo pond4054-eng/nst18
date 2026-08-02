@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v85";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v86";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -2310,24 +2310,32 @@ function quizSheet(){
          '<span style="font-size:13px;font-weight:600;opacity:.92;letter-spacing:.03em;">เวลาที่เหลือ</span>'+
          '<span id="quizClock" class="mono" style="font-size:34px;font-weight:800;line-height:1;letter-spacing:.02em;">'+fmtClock(rem)+'</span>'+
        '</div>'+
-       // แถบสถานะ: ตอบแล้วกี่ข้อ
-       '<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:8px;">'+
-         '<div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(answered/total*100)+'%;"></div></div>'+
-       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">'+
-         '<div class="mono" style="font-size:12px;color:var(--c-text-muted);">ข้อ '+(q.idx+1)+' / '+total+'</div>'+
-         '<div style="font-size:12px;color:var(--c-text-muted);">ตอบแล้ว <b style="color:var(--pri);">'+answered+'</b> / '+total+'</div>'+
-       '</div>'+
-       // ตารางเลขข้อ: แตะเพื่อข้ามไปทำข้อไหนก็ได้ · สีเข้ม=ข้อปัจจุบัน · มีขอบ=ตอบแล้ว · จาง=ยังไม่ตอบ
-       '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;">'+
-         q.questions.map(function(_,i){
-           var isCur=i===q.idx, isAns=q.picked[i]!=null;
-           var bg=isCur?"var(--pri)":(isAns?"var(--c-bg)":"var(--c-surface)");
-           var col=isCur?"var(--c-on-brand)":(isAns?"var(--pri)":"var(--c-text-subtle)");
-           var bd=isCur?"var(--pri)":(isAns?"var(--pri)":"var(--c-border)");
-           return '<button onclick="A.goToQ('+i+')" class="mono" aria-label="ข้อ '+(i+1)+(isAns?" ตอบแล้ว":" ยังไม่ตอบ")+'" '+
-             'style="width:36px;height:36px;border-radius:10px;border:1.5px solid '+bd+';background:'+bg+';color:'+col+';font-size:14px;font-weight:700;cursor:pointer;padding:0;">'+(i+1)+'</button>';
-         }).join("")+
-       '</div>'+
+       // ข้อสอบยาว (>20 ข้อ เช่น เสมือนจริง 150 ข้อ): ปุ่ม "เลือกข้อ" ใต้นาฬิกา แทนตารางเต็มจอ
+       //   ข้อสอบสั้น (≤20 ข้อ): แสดงตารางเลขข้อแบบเดิม
+       (total>20 ?
+         ('<div onclick="A.openQuizPicker()" style="display:flex;align-items:center;justify-content:space-between;border:1.5px solid var(--c-border);border-radius:12px;padding:10px 14px;margin-bottom:8px;cursor:pointer;">'+
+            '<div style="font-size:13px;font-weight:700;">ข้อ '+(q.idx+1)+' <span style="color:var(--c-text-muted);font-weight:500;">/ '+total+'</span></div>'+
+            '<div style="font-size:12.5px;font-weight:700;color:var(--pri);">▦ เลือกข้อ ▾</div>'+
+          '</div>'+
+          '<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:6px;"><div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(answered/total*100)+'%;"></div></div>'+
+          '<div style="font-size:11px;color:var(--c-text-muted);text-align:right;margin-bottom:15px;">ตอบแล้ว <b style="color:var(--pri);">'+answered+'</b> / '+total+' · เหลือ '+left+'</div>')
+       :
+         ('<div style="height:6px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:8px;">'+
+            '<div style="height:100%;border-radius:999px;background:var(--pri);transition:width .2s;width:'+(answered/total*100)+'%;"></div></div>'+
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">'+
+            '<div class="mono" style="font-size:12px;color:var(--c-text-muted);">ข้อ '+(q.idx+1)+' / '+total+'</div>'+
+            '<div style="font-size:12px;color:var(--c-text-muted);">ตอบแล้ว <b style="color:var(--pri);">'+answered+'</b> / '+total+'</div>'+
+          '</div>'+
+          '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;">'+
+            q.questions.map(function(_,i){
+              var isCur=i===q.idx, isAns=q.picked[i]!=null;
+              var bg=isCur?"var(--pri)":(isAns?"var(--c-bg)":"var(--c-surface)");
+              var col=isCur?"var(--c-on-brand)":(isAns?"var(--pri)":"var(--c-text-subtle)");
+              var bd=isCur?"var(--pri)":(isAns?"var(--pri)":"var(--c-border)");
+              return '<button onclick="A.goToQ('+i+')" class="mono" aria-label="ข้อ '+(i+1)+(isAns?" ตอบแล้ว":" ยังไม่ตอบ")+'" '+
+                'style="width:36px;height:36px;border-radius:10px;border:1.5px solid '+bd+';background:'+bg+';color:'+col+';font-size:14px;font-weight:700;cursor:pointer;padding:0;">'+(i+1)+'</button>';
+            }).join("")+
+          '</div>'))+
        (cur._subj?'<div style="display:inline-block;font-size:10.5px;font-weight:700;color:var(--pri);background:var(--c-bg);border-radius:999px;padding:3px 11px;margin-bottom:11px;">'+esc((cur._sectName?cur._sectName.split(" ").slice(0,2).join(" ")+" · ":"")+cur._subj)+'</div>':"")+
        '<div style="font-size:16px;font-weight:600;line-height:1.7;margin-bottom:'+(cur.img?"4px":"16px")+';">'+mfrac(cur.q).replace(/\n/g,"<br>")+'</div>'+
        (cur.img ? imgHTML(cur.img, 300) + '<div style="height:12px;"></div>' : "")+
@@ -2386,7 +2394,55 @@ function quizSheet(){
        '</div>';
   }
   h+='</div></div></div>';
+  if(q.status==="active" && q.pickerOpen) h+=quizPickerSheet();   // ★ ตารางเลือกข้อ (เด้งทับ)
   return h;
+}
+/* ═══ ตารางเลือกข้อ (bottom sheet) สำหรับข้อสอบยาว — จัดกลุ่มตามภาคถ้ามี ═══ */
+function quizPickerSheet(){
+  var q=S.quiz; if(!q) return "";
+  var total=q.questions.length, answered=q.picked.filter(function(x){ return x!=null; }).length;
+  function cell(i){
+    var isCur=i===q.idx, isAns=q.picked[i]!=null;
+    var bg=isCur?"var(--pri)":(isAns?"#FFF6F6":"var(--c-surface)");
+    var col=isCur?"#fff":(isAns?"var(--pri)":"var(--c-text-subtle)");
+    var bd=isCur?"var(--pri)":(isAns?"var(--pri)":"var(--c-border)");
+    return '<button onclick="A.pickJump('+i+')" class="mono" aria-label="ข้อ '+(i+1)+(isAns?" ตอบแล้ว":" ยังไม่ตอบ")+'" '+
+      'style="aspect-ratio:1;border-radius:9px;border:1.4px solid '+bd+';background:'+bg+';color:'+col+';font-size:13px;font-weight:700;cursor:pointer;padding:0;">'+(i+1)+'</button>';
+  }
+  var groups="";
+  if(q.mockSections){
+    var start={}, cnt={};
+    for(var i=0;i<q.questions.length;i++){ var s=q.questions[i]._sect||0; if(start[s]==null) start[s]=i; cnt[s]=(cnt[s]||0)+1; }
+    groups=q.mockSections.map(function(sec,si){
+      if(start[si]==null) return "";
+      var s0=start[si], n=cnt[si], ans=0, cells="";
+      for(var j=s0;j<s0+n;j++){ if(q.picked[j]!=null) ans++; cells+=cell(j); }
+      return '<div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 6px;">'+
+          '<span style="font-size:12px;font-weight:800;">'+esc(sec.name)+' <span style="color:var(--c-text-subtle);font-weight:600;">(ข้อ '+(s0+1)+'–'+(s0+n)+')</span></span>'+
+          '<span style="font-size:10.5px;font-weight:700;color:var(--c-text-muted);white-space:nowrap;">ตอบแล้ว '+ans+'/'+n+'</span></div>'+
+        '<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px;">'+cells+'</div>';
+    }).join("");
+  } else {
+    var cc=""; for(var k=0;k<q.questions.length;k++) cc+=cell(k);
+    groups='<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:8px;">'+cc+'</div>';
+  }
+  var nextUn=-1;
+  for(var m=0;m<q.picked.length;m++){ var idx=(q.idx+1+m)%q.picked.length; if(q.picked[idx]==null){ nextUn=idx; break; } }
+  function lg(bg,bd,tx){ return '<span><span style="display:inline-block;width:13px;height:13px;border-radius:5px;background:'+bg+';border:1.4px solid '+bd+';vertical-align:-2px;margin-right:4px;"></span>'+tx+'</span>'; }
+  return '<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);">'+
+    '<div class="sheethead" style="align-items:flex-start;">'+
+      '<div style="min-width:0;"><div style="font-size:15px;font-weight:800;">เลือกข้อ</div>'+
+        '<div style="font-size:11.5px;color:var(--c-text-muted);">ตอบแล้ว '+answered+' · เหลือ '+(total-answered)+'</div></div>'+
+      '<button class="x" onclick="A.closeQuizPicker()">✕</button>'+
+    '</div>'+
+    '<div class="sheetbody">'+
+      (nextUn>=0
+        ? '<button class="btn" style="width:100%;margin-bottom:8px;" onclick="A.pickJump('+nextUn+')">→ ไปข้อถัดไปที่ยังไม่ตอบ (ข้อ '+(nextUn+1)+')</button>'
+        : '<div style="text-align:center;font-size:13px;color:#1E9E5A;font-weight:700;padding:8px 0 4px;">✓ ตอบครบทุกข้อแล้ว</div>')+
+      '<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--c-text-muted);margin:6px 0 2px;">'+
+        lg('#FFF6F6','var(--pri)','ตอบแล้ว')+lg('var(--pri)','var(--pri)','ข้อปัจจุบัน')+lg('var(--c-surface)','var(--c-border)','ยังไม่ตอบ')+'</div>'+
+      groups+
+    '</div></div></div>';
 }
 
 /* ═══════════ แผงแอดมิน ═══════════ */
@@ -3078,6 +3134,15 @@ var A={
     if(!q || q.status!=="active" || i<0 || i>=q.questions.length) return;
     q.idx=i; render();
     var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0;
+  },
+  openQuizPicker:function(){ var q=S.quiz; if(q && q.status==="active"){ q.pickerOpen=true; render(); } },
+  closeQuizPicker:function(){ var q=S.quiz; if(q){ q.pickerOpen=false; render(); } },
+  pickJump:function(i){                      // เลือกข้อจากตาราง แล้วปิด sheet + เลื่อนขึ้นบนสุด
+    var q=S.quiz;
+    if(!q || q.status!=="active" || i<0 || i>=q.questions.length) return;
+    q.idx=i; q.pickerOpen=false; render();
+    var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0;
+    window.scrollTo(0,0);
   },
   nextQ:function(){ var q=S.quiz; if(q && q.status==="active" && q.idx<q.questions.length-1){ q.idx++; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; } },
   prevQ:function(){ var q=S.quiz; if(q && q.status==="active" && q.idx>0){ q.idx--; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; } },
