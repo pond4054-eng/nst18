@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v87";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v88";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -1732,6 +1732,20 @@ function poolOf(subj){
   });
   return out;
 }
+/* พูลข้อสอบจากหัวข้อเจาะจง (ใช้กับสายสอบที่กำหนดสัดส่วนย่อยระดับหัวข้อ เช่น 2.1 Office 60%) */
+function topicLabelById(tid){
+  var subs=Object.keys(S.topics||{});
+  for(var i=0;i<subs.length;i++){ var arr=S.topics[subs[i]]||[]; for(var j=0;j<arr.length;j++){ if(arr[j].id===tid) return arr[j].label; } }
+  return "";
+}
+function poolOfTopics(ids){
+  var out=[], lbl;
+  (ids||[]).forEach(function(tid){
+    lbl=topicLabelById(tid);
+    validQs(S.bank[tid]).forEach(function(q){ q._topic=lbl; out.push(q); });
+  });
+  return out;
+}
 function shuffled(a){
   var x=a.slice();
   for(var i=x.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=x[i]; x[i]=x[j]; x[j]=t; }
@@ -1796,7 +1810,7 @@ function trackParts(tr){
     var out=[];
     tr.sections.forEach(function(s,si){
       (s.parts||[]).forEach(function(p){
-        out.push({ k:p.k, n:p.n, label:p.label||sName[p.k]||p.k, sect:si, sectName:s.name||("ภาค "+(si+1)), pass:s.pass||0 });
+        out.push({ k:p.k, n:p.n, label:p.label||sName[p.k]||p.k, sect:si, sectName:s.name||("ภาค "+(si+1)), pass:s.pass||0, groups:p.groups });
       });
     });
     return out;
@@ -1815,16 +1829,28 @@ function trackSections(tr){
 function trackStat(tr){
   var need=0, have=0, gaps=[];
   trackParts(tr).forEach(function(p){
-    var pool=poolOf(p.k).length, take=Math.min(p.n,pool);
-    need+=p.n; have+=take; if(take<p.n) gaps.push({k:p.k, label:p.label, want:p.n, got:take});
+    if(p.groups){   // ส่วนย่อยที่กำหนดสัดส่วนระดับหัวข้อ (เช่น 2.1 Office 60% + อื่น ๆ 40%)
+      p.groups.forEach(function(g){ var pl=poolOfTopics(g.topics).length, take=Math.min(g.n,pl);
+        need+=g.n; have+=take; if(take<g.n) gaps.push({k:p.k, label:p.label, want:g.n, got:take}); });
+    } else {
+      var pool=poolOf(p.k).length, take=Math.min(p.n,pool);
+      need+=p.n; have+=take; if(take<p.n) gaps.push({k:p.k, label:p.label, want:p.n, got:take});
+    }
   });
   return { need:need, have:have, gaps:gaps };
 }
 function buildTrackItems(tr){
   var items=[];
   trackParts(tr).forEach(function(p){
-    var pool=poolOf(p.k);
-    shuffled(pool).slice(0,Math.min(p.n,pool.length)).forEach(function(qq){
+    var picked;
+    if(p.groups){   // ดึงตามสัดส่วนแต่ละกลุ่มหัวข้อ แล้วคละเข้าด้วยกัน
+      picked=[];
+      p.groups.forEach(function(g){ var pool=poolOfTopics(g.topics); picked=picked.concat(shuffled(pool).slice(0,Math.min(g.n,pool.length))); });
+      picked=shuffled(picked);
+    } else {
+      var pool=poolOf(p.k); picked=shuffled(pool).slice(0,Math.min(p.n,pool.length));
+    }
+    picked.forEach(function(qq){
       var o={}; for(var kk in qq){ if(Object.prototype.hasOwnProperty.call(qq,kk)) o[kk]=qq[kk]; }
       o._subj=p.label; o._sect=p.sect; o._sectName=p.sectName;   // ติดป้ายภาค/ส่วนไว้ตอนคิดคะแนนแยกภาค
       items.push(o);
@@ -1862,9 +1888,13 @@ function trackDetailSheet(){
   var tr=(S.mockTracks||{})[S.trackDetail]; if(!tr) return "";
   var st=trackStat(tr), mins=Math.round(st.need*SEC_PER_Q/60), canStart=st.have>0;
   function partRow(p){
-    var have=poolOf(p.k).length, ok=have>=p.n;
+    var have = p.groups
+      ? p.groups.reduce(function(a,g){ return a+Math.min(g.n, poolOfTopics(g.topics).length); },0)
+      : Math.min(p.n, poolOf(p.k).length);
+    var ok=have>=p.n;
+    var sub = p.groups ? '<div style="font-size:10px;color:var(--c-text-subtle);font-weight:500;">'+p.groups.map(function(g){ return g.note||(g.n+' ข้อ'); }).join(' + ')+'</div>' : "";
     return '<tr>'+
-      '<td style="padding:5px 8px;">'+esc(p.label||sName[p.k]||p.k)+'</td>'+
+      '<td style="padding:5px 8px;">'+esc(p.label||sName[p.k]||p.k)+sub+'</td>'+
       '<td style="padding:5px 8px;text-align:right;">'+p.n+'</td>'+
       '<td style="padding:5px 8px;text-align:right;font-weight:700;color:'+(ok?"#1E9E5A":"var(--pri)")+';">'+(ok?"พอ":"ขาด "+(p.n-have))+'</td></tr>';
   }
