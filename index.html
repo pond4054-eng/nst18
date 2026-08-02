@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v86";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v87";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -1764,6 +1764,16 @@ function mockPlanHTML(){
 }
 
 /* สุ่มชุดข้อสอบ */
+/* สร้างชุดข้อสอบ (สำหรับพิมพ์ PDF) จากสายสอบ — ใช้สัดส่วนตามภาคเหมือนสอบจริง */
+function buildTrackMock(id){
+  var tr=(S.mockTracks||{})[id];
+  if(!tr) return { items:[], gaps:[], at:new Date(), mockSet:true, label:"" };
+  var st=trackStat(tr);
+  return { items:buildTrackItems(tr),
+           gaps:st.gaps.map(function(g){ return { subj:g.label||sName[g.k]||g.k, want:g.want, got:g.got }; }),
+           at:new Date(), mockSet:true, _track:id,
+           label:(tr.name||"เสมือนจริง")+" · ข้อสอบเสมือนจริง "+st.need+" ข้อ" };
+}
 function buildMock(){
   var items=[], gaps=[];
   MOCK_PLAN.forEach(function(p){
@@ -1889,6 +1899,10 @@ function trackDetailSheet(){
       passNote+
       (st.gaps.length?'<div style="margin-top:10px;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">⚠️ บางวิชายังไม่มีข้อสอบครบ ระบบจะข้ามส่วนที่ขาดไปก่อน แล้วเต็มเองเมื่อครูลงข้อสอบเพิ่ม</div>':"")+
       '<button class="btn" style="width:100%;margin-top:16px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.startTrackExam(\''+S.trackDetail+'\')">'+(canStart?("เริ่มทำข้อสอบ · "+st.have+" ข้อ"):"ยังไม่มีข้อสอบในคลัง")+'</button>'+
+      (S.adminMode
+        ? '<button class="btn ghost" style="width:100%;margin-top:9px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.exportTrackPDF(\''+S.trackDetail+'\')">📄 ออกไฟล์ PDF ข้อสอบ + เฉลย (แอดมิน)</button>'+
+          '<div class="muted" style="font-size:11px;margin-top:6px;text-align:center;line-height:1.55;">สุ่มชุด '+st.need+' ข้อตามสัดส่วนจริง → กด “🖨️ พิมพ์ / บันทึก PDF” · สลับแท็บ “ตัวข้อสอบ/เฉลย” เพื่อพิมพ์แยกไฟล์</div>'
+        : "")+
     '</div>'+
   '</div></div>';
 }
@@ -2159,7 +2173,7 @@ function mockSheet(){
       '<button class="btn sm '+(showAns?"ghost":"")+'" onclick="A.mockView(\'paper\')">ตัวข้อสอบ</button>'+
       '<button class="btn sm '+(showAns?"":"ghost")+'" onclick="A.mockView(\'key\')">เฉลย</button>'+
       '<button class="btn sm ghost" onclick="A.printMock()">🖨️ พิมพ์ / บันทึก PDF</button>'+
-      '<button class="btn sm ghost" onclick="A.'+(m.mockSet?"makeMock":"makePick")+'()">🎲 สุ่มใหม่</button>'+
+      '<button class="btn sm ghost" onclick="'+(m._track?("A.exportTrackPDF('"+m._track+"')"):("A."+(m.mockSet?"makeMock":"makePick")+"()"))+'">🎲 สุ่มชุดใหม่</button>'+
     '</div>'+
     (m.gaps.length
       ? '<div class="noprint" style="margin:12px 18px 0;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">'+
@@ -3336,6 +3350,13 @@ var A={
     var m=buildPick();
     if(!m.items.length){ alert("หัวข้อที่เลือกยังไม่มีข้อสอบ"); return; }
     S.mock=m; S.mockView="paper";
+    render();
+    var b=document.getElementById("printarea"); if(b) b.scrollTop=0;
+  },
+  exportTrackPDF:function(id){                 // แอดมิน: ออกไฟล์ PDF ข้อสอบรายสาย (อำนวยการ/ปราบปราม)
+    var m=buildTrackMock(id);
+    if(!m.items.length){ toast("ยังไม่มีข้อสอบในคลังสำหรับชุดนี้"); return; }
+    S.mock=m; S.mockView="paper"; S.trackDetail=null;
     render();
     var b=document.getElementById("printarea"); if(b) b.scrollTop=0;
   },
