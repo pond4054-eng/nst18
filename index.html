@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v84";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v85";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -1780,18 +1780,45 @@ function buildMock(){
 
 /* ══════════ ข้อสอบเสมือนจริงรายสาย (สายปราบปราม / สายอำนวยการ) ══════════
    สัดส่วนวิชาแต่ละสายมาจาก questions.json (mockTracks) — ครูแก้จำนวนข้อ/รูปได้โดยไม่ต้องแตะโค้ด */
+/* แผนสอบมี 2 แบบ: แบ่งภาค (sections → parts) หรือแบบเรียบ (plan) — แปลงเป็นรายการส่วนย่อยแบน ๆ พร้อมข้อมูลภาค */
+function trackParts(tr){
+  if(tr && tr.sections){
+    var out=[];
+    tr.sections.forEach(function(s,si){
+      (s.parts||[]).forEach(function(p){
+        out.push({ k:p.k, n:p.n, label:p.label||sName[p.k]||p.k, sect:si, sectName:s.name||("ภาค "+(si+1)), pass:s.pass||0 });
+      });
+    });
+    return out;
+  }
+  return ((tr&&tr.plan)||[]).map(function(p){ return { k:p.k, n:p.n, label:sName[p.k]||p.k, sect:0, sectName:"", pass:0 }; });
+}
+/* ข้อมูลภาคสำหรับคิดคะแนนแยกภาค (คืน null ถ้าเป็นแผนแบบเรียบ) */
+function trackSections(tr){
+  if(!(tr&&tr.sections)) return null;
+  return tr.sections.map(function(s){
+    return { name:s.name, pass:s.pass||0,
+             total:(s.parts||[]).reduce(function(a,p){ return a+p.n; },0),
+             parts:(s.parts||[]).map(function(p){ return { label:p.label||sName[p.k]||p.k, n:p.n }; }) };
+  });
+}
 function trackStat(tr){
   var need=0, have=0, gaps=[];
-  (tr.plan||[]).forEach(function(p){
+  trackParts(tr).forEach(function(p){
     var pool=poolOf(p.k).length, take=Math.min(p.n,pool);
-    need+=p.n; have+=take; if(take<p.n) gaps.push({k:p.k, want:p.n, got:take});
+    need+=p.n; have+=take; if(take<p.n) gaps.push({k:p.k, label:p.label, want:p.n, got:take});
   });
   return { need:need, have:have, gaps:gaps };
 }
 function buildTrackItems(tr){
   var items=[];
-  (tr.plan||[]).forEach(function(p){
-    shuffled(poolOf(p.k)).slice(0,Math.min(p.n,poolOf(p.k).length)).forEach(function(qq){ qq._subj=sName[p.k]||p.k; items.push(qq); });
+  trackParts(tr).forEach(function(p){
+    var pool=poolOf(p.k);
+    shuffled(pool).slice(0,Math.min(p.n,pool.length)).forEach(function(qq){
+      var o={}; for(var kk in qq){ if(Object.prototype.hasOwnProperty.call(qq,kk)) o[kk]=qq[kk]; }
+      o._subj=p.label; o._sect=p.sect; o._sectName=p.sectName;   // ติดป้ายภาค/ส่วนไว้ตอนคิดคะแนนแยกภาค
+      items.push(o);
+    });
   });
   return items;
 }
@@ -1823,15 +1850,32 @@ function mockCardsHTML(){
 }
 function trackDetailSheet(){
   var tr=(S.mockTracks||{})[S.trackDetail]; if(!tr) return "";
-  var st=trackStat(tr), mins=Math.round(st.have*SEC_PER_Q/60), canStart=st.have>0;
-  var rows=(tr.plan||[]).map(function(p){
+  var st=trackStat(tr), mins=Math.round(st.need*SEC_PER_Q/60), canStart=st.have>0;
+  function partRow(p){
     var have=poolOf(p.k).length, ok=have>=p.n;
     return '<tr>'+
-      '<td style="padding:5px 8px;">'+esc(sName[p.k]||p.k)+'</td>'+
+      '<td style="padding:5px 8px;">'+esc(p.label||sName[p.k]||p.k)+'</td>'+
       '<td style="padding:5px 8px;text-align:right;">'+p.n+'</td>'+
-      '<td style="padding:5px 8px;text-align:right;color:'+(ok?"var(--c-text-muted)":"var(--pri)")+';">'+Math.min(have,p.n)+'</td>'+
       '<td style="padding:5px 8px;text-align:right;font-weight:700;color:'+(ok?"#1E9E5A":"var(--pri)")+';">'+(ok?"พอ":"ขาด "+(p.n-have))+'</td></tr>';
-  }).join("");
+  }
+  var body;
+  if(tr.sections){
+    body=tr.sections.map(function(s){
+      var stot=(s.parts||[]).reduce(function(a,p){ return a+p.n; },0);
+      var rows=(s.parts||[]).map(partRow).join("");
+      return '<div style="margin-bottom:12px;">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--c-bg);border-radius:9px;padding:7px 11px;margin-bottom:4px;">'+
+          '<span style="font-size:12.5px;font-weight:800;min-width:0;">'+esc(s.name)+'</span>'+
+          '<span style="flex:none;font-size:11px;font-weight:700;color:var(--pri);white-space:nowrap;">'+stot+' ข้อ · ผ่าน ≥ '+s.pass+'</span></div>'+
+        '<table style="width:100%;border-collapse:collapse;font-size:12.5px;"><tbody>'+rows+'</tbody></table>'+
+      '</div>';
+    }).join("");
+  } else {
+    body='<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12.5px;">'+
+      '<thead><tr style="color:var(--c-text-subtle);font-size:11px;"><th style="text-align:left;padding:4px 8px;">วิชา</th><th style="text-align:right;padding:4px 8px;">ต้องใช้</th><th style="text-align:right;padding:4px 8px;">สถานะ</th></tr></thead>'+
+      '<tbody>'+(tr.plan||[]).map(function(p){ return partRow({k:p.k,n:p.n,label:sName[p.k]||p.k}); }).join("")+'</tbody></table></div>';
+  }
+  var passNote = tr.sections ? '<div style="margin-top:10px;padding:10px 12px;background:#FFF8E8;border-left:3px solid #F2B01E;border-radius:0 8px 8px 0;font-size:12px;color:#7A5B00;line-height:1.7;">📌 <b>เกณฑ์ผ่าน:</b> ต้องผ่าน<b>ทุกภาค</b> แต่ละภาคไม่ต่ำกว่าร้อยละ 60 (คิดแยกภาค ไม่ใช่คะแนนรวม)<br>ตัวอย่าง: ได้รวม 100/150 แต่ภาค 1 ได้ต่ำกว่า 24 ข้อ = <b>ตก</b></div>' : "";
   return '<div class="sheet"><div class="sheetin">'+
     '<div style="position:relative;flex:none;">'+
       '<img src="'+esc(tr.img||"")+'" alt="" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;">'+
@@ -1839,11 +1883,10 @@ function trackDetailSheet(){
     '</div>'+
     '<div class="sheetbody">'+
       '<h3 style="margin:0 0 2px;">'+esc(tr.name||"")+' · เสมือนจริง</h3>'+
-      '<div class="muted" style="margin-bottom:14px;">สุ่มข้อสอบตามสัดส่วนสนามสอบจริง · จับเวลา · จบแล้วสรุปคะแนน + เฉลย</div>'+
-      '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12.5px;">'+
-        '<thead><tr style="color:var(--c-text-subtle);font-size:11px;"><th style="text-align:left;padding:4px 8px;">วิชา</th><th style="text-align:right;padding:4px 8px;">ต้องใช้</th><th style="text-align:right;padding:4px 8px;">มีในคลัง</th><th style="text-align:right;padding:4px 8px;">สถานะ</th></tr></thead>'+
-        '<tbody>'+rows+'</tbody></table></div>'+
-      '<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-top:10px;padding-top:10px;border-top:1px solid var(--c-border);"><span>พร้อมทำได้ '+st.have+' / '+st.need+' ข้อ</span><span>~'+mins+' นาที</span></div>'+
+      '<div class="muted" style="margin-bottom:14px;">สุ่มข้อสอบตามสัดส่วนสนามสอบจริง · จับเวลา '+mins+' นาที · จบแล้วสรุปคะแนนแยกภาค + เฉลย</div>'+
+      body+
+      '<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-top:6px;padding-top:10px;border-top:1px solid var(--c-border);"><span>พร้อมทำได้ '+st.have+' / '+st.need+' ข้อ</span><span>~'+mins+' นาที</span></div>'+
+      passNote+
       (st.gaps.length?'<div style="margin-top:10px;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">⚠️ บางวิชายังไม่มีข้อสอบครบ ระบบจะข้ามส่วนที่ขาดไปก่อน แล้วเต็มเองเมื่อครูลงข้อสอบเพิ่ม</div>':"")+
       '<button class="btn" style="width:100%;margin-top:16px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.startTrackExam(\''+S.trackDetail+'\')">'+(canStart?("เริ่มทำข้อสอบ · "+st.have+" ข้อ"):"ยังไม่มีข้อสอบในคลัง")+'</button>'+
     '</div>'+
@@ -2187,12 +2230,36 @@ function mockKeyBlocks(m){
   return out;
 }
 
+/* สรุปผลข้อสอบเสมือนจริงแบบแยกภาค — ต้องผ่านทุกภาค (แต่ละภาค ≥ 60%) */
+function mockResultHTML(q){
+  var secs=q.sectResult||[], pass=q.passed;
+  var head='<div style="font-size:44px;line-height:1;margin-bottom:4px;">'+(pass?"🎉":"❌")+'</div>'+
+    '<div style="font-size:28px;font-weight:800;color:'+(pass?"#1E9E5A":"var(--pri)")+';">'+(pass?"ผ่าน":"ไม่ผ่าน")+'</div>'+
+    (q.timeUp?'<div style="font-size:12px;color:var(--pri);font-weight:600;margin-top:6px;">⏱ หมดเวลา — ระบบส่งคำตอบให้อัตโนมัติ</div>':"")+
+    '<div style="font-size:12.5px;color:var(--c-text-muted);margin-top:8px;line-height:1.7;">คะแนนรวม <b>'+q.correct+' / '+q.questions.length+'</b> ('+q.pct+'%)<br>เกณฑ์: ต้องผ่าน<b>ทุกภาค</b> แต่ละภาคไม่ต่ำกว่าร้อยละ 60 — คิดแยกภาค ไม่ใช่คะแนนรวม</div>';
+  var cards=secs.map(function(s){
+    var pct=s.total?Math.round(s.got/s.total*100):0, col=s.ok?"#1E9E5A":"var(--pri)";
+    var rows=(s.parts||[]).map(function(p){
+      return '<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--c-text-muted);padding:2px 0;"><span style="min-width:0;">'+esc(p.label)+'</span><span class="mono" style="flex:none;">'+p.got+' / '+p.total+'</span></div>';
+    }).join("");
+    return '<div style="border:1.5px solid '+col+';border-radius:14px;padding:12px 14px;margin-top:12px;text-align:left;">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">'+
+        '<div style="font-size:13.5px;font-weight:800;min-width:0;">'+esc(s.name)+'</div>'+
+        '<span style="flex:none;font-size:12px;font-weight:800;color:#fff;background:'+col+';border-radius:999px;padding:3px 12px;white-space:nowrap;">'+(s.ok?"ผ่าน ✓":"ตก ✗")+'</span>'+
+      '</div>'+
+      '<div style="display:flex;align-items:baseline;gap:8px;margin:6px 0 8px;"><span class="mono" style="font-size:24px;font-weight:800;color:'+col+';">'+s.got+' / '+s.total+'</span>'+
+        '<span style="font-size:12px;color:var(--c-text-muted);">('+pct+'%) · เกณฑ์ผ่าน ≥ '+s.pass+' ข้อ</span></div>'+
+      '<div style="border-top:1px dashed var(--c-border);padding-top:6px;">'+rows+'</div>'+
+    '</div>';
+  }).join("");
+  return '<div>'+head+cards+'</div>';
+}
 function quizSheet(){
   var q=S.quiz, h="";
   h+='<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);">'+
        '<div class="sheethead" style="align-items:flex-start;">'+
          '<div style="min-width:0;">'+
-           '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">แบบทดสอบ'+(q.questions.length?(" "+q.questions.length+" ข้อ"):"")+' · ผ่าน 80%'+((q.status==="active"&&q.totalMs)?(" · เวลา "+fmtClock(q.totalMs)):"")+'</div>'+
+           '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">แบบทดสอบ'+(q.questions.length?(" "+q.questions.length+" ข้อ"):"")+((q.isMock&&q.mockSections)?' · เกณฑ์ผ่านแยกภาค':' · ผ่าน 80%')+((q.status==="active"&&q.totalMs)?(" · เวลา "+fmtClock(q.totalMs)):"")+'</div>'+
            '<div style="font-size:15px;font-weight:700;line-height:1.25;">'+esc(q.subjName+" — "+q.topicLabel)+'</div>'+
          '</div>'+
          '<button class="x" onclick="A.closeQuiz()">✕</button>'+
@@ -2261,6 +2328,7 @@ function quizSheet(){
              'style="width:36px;height:36px;border-radius:10px;border:1.5px solid '+bd+';background:'+bg+';color:'+col+';font-size:14px;font-weight:700;cursor:pointer;padding:0;">'+(i+1)+'</button>';
          }).join("")+
        '</div>'+
+       (cur._subj?'<div style="display:inline-block;font-size:10.5px;font-weight:700;color:var(--pri);background:var(--c-bg);border-radius:999px;padding:3px 11px;margin-bottom:11px;">'+esc((cur._sectName?cur._sectName.split(" ").slice(0,2).join(" ")+" · ":"")+cur._subj)+'</div>':"")+
        '<div style="font-size:16px;font-weight:600;line-height:1.7;margin-bottom:'+(cur.img?"4px":"16px")+';">'+mfrac(cur.q).replace(/\n/g,"<br>")+'</div>'+
        (cur.img ? imgHTML(cur.img, 300) + '<div style="height:12px;"></div>' : "")+
        cur.choices.map(function(ch,ci){
@@ -2283,10 +2351,11 @@ function quizSheet(){
        '<button class="btn" style="width:100%;margin-top:10px;" onclick="A.submitQuiz()">ส่งคำตอบ'+(left>0?' · ยังเหลือ '+left+' ข้อ':'')+'</button>';
   } else if(q.status==="result"){
     h+='<div style="text-align:center;padding:14px 0;">'+
-         '<div class="mono" style="font-size:52px;font-weight:600;line-height:1;color:'+(q.passed?"#1E9E5A":"var(--pri)")+';">'+q.pct+'%</div>'+
-         '<div style="font-size:18px;font-weight:700;margin-top:10px;">'+(q.passed?"ผ่านเกณฑ์ 🎉":"ยังไม่ผ่านเกณฑ์")+'</div>'+
-         (q.timeUp?'<div style="font-size:12.5px;color:var(--pri);font-weight:600;margin-top:6px;">⏱ หมดเวลา — ระบบส่งคำตอบให้อัตโนมัติ</div>':"")+
-         '<div style="font-size:12.5px;color:var(--c-text-muted);margin-top:6px;">ทำถูก '+q.correct+' / '+q.questions.length+' ข้อ · เกณฑ์ผ่าน 80%'+(q.passed?" · บันทึกเป็นผ่านแล้ว":"")+'</div>'+
+         ((q.isMock&&q.sectResult) ? mockResultHTML(q) :
+           ('<div class="mono" style="font-size:52px;font-weight:600;line-height:1;color:'+(q.passed?"#1E9E5A":"var(--pri)")+';">'+q.pct+'%</div>'+
+            '<div style="font-size:18px;font-weight:700;margin-top:10px;">'+(q.passed?"ผ่านเกณฑ์ 🎉":"ยังไม่ผ่านเกณฑ์")+'</div>'+
+            (q.timeUp?'<div style="font-size:12.5px;color:var(--pri);font-weight:600;margin-top:6px;">⏱ หมดเวลา — ระบบส่งคำตอบให้อัตโนมัติ</div>':"")+
+            '<div style="font-size:12.5px;color:var(--c-text-muted);margin-top:6px;">ทำถูก '+q.correct+' / '+q.questions.length+' ข้อ · เกณฑ์ผ่าน 80%'+(q.passed?" · บันทึกเป็นผ่านแล้ว":"")+'</div>'))+
          '<div style="text-align:left;margin-top:20px;display:flex;flex-direction:column;gap:9px;">'+
            '<div class="lbl">เฉลยรายข้อ</div>'+
            q.questions.map(function(qq,i){
@@ -3034,6 +3103,7 @@ var A={
     if(!items.length){ toast("ยังไม่มีข้อสอบในคลังสำหรับชุดนี้"); return; }
     S.quiz={ status:"loading", isMock:true, _track:id, subjKey:"all", topicId:"mock_"+id,
              topicLabel:"ข้อสอบเสมือนจริง", subjName:(tr.name||"เสมือนจริง"),
+             mockSections: trackSections(tr),
              questions:[], idx:0, picked:[], correct:0 };
     S.trackDetail=null;
     startQuiz("mock_"+id, items);
@@ -3283,8 +3353,26 @@ function gradeQuiz(){                       // นับข้อถูกจา
   var q=S.quiz, c=0;
   for(var i=0;i<q.questions.length;i++){ if(q.picked[i]===q.questions[i].answer) c++; }
   q.correct=c;
-  q.pct=Math.round(c/q.questions.length*100);
-  q.passed=q.pct>=80;
+  q.pct=q.questions.length?Math.round(c/q.questions.length*100):0;
+  if(q.isMock && q.mockSections){
+    // ★ ข้อสอบเสมือนจริงแบบแบ่งภาค: คิดคะแนนแยกแต่ละภาค ต้องผ่านครบทุกภาค (ไม่ตัดจากคะแนนรวม)
+    var secs=q.mockSections.map(function(s){
+      return { name:s.name, pass:s.pass, total:0, got:0,
+               parts:(s.parts||[]).map(function(p){ return { label:p.label, total:0, got:0 }; }) };
+    });
+    for(var j=0;j<q.questions.length;j++){
+      var si=q.questions[j]._sect||0, sec=secs[si]; if(!sec) continue;
+      var ok=q.picked[j]===q.questions[j].answer;
+      sec.total++; if(ok) sec.got++;
+      var lbl=q.questions[j]._subj;
+      for(var k=0;k<sec.parts.length;k++){ if(sec.parts[k].label===lbl){ sec.parts[k].total++; if(ok) sec.parts[k].got++; break; } }
+    }
+    secs.forEach(function(s){ s.ok = s.got>=s.pass; });
+    q.sectResult=secs;
+    q.passed = secs.length>0 && secs.every(function(s){ return s.ok; });
+  } else {
+    q.passed=q.pct>=80;
+  }
 }
 function finishQuiz(timeUp){
   clearQuizTimer();
