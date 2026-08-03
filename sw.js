@@ -2,7 +2,7 @@
    ────────────────────────────────────────────────
    เวลาแก้ไฟล์แอปแล้วอยากให้เครื่องนักเรียนอัปเดต ให้เปลี่ยนเลข VERSION ข้างล่างนี้
    (เช่น v1 → v2) แล้วอัปโหลดใหม่ทั้งโฟลเดอร์ เท่านี้ทุกเครื่องจะเห็นของใหม่เอง */
-const VERSION = "v89";
+const VERSION = "v90";
 
 const CACHE = "nst18-" + VERSION;
 const SHELL = [
@@ -76,19 +76,33 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  // คลังข้อสอบ: ถ้ามีเน็ตเอาของใหม่เสมอ (ติวเตอร์อาจเพิ่งอัปข้อสอบชุดใหม่) ไม่มีเน็ตใช้ของในแคช
-  if (url.pathname.endsWith("questions.json")) {
+  // ป้ายเวอร์ชัน (จิ๋ว): ดึงของใหม่เสมอเพื่อรู้ว่ามีอัปเดตไหม ไม่มีเน็ตใช้ของในแคช
+  if (url.pathname.endsWith("version.json")) {
     e.respondWith(
       fetch(req)
         .then((res) => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE).then((c) => c.put("./questions.json", copy));
-          }
+          if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put("./version.json", copy)); }
           return res;
         })
-        .catch(() => caches.match("./questions.json"))
+        .catch(() => caches.match("./version.json"))
     );
+    return;
+  }
+
+  // คลังข้อสอบ (~6MB): ใช้ของในแคชก่อน (ไม่กินเน็ต) — จะดึงของใหม่เฉพาะตอนแอปสั่ง reload (เวอร์ชันเปลี่ยน)
+  if (url.pathname.endsWith("questions.json")) {
+    const fromNet = () =>
+      fetch(req).then((res) => {
+        if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put("./questions.json", copy)); }
+        return res;
+      });
+    if (req.cache === "reload" || req.cache === "no-store") {
+      // แอปบังคับโหลดใหม่ (มีเวอร์ชันใหม่) → ดึงจากเน็ต แล้วอัปเดตแคช
+      e.respondWith(fromNet().catch(() => caches.match("./questions.json")));
+    } else {
+      // ปกติ → ใช้แคชก่อน (ถ้ายังไม่มีในแคชค่อยดึงเน็ต)
+      e.respondWith(caches.match("./questions.json").then((hit) => hit || fromNet()));
+    }
     return;
   }
 

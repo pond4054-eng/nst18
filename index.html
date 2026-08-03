@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v88";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v89";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -3532,36 +3532,57 @@ function toast(msg){
 /* ═══════════ เริ่มทำงาน ═══════════ */
 /* ดึงคลังข้อสอบกลางจากเว็บ (questions.json) — นี่คือวิธีที่ข้อสอบของติวเตอร์ไปถึงนักเรียนทุกคน
    ถ้าไม่มีเน็ต ตัว service worker จะหยิบของที่แคชไว้มาให้เอง */
-function syncContent(){
-  return fetch("questions.json",{cache:"no-cache"})
+var CV_KEY="np18_content_v";   // จำเวอร์ชันคลังข้อสอบที่โหลดไว้ล่าสุด (ข้ามการเปิดแอปแต่ละครั้ง)
+/* นำคลังข้อสอบที่โหลดมาใส่แอป (ใช้ร่วมกันทั้งโหลดจากแคชและจากเน็ต) */
+function applyContent(d){
+  if(!d) return;
+  // คำสั่งรีเซ็ตจากครู: ถ้า resetToken บนเว็บใหม่กว่าที่เครื่องนี้เคยทำ → ล้างความคืบหน้ากลับค่าเริ่มต้น 1 ครั้ง
+  var rt=d.resetToken||0;
+  if(rt > (S.resetAppliedToken||0)){
+    set({ scores:{}, know:{}, done:{}, progress:{}, resetAppliedToken:rt });
+    toast("ครูรีเซ็ตความคืบหน้าใหม่ทั้งหมดแล้ว — เริ่มต้นใหม่ได้เลย");
+  }
+  var v=d.version||0, newer = v!==(S.contentVersion||0);
+  if(S.bankDirty){                             // ติวเตอร์มีข้อสอบแก้ค้าง ห้ามทับ
+    if(newer) toast("มีเนื้อหาใหม่บนเว็บ — แต่ยังไม่ดึงมา เพราะมีข้อสอบที่ยังไม่ได้ส่งออก");
+    return;
+  }
+  var patch={ contentVersion:v };
+  if(d.topics) patch.topics=d.topics;
+  if(d.bank) patch.bank=d.bank;
+  if(d.physEvents) patch.physEvents=d.physEvents;
+  if(d.videos && !S.videosDirty) patch.videos=d.videos;   // ไม่ทับวิดีโอที่แก้ค้างในเครื่อง
+  if(d.knowledge && !S.knowledgeDirty) patch.knowledge=d.knowledge;   // คลังความรู้จากเว็บ
+  if(d.bankPub) patch.bankPub=d.bankPub;   // เวลาที่เผยแพร่ข้อสอบแต่ละหัวข้อ (สำหรับป้าย "ใหม่")
+  patch.subjStatus = d.subjStatus || {};   // สถานะรายวิชา เช่น "อยู่ระหว่างอัปเดต"
+  patch.mockTracks = d.mockTracks || {};   // ชุดข้อสอบเสมือนจริงรายสาย + สัดส่วนวิชา
+  set(patch);
+  try{ localStorage.setItem(CV_KEY, String(v)); }catch(e){}
+  if(newer && v>1) toast("อัปเดตเนื้อหาใหม่แล้ว");
+}
+/* โหลดไฟล์คลังข้อสอบ — force=true บังคับดึงจากเน็ต (เวอร์ชันใหม่), ไม่งั้นอ่านจากแคช (ไม่กินเน็ต) */
+function fetchQuestions(force){
+  return fetch("questions.json", force?{cache:"reload"}:{cache:"force-cache"})
     .then(function(r){ return r.ok?r.json():null; })
-    .then(function(d){
-      if(!d) return;
-      // คำสั่งรีเซ็ตจากครู: ถ้า resetToken บนเว็บใหม่กว่าที่เครื่องนี้เคยทำ → ล้างความคืบหน้ากลับค่าเริ่มต้น 1 ครั้ง
-      var rt=d.resetToken||0;
-      if(rt > (S.resetAppliedToken||0)){
-        set({ scores:{}, know:{}, done:{}, progress:{}, resetAppliedToken:rt });
-        toast("ครูรีเซ็ตความคืบหน้าใหม่ทั้งหมดแล้ว — เริ่มต้นใหม่ได้เลย");
-      }
-      var v=d.version||0, newer = v!==(S.contentVersion||0);
-      if(S.bankDirty){                             // ติวเตอร์มีข้อสอบแก้ค้าง ห้ามทับ
-        if(newer) toast("มีเนื้อหาใหม่บนเว็บ — แต่ยังไม่ดึงมา เพราะมีข้อสอบที่ยังไม่ได้ส่งออก");
-        return;
-      }
-      // ดึงคลังจากเว็บมาใส่ทุกครั้งที่เปิดแอป (ไม่ได้เก็บใน localStorage แล้ว)
-      var patch={ contentVersion:v };
-      if(d.topics) patch.topics=d.topics;
-      if(d.bank) patch.bank=d.bank;
-      if(d.physEvents) patch.physEvents=d.physEvents;
-      if(d.videos && !S.videosDirty) patch.videos=d.videos;   // ไม่ทับวิดีโอที่แก้ค้างในเครื่อง
-      if(d.knowledge && !S.knowledgeDirty) patch.knowledge=d.knowledge;   // คลังความรู้จากเว็บ
-      if(d.bankPub) patch.bankPub=d.bankPub;   // เวลาที่เผยแพร่ข้อสอบแต่ละหัวข้อ (สำหรับป้าย "ใหม่")
-      patch.subjStatus = d.subjStatus || {};   // สถานะรายวิชา เช่น "อยู่ระหว่างอัปเดต" (เว้นว่าง = ปกติ) — ครูเปลี่ยนได้จาก questions.json
-      patch.mockTracks = d.mockTracks || {};   // ชุดข้อสอบเสมือนจริงรายสาย (สายปราบปราม/สายอำนวยการ) + สัดส่วนวิชา — ครูแก้ได้จาก questions.json
-      set(patch);
-      if(newer && v>1) toast("อัปเดตเนื้อหาใหม่แล้ว");
-    })
+    .then(function(d){ applyContent(d); })
     .catch(function(){});
+}
+/* เช็ค "ป้ายเวอร์ชัน" จิ๋วก่อน (~20 ไบต์) แล้วโหลดคลังเต็ม (~6MB) เฉพาะตอนเวอร์ชันเปลี่ยนจริง
+   เวอร์ชันเดิม = ใช้ของในเครื่อง (0 เน็ต) · เวอร์ชันใหม่ = ดึงใหม่ครั้งเดียว · ออฟไลน์ = ใช้แคช */
+function syncContent(){
+  return fetch("version.json?_="+Date.now(),{cache:"no-store"})
+    .then(function(r){ return r.ok?r.json():null; })
+    .catch(function(){ return null; })
+    .then(function(vj){
+      var latestV = (vj && typeof vj.v==="number") ? vj.v : null;
+      var appliedV = parseInt(localStorage.getItem(CV_KEY)||"",10); if(isNaN(appliedV)) appliedV=null;
+      var haveContent = !!(S.bank && Object.keys(S.bank).length);
+      // มีเนื้อหาในหน่วยความจำแล้ว + เวอร์ชันตรงล่าสุด → ไม่ต้องโหลดอะไรเลย
+      if(haveContent && latestV!=null && latestV===appliedV) return;
+      // ต้องโหลดเข้าหน่วยความจำ: บังคับดึงเน็ตเมื่อเวอร์ชันใหม่กว่า/ยังไม่รู้เวอร์ชันในเครื่อง, ไม่งั้นอ่านจากแคช
+      var force = (latestV!=null && latestV!==appliedV);
+      return fetchQuestions(force);
+    });
 }
 /* ── กันสลับหน้าจอระหว่างทำข้อสอบ ──
    ถ้าสลับไปหน้าจอ/แอปอื่นขณะกำลังทำข้อสอบ ให้เด้งออกทันที ไม่บันทึกคะแนน
