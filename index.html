@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v89";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v90";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -3201,7 +3201,7 @@ var A={
     }
     finishQuiz(false);
   },
-  closeQuiz:function(){ clearQuizTimer(); S.quiz=null; render(); },
+  closeQuiz:function(){ clearQuizTimer(); releaseWakeLock(); S.quiz=null; render(); },
   retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
@@ -3423,6 +3423,20 @@ function loadQuiz(sk,id,label,subjName){
   if(window.claude && window.claude.complete){ aiQuiz(sk,id,label,subjName); return; }
   if(S.quiz && S.quiz.topicId===id){ S.quiz.status="empty"; render(); }
 }
+/* ── กันจอดับระหว่างทำข้อสอบ (Wake Lock) ──
+   ขอให้ระบบ "ไม่ดับจอเอง" ตลอดที่ทำข้อสอบ นักเรียนนั่งคิดนานแค่ไหนจอก็ไม่ดับ
+   (Android + iOS 16.4 ขึ้นไปรองรับ · เครื่องที่ไม่รองรับก็ไม่ error แค่ทำงานเหมือนเดิม) */
+var _wakeLock=null;
+function requestWakeLock(){
+  try{
+    if("wakeLock" in navigator && navigator.wakeLock && navigator.wakeLock.request){
+      navigator.wakeLock.request("screen").then(function(wl){ _wakeLock=wl; }).catch(function(){});
+    }
+  }catch(e){}
+}
+function releaseWakeLock(){
+  try{ if(_wakeLock){ _wakeLock.release(); _wakeLock=null; } }catch(e){}
+}
 function startQuiz(id,qs){
   if(!S.quiz || S.quiz.topicId!==id) return;
   S.quiz.status="active"; S.quiz.questions=qs; S.quiz.idx=0;
@@ -3431,6 +3445,7 @@ function startQuiz(id,qs){
   S.quiz.totalMs = qs.length * SEC_PER_Q * 1000;   // ข้อละ 1.2 นาที ตามจำนวนข้อ
   S.quiz.deadline = Date.now() + S.quiz.totalMs;
   S.quiz.timeUp = false;
+  requestWakeLock();   // กันจอดับตลอดที่ทำข้อสอบ
   render();
   startQuizTimer();
 }
@@ -3492,6 +3507,7 @@ function gradeQuiz(){                       // นับข้อถูกจา
 }
 function finishQuiz(timeUp){
   clearQuizTimer();
+  releaseWakeLock();   // ทำข้อสอบจบแล้ว ปล่อยให้จอดับได้ตามปกติ
   var q=S.quiz;
   if(!q || q.status!=="active") return;
   gradeQuiz();
@@ -3590,6 +3606,7 @@ function syncContent(){
 function abortQuizOnSwitch(){
   if(S.quiz && S.quiz.status==="active"){
     clearQuizTimer();
+    releaseWakeLock();
     S.quiz.status="aborted";
     render();
   }
@@ -3629,7 +3646,7 @@ function startApp(){
   document.addEventListener("click", unlockAudio);
   document.addEventListener("visibilitychange",function(){
     if(document.visibilityState==="hidden") abortQuizOnSwitch();
-    else { maybeSync(); checkAlarms(); }
+    else { if(S.quiz && S.quiz.status==="active") requestWakeLock(); maybeSync(); checkAlarms(); }   // wake lock หลุดตอนจอดับ ขอใหม่ถ้ายังทำข้อสอบอยู่
   });
   window.addEventListener("online", maybeSync);
   document.getElementById("brandtap").onclick=function(){ A.openAdmin(); };
