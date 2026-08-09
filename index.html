@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v95";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v96";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -1892,6 +1892,17 @@ function mockCardsHTML(){
       '<div class="muted" style="margin-top:9px;font-size:11.5px;">'+(anyOpen?"แตะการ์ดเพื่อดูรายละเอียดและเริ่มจับเวลาเหมือนสอบจริง":"กำลังเตรียมข้อสอบ — เปิดให้ใช้เร็ว ๆ นี้")+'</div>'+
     '</div>';
 }
+/* การ์ดประวัติบนสุดของหน้าเลือกชุด (แบบ A) — โชว์เฉพาะเมื่อเคยทำแล้ว ≥1 รอบ */
+function trackHistCard(track){
+  var arr=(S.mockHist||{})[track]||[]; if(!arr.length) return "";
+  var last=arr[0], best=arr.reduce(function(m,a){ return Math.max(m,a.pct||0); },0), wrong=_wrongCount(last);
+  function stat(n,l,c){ return '<div style="flex:1;background:var(--c-bg);border-radius:9px;padding:7px 4px;text-align:center;"><div style="font-size:18px;font-weight:800;line-height:1;'+(c?"color:"+c+";":"")+'">'+n+'</div><div style="font-size:9.5px;color:var(--c-text-muted);margin-top:3px;">'+l+'</div></div>'; }
+  return '<div onclick="A.openHistory(\''+track+'\')" style="cursor:pointer;background:var(--c-surface);border:1.6px solid var(--pri);border-radius:13px;padding:11px 12px;margin-bottom:14px;">'+
+    '<div style="font-size:10.5px;font-weight:800;color:var(--pri);margin-bottom:8px;">📊 ประวัติการทำข้อสอบ · '+arr.length+' รอบ</div>'+
+    '<div style="display:flex;gap:8px;margin-bottom:9px;">'+stat(best+'%','ดีสุด','#1E9E5A')+stat(last.pct+'%','ล่าสุด','')+stat(wrong,'ข้อที่ผิด','var(--pri)')+'</div>'+
+    '<div style="background:var(--pri);color:#fff;border-radius:9px;padding:10px;font-size:12.5px;font-weight:800;text-align:center;">ดูประวัติ + ทบทวนข้อผิด ›</div>'+
+  '</div>';
+}
 function trackDetailSheet(){
   var tr=(S.mockTracks||{})[S.trackDetail]; if(!tr) return "";
   var st=trackStat(tr), mins=Math.round(st.need*SEC_PER_Q/60), canStart=st.have>0;
@@ -1932,14 +1943,12 @@ function trackDetailSheet(){
     '<div class="sheetbody">'+
       '<h3 style="margin:0 0 2px;">'+esc(tr.name||"")+' · เสมือนจริง</h3>'+
       '<div class="muted" style="margin-bottom:14px;">สุ่มข้อสอบตามสัดส่วนสนามสอบจริง · จับเวลา '+mins+' นาที · จบแล้วสรุปคะแนนแยกภาค + เฉลย</div>'+
+      trackHistCard(S.trackDetail)+
       body+
       '<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-top:6px;padding-top:10px;border-top:1px solid var(--c-border);"><span>พร้อมทำได้ '+st.have+' / '+st.need+' ข้อ</span><span>~'+mins+' นาที</span></div>'+
       passNote+
       (st.gaps.length?'<div style="margin-top:10px;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">⚠️ บางวิชายังไม่มีข้อสอบครบ ระบบจะข้ามส่วนที่ขาดไปก่อน แล้วเต็มเองเมื่อครูลงข้อสอบเพิ่ม</div>':"")+
       '<button class="btn" style="width:100%;margin-top:16px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.startTrackExam(\''+S.trackDetail+'\')">'+(canStart?("เริ่มทำข้อสอบ · "+st.have+" ข้อ"):"ยังไม่มีข้อสอบในคลัง")+'</button>'+
-      (((S.mockHist||{})[S.trackDetail]||[]).length
-        ? '<button class="btn ghost" style="width:100%;margin-top:9px;" onclick="A.openHistory(\''+S.trackDetail+'\')">📊 ประวัติ + ทบทวนข้อผิด · '+((S.mockHist||{})[S.trackDetail]||[]).length+' รอบ</button>'
-        : "")+
       (S.adminMode
         ? '<button class="btn ghost" style="width:100%;margin-top:9px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.exportTrackPDF(\''+S.trackDetail+'\')">📄 ออกไฟล์ PDF ข้อสอบ + เฉลย (แอดมิน)</button>'+
           '<div class="muted" style="font-size:11px;margin-top:6px;text-align:center;line-height:1.55;">สุ่มชุด '+st.need+' ข้อตามสัดส่วนจริง → กด “🖨️ พิมพ์ / บันทึก PDF” · สลับแท็บ “ตัวข้อสอบ/เฉลย” เพื่อพิมพ์แยกไฟล์</div>'
