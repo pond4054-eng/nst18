@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v96";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v97";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -1943,12 +1943,12 @@ function trackDetailSheet(){
     '<div class="sheetbody">'+
       '<h3 style="margin:0 0 2px;">'+esc(tr.name||"")+' · เสมือนจริง</h3>'+
       '<div class="muted" style="margin-bottom:14px;">สุ่มข้อสอบตามสัดส่วนสนามสอบจริง · จับเวลา '+mins+' นาที · จบแล้วสรุปคะแนนแยกภาค + เฉลย</div>'+
+      '<button class="btn" style="width:100%;margin:2px 0 12px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.startTrackExam(\''+S.trackDetail+'\')">'+(canStart?("เริ่มทำข้อสอบ · "+st.have+" ข้อ"):"ยังไม่มีข้อสอบในคลัง")+'</button>'+
       trackHistCard(S.trackDetail)+
       body+
       '<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-top:6px;padding-top:10px;border-top:1px solid var(--c-border);"><span>พร้อมทำได้ '+st.have+' / '+st.need+' ข้อ</span><span>~'+mins+' นาที</span></div>'+
       passNote+
       (st.gaps.length?'<div style="margin-top:10px;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">⚠️ บางวิชายังไม่มีข้อสอบครบ ระบบจะข้ามส่วนที่ขาดไปก่อน แล้วเต็มเองเมื่อครูลงข้อสอบเพิ่ม</div>':"")+
-      '<button class="btn" style="width:100%;margin-top:16px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.startTrackExam(\''+S.trackDetail+'\')">'+(canStart?("เริ่มทำข้อสอบ · "+st.have+" ข้อ"):"ยังไม่มีข้อสอบในคลัง")+'</button>'+
       (S.adminMode
         ? '<button class="btn ghost" style="width:100%;margin-top:9px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.exportTrackPDF(\''+S.trackDetail+'\')">📄 ออกไฟล์ PDF ข้อสอบ + เฉลย (แอดมิน)</button>'+
           '<div class="muted" style="font-size:11px;margin-top:6px;text-align:center;line-height:1.55;">สุ่มชุด '+st.need+' ข้อตามสัดส่วนจริง → กด “🖨️ พิมพ์ / บันทึก PDF” · สลับแท็บ “ตัวข้อสอบ/เฉลย” เพื่อพิมพ์แยกไฟล์</div>'
