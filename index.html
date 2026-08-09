@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v94";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v95";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var LS="np18_assistant_v1";
 var S={};
 
@@ -964,6 +964,12 @@ function render(){
 
   renderOverlays();
   if(_newAtDirty){ _newAtDirty=false; save(); }   // จำ "เวลาที่เห็นครั้งแรก" ของรายการใหม่
+}
+/* อัปเดตเฉพาะนาฬิกา + วันนับถอยหลัง (ไม่วาดใหม่ทั้งหน้า จึงไม่ทำให้รูปกระพริบ) */
+function tickClock(){
+  var now=new Date();
+  var cl=document.getElementById("clock"); if(cl) cl.textContent=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
+  var cd=document.getElementById("cdnum"); if(cd){ var c=calc(); cd.textContent=(c.daysLeft==null?"—":(c.daysLeft<0?"0":String(c.daysLeft))); }
 }
 
 /* ───── หน้าแรก ───── */
@@ -3754,9 +3760,7 @@ function startApp(){
   render();
   lastSyncAt = Date.now();
   syncContent();
-  setInterval(function(){
-    if(!S.quiz && !S.adminOpen && !S.mock && !S.player && !S.planOpen) render();
-  },60000);
+  setInterval(tickClock,30000);   // อัปเดตแค่นาฬิกา/วันนับถอยหลัง ไม่วาดใหม่ทั้งหน้า (กันจอกระพริบ/รูปโหลดซ้ำ)
   setInterval(focusTick,1000);   // นาฬิกาจับเวลาโฟกัส
   setInterval(checkAlarms,15000); // ตรวจเวลางานตามแผน แล้วเด้งเตือน
   document.addEventListener("touchstart", unlockAudio, {passive:true});
