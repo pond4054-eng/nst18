@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v106";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v107";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -3435,9 +3435,10 @@ var A={
     var p=shopFindProduct(id); if(!p) return;
     var fb=(S.shopFB||"").trim();
     if(!fb){ toast("ยังไม่ได้ตั้งค่าเพจร้าน — แจ้งครูผู้ขาย"); return; }
-    var msg="สนใจสั่งซื้อ: "+p.name+" (ราคา "+(+p.price||0)+" บาท)\nชื่อผู้สั่ง: ";
+    var isBook = p.physical || /เล่มจริง/.test(shopTypeLabel(p));   // ข้อความสั่งซื้อปรับตามประเภทสินค้า
+    var msg="🛒 สั่งซื้อเอกสารติว\n• "+p.name+"\n• ประเภท: "+shopTypeLabel(p).replace(/^[^ก-๙A-Za-z]+/,"")+"\n• ราคา: "+(+p.price||0)+" บาท\n———\nชื่อผู้สั่ง: "+(isBook?"\nที่อยู่จัดส่ง: ":"");
     try{ if(navigator.clipboard) navigator.clipboard.writeText(msg); }catch(e){}
-    toast("คัดลอกข้อความสั่งซื้อแล้ว — วางในแชตส่งได้เลย");
+    toast("คัดลอกข้อความสั่งซื้อแล้ว — เปิด Messenger แล้ววาง (กดค้าง → วาง) ส่งได้เลย");
     // แปลงลิงก์เพจ/โปรไฟล์ Facebook → m.me/<id> เพื่อเด้งเข้าแชต Messenger โดยตรง
     var mid=fb.match(/(?:id=|\/)(\d{6,})(?:\D|$)/), page;
     if(/m\.me\//.test(fb)) page=fb;
