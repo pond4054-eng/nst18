@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v115";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v116";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -988,6 +988,21 @@ function viewHome(c){
   var h="";
   // แถบเวอร์ชันมุมบนขวา — บอกว่าเครื่องนี้อยู่โค้ด/ข้อสอบเวอร์ชันไหน (ไว้เช็กเวลานักเรียนทัก)
   h+='<div style="display:flex;justify-content:flex-end;margin:-4px 2px 6px;"><span style="font-size:10px;color:var(--c-text-subtle);letter-spacing:.02em;">'+APP_VER+' · ข้อสอบ v'+(S.contentVersion||0)+'</span></div>';
+  // แบนเนอร์ลดราคา — โชว์เฉพาะเมื่อร้านเปิด/แอดมิน + มีสินค้าที่ลดราคา (old>price)
+  if(typeof shopOpen==="function" && shopOpen()){
+    var promo=shopProducts().filter(function(p){ return p.old && (+p.old)>(+p.price); })[0];
+    if(promo){ var save=(+promo.old)-(+promo.price);
+      h+='<div onclick="A.openProduct(\''+esc(promo.id)+'\')" style="cursor:pointer;border-radius:16px;padding:13px 14px;margin-bottom:12px;background:linear-gradient(120deg,#7a1015,#E4111F);color:#fff;box-shadow:0 4px 14px rgba(228,17,31,.28);display:flex;align-items:center;gap:12px;">'+
+        (promo.cover?'<img src="'+esc(promo.cover)+'" alt="" style="width:52px;height:70px;flex:none;border-radius:7px;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.3);">':'')+
+        '<div style="flex:1;min-width:0;">'+
+          '<div style="font-size:10px;font-weight:800;letter-spacing:.05em;opacity:.95;">🔥 ลดพิเศษ · ประหยัด '+save+'฿</div>'+
+          '<div style="font-size:14px;font-weight:800;line-height:1.25;margin:2px 0 4px;">'+esc(promo.name)+'</div>'+
+          '<div style="display:flex;align-items:baseline;gap:7px;"><span style="font-size:20px;font-weight:800;">'+(+promo.price)+'฿</span><span style="font-size:12px;text-decoration:line-through;opacity:.8;">'+(+promo.old)+'฿</span></div>'+
+        '</div>'+
+        '<span style="flex:none;background:#fff;color:var(--pri);border-radius:9px;padding:8px 12px;font-size:12px;font-weight:800;white-space:nowrap;">ดูเลย ›</span>'+
+      '</div>';
+    }
+  }
   var flip = c.daysLeft!=null ? String(Math.max(0,c.daysLeft)).padStart(2,"0").split("") : [];
   var examText="";
   if(S.examDate){ var ex=new Date(S.examDate+"T00:00:00"); examText=thDate(ex)+" "+(ex.getFullYear()+543); }
