@@ -199,6 +199,9 @@
   @keyframes fltongue{ 0%,100%{ transform:scaleY(1) scaleX(1); opacity:.95; } 35%{ transform:scaleY(1.28) scaleX(.88); opacity:1; } 65%{ transform:scaleY(.86) scaleX(1.08); opacity:.9; } }
   @keyframes flhalo{ 0%,100%{ opacity:.45; transform:scale(1); } 50%{ opacity:.9; transform:scale(1.2); } }
   @keyframes flcore{ 0%,100%{ opacity:.9; } 50%{ opacity:1; } }
+  @keyframes freePulse{ 0%{ box-shadow:0 0 0 0 rgba(228,17,31,.5); } 70%{ box-shadow:0 0 0 12px rgba(228,17,31,0); } 100%{ box-shadow:0 0 0 0 rgba(228,17,31,0); } }
+  .free-pill{ animation:freePulse 1.6s infinite; }
+  @media (prefers-reduced-motion:reduce){ .free-pill{ animation:none; } }
   .fltongue{ transform-box:fill-box; transform-origin:50% 100%; filter:drop-shadow(0 0 2px var(--fl)); animation:fltongue .85s ease-in-out infinite; }
   .flhalo{ transform-box:fill-box; transform-origin:center; animation:flhalo 1.1s ease-in-out infinite; }
   .flcore{ filter:drop-shadow(0 0 3px var(--fl)); animation:flcore .85s ease-in-out infinite; }
@@ -494,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v109";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v110";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -2228,24 +2231,32 @@ function shopFreebies(){ return (S.shopFreebies||[]).filter(function(f){ return 
 function shopFreebiesHTML(){
   var fb=shopFreebies(); if(!fb.length) return "";
   return fb.map(function(f){
-    return '<div class="card" style="padding:0;overflow:hidden;margin-bottom:0;border:1.5px solid #1E9E5A;">'+
-      '<div style="background:'+(f.grad||"linear-gradient(120deg,#0b3d2e,#1E9E5A)")+';color:#fff;padding:12px 14px;display:flex;align-items:center;gap:11px;">'+
-        '<span style="font-size:28px;flex:none;">'+(f.ic||"🎁")+'</span>'+
-        '<div style="flex:1;min-width:0;"><div style="font-size:10px;font-weight:800;letter-spacing:.05em;opacity:.92;">🎁 แจกฟรี</div><div style="font-size:15px;font-weight:800;line-height:1.25;">'+esc(f.name)+'</div></div>'+
-      '</div>'+
-      '<div style="padding:12px 14px;">'+
-        (f.desc?'<div style="font-size:12px;color:var(--c-text-muted);line-height:1.6;margin-bottom:10px;">'+esc(f.desc)+'</div>':'')+
-        '<div style="display:flex;flex-direction:column;gap:8px;">'+
-          (f.files||[]).map(function(fl){ return '<a href="'+esc(fl.url)+'" download target="_blank" rel="noopener" style="display:block;text-align:center;background:#1E9E5A;color:#fff;border-radius:10px;padding:11px;font-size:13px;font-weight:800;text-decoration:none;">'+esc(fl.label)+'</a>'; }).join("")+
+    var rows=(f.files||[]).map(function(fl,i){
+      var col = i===0 ? "#c4161c" : "#1E9E5A";
+      var nm = fl.name || String(fl.label||"ไฟล์").replace(/^[⬇️\s]+/,"");
+      var mt = fl.meta || "";
+      return '<a href="'+esc(fl.url)+'" download target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:12px 15px;border-top:1px solid var(--c-border);text-decoration:none;color:var(--c-text);">'+
+        '<span style="width:40px;height:50px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;background:'+col+';">PDF</span>'+
+        '<span style="flex:1;min-width:0;"><span style="display:block;font-size:13px;font-weight:800;">'+esc(nm)+'</span>'+(mt?'<span style="display:block;font-size:11px;color:var(--c-text-muted);">'+esc(mt)+'</span>':'')+'</span>'+
+        '<span style="width:38px;height:38px;border-radius:50%;background:#EAF7EF;display:flex;align-items:center;justify-content:center;font-size:17px;color:#1E9E5A;flex:none;">⬇</span>'+
+      '</a>';
+    }).join("");
+    return '<div style="position:relative;margin-bottom:0;">'+
+      '<div class="free-pill" style="position:absolute;top:-11px;right:12px;z-index:4;background:var(--pri);color:#fff;font-size:13px;font-weight:800;border-radius:99px;padding:6px 14px;">🎁 ฟรี!</div>'+
+      '<div style="border-radius:15px;overflow:hidden;border:1px solid var(--c-border);box-shadow:0 3px 14px rgba(0,0,0,.08);background:var(--c-surface);">'+
+        '<div style="background:'+(f.grad||"linear-gradient(120deg,#0b3d2e,#1E9E5A)")+';color:#fff;padding:13px 15px;display:flex;align-items:center;gap:11px;">'+
+          '<span style="font-size:26px;flex:none;">'+(f.ic||"🎁")+'</span>'+
+          '<div style="min-width:0;padding-right:44px;"><div style="font-size:10px;font-weight:800;opacity:.92;letter-spacing:.05em;">'+esc(f.kicker||"ของแจกวันนี้")+'</div><div style="font-size:15px;font-weight:800;line-height:1.25;">'+esc(f.name)+'</div></div>'+
         '</div>'+
-        '<div class="muted" style="font-size:10.5px;text-align:center;margin-top:8px;">กดเพื่อดาวน์โหลด/เปิดไฟล์ PDF</div>'+
+        rows+
+        '<div class="muted" style="padding:9px 15px 12px;font-size:10.5px;text-align:center;">'+esc(f.foot||"✓ โหลดฟรี ไม่ต้องกรอกอะไร · พิมพ์ทำได้เลย")+'</div>'+
       '</div></div>';
   }).join("");
 }
 function shopComingSoonHTML(){
   var free=shopFreebiesHTML();
   return '<div class="stack">'+
-    (free ? ('<div style="font-size:13.5px;font-weight:800;margin:2px 2px 0;color:#12833f;">🎁 แจกฟรี — โหลดได้เลย</div>'+free) : '')+
+    (free ? ('<div style="height:6px;"></div>'+free) : '')+
     '<div class="card" style="text-align:center;padding:26px 20px 24px;">'+
       '<div style="width:60px;height:60px;border-radius:50%;background:#FFF3D6;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;">🛍️</div>'+
       '<div style="font-size:16px;font-weight:800;margin-bottom:7px;">จำหน่ายเอกสารติว</div>'+
@@ -2266,7 +2277,7 @@ function viewShop(){
     ((SHOP_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;">👁️ <b>โหมดแอดมิน — ดูตัวอย่างร้าน</b> · ตอนนี้นักเรียนยังเห็นหน้าประกาศ “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดขายจริง)</div>':'')+
     '<div style="font-size:11.5px;color:#2C6E49;background:#F1F7F3;border-radius:11px;padding:10px 12px;line-height:1.55;">✅ เนื้อหาในแอปครบสำหรับสอบแล้ว — เอกสารเหล่านี้เป็น<b>ตัวช่วยเสริม</b> เลือกได้ตามต้องการ</div>';
   var freeHTML=shopFreebiesHTML();
-  if(freeHTML) h+='<div style="font-size:13px;font-weight:800;margin:2px 2px 0;color:#12833f;">🎁 แจกฟรี</div>'+freeHTML;
+  if(freeHTML) h+='<div style="height:6px;"></div>'+freeHTML;
   if(present.length>=2){
     var chips=[["all","ทั้งหมด"]].concat(present);
     h+='<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;">'+chips.map(function(c){ var on=(cat===c[0]);
