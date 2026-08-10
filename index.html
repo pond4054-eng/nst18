@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v107";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v108";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -538,14 +538,14 @@ function load(){
   S.player=null; S.studySubj=null; S.vidDraft=null;
   S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null; S.trackDetail=null;
   S.studyMode="video"; S.knowSubj=null; S.adminKnowSubj=null;
-  S.shopDetail=null;
+  S.shopDetail=null; S.shopSampleIdx=null; S.shopCat="all";
 }
 function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
      "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj","trackDetail",
-     "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand","shopDetail"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
+     "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand","shopDetail","shopSampleIdx","shopCat"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
@@ -2217,6 +2217,7 @@ function shopOpen(){ return !SHOP_LOCKED || !!S.adminMode; }   // แอดม�
 function shopFindProduct(id){ return shopProducts().filter(function(p){ return p.id===id; })[0]; }
 function shopTypeLabel(p){ return p.type || (p.physical ? "📦 เล่มจริง" : "📄 ไฟล์ PDF"); }
 function shopGrad(p){ return p.grad || "linear-gradient(120deg,#7a1015,#c4161c)"; }
+function shopCat(p){ return p.cat || (p.bundle?"bundle":((p.physical||/เล่มจริง/.test(shopTypeLabel(p)))?"book":"pdf")); }
 function shopBadge(p){
   return p.badge==="hot" ? '<span class="chip" style="background:#FDECEC;color:#B01515;font-size:9.5px;font-weight:800;">🔥 ขายดี</span>'
        : p.badge==="new" ? '<span class="chip" style="background:#FDECEC;color:var(--pri);font-size:9.5px;font-weight:800;">ใหม่</span>'
@@ -2240,18 +2241,35 @@ function viewShop(){
   if(!prods.length){
     return '<div class="stack"><div class="card" style="text-align:center;padding:44px 20px;color:var(--c-text-muted);"><div style="font-size:34px;margin-bottom:10px;">🛒</div><div style="font-size:15px;font-weight:700;color:var(--c-text);">กำลังจัดเตรียมเอกสาร</div><div style="font-size:12.5px;margin-top:6px;line-height:1.6;">เปิดให้สั่งซื้อเร็ว ๆ นี้</div></div></div>';
   }
+  var cat=S.shopCat||"all";
+  var catDefs=[["pdf","📄 ไฟล์ PDF"],["book","📦 เล่มจริง"],["bundle","🎁 แพ็กคุ้ม"]];
+  var present=catDefs.filter(function(c){ return prods.some(function(p){ return shopCat(p)===c[0]; }); });
+  var shown=prods.filter(function(p){ return cat==="all" || shopCat(p)===cat; });
   var h='<div class="stack">'+
     ((SHOP_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;">👁️ <b>โหมดแอดมิน — ดูตัวอย่างร้าน</b> · ตอนนี้นักเรียนยังเห็นหน้าประกาศ “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดขายจริง)</div>':'')+
     '<div style="font-size:11.5px;color:#2C6E49;background:#F1F7F3;border-radius:11px;padding:10px 12px;line-height:1.55;">✅ เนื้อหาในแอปครบสำหรับสอบแล้ว — เอกสารเหล่านี้เป็น<b>ตัวช่วยเสริม</b> เลือกได้ตามต้องการ</div>';
-  prods.forEach(function(p){
+  if(present.length>=2){
+    var chips=[["all","ทั้งหมด"]].concat(present);
+    h+='<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;">'+chips.map(function(c){ var on=(cat===c[0]);
+      return '<button onclick="A.setShopCat(\''+c[0]+'\')" style="flex:none;font-size:11.5px;font-weight:700;padding:6px 13px;border-radius:99px;border:1.3px solid '+(on?"var(--pri)":"var(--c-border)")+';background:'+(on?"var(--pri)":"var(--c-surface)")+';color:'+(on?"#fff":"var(--c-text-muted)")+';cursor:pointer;white-space:nowrap;">'+c[1]+'</button>'; }).join("")+'</div>';
+  }
+  shown.forEach(function(p){
+    var hasSp=(p.samplePages||[]).length>0;
     h+='<div class="card" style="padding:11px;cursor:pointer;display:flex;gap:12px;margin-bottom:0;" onclick="A.openProduct(\''+esc(p.id)+'\')">'+
       '<div style="width:62px;height:62px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;background:'+shopGrad(p)+';">'+(p.ic||"📄")+'</div>'+
       '<div style="flex:1;min-width:0;">'+
         '<div style="display:flex;gap:5px;margin-bottom:3px;">'+shopBadge(p)+'<span class="chip" style="background:#EEF1F4;color:var(--c-text-muted);font-size:9.5px;font-weight:700;">'+esc(shopTypeLabel(p))+'</span></div>'+
         '<div style="font-size:13.5px;font-weight:800;line-height:1.3;">'+esc(p.name)+'</div>'+
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:7px;"><span style="font-size:16px;font-weight:800;color:var(--pri);">'+(+p.price||0)+'฿</span><span style="font-size:11px;font-weight:800;color:var(--pri);border:1.3px solid var(--pri);border-radius:8px;padding:5px 10px;">ดูรายละเอียด</span></div>'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:7px;">'+
+          '<span style="font-size:16px;font-weight:800;color:var(--pri);">'+(+p.price||0)+'฿</span>'+
+          '<div style="display:flex;gap:6px;flex:none;">'+
+            (hasSp?'<span onclick="event.stopPropagation();A.openProductSample(\''+esc(p.id)+'\')" style="font-size:11px;font-weight:800;color:var(--pri);border:1.3px solid var(--pri);border-radius:8px;padding:5px 9px;">👁️ ตัวอย่าง</span>':'')+
+            '<span style="font-size:11px;font-weight:800;color:#fff;background:var(--pri);border-radius:8px;padding:5px 10px;">ดูรายละเอียด</span>'+
+          '</div>'+
+        '</div>'+
       '</div></div>';
   });
+  if(!shown.length) h+='<div class="card" style="text-align:center;color:var(--c-text-muted);padding:26px;">ไม่มีสินค้าในหมวดนี้</div>';
   h+='</div>';
   return h;
 }
@@ -2259,7 +2277,8 @@ function shopDetailSheet(){
   var p=shopFindProduct(S.shopDetail); if(!p) return "";
   var inc=(p.inc||[]).map(function(x){ return '• '+esc(x); }).join("<br>");
   var oldp=p.old?('<span style="font-size:12px;color:var(--c-text-muted);text-decoration:line-through;">'+(+p.old)+'฿</span><span style="font-size:10px;font-weight:800;color:#12833f;background:#E7F6EE;border-radius:99px;padding:1px 8px;">ประหยัด '+((+p.old)-(+p.price))+'฿</span>'):"";
-  var samples=(p.samples||[]).map(function(sm){ return '<div style="flex:1;height:64px;border-radius:8px;background:#EEF1F5;border:1px dashed #C9CDD3;display:flex;align-items:center;justify-content:center;color:#9AA0A6;font-size:10.5px;">'+esc(sm)+'</div>'; }).join("");
+  var sp=(p.samplePages||[]);
+  var samples = sp.length ? ('<div style="display:flex;align-items:center;justify-content:space-between;margin:15px 0 8px;"><span style="font-size:12px;font-weight:800;color:var(--pri);">👁️ ตัวอย่างหน้า (ดูฟรี)</span><span style="font-size:10.5px;color:var(--c-text-muted);">แตะเพื่อดูเต็มหน้า</span></div><div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">'+sp.map(function(u,i){ return '<img src="'+esc(u)+'" alt="ตัวอย่างหน้า '+(i+1)+'" loading="lazy" onclick="A.shopSample('+i+')" style="height:160px;width:auto;border-radius:8px;border:1px solid var(--c-border);cursor:pointer;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.1);background:#fff;">'; }).join("")+'</div>') : "";
   return '<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-bg);">'+
     '<div style="position:relative;flex:none;height:140px;background:'+shopGrad(p)+';display:flex;align-items:center;justify-content:center;font-size:52px;color:#fff;">'+(p.ic||"📄")+
       '<button class="x" onclick="A.closeProduct()" style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,.5);color:#fff;border:none;">✕</button></div>'+
@@ -2267,7 +2286,7 @@ function shopDetailSheet(){
       '<div style="display:flex;gap:5px;margin-bottom:6px;">'+shopBadge(p)+'<span class="chip" style="background:#EEF1F4;color:var(--c-text-muted);font-size:9.5px;font-weight:700;">'+esc(shopTypeLabel(p))+'</span></div>'+
       '<h3 style="margin:0 0 8px;">'+esc(p.name)+'</h3>'+
       (inc?'<div style="font-size:12px;font-weight:800;color:var(--pri);margin-bottom:6px;">สิ่งที่ได้รับ</div><div style="font-size:12.5px;line-height:1.9;color:var(--c-text);">'+inc+'</div>':"")+
-      (samples?'<div style="font-size:12px;font-weight:800;color:var(--pri);margin:14px 0 7px;">ตัวอย่างหน้า (ดูฟรี)</div><div style="display:flex;gap:7px;">'+samples+'</div>':"")+
+      samples+
       '<div class="card" style="margin-top:14px;"><div style="font-size:12px;font-weight:800;color:var(--pri);margin-bottom:8px;">วิธีสั่งซื้อ ง่าย 3 ขั้น</div>'+
         shopStep(1,"กดปุ่มสั่ง → เปิดแชตเพจ พร้อมคัดลอกข้อความสั่งซื้อให้")+
         shopStep(2,"วางข้อความ ส่ง แล้วโอนผ่าน <b>พร้อมเพย์</b> ส่งสลิปในแชต")+
@@ -2277,6 +2296,21 @@ function shopDetailSheet(){
       '<div class="muted" style="font-size:11px;text-align:center;margin-top:8px;line-height:1.6;">กดแล้วจะเปิดแชตเพจ + คัดลอกข้อความสั่งซื้อให้ วางส่งได้เลย — ครูตอบเรื่องโอน/จัดส่งในแชต</div>'+
     '</div>'+
   '</div></div>';
+}
+function shopSampleSheet(){
+  var p=shopFindProduct(S.shopDetail); if(!p) return "";
+  var sp=p.samplePages||[], i=S.shopSampleIdx||0;
+  if(i<0||i>=sp.length) return "";
+  return '<div class="sheet" style="background:rgba(0,0,0,.92);" onclick="A.closeSample()">'+
+    '<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;position:relative;">'+
+      '<img src="'+esc(sp[i])+'" alt="ตัวอย่างหน้า" style="max-width:100%;max-height:78%;border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,.5);">'+
+      '<div style="color:#fff;margin-top:12px;font-size:13px;font-weight:600;">ตัวอย่างหน้า '+(i+1)+' / '+sp.length+'</div>'+
+      '<div style="display:flex;gap:12px;margin-top:12px;" onclick="event.stopPropagation();">'+
+        '<button class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.6);'+(i<=0?'opacity:.35;pointer-events:none;':'')+'" onclick="A.sampleNav(-1)">‹ ก่อนหน้า</button>'+
+        '<button class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.6);'+(i>=sp.length-1?'opacity:.35;pointer-events:none;':'')+'" onclick="A.sampleNav(1)">ถัดไป ›</button>'+
+      '</div>'+
+      '<button class="x" onclick="A.closeSample()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.2);color:#fff;border:none;">✕</button>'+
+    '</div></div>';
 }
 function renderOverlays(){
   var o=document.getElementById("overlays");
@@ -2291,6 +2325,7 @@ function renderOverlays(){
   if(S.histTrack) h+=historySheet();
   if(S.reviewAtt) h+=reviewSheet();
   if(S.shopDetail && shopOpen()) h+=shopDetailSheet();
+  if(S.shopSampleIdx!=null && S.shopDetail && shopOpen()) h+=shopSampleSheet();
   if(S.planOpen) h+=planSheet();
   if(S.alarm) h+=alarmSheet();
   o.innerHTML=h;
@@ -3428,8 +3463,13 @@ var A={
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
   closeTrack:function(){ S.trackDetail=null; render(); },
-  openProduct:function(id){ if(!shopOpen()) return; S.shopDetail=id; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; },
-  closeProduct:function(){ S.shopDetail=null; render(); },
+  openProduct:function(id){ if(!shopOpen()) return; S.shopDetail=id; S.shopSampleIdx=null; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; },
+  closeProduct:function(){ S.shopDetail=null; S.shopSampleIdx=null; render(); },
+  openProductSample:function(id){ if(!shopOpen()) return; S.shopDetail=id; S.shopSampleIdx=0; render(); },
+  shopSample:function(i){ if(!shopOpen()) return; S.shopSampleIdx=i; render(); },
+  sampleNav:function(d){ var p=shopFindProduct(S.shopDetail); if(!p) return; var n=(p.samplePages||[]).length; S.shopSampleIdx=Math.max(0,Math.min(n-1,(S.shopSampleIdx||0)+d)); render(); },
+  closeSample:function(){ S.shopSampleIdx=null; render(); },
+  setShopCat:function(c){ S.shopCat=c; render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; },
   tabToProduct:function(id){ if(!shopOpen()) return; S.mock=null; S.tab="shop"; S.shopDetail=id; render(); },
   orderProduct:function(id){
     var p=shopFindProduct(id); if(!p) return;
