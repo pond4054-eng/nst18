@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v104";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v105";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -963,7 +963,7 @@ function render(){
   if(S.tab==="home") v.innerHTML=viewHome(c);
   else if(S.tab==="study") v.innerHTML=viewStudy(c);
   else if(S.tab==="phys") v.innerHTML=viewPhys();
-  else if(S.tab==="shop") v.innerHTML= SHOP_LOCKED ? shopComingSoonHTML() : viewShop();
+  else if(S.tab==="shop") v.innerHTML= shopOpen() ? viewShop() : shopComingSoonHTML();
   else v.innerHTML=viewReady();
   v.scrollTop=top;
 
@@ -2213,6 +2213,7 @@ function planSheet(){
    สินค้า 1 ชิ้น: { id, name, price, old?, ic?, grad?, type?, physical?, badge?(hot/new/rec), subj?, inc?[], samples?[] }
    เปิดใช้จริง: ตั้ง SHOP_LOCKED=false เมื่อมี shopProducts + shopFB แล้ว */
 function shopProducts(){ return (S.shopProducts||[]).filter(function(p){ return p && p.name; }); }
+function shopOpen(){ return !SHOP_LOCKED || !!S.adminMode; }   // แอดมินดูร้านจริงได้แม้ยังล็อก (นักเรียนเห็นหน้าประกาศ)
 function shopFindProduct(id){ return shopProducts().filter(function(p){ return p.id===id; })[0]; }
 function shopTypeLabel(p){ return p.type || (p.physical ? "📦 เล่มจริง" : "📄 ไฟล์ PDF"); }
 function shopGrad(p){ return p.grad || "linear-gradient(120deg,#7a1015,#c4161c)"; }
@@ -2240,6 +2241,7 @@ function viewShop(){
     return '<div class="stack"><div class="card" style="text-align:center;padding:44px 20px;color:var(--c-text-muted);"><div style="font-size:34px;margin-bottom:10px;">🛒</div><div style="font-size:15px;font-weight:700;color:var(--c-text);">กำลังจัดเตรียมเอกสาร</div><div style="font-size:12.5px;margin-top:6px;line-height:1.6;">เปิดให้สั่งซื้อเร็ว ๆ นี้</div></div></div>';
   }
   var h='<div class="stack">'+
+    ((SHOP_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;">👁️ <b>โหมดแอดมิน — ดูตัวอย่างร้าน</b> · ตอนนี้นักเรียนยังเห็นหน้าประกาศ “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดขายจริง)</div>':'')+
     '<div style="font-size:11.5px;color:#2C6E49;background:#F1F7F3;border-radius:11px;padding:10px 12px;line-height:1.55;">✅ เนื้อหาในแอปครบสำหรับสอบแล้ว — เอกสารเหล่านี้เป็น<b>ตัวช่วยเสริม</b> เลือกได้ตามต้องการ</div>';
   prods.forEach(function(p){
     h+='<div class="card" style="padding:11px;cursor:pointer;display:flex;gap:12px;margin-bottom:0;" onclick="A.openProduct(\''+esc(p.id)+'\')">'+
@@ -2288,7 +2290,7 @@ function renderOverlays(){
   if(S.trackDetail) h+=trackDetailSheet();
   if(S.histTrack) h+=historySheet();
   if(S.reviewAtt) h+=reviewSheet();
-  if(S.shopDetail && !SHOP_LOCKED) h+=shopDetailSheet();
+  if(S.shopDetail && shopOpen()) h+=shopDetailSheet();
   if(S.planOpen) h+=planSheet();
   if(S.alarm) h+=alarmSheet();
   o.innerHTML=h;
@@ -2408,7 +2410,7 @@ function mockResultHTML(q){
   }).join("");
   // แบบ D: แนะนำเอกสารตรงวิชาที่อ่อนสุด (เฉพาะเมื่อเปิดร้าน + มีสินค้าตรงวิชา)
   var up="";
-  if(!SHOP_LOCKED && shopProducts().length){
+  if(shopOpen() && shopProducts().length){
     var weak=null;
     secs.forEach(function(s){ (s.parts||[]).forEach(function(p){ var r=p.total?p.got/p.total:1; if(weak===null||r<weak.r) weak={r:r,label:p.label||""}; }); });
     var prod=weak ? shopProducts().filter(function(p){ return p.subj && weak.label.indexOf(p.subj)>=0; })[0] : null;
@@ -3426,9 +3428,9 @@ var A={
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
   closeTrack:function(){ S.trackDetail=null; render(); },
-  openProduct:function(id){ if(SHOP_LOCKED) return; S.shopDetail=id; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; },
+  openProduct:function(id){ if(!shopOpen()) return; S.shopDetail=id; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; },
   closeProduct:function(){ S.shopDetail=null; render(); },
-  tabToProduct:function(id){ if(SHOP_LOCKED) return; S.mock=null; S.tab="shop"; S.shopDetail=id; render(); },
+  tabToProduct:function(id){ if(!shopOpen()) return; S.mock=null; S.tab="shop"; S.shopDetail=id; render(); },
   orderProduct:function(id){
     var p=shopFindProduct(id); if(!p) return;
     var fb=(S.shopFB||"").trim();
