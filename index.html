@@ -494,8 +494,9 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v101";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v102";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
+var SHOP_LOCKED=true;    // 🔒 ล็อกร้านค้าทั้งหมด (ไม่โผล่แท็บ/ไม่แนะนำ) — เปลี่ยนเป็น false เมื่อมีสินค้า (shopProducts) + เพจ (shopFB) แล้ว
 var LS="np18_assistant_v1";
 var S={};
 
@@ -524,7 +525,8 @@ function defState(){
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
     videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{}, newAt:{}, bankPub:{}, subjStatus:{}, mockTracks:{},
-    mockHist:{}, starred:{}, histTrack:null, reviewAtt:null, reviewMode:"wrong", reviewFilter:"all", reviewExpand:{} };
+    mockHist:{}, starred:{}, histTrack:null, reviewAtt:null, reviewMode:"wrong", reviewFilter:"all", reviewExpand:{},
+    shopProducts:[], shopFB:"", shopDetail:null };
 }
 function load(){
   var saved={};
@@ -536,13 +538,14 @@ function load(){
   S.player=null; S.studySubj=null; S.vidDraft=null;
   S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null; S.trackDetail=null;
   S.studyMode="video"; S.knowSubj=null; S.adminKnowSubj=null;
+  S.shopDetail=null;
 }
 function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
      "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj","trackDetail",
-     "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
+     "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand","shopDetail"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
@@ -935,7 +938,8 @@ function render(){
 
   //   = เว้นวรรคแบบไม่ให้ตัดบรรทัด กัน "ว่าที่" กับ "นสต.18" หลุดคนละบรรทัดบนจอเล็ก
   var titles={ home:{k:"ยินดีต้อนรับ ว่าที่ นสต.18",t:"ภาพรวมวันนี้"}, study:{k:"ติวหนังสือ",t:"วิดีโอเรียนเนื้อหา"},
-               phys:{k:"ฝึกสมรรถภาพ",t:"ตารางฝึกพละ"}, ready:{k:"ทำข้อสอบ",t:"เลือกหัวข้อทำข้อสอบ"} };
+               phys:{k:"ฝึกสมรรถภาพ",t:"ตารางฝึกพละ"}, ready:{k:"ทำข้อสอบ",t:"เลือกหัวข้อทำข้อสอบ"},
+               shop:{k:"ร้านค้า",t:"เอกสารแนะนำ"} };
   var tt=titles[S.tab]||titles.home;
   document.getElementById("kicker").textContent=tt.k;
   document.getElementById("tabtitle").textContent=tt.t;
@@ -949,6 +953,7 @@ function render(){
 
   // ── แถบล่าง
   var navDefs=[{k:"home",l:"หน้าแรก"},{k:"study",l:"ติวหนังสือ"},{k:"ready",l:"ทำข้อสอบ"},{k:"phys",l:"ฝึกพละ"}];
+  if(!SHOP_LOCKED) navDefs.push({k:"shop",l:"ร้านค้า"});   // แท็บร้านค้าโผล่เฉพาะเมื่อเปิดใช้แล้ว
   document.getElementById("nav").innerHTML=navDefs.map(function(n){
     return '<button class="navbtn'+(S.tab===n.k?" on":"")+'" onclick="A.tab(\''+n.k+'\')">'+n.l+'</button>';
   }).join("");
@@ -958,6 +963,7 @@ function render(){
   if(S.tab==="home") v.innerHTML=viewHome(c);
   else if(S.tab==="study") v.innerHTML=viewStudy(c);
   else if(S.tab==="phys") v.innerHTML=viewPhys();
+  else if(S.tab==="shop" && !SHOP_LOCKED) v.innerHTML=viewShop();
   else v.innerHTML=viewReady();
   v.scrollTop=top;
 
@@ -2202,6 +2208,62 @@ function planSheet(){
   return h+'</div></div></div>';
 }
 
+/* ═══════════ ร้านค้าเอกสารติว (แบบ A: แท็บที่ 5 + แบบ D: แนะนำตรงจุดอ่อน) ═══════════
+   ข้อมูลสินค้า/เพจ มาจาก questions.json → S.shopProducts, S.shopFB (ครูเติมทีหลัง)
+   สินค้า 1 ชิ้น: { id, name, price, old?, ic?, grad?, type?, physical?, badge?(hot/new/rec), subj?, inc?[], samples?[] }
+   เปิดใช้จริง: ตั้ง SHOP_LOCKED=false เมื่อมี shopProducts + shopFB แล้ว */
+function shopProducts(){ return (S.shopProducts||[]).filter(function(p){ return p && p.name; }); }
+function shopFindProduct(id){ return shopProducts().filter(function(p){ return p.id===id; })[0]; }
+function shopTypeLabel(p){ return p.type || (p.physical ? "📦 เล่มจริง" : "📄 ไฟล์ PDF"); }
+function shopGrad(p){ return p.grad || "linear-gradient(120deg,#7a1015,#c4161c)"; }
+function shopBadge(p){
+  return p.badge==="hot" ? '<span class="chip" style="background:#FDECEC;color:#B01515;font-size:9.5px;font-weight:800;">🔥 ขายดี</span>'
+       : p.badge==="new" ? '<span class="chip" style="background:#FDECEC;color:var(--pri);font-size:9.5px;font-weight:800;">ใหม่</span>'
+       : p.badge==="rec" ? '<span class="chip" style="background:#E7F6EE;color:#12833f;font-size:9.5px;font-weight:800;">แนะนำ</span>' : "";
+}
+function shopStep(n,t){ return '<div style="display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.5;margin-bottom:8px;"><span style="width:20px;height:20px;border-radius:50%;background:var(--pri);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;">'+n+'</span><div>'+t+'</div></div>'; }
+function viewShop(){
+  var prods=shopProducts();
+  if(!prods.length){
+    return '<div class="stack"><div class="card" style="text-align:center;padding:44px 20px;color:var(--c-text-muted);"><div style="font-size:34px;margin-bottom:10px;">🛒</div><div style="font-size:15px;font-weight:700;color:var(--c-text);">กำลังจัดเตรียมเอกสาร</div><div style="font-size:12.5px;margin-top:6px;line-height:1.6;">เปิดให้สั่งซื้อเร็ว ๆ นี้</div></div></div>';
+  }
+  var h='<div class="stack">'+
+    '<div style="font-size:11.5px;color:#2C6E49;background:#F1F7F3;border-radius:11px;padding:10px 12px;line-height:1.55;">✅ เนื้อหาในแอปครบสำหรับสอบแล้ว — เอกสารเหล่านี้เป็น<b>ตัวช่วยเสริม</b> เลือกได้ตามต้องการ</div>';
+  prods.forEach(function(p){
+    h+='<div class="card" style="padding:11px;cursor:pointer;display:flex;gap:12px;margin-bottom:0;" onclick="A.openProduct(\''+esc(p.id)+'\')">'+
+      '<div style="width:62px;height:62px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;background:'+shopGrad(p)+';">'+(p.ic||"📄")+'</div>'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div style="display:flex;gap:5px;margin-bottom:3px;">'+shopBadge(p)+'<span class="chip" style="background:#EEF1F4;color:var(--c-text-muted);font-size:9.5px;font-weight:700;">'+esc(shopTypeLabel(p))+'</span></div>'+
+        '<div style="font-size:13.5px;font-weight:800;line-height:1.3;">'+esc(p.name)+'</div>'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:7px;"><span style="font-size:16px;font-weight:800;color:var(--pri);">'+(+p.price||0)+'฿</span><span style="font-size:11px;font-weight:800;color:var(--pri);border:1.3px solid var(--pri);border-radius:8px;padding:5px 10px;">ดูรายละเอียด</span></div>'+
+      '</div></div>';
+  });
+  h+='</div>';
+  return h;
+}
+function shopDetailSheet(){
+  var p=shopFindProduct(S.shopDetail); if(!p) return "";
+  var inc=(p.inc||[]).map(function(x){ return '• '+esc(x); }).join("<br>");
+  var oldp=p.old?('<span style="font-size:12px;color:var(--c-text-muted);text-decoration:line-through;">'+(+p.old)+'฿</span><span style="font-size:10px;font-weight:800;color:#12833f;background:#E7F6EE;border-radius:99px;padding:1px 8px;">ประหยัด '+((+p.old)-(+p.price))+'฿</span>'):"";
+  var samples=(p.samples||[]).map(function(sm){ return '<div style="flex:1;height:64px;border-radius:8px;background:#EEF1F5;border:1px dashed #C9CDD3;display:flex;align-items:center;justify-content:center;color:#9AA0A6;font-size:10.5px;">'+esc(sm)+'</div>'; }).join("");
+  return '<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-bg);">'+
+    '<div style="position:relative;flex:none;height:140px;background:'+shopGrad(p)+';display:flex;align-items:center;justify-content:center;font-size:52px;color:#fff;">'+(p.ic||"📄")+
+      '<button class="x" onclick="A.closeProduct()" style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,.5);color:#fff;border:none;">✕</button></div>'+
+    '<div class="sheetbody">'+
+      '<div style="display:flex;gap:5px;margin-bottom:6px;">'+shopBadge(p)+'<span class="chip" style="background:#EEF1F4;color:var(--c-text-muted);font-size:9.5px;font-weight:700;">'+esc(shopTypeLabel(p))+'</span></div>'+
+      '<h3 style="margin:0 0 8px;">'+esc(p.name)+'</h3>'+
+      (inc?'<div style="font-size:12px;font-weight:800;color:var(--pri);margin-bottom:6px;">สิ่งที่ได้รับ</div><div style="font-size:12.5px;line-height:1.9;color:var(--c-text);">'+inc+'</div>':"")+
+      (samples?'<div style="font-size:12px;font-weight:800;color:var(--pri);margin:14px 0 7px;">ตัวอย่างหน้า (ดูฟรี)</div><div style="display:flex;gap:7px;">'+samples+'</div>':"")+
+      '<div class="card" style="margin-top:14px;"><div style="font-size:12px;font-weight:800;color:var(--pri);margin-bottom:8px;">วิธีสั่งซื้อ ง่าย 3 ขั้น</div>'+
+        shopStep(1,"กดปุ่มสั่ง → เปิดแชตเพจ พร้อมคัดลอกข้อความสั่งซื้อให้")+
+        shopStep(2,"วางข้อความ ส่ง แล้วโอนผ่าน <b>พร้อมเพย์</b> ส่งสลิปในแชต")+
+        shopStep(3,"รับ <b>ไฟล์/เล่ม</b> ตามที่ครูแจ้งในแชต")+'</div>'+
+      '<div style="display:flex;align-items:baseline;gap:8px;margin-top:16px;"><span style="font-size:24px;font-weight:800;color:var(--pri);">'+(+p.price||0)+'฿</span>'+oldp+'</div>'+
+      '<button class="btn" style="width:100%;margin-top:10px;background:#0084FF;border-color:#0084FF;" onclick="A.orderProduct(\''+esc(p.id)+'\')">✉️ สั่งซื้อทาง Facebook</button>'+
+      '<div class="muted" style="font-size:11px;text-align:center;margin-top:8px;line-height:1.6;">กดแล้วจะเปิดแชตเพจ + คัดลอกข้อความสั่งซื้อให้ วางส่งได้เลย — ครูตอบเรื่องโอน/จัดส่งในแชต</div>'+
+    '</div>'+
+  '</div></div>';
+}
 function renderOverlays(){
   var o=document.getElementById("overlays");
   /* จำตำแหน่งที่เลื่อนอยู่ของแต่ละแผง ไม่ให้เด้งกลับไปบนสุดทุกครั้งที่วาดใหม่
@@ -2214,6 +2276,7 @@ function renderOverlays(){
   if(S.trackDetail) h+=trackDetailSheet();
   if(S.histTrack) h+=historySheet();
   if(S.reviewAtt) h+=reviewSheet();
+  if(S.shopDetail && !SHOP_LOCKED) h+=shopDetailSheet();
   if(S.planOpen) h+=planSheet();
   if(S.alarm) h+=alarmSheet();
   o.innerHTML=h;
@@ -2331,7 +2394,20 @@ function mockResultHTML(q){
       '<div style="border-top:1px dashed var(--c-border);padding-top:6px;">'+rows+'</div>'+
     '</div>';
   }).join("");
-  return '<div>'+head+cards+'</div>';
+  // แบบ D: แนะนำเอกสารตรงวิชาที่อ่อนสุด (เฉพาะเมื่อเปิดร้าน + มีสินค้าตรงวิชา)
+  var up="";
+  if(!SHOP_LOCKED && shopProducts().length){
+    var weak=null;
+    secs.forEach(function(s){ (s.parts||[]).forEach(function(p){ var r=p.total?p.got/p.total:1; if(weak===null||r<weak.r) weak={r:r,label:p.label||""}; }); });
+    var prod=weak ? shopProducts().filter(function(p){ return p.subj && weak.label.indexOf(p.subj)>=0; })[0] : null;
+    if(prod){
+      up='<div onclick="A.tabToProduct(\''+esc(prod.id)+'\')" style="cursor:pointer;border-radius:14px;background:linear-gradient(120deg,#5a3a06,#C77700);color:#fff;padding:14px;margin-top:16px;text-align:left;">'+
+        '<div style="font-size:11px;opacity:.92;margin-bottom:3px;">🎯 จุดอ่อนของคุณรอบนี้</div>'+
+        '<div style="font-size:14.5px;font-weight:800;line-height:1.35;margin-bottom:9px;">เก็บ '+esc(prod.subj)+' ให้แน่น ด้วย '+esc(prod.name)+'</div>'+
+        '<div style="background:#fff;color:#C77700;border-radius:9px;padding:9px;font-size:12.5px;font-weight:800;text-align:center;">📄 ดูรายละเอียด · '+(+prod.price||0)+'฿ ›</div></div>';
+    }
+  }
+  return '<div>'+head+cards+up+'</div>';
 }
 /* ═══════════ ประวัติการทำข้อสอบ 150 ข้อ + ทบทวนข้อผิด ═══════════ */
 function qfp(s){ s=String(s||""); var h=5381,i=s.length; while(i){ h=(h*33)^s.charCodeAt(--i); } return (h>>>0).toString(36); }
@@ -3338,6 +3414,19 @@ var A={
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
   closeTrack:function(){ S.trackDetail=null; render(); },
+  openProduct:function(id){ if(SHOP_LOCKED) return; S.shopDetail=id; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; },
+  closeProduct:function(){ S.shopDetail=null; render(); },
+  tabToProduct:function(id){ if(SHOP_LOCKED) return; S.mock=null; S.tab="shop"; S.shopDetail=id; render(); },
+  orderProduct:function(id){
+    var p=shopFindProduct(id); if(!p) return;
+    var fb=(S.shopFB||"").trim();
+    if(!fb){ toast("ยังไม่ได้ตั้งค่าเพจร้าน — แจ้งครูผู้ขาย"); return; }
+    var msg="สนใจสั่งซื้อ: "+p.name+" (ราคา "+(+p.price||0)+" บาท)\nชื่อผู้สั่ง: ";
+    try{ if(navigator.clipboard) navigator.clipboard.writeText(msg); }catch(e){}
+    toast("คัดลอกข้อความสั่งซื้อแล้ว — วางในแชตส่งได้เลย");
+    var page=/^https?:\/\//.test(fb) ? fb : ("https://m.me/"+encodeURIComponent(fb));
+    try{ window.open(page,"_blank"); }catch(e){}
+  },
   openHistory:function(id){ S.histTrack=id; S.trackDetail=null; S.mock=null; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; },
   closeHistory:function(){ S.histTrack=null; render(); },
   openReview:function(idx,mode){ var arr=(S.mockHist||{})[S.histTrack]||[]; var att=arr[idx]; if(!att) return; S.reviewAtt=att; S.reviewMode=mode||"wrong"; S.reviewFilter="all"; S.reviewExpand={}; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; },
@@ -3720,6 +3809,8 @@ function applyContent(d){
   if(d.bankPub) patch.bankPub=d.bankPub;   // เวลาที่เผยแพร่ข้อสอบแต่ละหัวข้อ (สำหรับป้าย "ใหม่")
   patch.subjStatus = d.subjStatus || {};   // สถานะรายวิชา เช่น "อยู่ระหว่างอัปเดต"
   patch.mockTracks = d.mockTracks || {};   // ชุดข้อสอบเสมือนจริงรายสาย + สัดส่วนวิชา
+  patch.shopProducts = d.shopProducts || [];   // สินค้าในร้าน (ครูเติมทีหลัง)
+  if(d.shopFB!=null) patch.shopFB = d.shopFB;  // ชื่อเพจ Facebook สำหรับลิงก์สั่งซื้อ
   set(patch);
   try{ localStorage.setItem(CV_KEY, String(v)); }catch(e){}
   if(newer && v>1) toast("อัปเดตเนื้อหาใหม่แล้ว");
