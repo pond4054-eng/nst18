@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v108";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v109";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -526,7 +526,7 @@ function defState(){
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
     videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{}, newAt:{}, bankPub:{}, subjStatus:{}, mockTracks:{},
     mockHist:{}, starred:{}, histTrack:null, reviewAtt:null, reviewMode:"wrong", reviewFilter:"all", reviewExpand:{},
-    shopProducts:[], shopFB:"", shopDetail:null };
+    shopProducts:[], shopFreebies:[], shopFB:"", shopDetail:null };
 }
 function load(){
   var saved={};
@@ -2224,16 +2224,33 @@ function shopBadge(p){
        : p.badge==="rec" ? '<span class="chip" style="background:#E7F6EE;color:#12833f;font-size:9.5px;font-weight:800;">แนะนำ</span>' : "";
 }
 function shopStep(n,t){ return '<div style="display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.5;margin-bottom:8px;"><span style="width:20px;height:20px;border-radius:50%;background:var(--pri);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;">'+n+'</span><div>'+t+'</div></div>'; }
-function shopComingSoonHTML(){
-  return '<div class="stack"><div class="card" style="text-align:center;padding:32px 20px 30px;">'+
-      '<div style="width:72px;height:72px;border-radius:50%;background:#FFF3D6;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 16px;">🛍️</div>'+
-      '<div style="font-size:19px;font-weight:800;margin-bottom:10px;">ร้านค้า &amp; ชีทติว</div>'+
-      '<div style="display:flex;flex-direction:column;gap:9px;max-width:270px;margin:0 auto 15px;">'+
-        '<div style="display:flex;align-items:center;gap:10px;background:#EAF7EF;border-radius:11px;padding:11px 13px;text-align:left;"><span style="font-size:22px;">🎁</span><div style="font-size:13.5px;font-weight:700;color:#12833f;">แจกชีทติวฟรี</div></div>'+
-        '<div style="display:flex;align-items:center;gap:10px;background:#FEF4F4;border-radius:11px;padding:11px 13px;text-align:left;"><span style="font-size:22px;">📄</span><div style="font-size:13.5px;font-weight:700;color:#7A1219;">จำหน่ายเอกสารติว</div></div>'+
+function shopFreebies(){ return (S.shopFreebies||[]).filter(function(f){ return f && f.name && (f.files||[]).length; }); }
+function shopFreebiesHTML(){
+  var fb=shopFreebies(); if(!fb.length) return "";
+  return fb.map(function(f){
+    return '<div class="card" style="padding:0;overflow:hidden;margin-bottom:0;border:1.5px solid #1E9E5A;">'+
+      '<div style="background:'+(f.grad||"linear-gradient(120deg,#0b3d2e,#1E9E5A)")+';color:#fff;padding:12px 14px;display:flex;align-items:center;gap:11px;">'+
+        '<span style="font-size:28px;flex:none;">'+(f.ic||"🎁")+'</span>'+
+        '<div style="flex:1;min-width:0;"><div style="font-size:10px;font-weight:800;letter-spacing:.05em;opacity:.92;">🎁 แจกฟรี</div><div style="font-size:15px;font-weight:800;line-height:1.25;">'+esc(f.name)+'</div></div>'+
       '</div>'+
+      '<div style="padding:12px 14px;">'+
+        (f.desc?'<div style="font-size:12px;color:var(--c-text-muted);line-height:1.6;margin-bottom:10px;">'+esc(f.desc)+'</div>':'')+
+        '<div style="display:flex;flex-direction:column;gap:8px;">'+
+          (f.files||[]).map(function(fl){ return '<a href="'+esc(fl.url)+'" download target="_blank" rel="noopener" style="display:block;text-align:center;background:#1E9E5A;color:#fff;border-radius:10px;padding:11px;font-size:13px;font-weight:800;text-decoration:none;">'+esc(fl.label)+'</a>'; }).join("")+
+        '</div>'+
+        '<div class="muted" style="font-size:10.5px;text-align:center;margin-top:8px;">กดเพื่อดาวน์โหลด/เปิดไฟล์ PDF</div>'+
+      '</div></div>';
+  }).join("");
+}
+function shopComingSoonHTML(){
+  var free=shopFreebiesHTML();
+  return '<div class="stack">'+
+    (free ? ('<div style="font-size:13.5px;font-weight:800;margin:2px 2px 0;color:#12833f;">🎁 แจกฟรี — โหลดได้เลย</div>'+free) : '')+
+    '<div class="card" style="text-align:center;padding:26px 20px 24px;">'+
+      '<div style="width:60px;height:60px;border-radius:50%;background:#FFF3D6;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;">🛍️</div>'+
+      '<div style="font-size:16px;font-weight:800;margin-bottom:7px;">จำหน่ายเอกสารติว</div>'+
       '<span class="chip" style="background:#F2B01E;color:#0E0F12;font-size:12px;font-weight:800;padding:5px 14px;">🔄 อยู่ระหว่างดำเนินการ</span>'+
-      '<div class="muted" style="font-size:12.5px;line-height:1.75;margin:15px auto 0;max-width:280px;">กำลังจัดเตรียมชีทและเอกสารติวให้ครบ เปิดให้โหลด/สั่งซื้อเร็ว ๆ นี้<br>ระหว่างนี้ตั้งใจ<b>ทำข้อสอบ</b>เก็บคะแนนไปก่อนได้เลย</div>'+
+      '<div class="muted" style="font-size:12px;line-height:1.7;margin:12px auto 0;max-width:270px;">กำลังจัดเตรียมเอกสารติวจำหน่าย เปิดเร็ว ๆ นี้<br>ระหว่างนี้ตั้งใจ<b>ทำข้อสอบ</b>เก็บคะแนนไปก่อนได้เลย</div>'+
     '</div></div>';
 }
 function viewShop(){
@@ -2248,6 +2265,8 @@ function viewShop(){
   var h='<div class="stack">'+
     ((SHOP_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;">👁️ <b>โหมดแอดมิน — ดูตัวอย่างร้าน</b> · ตอนนี้นักเรียนยังเห็นหน้าประกาศ “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดขายจริง)</div>':'')+
     '<div style="font-size:11.5px;color:#2C6E49;background:#F1F7F3;border-radius:11px;padding:10px 12px;line-height:1.55;">✅ เนื้อหาในแอปครบสำหรับสอบแล้ว — เอกสารเหล่านี้เป็น<b>ตัวช่วยเสริม</b> เลือกได้ตามต้องการ</div>';
+  var freeHTML=shopFreebiesHTML();
+  if(freeHTML) h+='<div style="font-size:13px;font-weight:800;margin:2px 2px 0;color:#12833f;">🎁 แจกฟรี</div>'+freeHTML;
   if(present.length>=2){
     var chips=[["all","ทั้งหมด"]].concat(present);
     h+='<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;">'+chips.map(function(c){ var on=(cat===c[0]);
@@ -3870,6 +3889,7 @@ function applyContent(d){
   patch.subjStatus = d.subjStatus || {};   // สถานะรายวิชา เช่น "อยู่ระหว่างอัปเดต"
   patch.mockTracks = d.mockTracks || {};   // ชุดข้อสอบเสมือนจริงรายสาย + สัดส่วนวิชา
   patch.shopProducts = d.shopProducts || [];   // สินค้าในร้าน (ครูเติมทีหลัง)
+  patch.shopFreebies = d.shopFreebies || [];   // ของแจกฟรี (ดาวน์โหลด PDF)
   if(d.shopFB!=null) patch.shopFB = d.shopFB;  // ชื่อเพจ Facebook สำหรับลิงก์สั่งซื้อ
   set(patch);
   try{ localStorage.setItem(CV_KEY, String(v)); }catch(e){}
