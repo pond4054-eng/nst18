@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v110";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v111";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -2232,7 +2232,7 @@ function shopFreebiesHTML(){
   var fb=shopFreebies(); if(!fb.length) return "";
   return fb.map(function(f){
     var rows=(f.files||[]).map(function(fl,i){
-      var col = i===0 ? "#c4161c" : "#1E9E5A";
+      var col = fl.col || (i===0 ? "#c4161c" : "#1E9E5A");
       var nm = fl.name || String(fl.label||"ไฟล์").replace(/^[⬇️\s]+/,"");
       var mt = fl.meta || "";
       return '<a href="'+esc(fl.url)+'" download target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:12px 15px;border-top:1px solid var(--c-border);text-decoration:none;color:var(--c-text);">'+
