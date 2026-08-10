@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v113";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v114";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -2235,23 +2235,23 @@ function shopFreebiesHTML(){
     var rows=(f.files||[]).map(function(fl,i){
       var col = fl.col || (i===0 ? "#c4161c" : "#1E9E5A");
       var nm = fl.name || String(fl.label||"ไฟล์").replace(/^[⬇️\s]+/,"");
-      var mt = fl.meta || "";
-      return '<a href="'+esc(fl.url)+'" download target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:12px 15px;border-top:1px solid var(--c-border);text-decoration:none;color:var(--c-text);">'+
-        '<span style="width:40px;height:50px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;background:'+col+';">PDF</span>'+
-        '<span style="flex:1;min-width:0;"><span style="display:block;font-size:13px;font-weight:800;">'+esc(nm)+'</span>'+(mt?'<span style="display:block;font-size:11px;color:var(--c-text-muted);">'+esc(mt)+'</span>':'')+'</span>'+
-        '<span style="width:38px;height:38px;border-radius:50%;background:#EAF7EF;display:flex;align-items:center;justify-content:center;font-size:17px;color:#1E9E5A;flex:none;">⬇</span>'+
+      return '<a href="'+esc(fl.url)+'" download target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;border:1px solid var(--c-border);border-radius:9px;padding:8px 10px;font-size:12px;font-weight:700;color:var(--c-text);text-decoration:none;margin-bottom:6px;">'+
+        '<span style="width:20px;height:24px;border-radius:4px;flex:none;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;background:'+col+';">PDF</span>'+
+        esc(nm)+
+        '<span style="margin-left:auto;font-size:15px;color:#1E9E5A;">⬇</span>'+
       '</a>';
     }).join("");
-    return '<div style="position:relative;margin-bottom:0;">'+
-      '<div class="free-pill" style="position:absolute;top:-11px;right:12px;z-index:4;background:var(--pri);color:#fff;font-size:13px;font-weight:800;border-radius:99px;padding:6px 14px;">🎁 ฟรี!</div>'+
-      '<div style="border-radius:15px;overflow:hidden;border:1px solid var(--c-border);box-shadow:0 3px 14px rgba(0,0,0,.08);background:var(--c-surface);">'+
-        '<div style="background:'+(f.grad||"linear-gradient(120deg,#0b3d2e,#1E9E5A)")+';color:#fff;padding:13px 15px;display:flex;align-items:center;gap:11px;">'+
-          '<span style="font-size:26px;flex:none;">'+(f.ic||"🎁")+'</span>'+
-          '<div style="min-width:0;padding-right:44px;"><div style="font-size:10px;font-weight:800;opacity:.92;letter-spacing:.05em;">'+esc(f.kicker||"ของแจกวันนี้")+'</div><div style="font-size:15px;font-weight:800;line-height:1.25;">'+esc(f.name)+'</div></div>'+
+    var cover = f.cover
+      ? '<img src="'+esc(f.cover)+'" alt="" loading="lazy" style="width:92px;flex:none;border-radius:9px;object-fit:cover;box-shadow:0 3px 10px rgba(0,0,0,.18);align-self:flex-start;">'
+      : '<div style="width:64px;height:84px;flex:none;border-radius:9px;background:'+(f.grad||"linear-gradient(120deg,#0b3d2e,#1E9E5A)")+';display:flex;align-items:center;justify-content:center;font-size:30px;">'+(f.ic||"🎁")+'</div>';
+    return '<div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.08);padding:12px;display:flex;gap:12px;">'+
+        cover+
+        '<div style="flex:1;min-width:0;">'+
+          '<span class="free-pill" style="display:inline-block;background:var(--pri);color:#fff;font-size:12px;font-weight:800;border-radius:99px;padding:5px 12px;">🎁 ฟรี!</span>'+
+          '<div style="font-size:14px;font-weight:800;line-height:1.28;margin:8px 0 9px;">'+esc(f.name)+'</div>'+
+          rows+
         '</div>'+
-        rows+
-        '<div class="muted" style="padding:9px 15px 12px;font-size:10.5px;text-align:center;">'+esc(f.foot||"✓ โหลดฟรี ไม่ต้องกรอกอะไร · พิมพ์ทำได้เลย")+'</div>'+
-      '</div></div>';
+      '</div>';
   }).join("");
 }
 function shopComingSoonHTML(){
