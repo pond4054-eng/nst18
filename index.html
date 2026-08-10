@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v111";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v112";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -541,14 +541,14 @@ function load(){
   S.player=null; S.studySubj=null; S.vidDraft=null;
   S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null; S.trackDetail=null;
   S.studyMode="video"; S.knowSubj=null; S.adminKnowSubj=null;
-  S.shopDetail=null; S.shopSampleIdx=null; S.shopCat="all";
+  S.shopDetail=null; S.shopSampleIdx=null; S.shopCat="all"; S.physOpen=null;
 }
 function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
      "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj","trackDetail",
-     "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand","shopDetail","shopSampleIdx","shopCat"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
+     "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand","shopDetail","shopSampleIdx","shopCat","physOpen"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
@@ -1539,68 +1539,69 @@ function mountPlayer(){
 }
 
 /* ───── ฝึกพละ ───── */
+function physIcon(e){ var n=e.name||"";
+  if(/ว่าย/.test(n)) return "🏊";
+  if(/กระโดด/.test(n)) return "🦵";
+  if(/เก็บของ|คล่อง/.test(n)) return "🎯";
+  if(/50|๕๐/.test(n)) return "⚡";
+  if(/วิ่ง/.test(n)) return "🏃";
+  return "💪";
+}
+function physGroup(e){ var t=e.hint||""; if(t.indexOf("กลุ่ม 1")>=0||t.indexOf("กลุ่ม ๑")>=0) return "1"; if(t.indexOf("กลุ่ม 2")>=0||t.indexOf("กลุ่ม ๒")>=0) return "2"; return "x"; }
+/* แถวท่าฝึกแบบย่อ — แตะเพื่อขยายกรอกผล/ดูประวัติ/แก้เกณฑ์ (แบบ A) */
+function physRow(p, stMap){
+  var e=p.e, st=stMap[p.stKey], open=(S.physOpen===e.k);
+  var lastColor = p.last!=null ? (p.passed?"#1E9E5A":"var(--am)") : "var(--c-text-subtle)";
+  var lastTxt = p.lastRaw!=null ? esc(p.lastRaw) : "—";
+  var row='<div onclick="A.togglePhys(\''+e.k+'\')" style="display:flex;align-items:center;gap:10px;background:var(--c-surface);border-radius:'+(open?'12px 12px 0 0':'12px')+';padding:10px 12px;box-shadow:0 2px 7px rgba(0,0,0,.04);margin-bottom:'+(open?'0':'8px')+';cursor:pointer;">'+
+      '<div style="width:34px;height:34px;border-radius:9px;background:var(--c-bg);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none;">'+physIcon(e)+'</div>'+
+      '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:800;line-height:1.2;">'+esc(e.name)+'</div><div style="font-size:10.5px;color:var(--c-text-muted);">เกณฑ์ '+(e.dir==="high"?"≥":"≤")+' '+esc(p.targetRaw)+' '+esc(e.unit)+'</div></div>'+
+      '<div style="text-align:right;flex:none;"><div class="mono" style="font-size:14px;font-weight:800;color:'+lastColor+';">'+lastTxt+'</div><div style="font-size:9px;color:var(--c-text-muted);">'+(p.last!=null?"ล่าสุด":"ยังไม่ทำ")+'</div></div>'+
+      '<span class="chip" style="flex:none;background:'+st.bg+';color:'+st.fg+';font-size:9px;">'+st.t+'</span>'+
+      '<span style="flex:none;color:#C4C9CF;font-size:11px;">'+(open?"▲":"▼")+'</span>'+
+    '</div>';
+  if(!open) return row;
+  var gapLine="";
+  if(p.last!=null && !isNaN(p.target)){ var diff=p.last-p.target, good=(e.dir==="high"?diff>=0:diff<=0);
+    gapLine = good ? '<div style="font-size:12px;margin-top:8px;color:#1E9E5A;font-weight:600;">✓ ดีกว่าเกณฑ์ '+fmtGap(e,diff)+'</div>'
+                   : '<div style="font-size:12px;margin-top:8px;color:#C77700;font-weight:600;">ขาดอีก '+fmtGap(e,diff)+' ก็ผ่าน</div>'; }
+  var panel='<div style="background:var(--c-surface);border-radius:0 0 12px 12px;padding:0 12px 12px;box-shadow:0 2px 7px rgba(0,0,0,.04);margin-bottom:8px;">'+
+      '<div style="display:flex;align-items:center;gap:8px;padding-top:11px;">'+
+        '<input class="in mono" id="dr_'+e.k+'" value="'+esc((S.testDraft||{})[e.k]||"")+'" placeholder="กรอกผลวันนี้ เช่น '+esc(p.targetRaw)+'" oninput="A.draft(\''+e.k+'\',this.value)" style="flex:1;min-width:0;text-align:center;padding:9px 10px;font-size:14px;">'+
+        '<button class="btn sm" onclick="A.addTest(\''+e.k+'\')" style="flex:none;">บันทึกผล</button>'+
+      '</div>'+gapLine+
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;">'+
+        '<div style="display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0;">'+
+          (p.n ? p.list.map(function(v,i){ var ok=p.passArr[i]; var isLast=(i===p.list.length-1);
+              return '<span onclick="A.delTest(\''+e.k+'\','+i+')" class="mono" title="แตะเพื่อลบ" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:999px;cursor:pointer;background:'+(ok?"#E3F4EA":"#FDECEC")+';color:'+(ok?"#1E9E5A":PRI())+';'+(isLast?'outline:2px solid '+(ok?"#1E9E5A":PRI())+';outline-offset:1px;font-weight:700;':'')+'">'+(ok?"✓":"✗")+' '+esc(v)+(isLast?' · ล่าสุด':'')+' ✕</span>';
+            }).join("") : '<span style="font-size:11.5px;color:var(--c-text-subtle);">ยังไม่มีผลการทดสอบ · กรอกผลด้านบนได้เลย</span>')+
+        '</div>'+
+        '<span onclick="A.editTarget(\''+e.k+'\')" style="flex:none;font-size:11.5px;color:var(--pri);cursor:pointer;font-weight:600;white-space:nowrap;">แก้เกณฑ์</span>'+
+      '</div>'+
+    '</div>';
+  return row+panel;
+}
 function viewPhys(){
   var ps=physStats();
   var stMap={ none:{t:"ยังไม่ทดสอบ",bg:"#EEF0F3",fg:"var(--c-text-muted)"}, improve:{t:"ต้องฝึกเพิ่ม",bg:"#F2B01E",fg:"#0E0F12"}, pass:{t:"ผ่านเกณฑ์ ✓",bg:"#1E9E5A",fg:"#fff"} };
   var h="";
 
-  // สรุปด้านบน — ผ่านแล้วกี่ท่า
-  h+='<div class="card" style="border-radius:20px;">'+
-       '<div style="font-size:12.5px;font-weight:700;margin-bottom:10px;">สรุปความพร้อมร่างกาย</div>'+
-       '<div style="height:10px;background:#EEF0F3;border-radius:999px;overflow:hidden;margin-bottom:10px;">'+
-         '<div style="height:100%;border-radius:999px;background:#1E9E5A;transition:width .3s;width:'+ps.pct+'%;"></div></div>'+
-       '<div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--c-text-muted);">'+
-         '<span>ผ่านเกณฑ์แล้ว <b style="color:#1E9E5A;">'+ps.passed+'</b> / '+ps.total+' ท่า</span>'+
-         '<span class="mono" style="font-weight:700;color:#1E9E5A;">'+ps.pct+'%</span>'+
+  // สรุปด้านบน — วงแหวนความพร้อม (แบบ A)
+  var todo=ps.per.filter(function(p){ return p.stKey!=="pass"; }).map(function(p){ return p.e.name; });
+  var todoLine = ps.total ? (todo.length ? ('เหลือเก็บ '+todo.slice(0,2).map(function(n){ return '<b style="color:var(--am);">'+esc(n)+'</b>'; }).join(' · ')+(todo.length>2?(' +'+(todo.length-2)+' ท่า'):'')) : '<b style="color:#1E9E5A;">ผ่านครบทุกท่าแล้ว 🎉</b>') : 'ยังไม่มีท่าให้ทดสอบ';
+  h+='<div class="card" style="border-radius:18px;"><div style="display:flex;align-items:center;gap:15px;">'+
+       '<div style="width:82px;height:82px;border-radius:50%;flex:none;background:conic-gradient(#1E9E5A '+ps.pct+'%,#EEF0F3 0);display:flex;align-items:center;justify-content:center;">'+
+         '<div style="width:62px;height:62px;border-radius:50%;background:var(--c-surface);display:flex;flex-direction:column;align-items:center;justify-content:center;"><div style="font-size:20px;font-weight:800;line-height:1;">'+ps.passed+'/'+ps.total+'</div><div style="font-size:9px;color:var(--c-text-muted);">ผ่านเกณฑ์</div></div>'+
        '</div>'+
-     '</div>';
+       '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:800;margin-bottom:4px;">พร้อม '+ps.pct+'%</div><div style="font-size:11.5px;color:var(--c-text-muted);line-height:1.5;">'+todoLine+'</div></div>'+
+     '</div></div>';
 
-  // การ์ดรายท่า — เทียบเป้าหมายกับผลครั้งล่าสุด บันทึกผลง่าย
-  ps.per.forEach(function(p){
-    var e=p.e, st=stMap[p.stKey];
-    var gapLine="";
-    if(p.last!=null && !isNaN(p.target)){
-      var diff=p.last-p.target, good=(e.dir==="high"?diff>=0:diff<=0);
-      gapLine = good
-        ? '<div style="font-size:12px;margin-top:8px;color:#1E9E5A;font-weight:600;">✓ ดีกว่าเกณฑ์ '+fmtGap(e,diff)+'</div>'
-        : '<div style="font-size:12px;margin-top:8px;color:#C77700;font-weight:600;">ขาดอีก '+fmtGap(e,diff)+' ก็ผ่าน</div>';
-    }
-    h+='<div class="card">'+
-         '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">'+
-           '<div style="min-width:0;"><div style="font-size:15px;font-weight:700;line-height:1.25;">'+esc(e.name)+'</div>'+
-                '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">'+esc(e.hint||"")+'</div></div>'+
-           '<div class="chip" style="flex:none;background:'+st.bg+';color:'+st.fg+';">'+st.t+'</div>'+
-         '</div>'+
-         // เป้าหมาย vs ผลครั้งล่าสุด
-         '<div style="display:flex;gap:10px;margin-top:12px;">'+
-           '<div style="flex:1;background:var(--c-bg);border-radius:12px;padding:10px 12px;">'+
-             '<div style="font-size:11px;color:var(--c-text-muted);">เป้าหมาย</div>'+
-             '<div class="mono" style="font-size:18px;font-weight:800;margin-top:2px;">'+esc(p.targetRaw)+' <span style="font-size:11px;font-weight:500;color:var(--c-text-muted);">'+esc(e.unit)+'</span></div>'+
-           '</div>'+
-           '<div style="flex:1;background:var(--c-bg);border-radius:12px;padding:10px 12px;">'+
-             '<div style="font-size:11px;color:var(--c-text-muted);">ครั้งล่าสุด</div>'+
-             '<div class="mono" style="font-size:18px;font-weight:800;margin-top:2px;color:'+(p.last!=null?(p.passed?"#1E9E5A":"var(--c-text)"):"var(--c-text-subtle)")+';">'+(p.lastRaw!=null?esc(p.lastRaw)+' <span style="font-size:11px;font-weight:500;color:var(--c-text-muted);">'+esc(e.unit)+'</span>':"—")+'</div>'+
-           '</div>'+
-         '</div>'+
-         gapLine+
-         // บันทึกผลวันนี้
-         '<div style="display:flex;align-items:center;gap:8px;margin-top:12px;">'+
-           '<input class="in mono" id="dr_'+e.k+'" value="'+esc((S.testDraft||{})[e.k]||"")+'" placeholder="กรอกผลวันนี้ เช่น '+esc(p.targetRaw)+'" '+
-             'oninput="A.draft(\''+e.k+'\',this.value)" style="flex:1;min-width:0;text-align:center;padding:9px 10px;font-size:14px;">'+
-           '<button class="btn sm" onclick="A.addTest(\''+e.k+'\')" style="flex:none;">บันทึกผล</button>'+
-         '</div>'+
-         // ประวัติ (แตะเพื่อลบ) + แก้เกณฑ์
-         '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;">'+
-           '<div style="display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0;">'+
-             (p.n
-               ? p.list.map(function(v,i){ var ok=p.passArr[i]; var isLast=(i===p.list.length-1);
-                   return '<span onclick="A.delTest(\''+e.k+'\','+i+')" class="mono" title="แตะเพื่อลบ" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:999px;cursor:pointer;background:'+(ok?"#E3F4EA":"#FDECEC")+';color:'+(ok?"#1E9E5A":PRI())+';'+(isLast?'outline:2px solid '+(ok?"#1E9E5A":PRI())+';outline-offset:1px;font-weight:700;':'')+'">'+(ok?"✓":"✗")+' '+esc(v)+(isLast?' · ล่าสุด':'')+' ✕</span>';
-                 }).join("")
-               : '<span style="font-size:11.5px;color:var(--c-text-subtle);">ยังไม่มีผลการทดสอบ · กรอกผลด้านบนได้เลย</span>')+
-           '</div>'+
-           '<span onclick="A.editTarget(\''+e.k+'\')" style="flex:none;font-size:11.5px;color:var(--pri);cursor:pointer;font-weight:600;white-space:nowrap;">แก้เกณฑ์</span>'+
-         '</div>'+
-       '</div>';
+  // รายท่า — จัดกลุ่ม (กลุ่ม 1 ต้องผ่าน / กลุ่ม 2 คะแนน) แถวย่อขยายได้
+  [["1","🔴 กลุ่ม 1 · ต้องผ่านทุกท่า"],["2","🟡 กลุ่ม 2 · เก็บคะแนน"],["x","ท่าอื่น ๆ"]].forEach(function(g){
+    var items=ps.per.filter(function(p){ return physGroup(p.e)===g[0]; });
+    if(!items.length) return;
+    h+='<div style="font-size:11px;font-weight:800;color:var(--pri);margin:8px 2px 7px;display:flex;align-items:center;gap:6px;">'+g[1]+'<span style="margin-left:auto;color:var(--c-text-muted);font-weight:600;font-size:10px;">'+items.length+' ท่า</span></div>';
+    items.forEach(function(p){ h+=physRow(p, stMap); });
   });
   h+='<div style="font-size:11px;color:var(--c-text-subtle);margin:2px 2px 6px;line-height:1.6;">'+
        '<b>เกณฑ์นี้เป็นของผู้ชาย</b> (อ้างอิงแนวสอบ นสต.) สนามจริงแบ่ง 2 กลุ่ม:<br>'+
@@ -3387,6 +3388,7 @@ var A={
     if(v==null) return;
     A.target(k, String(v).trim());
   },
+  togglePhys:function(k){ S.physOpen = (S.physOpen===k?null:k); render(); },
   draft:function(k,v){
     var e=physList().find(function(x){ return x.k===k; });
     if(e && e.fmt==="mmss"){
