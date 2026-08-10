@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v105";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v106";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=true;    // 🔒 true = แท็บร้านโชว์หน้าประกาศ "อยู่ระหว่างดำเนินการ" (ไม่ขายจริง) · false = เปิดขายจริงจาก shopProducts
 var LS="np18_assistant_v1";
@@ -3438,7 +3438,12 @@ var A={
     var msg="สนใจสั่งซื้อ: "+p.name+" (ราคา "+(+p.price||0)+" บาท)\nชื่อผู้สั่ง: ";
     try{ if(navigator.clipboard) navigator.clipboard.writeText(msg); }catch(e){}
     toast("คัดลอกข้อความสั่งซื้อแล้ว — วางในแชตส่งได้เลย");
-    var page=/^https?:\/\//.test(fb) ? fb : ("https://m.me/"+encodeURIComponent(fb));
+    // แปลงลิงก์เพจ/โปรไฟล์ Facebook → m.me/<id> เพื่อเด้งเข้าแชต Messenger โดยตรง
+    var mid=fb.match(/(?:id=|\/)(\d{6,})(?:\D|$)/), page;
+    if(/m\.me\//.test(fb)) page=fb;
+    else if(mid) page="https://m.me/"+mid[1];
+    else if(/^https?:\/\//.test(fb)) page="https://m.me/"+encodeURIComponent(fb.replace(/\/+$/,"").split("/").pop().split("?")[0]);
+    else page="https://m.me/"+encodeURIComponent(fb);
     try{ window.open(page,"_blank"); }catch(e){}
   },
   openHistory:function(id){ S.histTrack=id; S.trackDetail=null; S.mock=null; render(); var b=document.querySelector(".sheetbody"); if(b) b.scrollTop=0; },
