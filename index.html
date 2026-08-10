@@ -494,7 +494,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v100";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v101";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var LS="np18_assistant_v1";
 var S={};
@@ -2616,7 +2616,9 @@ function quizPickerSheet(){
 }
 
 /* ═══════════ แผงแอดมิน ═══════════ */
-var ADMIN_PIN="1809";
+/* รหัสแอดมินเก็บเป็นแฮช (SHA-256 + salt) — รหัสจริงไม่โผล่ในโค้ด ป้องกันนักเรียนเปิดดูซอร์สแล้วเจอ
+   ตั้ง/เปลี่ยนรหัส: รันฟังก์ชัน sha256("nst18-admin|"+รหัสใหม่) แล้วเอาค่าที่ได้มาวางแทน */
+var ADMIN_HASH="616637f39212b03a413e1c7b5afd4a23b75bfeb377125da11109a0ed65e3f271";
 var RESET_PW="theerapol";   // รหัสยืนยันการสั่งรีเซ็ตความคืบหน้านักเรียนทุกคน
 
 /* ═══════════ รูปภาพประกอบโจทย์ ═══════════
@@ -3367,7 +3369,7 @@ var A={
   closeAdmin:function(){ S.adminOpen=false; S.adminDraft=null; render(); },
   adminCode:function(v){ S.adminCode=v; S.adminErr=false; },
   submitAdmin:function(){
-    if(S.adminCode===ADMIN_PIN){ S.adminMode=true; S.adminView="panel"; S.adminErr=false; S.adminCode=""; if(!S.everAdmin){ S.everAdmin=true; save(); } }   // จำถาวรว่าเครื่องนี้เคยเป็นแอดมิน — ตัวกันทับข้อสอบทำงานเฉพาะเครื่องแอดมินจริง
+    if(sha256("nst18-admin|"+S.adminCode)===ADMIN_HASH){ S.adminMode=true; S.adminView="panel"; S.adminErr=false; S.adminCode=""; if(!S.everAdmin){ S.everAdmin=true; save(); } }   // จำถาวรว่าเครื่องนี้เคยเป็นแอดมิน — ตัวกันทับข้อสอบทำงานเฉพาะเครื่องแอดมินจริง
     else S.adminErr=true;
     render();
   },
