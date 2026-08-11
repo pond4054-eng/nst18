@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v119";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v120";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -971,7 +971,7 @@ function render(){
   v.scrollTop=top;
 
   // เครื่องเล่นวิดีโอ (ติวเนื้อหา) — สร้าง/คงไว้หลังวาดหน้า; ถ้าไม่ได้อยู่หน้าเล่นหรือมีแผงซ้อนทับ ก็ทำลายทิ้ง
-  if(!STUDY_LOCKED && S.tab==="study" && S.studyMode!=="know" && S.player && !S.adminOpen && !S.quiz && !S.mock) mountPlayer(); else destroyPlayer();
+  if(studyOpen() && S.tab==="study" && S.studyMode!=="know" && S.player && !S.adminOpen && !S.quiz && !S.mock) mountPlayer(); else destroyPlayer();
 
   renderOverlays();
   if(_newAtDirty){ _newAtDirty=false; save(); }   // จำ "เวลาที่เห็นครั้งแรก" ของรายการใหม่
@@ -1188,6 +1188,7 @@ function ytId(url){
   return m?m[1]:"";
 }
 function studyVids(tid){ return (S.videos||{})[tid]||[]; }
+function studyOpen(){ return !STUDY_LOCKED || !!S.adminMode; }   // แอดมินดูติวหนังสือได้แม้ยังล็อก (นักเรียนเห็นหน้า "อยู่ระหว่างดำเนินการ")
 function videoIndex(){                       // id → {v, tid, sk} สำหรับสร้างประวัติ/เปิดเล่น
   var idx={};
   subjects().forEach(function(su){
@@ -1266,15 +1267,16 @@ function studyLockedHTML(){
     '</div></div>';
 }
 function viewStudy(c){
-  if(STUDY_LOCKED) return studyLockedHTML();
+  if(!studyOpen()) return studyLockedHTML();
+  var adminNote=(STUDY_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;margin-bottom:10px;">👁️ <b>โหมดแอดมิน — ดูตัวอย่างวิดีโอ</b> · นักเรียนยังเห็นหน้า “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดใช้จริง)</div>':'';
   var mode=S.studyMode||"video";
   var toggle='<div class="card" style="display:flex;gap:6px;padding:5px;border-radius:14px;margin-bottom:0;">'+
        '<button class="btn sm'+(mode==="video"?"":" ghost")+'" style="flex:1;justify-content:center;gap:5px;" onclick="A.studyMode(\'video\')">▶ วิดีโอ</button>'+
        '<button class="btn sm'+(mode==="know"?"":" ghost")+'" style="flex:1;justify-content:center;gap:5px;" onclick="A.studyMode(\'know\')">📚 คลังความรู้</button>'+
      '</div>';
-  if(mode==="know") return '<div class="stack">'+toggle+'<div id="studyBrowse">'+knowledgeHTML()+'</div></div>';
+  if(mode==="know") return '<div class="stack">'+adminNote+toggle+'<div id="studyBrowse">'+knowledgeHTML()+'</div></div>';
   // โหมดวิดีโอ: จอเล่นอยู่บนสุดตายตัว — เล่นสดเมื่อเลือกคลิป, ไม่งั้นเป็นคลิปแนะนำ/ดูต่อ
-  return '<div class="stack">'+toggle+
+  return '<div class="stack">'+adminNote+toggle+
     studyTopScreen()+'<div style="height:10px;"></div>'+
     '<div id="studyBrowse">'+studyBrowseHTML()+'</div>'+
   '</div>';
