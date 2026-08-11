@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v118";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v119";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -536,7 +536,7 @@ function load(){
   try{ saved=JSON.parse(localStorage.getItem(LS)||"{}"); }catch(e){}
   S=Object.assign(defState(), saved);
   if(!S.everAdmin && S.bankDirty){ S.bankDirty=false; }   // ปลดล็อกเครื่องนักเรียนที่เคยติดธง "แก้ค้าง" ค้างถาวร → กลับมารับอัปเดตได้
-  S.quiz=null; S.adminOpen=false; S.adminMode=false; S.adminView="login";
+  S.quiz=null; S.quizConfirm=false; S.adminOpen=false; S.adminMode=false; S.adminView="login";
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
   S.player=null; S.studySubj=null; S.vidDraft=null;
   S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null; S.trackDetail=null;
@@ -546,7 +546,7 @@ function load(){
 function save(){
   try{
     var c=Object.assign({},S);
-    ["quiz","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
+    ["quiz","quizConfirm","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
      "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj","trackDetail",
      "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand","shopDetail","shopSampleIdx","shopCat","physOpen"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
@@ -2349,6 +2349,29 @@ function shopSampleSheet(){
       '<button class="x" onclick="A.closeSample()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.2);color:#fff;border:none;">✕</button>'+
     '</div></div>';
 }
+/* หน้ายืนยันก่อนส่งคำตอบ (แบบ A) — กันมือโดนปุ่มส่งโดยไม่ตั้งใจ */
+function quizConfirmSheet(){
+  var q=S.quiz; if(!q) return "";
+  var total=q.questions.length, answered=q.picked.filter(function(x){ return x!=null; }).length, un=total-answered;
+  var warn = un>0
+    ? '<div style="background:#FFF7E9;border:1px solid #F3D98C;border-radius:9px;padding:9px 11px;font-size:11.5px;color:#7A5B00;line-height:1.5;margin-bottom:14px;">⚠️ ยังไม่ได้ตอบ '+un+' ข้อ — ข้อที่ไม่ตอบจะนับเป็นผิด</div>'
+    : '<div style="background:#EAF7EF;border:1px solid #B7E3C8;border-radius:9px;padding:9px 11px;font-size:11.5px;color:#12833f;font-weight:600;line-height:1.5;margin-bottom:14px;">✓ ตอบครบทุกข้อแล้ว พร้อมส่ง</div>';
+  function stat(n,l,c){ return '<div><div class="mono" style="font-size:19px;font-weight:800;'+(c?"color:"+c+";":"")+'">'+n+'</div><div style="font-size:9.5px;color:var(--c-text-muted);">'+l+'</div></div>'; }
+  return '<div style="position:fixed;inset:0;z-index:70;background:rgba(14,15,18,.55);display:flex;align-items:center;justify-content:center;padding:22px;" onclick="A.cancelSubmit()">'+
+    '<div onclick="event.stopPropagation();" style="background:var(--c-surface);border-radius:18px;padding:18px 16px 16px;width:100%;max-width:320px;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.35);">'+
+      '<div style="width:52px;height:52px;border-radius:50%;background:'+(un>0?"#FFF3D6":"#EAF7EF")+';display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px;">'+(un>0?"📝":"✓")+'</div>'+
+      '<div style="font-size:17px;font-weight:800;margin-bottom:4px;">ยืนยันส่งคำตอบ?</div>'+
+      '<div style="font-size:12px;color:var(--c-text-muted);line-height:1.55;margin-bottom:13px;">ตรวจให้แน่ใจก่อนส่ง · ส่งแล้วแก้ไขไม่ได้</div>'+
+      '<div style="background:var(--c-bg);border-radius:11px;padding:11px 12px;margin-bottom:13px;display:flex;justify-content:space-around;">'+
+        stat(answered,"ตอบแล้ว","#1E9E5A")+stat(un,"ยังไม่ตอบ",un>0?"var(--am)":"var(--c-text-muted)")+stat(total,"ทั้งหมด","")+
+      '</div>'+warn+
+      '<div style="display:flex;gap:9px;">'+
+        '<button class="btn ghost" style="flex:1;" onclick="A.cancelSubmit()">← กลับไปตรวจ</button>'+
+        '<button class="btn" style="flex:1;" onclick="A.confirmSubmit()">ส่งเลย ✓</button>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
 function renderOverlays(){
   var o=document.getElementById("overlays");
   /* จำตำแหน่งที่เลื่อนอยู่ของแต่ละแผง ไม่ให้เด้งกลับไปบนสุดทุกครั้งที่วาดใหม่
@@ -2356,6 +2379,7 @@ function renderOverlays(){
   var keep=[].map.call(o.querySelectorAll(".sheetbody"), function(el){ return el.scrollTop; });
   var h="";
   if(S.quiz) h+=quizSheet();
+  if(S.quiz && S.quizConfirm && S.quiz.status==="active") h+=quizConfirmSheet();
   if(S.adminOpen) h+=adminSheet();
   if(S.mock) h+=mockSheet();
   if(S.trackDetail) h+=trackDetailSheet();
@@ -3488,15 +3512,11 @@ var A={
   submitQuiz:function(){
     var q=S.quiz;
     if(!q || q.status!=="active") return;
-    var left=q.picked.filter(function(x){ return x==null; }).length;
-    if(left>0 && !q._confirm){            // ยังมีข้อไม่ตอบ — ยืนยันก่อนส่ง
-      q._confirm=true;
-      toast("ยังเหลือ "+left+" ข้อที่ยังไม่ได้ตอบ — กด “ส่งคำตอบ” อีกครั้งเพื่อยืนยัน");
-      return;
-    }
-    finishQuiz(false);
+    S.quizConfirm=true; render();        // เด้งหน้ายืนยันก่อนส่ง (กันมือโดนปุ่มส่ง)
   },
-  closeQuiz:function(){ clearQuizTimer(); releaseWakeLock(); S.quiz=null; render(); },
+  cancelSubmit:function(){ S.quizConfirm=false; render(); },   // กลับไปตรวจ
+  confirmSubmit:function(){ S.quizConfirm=false; finishQuiz(false); },   // ยืนยันส่งจริง
+  closeQuiz:function(){ clearQuizTimer(); releaseWakeLock(); S.quiz=null; S.quizConfirm=false; render(); },
   retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isReview){ A.closeQuiz(); return; } if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
@@ -3842,6 +3862,7 @@ function gradeQuiz(){                       // นับข้อถูกจา
 function finishQuiz(timeUp){
   clearQuizTimer();
   releaseWakeLock();   // ทำข้อสอบจบแล้ว ปล่อยให้จอดับได้ตามปกติ
+  S.quizConfirm=false;   // ปิดหน้ายืนยัน (เผื่อค้าง)
   var q=S.quiz;
   if(!q || q.status!=="active") return;
   gradeQuiz();
