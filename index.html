@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v126";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v127";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2315,16 +2315,33 @@ function shopSampleSheet(){
 function ytThumb(yt){ return "https://i.ytimg.com/vi/"+encodeURIComponent(yt)+"/hqdefault.jpg"; }
 function feedPosterInner(){ return '<div style="position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.72));"></div>'+
   '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:27px;color:#111;">▶</div></div>'; }
-var _feedUnmuted=false;
+var _feedUnmuted=false, _ytApiReady=false, _ytApiLoading=false, _ytPlayers={};
+function loadYTApi(cb){                          // โหลด YouTube IFrame API ครั้งเดียว
+  if(window.YT && window.YT.Player){ _ytApiReady=true; cb&&cb(); return; }
+  function poll(){ if(window.YT && window.YT.Player){ _ytApiReady=true; cb&&cb(); return true; } return false; }
+  if(_ytApiLoading){ var t=setInterval(function(){ if(poll()) clearInterval(t); },120); return; }
+  _ytApiLoading=true;
+  var s=document.createElement("script"); s.src="https://www.youtube.com/iframe_api"; document.head.appendChild(s);
+  var t2=setInterval(function(){ if(poll()) clearInterval(t2); },120);
+}
+function feedDestroyPlayers(){ for(var k in _ytPlayers){ try{ _ytPlayers[k].destroy(); }catch(e){} } _ytPlayers={}; }
 function feedMountIframe(el,yt){ if(!el||el.getAttribute("data-play")==="1") return;
-  var mute=_feedUnmuted?"0":"1";   // เริ่มปิดเสียงเพื่อให้ autoplay ผ่านทุกเบราว์เซอร์ (เปิดเสียงได้ด้วยการแตะ)
-  el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(yt)+'?autoplay=1&mute='+mute+'&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&loop=1&playlist='+encodeURIComponent(yt)+'" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'+
+  var id=el.id.replace("fp-","");
+  el.innerHTML='<div id="ytp-'+id+'" style="position:absolute;inset:0;width:100%;height:100%;"></div>'+
     (_feedUnmuted?"":'<div class="fmute" onclick="A.feedUnmute(this)" style="position:absolute;top:64px;left:50%;transform:translateX(-50%);z-index:5;background:rgba(0,0,0,.62);color:#fff;font-size:12px;font-weight:800;border-radius:99px;padding:7px 15px;cursor:pointer;">🔇 แตะเปิดเสียง</div>');
   el.setAttribute("data-play","1"); el.style.cursor="default"; el.onclick=null;
+  loadYTApi(function(){
+    var host=document.getElementById("ytp-"+id); if(!host) return;   // เลื่อนพ้นไปก่อน player พร้อม
+    try{ _ytPlayers[id]=new YT.Player("ytp-"+id,{ videoId:yt,
+      playerVars:{autoplay:1,mute:(_feedUnmuted?0:1),playsinline:1,rel:0,modestbranding:1,controls:1,loop:1,playlist:yt},
+      events:{ onReady:function(e){ try{ if(_feedUnmuted){ e.target.unMute(); } else { e.target.mute(); } e.target.playVideo(); }catch(_){} } } }); }catch(_){}
+  });
 }
-function feedRevert(el){ if(!el||el.getAttribute("data-play")!=="1") return; el.innerHTML=feedPosterInner(); el.setAttribute("data-play","0"); el.style.cursor="pointer"; }
+function feedRevert(el){ if(!el||el.getAttribute("data-play")!=="1") return;
+  var id=el.id.replace("fp-",""); if(_ytPlayers[id]){ try{ _ytPlayers[id].destroy(); }catch(e){} delete _ytPlayers[id]; }
+  el.innerHTML=feedPosterInner(); el.setAttribute("data-play","0"); el.style.cursor="pointer"; }
 var _feedObs=null, _feedActiveId=null;
-function destroyFeedObs(){ if(_feedObs){ try{ _feedObs.disconnect(); }catch(e){} _feedObs=null; } _feedActiveId=null; }
+function destroyFeedObs(){ if(_feedObs){ try{ _feedObs.disconnect(); }catch(e){} _feedObs=null; } feedDestroyPlayers(); _feedActiveId=null; }
 function mountFeed(){                          // เล่นคลิปที่อยู่ในจออัตโนมัติ + หยุดคลิปที่เลื่อนพ้น
   var scroll=document.getElementById("feedScroll");
   if(!scroll){ destroyFeedObs(); return; }
@@ -3575,9 +3592,7 @@ var A={
     var b=node.querySelector(".fsc"), lb=node.querySelector(".fsl"); if(b) b.style.background=sv[id]?"rgba(231,178,60,.32)":"rgba(255,255,255,.16)"; if(lb){ lb.innerHTML=sv[id]?"บันทึกแล้ว":"คลัง<br>ส่วนตัว"; lb.style.color=sv[id]?"#FFD98A":"#fff"; } },
   feedPicker:function(open){ var el=document.getElementById("feedPicker"); if(el) el.style.transform=open?"translateY(0)":"translateY(106%)"; },
   feedGoto:function(id){ var t=document.getElementById("feedpage-"+id); if(t) t.scrollIntoView({behavior:"smooth"}); A.feedPicker(0); },
-  feedUnmute:function(node){ _feedUnmuted=true; var fp=node&&node.parentNode, ifr=fp&&fp.querySelector("iframe");
-    if(ifr&&ifr.contentWindow){ try{ ifr.contentWindow.postMessage('{"event":"command","func":"unMute","args":[]}',"*"); ifr.contentWindow.postMessage('{"event":"command","func":"playVideo","args":[]}',"*"); }catch(e){} }
-    if(node) node.style.display="none"; },
+  feedUnmute:function(node){ _feedUnmuted=true; var fp=node&&node.parentNode; if(fp){ var id=fp.id.replace("fp-",""); var p=_ytPlayers[id]; if(p){ try{ p.unMute(); p.setVolume(100); p.playVideo(); }catch(e){} } } if(node) node.style.display="none"; },
   retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isReview){ A.closeQuiz(); return; } if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
