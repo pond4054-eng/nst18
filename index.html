@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v122";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v123";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1269,17 +1269,8 @@ function studyLockedHTML(){
 function viewStudy(c){
   if(!studyOpen()) return studyLockedHTML();
   var adminNote=(STUDY_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;margin-bottom:10px;">👁️ <b>โหมดแอดมิน — ดูตัวอย่างวิดีโอ</b> · นักเรียนยังเห็นหน้า “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดใช้จริง)</div>':'';
-  var mode=S.studyMode||"video";
-  var toggle='<div class="card" style="display:flex;gap:6px;padding:5px;border-radius:14px;margin-bottom:0;">'+
-       '<button class="btn sm'+(mode==="video"?"":" ghost")+'" style="flex:1;justify-content:center;gap:5px;" onclick="A.studyMode(\'video\')">▶ วิดีโอ</button>'+
-       '<button class="btn sm'+(mode==="know"?"":" ghost")+'" style="flex:1;justify-content:center;gap:5px;" onclick="A.studyMode(\'know\')">📚 คลังความรู้</button>'+
-     '</div>';
-  if(mode==="know") return '<div class="stack">'+adminNote+toggle+'<div id="studyBrowse">'+knowledgeHTML()+'</div></div>';
-  // โหมดวิดีโอ: จอเล่นอยู่บนสุดตายตัว — เล่นสดเมื่อเลือกคลิป, ไม่งั้นเป็นคลิปแนะนำ/ดูต่อ
-  return '<div class="stack">'+adminNote+toggle+
-    studyTopScreen()+'<div style="height:10px;"></div>'+
-    '<div id="studyBrowse">'+studyBrowseHTML()+'</div>'+
-  '</div>';
+  // ทำเฉพาะคลิปติวแนวตั้ง (ฟีด) — ตัดจอเล่นแนวนอน + คลังความรู้ออก
+  return '<div class="stack">'+adminNote+'<div id="studyBrowse">'+studyBrowseHTML()+'</div></div>';
 }
 /* ───── คลังความรู้ (ในติวหนังสือ) ───── */
 function knowledgeHTML(){
@@ -1317,57 +1308,22 @@ function knowledgeHTML(){
   return h;
 }
 function studyBrowseHTML(){
-  var h="";
-  if(!S.studySubj){
-    // ── เลือกวิชา
-    h+='<div class="card">'+
-         '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">เลือกวิชาที่จะเรียน</div>'+
-         '<div class="muted" style="margin-bottom:12px;">เลือกวิชา → หัวข้อ → แตะคลิป แล้ววิดีโอจะเล่นบนจอด้านบน</div>'+
-         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
-    subjects().forEach(function(su){
-      var s=subjVidStats(su.k);
-      h+='<div onclick="A.openStudySubj(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:16px;overflow:hidden;background:var(--c-surface);box-shadow:0 3px 10px rgba(0,0,0,.07);">'+
-           '<div style="position:relative;">'+
-             '<img src="'+subjImg(su.k)+'" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">'+
-             (s.total?'<div class="mono" style="position:absolute;top:7px;right:7px;background:rgba(0,0,0,.62);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;backdrop-filter:blur(2px);">'+s.pct+'%</div>':"")+
-             (s.total?'<div style="position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.35);"><div style="height:100%;background:var(--pri);width:'+s.pct+'%;"></div></div>':"")+
-           '</div>'+
-           '<div style="padding:8px 10px 9px;text-align:center;font-size:11px;color:var(--c-text-muted);">'+(s.total?(s.total+" คลิป · ดูจบ "+s.done+"/"+s.total):"ยังไม่มีวิดีโอ")+'</div>'+
-         '</div>';
-    });
-    h+='</div></div>';
-  } else {
-    // ── รายหัวข้อของวิชาที่เลือก — แตะคลิปเล่นบนจอบน
-    var sk=S.studySubj, s=subjVidStats(sk), P=PRI();
-    h+='<div class="card" style="display:flex;align-items:center;gap:11px;">'+
-         '<button class="btn sm ghost" style="flex:none;" onclick="A.backStudy()">◀</button>'+
-         '<img src="'+subjImg(sk)+'" alt="" style="width:44px;height:44px;flex:none;border-radius:12px;object-fit:cover;box-shadow:0 3px 9px rgba(0,0,0,.16);">'+
-         '<div style="flex:1;min-width:0;">'+
-           '<div style="font-size:15px;font-weight:800;line-height:1.2;">'+esc(short(sk))+'</div>'+
-           '<div style="font-size:11.5px;color:var(--c-text-muted);">เลือกคลิปเพื่อเล่นบนจอด้านบน · ดูจบ '+s.done+'/'+s.total+' คลิป</div>'+
+  var h='<div class="card">'+
+      '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">เลือกวิชาที่จะดูคลิปติว</div>'+
+      '<div class="muted" style="margin-bottom:12px;">แตะวิชา → เปิดฟีดคลิปแนวตั้ง เลื่อนขึ้นลงดูได้เลย 🎬</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+  subjects().forEach(function(su){
+    var s=subjVidStats(su.k), has=feedClips(su.k).length;
+    h+='<div onclick="A.openFeed(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:16px;overflow:hidden;background:var(--c-surface);box-shadow:0 3px 10px rgba(0,0,0,.07);'+(has?"":"opacity:.55;")+'">'+
+         '<div style="position:relative;">'+
+           '<img src="'+subjImg(su.k)+'" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">'+
+           (has?'<div style="position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;">🎬 '+has+' คลิป</div>':"")+
+           (s.total?'<div class="mono" style="position:absolute;top:7px;right:7px;background:rgba(0,0,0,.62);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;">'+s.pct+'%</div>':"")+
          '</div>'+
+         '<div style="padding:8px 10px 9px;text-align:center;font-size:11px;color:var(--c-text-muted);">'+(has?("ดูจบ "+s.done+"/"+s.total+" คลิป"):"ยังไม่มีคลิป")+'</div>'+
        '</div>';
-    if(feedClips(sk).length) h+='<div class="btn" style="width:100%;background:#111;color:#fff;border-color:#111;margin-bottom:2px;" onclick="A.openFeed(\''+sk+'\')">🎬 ดูแบบฟีดเต็มจอ (เลื่อนขึ้นลง)</div>';
-    var any=false;
-    (S.topics[sk]||[]).forEach(function(t){
-      var vs=studyVids(t.id);
-      if(!vs.length) return;
-      any=true;
-      h+='<div class="card" style="border-left:3px solid var(--pri);">'+
-           '<div style="font-size:13.5px;font-weight:700;margin-bottom:2px;color:var(--pri);">'+esc(t.label)+'</div>'+
-           '<div style="display:flex;flex-direction:column;">'+
-             vs.map(function(v,i){ return (i?'<div style="border-top:1px solid #F0F1F3;"></div>':"")+vidRow(v,""); }).join("")+
-           '</div>'+
-         '</div>';
-    });
-    if(!any){
-      h+='<div class="card" style="text-align:center;padding:30px 16px;color:var(--c-text-muted);">'+
-           '<div style="font-size:32px;margin-bottom:10px;">🎬</div>'+
-           '<div style="font-size:14px;font-weight:600;color:var(--c-text);">ยังไม่มีวิดีโอในวิชานี้</div>'+
-           '<div style="font-size:12px;margin-top:6px;line-height:1.6;">ให้ติวเตอร์เพิ่มวิดีโอในระบบแอดมิน<br>(แตะโลโก้มุมซ้ายบน → วิดีโอติวหนังสือรายหัวข้อ)</div>'+
-         '</div>';
-    }
-  }
+  });
+  h+='</div></div>';
   return h;
 }
 // หน้าเล่นวิดีโอแบบเต็มหน้า (โหมดติวเนื้อหา)
@@ -3576,7 +3532,7 @@ var A={
   confirmSubmit:function(){ S.quizConfirm=false; finishQuiz(false); },   // ยืนยันส่งจริง
   closeQuiz:function(){ clearQuizTimer(); releaseWakeLock(); S.quiz=null; S.quizConfirm=false; render(); },
   // ── ฟีดวิดีโอเต็มจอ ──
-  openFeed:function(sk,id){ if(!studyOpen()||!feedClips(sk).length) return; S.feed=sk; render(); var t=id&&document.getElementById("feedpage-"+id); if(t) t.scrollIntoView(); },
+  openFeed:function(sk,id){ if(!studyOpen()) return; if(!feedClips(sk).length){ toast("ยังไม่มีคลิปในวิชานี้"); return; } S.feed=sk; render(); var t=id&&document.getElementById("feedpage-"+id); if(t) t.scrollIntoView(); },
   closeFeed:function(){ destroyPlayer(); S.feed=null; render(); },
   feedPlay:function(id,yt){ var el=document.getElementById("fp-"+id); if(!el) return;
     el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(yt)+'?autoplay=1&playsinline=1&rel=0&modestbranding=1" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'; el.style.cursor="default"; },
