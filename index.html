@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v120";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v121";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -527,7 +527,7 @@ function defState(){
     selDate:iso(today0()), calYear:now.getFullYear(), calMonth:now.getMonth(), done:{},
     scores:{}, bank:{}, pool:{}, tests:{}, testDraft:{}, physEvents:defEvents(),
     planWeeksNoDate:12, resetToken:0, resetAppliedToken:0,
-    videos:{}, progress:{}, saved:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{}, newAt:{}, bankPub:{}, subjStatus:{}, mockTracks:{},
+    videos:{}, progress:{}, saved:{}, vidLiked:{}, studySubj:null, plan:{}, focus:null, alarm:null, knowledge:{}, newAt:{}, bankPub:{}, subjStatus:{}, mockTracks:{},
     mockHist:{}, starred:{}, histTrack:null, reviewAtt:null, reviewMode:"wrong", reviewFilter:"all", reviewExpand:{},
     shopProducts:[], shopFreebies:[], shopFB:"", shopDetail:null };
 }
@@ -538,7 +538,7 @@ function load(){
   if(!S.everAdmin && S.bankDirty){ S.bankDirty=false; }   // ปลดล็อกเครื่องนักเรียนที่เคยติดธง "แก้ค้าง" ค้างถาวร → กลับมารับอัปเดตได้
   S.quiz=null; S.quizConfirm=false; S.adminOpen=false; S.adminMode=false; S.adminView="login";
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
-  S.player=null; S.studySubj=null; S.vidDraft=null;
+  S.player=null; S.studySubj=null; S.vidDraft=null; S.feed=null;
   S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null; S.trackDetail=null;
   S.studyMode="video"; S.knowSubj=null; S.adminKnowSubj=null;
   S.shopDetail=null; S.shopSampleIdx=null; S.shopCat="all"; S.physOpen=null;
@@ -547,7 +547,7 @@ function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","quizConfirm","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
-     "mock","mockView","player","studySubj","vidDraft","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj","trackDetail",
+     "mock","mockView","player","studySubj","vidDraft","feed","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj","trackDetail",
      "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand","shopDetail","shopSampleIdx","shopCat","physOpen"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
@@ -1347,6 +1347,7 @@ function studyBrowseHTML(){
            '<div style="font-size:11.5px;color:var(--c-text-muted);">เลือกคลิปเพื่อเล่นบนจอด้านบน · ดูจบ '+s.done+'/'+s.total+' คลิป</div>'+
          '</div>'+
        '</div>';
+    if(feedClips(sk).length) h+='<div class="btn" style="width:100%;background:#111;color:#fff;border-color:#111;margin-bottom:2px;" onclick="A.openFeed(\''+sk+'\')">🎬 ดูแบบฟีดเต็มจอ (เลื่อนขึ้นลง)</div>';
     var any=false;
     (S.topics[sk]||[]).forEach(function(t){
       var vs=studyVids(t.id);
@@ -2351,6 +2352,59 @@ function shopSampleSheet(){
       '<button class="x" onclick="A.closeSample()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.2);color:#fff;border:none;">✕</button>'+
     '</div></div>';
 }
+/* ═══════════ ฟีดวิดีโอเต็มจอ (แนวติ๊กตอก) — เลื่อนขึ้นลง + 4 ปุ่มข้าง + กริดเลือกคลิป (แบบ C) ═══════════
+   interactions ใช้ DOM ตรง ๆ ไม่เรียก render() (กันจอเด้ง/วิดีโอรีโหลด) */
+function ytThumb(yt){ return "https://i.ytimg.com/vi/"+encodeURIComponent(yt)+"/hqdefault.jpg"; }
+function feedClips(sk){ var out=[]; (S.topics[sk]||[]).forEach(function(t){ studyVids(t.id).forEach(function(v){ out.push({v:v,tid:t.id,tlabel:t.label}); }); }); return out; }
+function feedLikeBase(id){ var s=String(id||""),h=0; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return 1000+(h%900); }   // ~1.0–1.9พัน คงที่ต่อคลิป
+function feedLikeStr(id){ var n=feedLikeBase(id)+((S.vidLiked||{})[id]?1:0); return n>=1000?((n/1000).toFixed(1)+"พัน"):String(n); }
+function feedSideRail(c){
+  var v=c.v, id=v.id, liked=!!(S.vidLiked||{})[id], done=isDone(id), saved=!!(S.saved||{})[id];
+  return '<div style="position:absolute;right:10px;bottom:28px;display:flex;flex-direction:column;gap:16px;align-items:center;color:#fff;z-index:3;">'+
+    '<div onclick="A.feedLike(\''+esc(id)+'\',this)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;"><div class="fic" style="width:46px;height:46px;border-radius:50%;background:'+(liked?"rgba(228,17,31,.28)":"rgba(255,255,255,.16)")+';border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:22px;">'+(liked?"❤️":"🤍")+'</div><div class="fct" style="font-size:9.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6);">'+feedLikeStr(id)+'</div></div>'+
+    '<div onclick="A.feedPicker(1)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;"><div style="width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:22px;">📚</div><div style="font-size:9.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6);text-align:center;line-height:1.1;">เลือก<br>เนื้อหา</div></div>'+
+    '<div onclick="A.feedDone(\''+esc(id)+'\',this)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;"><div class="fdc" style="width:46px;height:46px;border-radius:50%;background:'+(done?"rgba(30,158,90,.32)":"rgba(255,255,255,.16)")+';border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:22px;">'+(done?"✅":"✓")+'</div><div class="fdl" style="font-size:9.5px;font-weight:700;color:'+(done?"#7CE0A8":"#fff")+';text-shadow:0 1px 3px rgba(0,0,0,.6);">ติวแล้ว</div></div>'+
+    '<div onclick="A.feedSave(\''+esc(id)+'\',this)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;"><div class="fsc" style="width:46px;height:46px;border-radius:50%;background:'+(saved?"rgba(231,178,60,.32)":"rgba(255,255,255,.16)")+';border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:22px;">🔖</div><div class="fsl" style="font-size:9.5px;font-weight:700;color:'+(saved?"#FFD98A":"#fff")+';text-shadow:0 1px 3px rgba(0,0,0,.6);text-align:center;line-height:1.1;">'+(saved?"บันทึกแล้ว":"คลัง<br>ส่วนตัว")+'</div></div>'+
+  '</div>';
+}
+function feedSheet(){
+  var sk=S.feed; if(!sk) return "";
+  var clips=feedClips(sk); if(!clips.length) return "";
+  var pages=clips.map(function(c){ var v=c.v, id=v.id;
+    return '<div id="feedpage-'+esc(id)+'" style="height:100%;scroll-snap-align:start;position:relative;background:#000;">'+
+      '<div id="fp-'+esc(id)+'" onclick="A.feedPlay(\''+esc(id)+'\',\''+esc(v.yt)+'\')" style="position:absolute;inset:0;cursor:pointer;background:#000 url(\''+ytThumb(v.yt)+'\') center/cover no-repeat;">'+
+        '<div style="position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.72));"></div>'+
+        '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:27px;color:#111;">▶</div></div>'+
+      '</div>'+
+      '<div style="position:absolute;left:12px;right:70px;bottom:26px;color:#fff;z-index:2;pointer-events:none;">'+
+        '<div style="font-size:10px;font-weight:800;color:#FFD23F;margin-bottom:4px;">▶ '+esc(c.tlabel)+'</div>'+
+        '<div style="font-size:17px;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.7);line-height:1.25;">'+esc(v.title)+'</div>'+
+      '</div>'+ feedSideRail(c) +
+    '</div>';
+  }).join("");
+  return '<div style="position:fixed;inset:0;z-index:80;background:#000;">'+
+    '<div style="position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(rgba(0,0,0,.6),transparent);color:#fff;pointer-events:none;">'+
+      '<div onclick="A.closeFeed()" style="font-size:21px;cursor:pointer;pointer-events:auto;">✕</div><div style="font-size:13px;font-weight:800;">ติว'+esc(sName[sk]||sk)+' · Lion King</div></div>'+
+    '<div id="feedScroll" style="height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;">'+pages+'</div>'+
+    feedPickerSheet(sk)+
+  '</div>';
+}
+function feedPickerSheet(sk){
+  var chips=subjects().filter(function(su){ return feedClips(su.k).length; }).map(function(su){ var on=su.k===sk;
+    return '<div onclick="'+(on?"":"A.openFeed('"+su.k+"')")+'" style="flex:none;font-size:11.5px;font-weight:700;padding:6px 13px;border-radius:99px;border:1.3px solid '+(on?"var(--pri)":"#E4E7EB")+';background:'+(on?"var(--pri)":"#fff")+';color:'+(on?"#fff":"var(--c-text-muted)")+';cursor:pointer;white-space:nowrap;">'+esc(sName[su.k]||su.k)+'</div>'; }).join("");
+  var grid=feedClips(sk).map(function(c){ var v=c.v, id=v.id, done=isDone(id);
+    return '<div onclick="A.feedGoto(\''+esc(id)+'\')" style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:9/14;background:#000 url(\''+ytThumb(v.yt)+'\') center/cover;cursor:pointer;">'+
+      '<div style="position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.7));"></div>'+
+      '<div style="position:absolute;top:5px;left:5px;color:#fff;font-size:11px;">▶</div>'+(done?'<div style="position:absolute;top:5px;right:5px;color:#7CE0A8;font-size:11px;">✓</div>':'')+
+      '<div style="position:absolute;left:6px;right:6px;bottom:6px;color:#fff;font-size:8.5px;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.7);line-height:1.1;">'+esc(v.title)+'</div>'+
+    '</div>'; }).join("");
+  return '<div id="feedPicker" style="position:absolute;left:0;right:0;bottom:0;height:78%;background:var(--c-surface);border-radius:20px 20px 0 0;z-index:10;transform:translateY(106%);transition:transform .25s ease;display:flex;flex-direction:column;">'+
+    '<div style="width:36px;height:4px;border-radius:99px;background:#D5D8DD;margin:9px auto 3px;"></div>'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 15px 9px;border-bottom:1px solid var(--c-border);"><span style="font-size:15px;font-weight:800;">เลือกคลิป</span><span onclick="A.feedPicker(0)" style="font-size:15px;color:var(--c-text-muted);cursor:pointer;">✕</span></div>'+
+    '<div style="display:flex;gap:6px;overflow-x:auto;padding:11px 13px;">'+chips+'</div>'+
+    '<div style="flex:1;overflow-y:auto;padding:0 13px 16px;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;">'+grid+'</div></div>'+
+  '</div>';
+}
 /* หน้ายืนยันก่อนส่งคำตอบ (แบบ A) — กันมือโดนปุ่มส่งโดยไม่ตั้งใจ */
 function quizConfirmSheet(){
   var q=S.quiz; if(!q) return "";
@@ -2382,6 +2436,7 @@ function renderOverlays(){
   var h="";
   if(S.quiz) h+=quizSheet();
   if(S.quiz && S.quizConfirm && S.quiz.status==="active") h+=quizConfirmSheet();
+  if(S.feed && studyOpen()) h+=feedSheet();
   if(S.adminOpen) h+=adminSheet();
   if(S.mock) h+=mockSheet();
   if(S.trackDetail) h+=trackDetailSheet();
@@ -3519,6 +3574,19 @@ var A={
   cancelSubmit:function(){ S.quizConfirm=false; render(); },   // กลับไปตรวจ
   confirmSubmit:function(){ S.quizConfirm=false; finishQuiz(false); },   // ยืนยันส่งจริง
   closeQuiz:function(){ clearQuizTimer(); releaseWakeLock(); S.quiz=null; S.quizConfirm=false; render(); },
+  // ── ฟีดวิดีโอเต็มจอ ──
+  openFeed:function(sk,id){ if(!studyOpen()||!feedClips(sk).length) return; S.feed=sk; render(); var t=id&&document.getElementById("feedpage-"+id); if(t) t.scrollIntoView(); },
+  closeFeed:function(){ destroyPlayer(); S.feed=null; render(); },
+  feedPlay:function(id,yt){ var el=document.getElementById("fp-"+id); if(!el) return;
+    el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(yt)+'?autoplay=1&playsinline=1&rel=0&modestbranding=1" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'; el.style.cursor="default"; },
+  feedLike:function(id,node){ var L=Object.assign({},S.vidLiked||{}); L[id]=!L[id]; S.vidLiked=L; save();
+    var b=node.querySelector(".fic"), ct=node.querySelector(".fct"); if(b){ b.textContent=L[id]?"❤️":"🤍"; b.style.background=L[id]?"rgba(228,17,31,.28)":"rgba(255,255,255,.16)"; } if(ct) ct.textContent=feedLikeStr(id); },
+  feedDone:function(id,node){ var pr=Object.assign({},S.progress||{}); var cur=pr[id]||{sec:0,pct:0,at:null}; var on=!((cur.pct||0)>=90); pr[id]=Object.assign({},cur,{pct:on?100:0,at:new Date().toISOString()}); S.progress=pr; save();
+    var b=node.querySelector(".fdc"), lb=node.querySelector(".fdl"); if(b){ b.textContent=on?"✅":"✓"; b.style.background=on?"rgba(30,158,90,.32)":"rgba(255,255,255,.16)"; } if(lb) lb.style.color=on?"#7CE0A8":"#fff"; },
+  feedSave:function(id,node){ var sv=Object.assign({},S.saved||{}); sv[id]=!sv[id]; S.saved=sv; save();
+    var b=node.querySelector(".fsc"), lb=node.querySelector(".fsl"); if(b) b.style.background=sv[id]?"rgba(231,178,60,.32)":"rgba(255,255,255,.16)"; if(lb){ lb.innerHTML=sv[id]?"บันทึกแล้ว":"คลัง<br>ส่วนตัว"; lb.style.color=sv[id]?"#FFD98A":"#fff"; } },
+  feedPicker:function(open){ var el=document.getElementById("feedPicker"); if(el) el.style.transform=open?"translateY(0)":"translateY(106%)"; },
+  feedGoto:function(id){ var t=document.getElementById("feedpage-"+id); if(t) t.scrollIntoView({behavior:"smooth"}); A.feedPicker(0); },
   retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isReview){ A.closeQuiz(); return; } if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
