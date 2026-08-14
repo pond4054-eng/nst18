@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v123";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v124";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1257,13 +1257,14 @@ function featuredVid(){
 function subjImg(k){ return "icons/subj-"+k+".jpg"; }
 function subjIcon(k){ return {math:"🔢",eng:"🔤",thai:"📖",com:"💻",law:"⚖️",social:"🌏",saraban:"📄"}[k]||"📚"; }
 function studyLockedHTML(){
-  return '<div class="stack"><div class="card" style="text-align:center;padding:34px 20px 30px;">'+
-      '<div style="width:72px;height:72px;border-radius:50%;background:#FFF3D6;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 16px;">🛠️</div>'+
-      '<div style="font-size:19px;font-weight:800;margin-bottom:5px;">ติวหนังสือ</div>'+
-      '<div class="muted" style="font-size:13px;margin-bottom:14px;">วิดีโอเรียนเนื้อหา + คลังความรู้ · ทุกวิชา</div>'+
+  return '<div class="stack">'+
+    '<img src="icons/study-cover.jpg" alt="" loading="lazy" style="width:100%;display:block;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.12);">'+
+    '<div class="card" style="text-align:center;padding:24px 20px 26px;">'+
+      '<div style="font-size:19px;font-weight:800;margin-bottom:5px;">🎬 ติวหนังสือ</div>'+
+      '<div class="muted" style="font-size:13px;margin-bottom:13px;">คลิปติวเนื้อหาแนวตั้ง · ทุกวิชา</div>'+
       '<span class="chip" style="background:#F2B01E;color:#0E0F12;font-size:12px;font-weight:800;padding:5px 14px;">🔄 อยู่ระหว่างดำเนินการ</span>'+
-      '<div class="muted" style="font-size:12.5px;line-height:1.75;margin:16px auto 0;max-width:280px;">ทีมงานกำลังจัดทำวิดีโอและเนื้อหาติวให้ครบทุกวิชา เปิดให้ใช้เร็ว ๆ นี้<br>ระหว่างนี้ไป<b>ตะลุยข้อสอบ</b>เก็บคะแนนก่อนได้เลย</div>'+
-      '<button class="btn" style="margin-top:20px;padding:11px 22px;" onclick="A.tab(\'ready\')">ไปทำข้อสอบ →</button>'+
+      '<div class="muted" style="font-size:12.5px;line-height:1.75;margin:14px auto 0;max-width:280px;">ทีมงานกำลังจัดทำคลิปติวให้ครบทุกวิชา เปิดให้ดูเร็ว ๆ นี้<br>ระหว่างนี้ไป<b>ตะลุยข้อสอบ</b>เก็บคะแนนก่อนได้เลย</div>'+
+      '<button class="btn" style="margin-top:18px;padding:11px 22px;" onclick="A.tab(\'ready\')">ไปทำข้อสอบ →</button>'+
     '</div></div>';
 }
 function viewStudy(c){
