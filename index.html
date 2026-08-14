@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v125";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v126";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2315,7 +2315,13 @@ function shopSampleSheet(){
 function ytThumb(yt){ return "https://i.ytimg.com/vi/"+encodeURIComponent(yt)+"/hqdefault.jpg"; }
 function feedPosterInner(){ return '<div style="position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.72));"></div>'+
   '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:27px;color:#111;">▶</div></div>'; }
-function feedMountIframe(el,yt){ if(!el||el.getAttribute("data-play")==="1") return; el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(yt)+'?autoplay=1&playsinline=1&rel=0&modestbranding=1" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'; el.setAttribute("data-play","1"); el.style.cursor="default"; el.onclick=null; }
+var _feedUnmuted=false;
+function feedMountIframe(el,yt){ if(!el||el.getAttribute("data-play")==="1") return;
+  var mute=_feedUnmuted?"0":"1";   // เริ่มปิดเสียงเพื่อให้ autoplay ผ่านทุกเบราว์เซอร์ (เปิดเสียงได้ด้วยการแตะ)
+  el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(yt)+'?autoplay=1&mute='+mute+'&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&loop=1&playlist='+encodeURIComponent(yt)+'" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'+
+    (_feedUnmuted?"":'<div class="fmute" onclick="A.feedUnmute(this)" style="position:absolute;top:64px;left:50%;transform:translateX(-50%);z-index:5;background:rgba(0,0,0,.62);color:#fff;font-size:12px;font-weight:800;border-radius:99px;padding:7px 15px;cursor:pointer;">🔇 แตะเปิดเสียง</div>');
+  el.setAttribute("data-play","1"); el.style.cursor="default"; el.onclick=null;
+}
 function feedRevert(el){ if(!el||el.getAttribute("data-play")!=="1") return; el.innerHTML=feedPosterInner(); el.setAttribute("data-play","0"); el.style.cursor="pointer"; }
 var _feedObs=null, _feedActiveId=null;
 function destroyFeedObs(){ if(_feedObs){ try{ _feedObs.disconnect(); }catch(e){} _feedObs=null; } _feedActiveId=null; }
@@ -2337,6 +2343,8 @@ function mountFeed(){                          // เล่นคลิปที
     });
   },{root:scroll,threshold:0.6});
   [].forEach.call(scroll.querySelectorAll(".feedpage"), function(p){ _feedObs.observe(p); });
+  var pgs=scroll.querySelectorAll(".feedpage");   // เล่นคลิปแรกที่เห็นทันที (กัน observer เริ่มช้า)
+  if(pgs.length){ var f=pgs[0], id0=f.getAttribute("data-vid"), yt0=f.getAttribute("data-yt"); feedMountIframe(document.getElementById("fp-"+id0),yt0); _feedActiveId=id0; }
 }
 function feedClips(sk){ var out=[]; (S.topics[sk]||[]).forEach(function(t){ studyVids(t.id).forEach(function(v){ out.push({v:v,tid:t.id,tlabel:t.label}); }); }); return out; }
 function feedLikeBase(id){ var s=String(id||""),h=0; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return 1000+(h%900); }   // ~1.0–1.9พัน คงที่ต่อคลิป
@@ -3567,6 +3575,9 @@ var A={
     var b=node.querySelector(".fsc"), lb=node.querySelector(".fsl"); if(b) b.style.background=sv[id]?"rgba(231,178,60,.32)":"rgba(255,255,255,.16)"; if(lb){ lb.innerHTML=sv[id]?"บันทึกแล้ว":"คลัง<br>ส่วนตัว"; lb.style.color=sv[id]?"#FFD98A":"#fff"; } },
   feedPicker:function(open){ var el=document.getElementById("feedPicker"); if(el) el.style.transform=open?"translateY(0)":"translateY(106%)"; },
   feedGoto:function(id){ var t=document.getElementById("feedpage-"+id); if(t) t.scrollIntoView({behavior:"smooth"}); A.feedPicker(0); },
+  feedUnmute:function(node){ _feedUnmuted=true; var fp=node&&node.parentNode, ifr=fp&&fp.querySelector("iframe");
+    if(ifr&&ifr.contentWindow){ try{ ifr.contentWindow.postMessage('{"event":"command","func":"unMute","args":[]}',"*"); ifr.contentWindow.postMessage('{"event":"command","func":"playVideo","args":[]}',"*"); }catch(e){} }
+    if(node) node.style.display="none"; },
   retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isReview){ A.closeQuiz(); return; } if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
