@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v128";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v129";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2327,13 +2327,14 @@ function loadYTApi(cb){                          // โหลด YouTube IFrame 
 function feedDestroyPlayers(){ for(var k in _ytPlayers){ try{ _ytPlayers[k].destroy(); }catch(e){} } _ytPlayers={}; }
 function feedMountIframe(el,yt){ if(!el||el.getAttribute("data-play")==="1") return;
   var id=el.id.replace("fp-","");
-  el.innerHTML='<div id="ytp-'+id+'" style="position:absolute;inset:0;width:100%;height:100%;"></div>'+
+  el.innerHTML='<div id="ytp-'+id+'" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></div>'+
+    '<div onclick="A.feedTap(\''+id+'\')" style="position:absolute;inset:0;z-index:2;"></div>'+   // ชั้นใสกันกดลิงก์ไปยูทูป · แตะ=เล่น/หยุด · ปัด=เลื่อนคลิป
     (_feedUnmuted?"":'<div class="fmute" onclick="A.feedUnmute(this)" style="position:absolute;top:64px;left:50%;transform:translateX(-50%);z-index:5;background:rgba(0,0,0,.62);color:#fff;font-size:12px;font-weight:800;border-radius:99px;padding:7px 15px;cursor:pointer;">🔇 แตะเปิดเสียง</div>');
   el.setAttribute("data-play","1"); el.style.cursor="default"; el.onclick=null;
   loadYTApi(function(){
     var host=document.getElementById("ytp-"+id); if(!host) return;   // เลื่อนพ้นไปก่อน player พร้อม
     try{ _ytPlayers[id]=new YT.Player("ytp-"+id,{ videoId:yt,
-      playerVars:{autoplay:1,mute:(_feedUnmuted?0:1),playsinline:1,rel:0,modestbranding:1,controls:1,loop:1,playlist:yt},
+      playerVars:{autoplay:1,mute:(_feedUnmuted?0:1),playsinline:1,rel:0,modestbranding:1,controls:0,fs:0,disablekb:1,iv_load_policy:3,loop:1,playlist:yt},
       events:{ onReady:function(e){ try{ if(_feedUnmuted){ e.target.unMute(); } else { e.target.mute(); } e.target.playVideo(); }catch(_){} } } }); }catch(_){}
   });
 }
@@ -3593,6 +3594,7 @@ var A={
   feedPicker:function(open){ var el=document.getElementById("feedPicker"); if(el) el.style.transform=open?"translateY(0)":"translateY(106%)"; },
   feedGoto:function(id){ var t=document.getElementById("feedpage-"+id); if(t) t.scrollIntoView({behavior:"smooth"}); A.feedPicker(0); },
   feedUnmute:function(node){ _feedUnmuted=true; var fp=node&&node.parentNode; if(fp){ var id=fp.id.replace("fp-",""); var p=_ytPlayers[id]; if(p){ try{ p.unMute(); p.setVolume(100); p.playVideo(); }catch(e){} } } if(node) node.style.display="none"; },
+  feedTap:function(id){ var p=_ytPlayers[id]; if(!p) return; try{ if(p.getPlayerState()===1) p.pauseVideo(); else p.playVideo(); }catch(e){} },
   retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isReview){ A.closeQuiz(); return; } if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
