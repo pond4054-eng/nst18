@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v124";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v125";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -974,6 +974,7 @@ function render(){
   if(studyOpen() && S.tab==="study" && S.studyMode!=="know" && S.player && !S.adminOpen && !S.quiz && !S.mock) mountPlayer(); else destroyPlayer();
 
   renderOverlays();
+  if(S.feed && studyOpen()) mountFeed(); else destroyFeedObs();
   if(_newAtDirty){ _newAtDirty=false; save(); }   // จำ "เวลาที่เห็นครั้งแรก" ของรายการใหม่
 }
 /* อัปเดตเฉพาะนาฬิกา + วันนับถอยหลัง (ไม่วาดใหม่ทั้งหน้า จึงไม่ทำให้รูปกระพริบ) */
@@ -2312,6 +2313,31 @@ function shopSampleSheet(){
 /* ═══════════ ฟีดวิดีโอเต็มจอ (แนวติ๊กตอก) — เลื่อนขึ้นลง + 4 ปุ่มข้าง + กริดเลือกคลิป (แบบ C) ═══════════
    interactions ใช้ DOM ตรง ๆ ไม่เรียก render() (กันจอเด้ง/วิดีโอรีโหลด) */
 function ytThumb(yt){ return "https://i.ytimg.com/vi/"+encodeURIComponent(yt)+"/hqdefault.jpg"; }
+function feedPosterInner(){ return '<div style="position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.72));"></div>'+
+  '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:27px;color:#111;">▶</div></div>'; }
+function feedMountIframe(el,yt){ if(!el||el.getAttribute("data-play")==="1") return; el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(yt)+'?autoplay=1&playsinline=1&rel=0&modestbranding=1" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'; el.setAttribute("data-play","1"); el.style.cursor="default"; el.onclick=null; }
+function feedRevert(el){ if(!el||el.getAttribute("data-play")!=="1") return; el.innerHTML=feedPosterInner(); el.setAttribute("data-play","0"); el.style.cursor="pointer"; }
+var _feedObs=null, _feedActiveId=null;
+function destroyFeedObs(){ if(_feedObs){ try{ _feedObs.disconnect(); }catch(e){} _feedObs=null; } _feedActiveId=null; }
+function mountFeed(){                          // เล่นคลิปที่อยู่ในจออัตโนมัติ + หยุดคลิปที่เลื่อนพ้น
+  var scroll=document.getElementById("feedScroll");
+  if(!scroll){ destroyFeedObs(); return; }
+  if(scroll.getAttribute("data-obs")==="1") return;   // ตั้ง observer แล้วสำหรับ DOM ชุดนี้
+  destroyFeedObs(); scroll.setAttribute("data-obs","1");
+  if(!("IntersectionObserver" in window)) return;
+  _feedObs=new IntersectionObserver(function(ents){
+    ents.forEach(function(en){
+      if(en.isIntersecting && en.intersectionRatio>=0.6){
+        var id=en.target.getAttribute("data-vid"), yt=en.target.getAttribute("data-yt");
+        if(_feedActiveId===id) return;
+        if(_feedActiveId) feedRevert(document.getElementById("fp-"+_feedActiveId));
+        feedMountIframe(document.getElementById("fp-"+id), yt);
+        _feedActiveId=id;
+      }
+    });
+  },{root:scroll,threshold:0.6});
+  [].forEach.call(scroll.querySelectorAll(".feedpage"), function(p){ _feedObs.observe(p); });
+}
 function feedClips(sk){ var out=[]; (S.topics[sk]||[]).forEach(function(t){ studyVids(t.id).forEach(function(v){ out.push({v:v,tid:t.id,tlabel:t.label}); }); }); return out; }
 function feedLikeBase(id){ var s=String(id||""),h=0; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return 1000+(h%900); }   // ~1.0–1.9พัน คงที่ต่อคลิป
 function feedLikeStr(id){ var n=feedLikeBase(id)+((S.vidLiked||{})[id]?1:0); return n>=1000?((n/1000).toFixed(1)+"พัน"):String(n); }
@@ -2328,11 +2354,8 @@ function feedSheet(){
   var sk=S.feed; if(!sk) return "";
   var clips=feedClips(sk); if(!clips.length) return "";
   var pages=clips.map(function(c){ var v=c.v, id=v.id;
-    return '<div id="feedpage-'+esc(id)+'" style="height:100%;scroll-snap-align:start;position:relative;background:#000;">'+
-      '<div id="fp-'+esc(id)+'" onclick="A.feedPlay(\''+esc(id)+'\',\''+esc(v.yt)+'\')" style="position:absolute;inset:0;cursor:pointer;background:#000 url(\''+ytThumb(v.yt)+'\') center/cover no-repeat;">'+
-        '<div style="position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.72));"></div>'+
-        '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:27px;color:#111;">▶</div></div>'+
-      '</div>'+
+    return '<div id="feedpage-'+esc(id)+'" class="feedpage" data-vid="'+esc(id)+'" data-yt="'+esc(v.yt)+'" style="height:100%;scroll-snap-align:start;position:relative;background:#000;">'+
+      '<div id="fp-'+esc(id)+'" onclick="A.feedPlay(\''+esc(id)+'\',\''+esc(v.yt)+'\')" style="position:absolute;inset:0;cursor:pointer;background:#000 url(\''+ytThumb(v.yt)+'\') center/cover no-repeat;">'+feedPosterInner()+'</div>'+
       '<div style="position:absolute;left:12px;right:70px;bottom:26px;color:#fff;z-index:2;pointer-events:none;">'+
         '<div style="font-size:10px;font-weight:800;color:#FFD23F;margin-bottom:4px;">▶ '+esc(c.tlabel)+'</div>'+
         '<div style="font-size:17px;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.7);line-height:1.25;">'+esc(v.title)+'</div>'+
@@ -3534,9 +3557,8 @@ var A={
   closeQuiz:function(){ clearQuizTimer(); releaseWakeLock(); S.quiz=null; S.quizConfirm=false; render(); },
   // ── ฟีดวิดีโอเต็มจอ ──
   openFeed:function(sk,id){ if(!studyOpen()) return; if(!feedClips(sk).length){ toast("ยังไม่มีคลิปในวิชานี้"); return; } S.feed=sk; render(); var t=id&&document.getElementById("feedpage-"+id); if(t) t.scrollIntoView(); },
-  closeFeed:function(){ destroyPlayer(); S.feed=null; render(); },
-  feedPlay:function(id,yt){ var el=document.getElementById("fp-"+id); if(!el) return;
-    el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(yt)+'?autoplay=1&playsinline=1&rel=0&modestbranding=1" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'; el.style.cursor="default"; },
+  closeFeed:function(){ destroyFeedObs(); destroyPlayer(); S.feed=null; render(); },
+  feedPlay:function(id,yt){ if(_feedActiveId && _feedActiveId!==id) feedRevert(document.getElementById("fp-"+_feedActiveId)); feedMountIframe(document.getElementById("fp-"+id), yt); _feedActiveId=id; },
   feedLike:function(id,node){ var L=Object.assign({},S.vidLiked||{}); L[id]=!L[id]; S.vidLiked=L; save();
     var b=node.querySelector(".fic"), ct=node.querySelector(".fct"); if(b){ b.textContent=L[id]?"❤️":"🤍"; b.style.background=L[id]?"rgba(228,17,31,.28)":"rgba(255,255,255,.16)"; } if(ct) ct.textContent=feedLikeStr(id); },
   feedDone:function(id,node){ var pr=Object.assign({},S.progress||{}); var cur=pr[id]||{sec:0,pct:0,at:null}; var on=!((cur.pct||0)>=90); pr[id]=Object.assign({},cur,{pct:on?100:0,at:new Date().toISOString()}); S.progress=pr; save();
