@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v121";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v122";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2383,8 +2383,9 @@ function feedSheet(){
     '</div>';
   }).join("");
   return '<div style="position:fixed;inset:0;z-index:80;background:#000;">'+
-    '<div style="position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(rgba(0,0,0,.6),transparent);color:#fff;pointer-events:none;">'+
-      '<div onclick="A.closeFeed()" style="font-size:21px;cursor:pointer;pointer-events:auto;">✕</div><div style="font-size:13px;font-weight:800;">ติว'+esc(sName[sk]||sk)+' · Lion King</div></div>'+
+    '<div style="position:absolute;top:0;left:0;right:0;z-index:11;display:flex;align-items:center;gap:11px;padding:calc(env(safe-area-inset-top, 10px) + 10px) 13px 10px;background:linear-gradient(rgba(0,0,0,.65),transparent);color:#fff;pointer-events:none;">'+
+      '<div onclick="A.closeFeed()" style="width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;pointer-events:auto;flex:none;">✕</div>'+
+      '<div style="font-size:13px;font-weight:800;">ติว'+esc(sName[sk]||sk)+' · Lion King</div></div>'+
     '<div id="feedScroll" style="height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;">'+pages+'</div>'+
     feedPickerSheet(sk)+
   '</div>';
