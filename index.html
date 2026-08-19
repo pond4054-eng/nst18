@@ -535,13 +535,15 @@ function load(){
   var saved={};
   try{ saved=JSON.parse(localStorage.getItem(LS)||"{}"); }catch(e){}
   S=Object.assign(defState(), saved);
-  if(S.bankDirty && !(saved && saved.bank && Object.keys(saved.bank).length)){ S.bankDirty=false; }   // ปลดธง "แก้ค้าง" ที่ไม่มีข้อสอบค้างจริงในเครื่อง → กันเขียน localStorage ก้อนใหญ่จนแอปค้าง + กลับมารับอัปเดต
+  var _hadBankBloat = !!(saved && saved.bank && Object.keys(saved.bank).length);   // เคยเก็บคลังข้อสอบทั้งก้อนไว้ใน localStorage (ทำให้มือถือค้าง/เต็มโควตา)
+  if(S.bankDirty){ S.bankDirty=false; }   // ปลดธง "แก้ค้าง" เสมอ — ข้อสอบมาจาก questions.json (SW แคชให้) ไม่ต้องเก็บซ้ำใน localStorage
   S.quiz=null; S.quizConfirm=false; S.adminOpen=false; S.adminMode=false; S.adminView="login";
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
   S.player=null; S.studySubj=null; S.vidDraft=null; S.feed=null;
   S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null; S.trackDetail=null;
   S.studyMode="video"; S.knowSubj=null; S.adminKnowSubj=null;
   S.shopDetail=null; S.shopSampleIdx=null; S.shopCat="all"; S.physOpen=null;
+  if(_hadBankBloat){ try{ save(); }catch(e){} }   // ล้างคลัง 5MB ที่ค้างออกจาก localStorage ทันที (save จะไม่เก็บ bank เพราะ bankDirty=false แล้ว)
 }
 function save(){
   try{
