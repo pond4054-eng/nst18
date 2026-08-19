@@ -504,7 +504,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v104";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v105";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -940,6 +940,26 @@ function fmtGap(e, diff){
 }
 
 /* ═══════════ RENDER ═══════════ */
+/* ───── ตั้งค่าพิเศษรายหัวข้อ (หัวข้อที่ไม่ระบุ = ค่าปกติ: สุ่ม 10 ข้อ · ผ่าน 80%) ─────
+   draw  = จำนวนข้อที่สุ่มมาให้ทำต่อครั้ง
+   passN = เกณฑ์ผ่านแบบ "นับจำนวนข้อถูก" (แทนผ่าน 80%)
+   badge = ข้อความบนป้ายแดงแทนคำว่า "ใหม่" */
+var TOPIC_CFG = {
+  math_13: { draw:15, passN:10, badge:"ใหม่ ตึงมือจัด" }
+};
+function topicDraw(id){ var c=TOPIC_CFG[id]; return (c&&c.draw)||10; }
+function topicPassN(id){ var c=TOPIC_CFG[id]; return (c&&c.passN!=null)?c.passN:null; }         // เกณฑ์ผ่านเป็นจำนวนข้อ (null=ใช้ 80%)
+function topicPass(id, correct, total){                                                          // ตัดสินผ่าน/ไม่ผ่านจากผลจริง
+  var n=topicPassN(id);
+  if(n!=null) return correct>=n;
+  return total ? Math.round(correct/total*100)>=80 : false;
+}
+function scoredPass(id, pct){                                                                    // ตัดสินผ่านจากเปอร์เซ็นต์ที่เก็บไว้ (ใช้ตอนแสดงผลย้อนหลัง)
+  var c=TOPIC_CFG[id];
+  if(c && c.passN!=null && c.draw) return pct >= Math.round(c.passN/c.draw*100);
+  return pct>=80;
+}
+
 /* ───── ป้าย "ใหม่" — นับ 3 วันจากตอนที่นักเรียนคนนี้เห็นครั้งแรก ───── */
 var _newAtDirty=false;
 function isNew(id, pub){
@@ -949,8 +969,8 @@ function isNew(id, pub){
   if(!S.newAt[id]){ S.newAt[id]=Date.now(); _newAtDirty=true; }   // นักเรียนคนนี้เห็นครั้งแรกตอนนี้
   return Date.now()-S.newAt[id] < 3*MS;
 }
-function newBadge(id, pub){
-  return isNew(id,pub) ? '<span style="flex:none;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;">ใหม่</span>' : '';
+function newBadge(id, pub, label){
+  return isNew(id,pub) ? '<span style="flex:none;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;">'+(label||"ใหม่")+'</span>' : '';
 }
 function render(){
   applyTheme();
@@ -1661,14 +1681,14 @@ function viewReady(){
                '<div style="font-size:10.5px;color:var(--c-text-subtle);">'+
                  (upd ? "อยู่ระหว่างอัปเดต — เปิดให้ทำเร็ว ๆ นี้" :
                   (!nq ? "ยังไม่มีข้อสอบในหัวข้อนี้" :
-                   ((sc!=null ? ("คะแนนล่าสุด "+sc+"% · "+(sc>=80 ? "ผ่าน" : (passed?"เคยผ่านแล้ว":"ยังไม่ผ่าน"))) : "ยังไม่ได้ทดสอบ")+
+                   ((sc!=null ? ("คะแนนล่าสุด "+sc+"% · "+(scoredPass(t.id,sc) ? "ผ่าน" : (passed?"เคยผ่านแล้ว":"ยังไม่ผ่าน"))) : "ยังไม่ได้ทดสอบ")+
                     " · คลัง "+nq+" ข้อ")))+
                '</div>'+
              '</div>'+
              '<div style="flex:none;display:flex;align-items:center;gap:2px;white-space:nowrap;">'+
-               (upd?'':newBadge('quiz:'+t.id,(S.bankPub||{})[t.id]))+
+               (upd?'':newBadge('quiz:'+t.id,(S.bankPub||{})[t.id],(TOPIC_CFG[t.id]||{}).badge))+
                '<span style="font-size:11px;font-weight:600;white-space:nowrap;color:'+(upd?"#B8860B":(!nq?"var(--c-text-subtle)":(passed?"#1E9E5A":"var(--pri)")))+';">'+
-                 (upd?"ยังไม่เปิด":(!nq?"เร็ว ๆ นี้":(passed?"ผ่านแล้ว":("ทำข้อสอบ "+Math.min(10,nq)+" ข้อ ›"))))+'</span>'+
+                 (upd?"ยังไม่เปิด":(!nq?"เร็ว ๆ นี้":(passed?"ผ่านแล้ว":("ทำข้อสอบ "+Math.min(topicDraw(t.id),nq)+" ข้อ ›"))))+'</span>'+
              '</div>'+
            '</div>';
       }
@@ -1717,10 +1737,10 @@ function validQs(a){
       return o;
     });
 }
-function drawQs(arr){
+function drawQs(arr, n){
   var a=arr.slice();
   for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
-  return a.slice(0,10);
+  return a.slice(0, n||10);
 }
 
 /* ══════════ ชุดข้อสอบเสมือนจริง ══════════
@@ -2797,7 +2817,7 @@ function quizSheet(){
            ('<div class="mono" style="font-size:52px;font-weight:600;line-height:1;color:'+(q.passed?"#1E9E5A":"var(--pri)")+';">'+q.pct+'%</div>'+
             '<div style="font-size:18px;font-weight:700;margin-top:10px;">'+(q.passed?"ผ่านเกณฑ์ 🎉":"ยังไม่ผ่านเกณฑ์")+'</div>'+
             (q.timeUp?'<div style="font-size:12.5px;color:var(--pri);font-weight:600;margin-top:6px;">⏱ หมดเวลา — ระบบส่งคำตอบให้อัตโนมัติ</div>':"")+
-            '<div style="font-size:12.5px;color:var(--c-text-muted);margin-top:6px;">ทำถูก '+q.correct+' / '+q.questions.length+' ข้อ · เกณฑ์ผ่าน 80%'+(q.passed?" · บันทึกเป็นผ่านแล้ว":"")+'</div>'))+
+            '<div style="font-size:12.5px;color:var(--c-text-muted);margin-top:6px;">ทำถูก '+q.correct+' / '+q.questions.length+' ข้อ · เกณฑ์ผ่าน '+(topicPassN(q.topicId)!=null?("≥ "+topicPassN(q.topicId)+" ข้อ"):"80%")+(q.passed?" · บันทึกเป็นผ่านแล้ว":"")+'</div>'))+
          '<div style="text-align:left;margin-top:20px;display:flex;flex-direction:column;gap:9px;">'+
            '<div class="lbl">เฉลยรายข้อ</div>'+
            q.questions.map(function(qq,i){
@@ -3890,9 +3910,9 @@ window.A=A;
 
 function loadQuiz(sk,id,label,subjName){
   var bank=validQs((S.bank||{})[id]);
-  if(bank.length>0){ startQuiz(id, drawQs(bank)); return; }
+  if(bank.length>0){ startQuiz(id, drawQs(bank, topicDraw(id))); return; }
   var cached=validQs((S.pool||{})[id]);
-  if(cached.length>0){ startQuiz(id, drawQs(cached)); return; }
+  if(cached.length>0){ startQuiz(id, drawQs(cached, topicDraw(id))); return; }
   // ไม่มีข้อสอบในคลัง — ถ้าเปิดในหน้าต่างพรีวิวของ Claude จะลองให้ AI ออกข้อสอบให้
   if(window.claude && window.claude.complete){ aiQuiz(sk,id,label,subjName); return; }
   if(S.quiz && S.quiz.topicId===id){ S.quiz.status="empty"; render(); }
@@ -3976,7 +3996,7 @@ function gradeQuiz(){                       // นับข้อถูกจา
     q.sectResult=secs;
     q.passed = secs.length>0 && secs.every(function(s){ return s.ok; });
   } else {
-    q.passed=q.pct>=80;
+    q.passed=topicPass(q.topicId, q.correct, q.questions.length);
   }
 }
 function finishQuiz(timeUp){
@@ -4009,7 +4029,7 @@ function aiQuiz(sk,id,label,subjName){
       if(pool.length<1) throw new Error("empty");
       var p=Object.assign({},S.pool); p[id]=pool;
       S.pool=p; save();
-      startQuiz(id, drawQs(pool));
+      startQuiz(id, drawQs(pool, topicDraw(id)));
     })
     .catch(function(){ if(S.quiz && S.quiz.topicId===id){ S.quiz.status="error"; render(); } });
 }
