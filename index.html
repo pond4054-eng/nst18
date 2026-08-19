@@ -554,7 +554,7 @@ function save(){
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
-    if(!S.bankDirty){ delete c.bank; delete c.pool; }
+    delete c.bank; delete c.pool;   // ไม่เก็บคลังข้อสอบทั้งก้อนใน localStorage — มาจาก questions.json (SW แคช) ทุกครั้ง กันเขียนก้อนใหญ่ (~5MB) จนมือถือค้าง/เต็มโควตา
     if(!S.knowledgeDirty){ delete c.knowledge; }   // คลังความรู้มาจาก questions.json (มีรูปฝัง) ไม่ยัดลง localStorage นอกจากแอดมินแก้ค้าง
     localStorage.setItem(LS, JSON.stringify(c));
   }catch(e){
@@ -1970,6 +1970,7 @@ function buildPick(){
   });
   return { items:items, gaps:gaps, at:new Date(), label:"ไฟล์ข้อสอบ"+(labels.length?" — "+labels.join(" · "):"") };
 }
+function pickApply(){ save(); renderOverlays(); }   // อัปเดตหลังคลิกในตัวสร้างไฟล์: บันทึก + วาดแค่แผงซ้อน (ไม่วาดหน้าหลัก/รูปใหม่) กันค้างบนมือถือ
 function pickFormHTML(){
   var cards="";
   subjects().forEach(function(su){
@@ -3796,12 +3797,12 @@ var A={
     var b=document.getElementById("printarea");
     if(b) b.scrollTop=0;
   },
-  pickHead:function(sk){ var c=pickSubCfg(sk); if(c.on){ c.exp=!c.exp; } else { c.on=true; c.exp=true; } set({pickSubs:S.pickSubs}); },
-  pickSubj:function(sk){ var c=pickSubCfg(sk); c.on=!c.on; if(c.on) c.exp=true; set({pickSubs:S.pickSubs}); },
-  pickN:function(sk,v){ var c=pickSubCfg(sk); c.n=Math.max(1,parseInt(v,10)||1); set({pickSubs:S.pickSubs}); },
-  pickTopic:function(tid){ S.pickOff=S.pickOff||{}; if(S.pickOff[tid]) delete S.pickOff[tid]; else S.pickOff[tid]=true; set({pickOff:S.pickOff}); },
-  pickAllTopics:function(sk,on){ S.pickOff=S.pickOff||{}; (S.topics[sk]||[]).forEach(function(t){ if(on) delete S.pickOff[t.id]; else S.pickOff[t.id]=true; }); set({pickOff:S.pickOff}); },
-  pickOrder:function(){ S.pickOrder=(S.pickOrder==="bank")?"rand":"bank"; set({pickOrder:S.pickOrder}); },
+  pickHead:function(sk){ var c=pickSubCfg(sk); if(c.on){ c.exp=!c.exp; } else { c.on=true; c.exp=true; } pickApply(); },
+  pickSubj:function(sk){ var c=pickSubCfg(sk); c.on=!c.on; if(c.on) c.exp=true; pickApply(); },
+  pickN:function(sk,v){ var c=pickSubCfg(sk); c.n=Math.max(1,parseInt(v,10)||1); pickApply(); },
+  pickTopic:function(tid){ S.pickOff=S.pickOff||{}; if(S.pickOff[tid]) delete S.pickOff[tid]; else S.pickOff[tid]=true; pickApply(); },
+  pickAllTopics:function(sk,on){ S.pickOff=S.pickOff||{}; (S.topics[sk]||[]).forEach(function(t){ if(on) delete S.pickOff[t.id]; else S.pickOff[t.id]=true; }); pickApply(); },
+  pickOrder:function(){ S.pickOrder=(S.pickOrder==="bank")?"rand":"bank"; pickApply(); },
   makePick:function(){
     var m=buildPick();
     if(!m.items.length){ alert("ยังไม่ได้เลือกวิชา/หัวข้อ หรือหัวข้อที่เลือกยังไม่มีข้อสอบ"); return; }
