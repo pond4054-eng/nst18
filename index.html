@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v129";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v97";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1970,7 +1970,7 @@ function buildPick(){
   });
   return { items:items, gaps:gaps, at:new Date(), label:"ไฟล์ข้อสอบ"+(labels.length?" — "+labels.join(" · "):"") };
 }
-function pickApply(){ save(); renderOverlays(); }   // อัปเดตหลังคลิกในตัวสร้างไฟล์: บันทึก + วาดแค่แผงซ้อน (ไม่วาดหน้าหลัก/รูปใหม่) กันค้างบนมือถือ
+function pickApply(){ save(); var el=document.getElementById("pickbuilder"); if(el){ el.outerHTML=pickFormHTML(); } else { renderOverlays(); } }   // อัปเดตหลังคลิก: วาดใหม่เฉพาะกล่องตัวสร้างไฟล์ (ไม่วาดแผงแอดมินทั้งแผง/หน้าหลัก) — เบาสุด กันค้างบนมือถือ
 function pickFormHTML(){
   var cards="";
   subjects().forEach(function(su){
@@ -1991,7 +1991,7 @@ function pickFormHTML(){
   });
   var total=0, subs=0;
   subjects().forEach(function(su){ var cfg=(S.pickSubs||{})[su.k]; if(cfg&&cfg.on){ var pool=pickSubPool(su.k); if(pool.length){ subs++; total+=Math.min(Math.max(1,parseInt(cfg.n,10)||10),pool.length); } } });
-  return '<div>'+cards+'<div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;padding:11px 12px;margin-top:4px;"><button class="btn sm ghost" style="margin-bottom:10px;" onclick="A.pickOrder()">'+(S.pickOrder==="bank"?"📖 ตามลำดับในคลัง":"🎲 สุ่มข้อ")+'</button><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;margin-bottom:10px;"><span style="color:var(--c-text-muted);">รวมที่เลือก</span><span><b style="font-size:17px;">'+total+'</b> ข้อ · '+subs+' วิชา</span></div><button class="btn sm" style="width:100%;justify-content:center;'+(subs?'':'opacity:.4;')+'" '+(subs?'':'disabled ')+'onclick="A.makePick()">📄 สร้างไฟล์ข้อสอบ</button></div></div>';
+  return '<div id="pickbuilder">'+cards+'<div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;padding:11px 12px;margin-top:4px;"><button class="btn sm ghost" style="margin-bottom:10px;" onclick="A.pickOrder()">'+(S.pickOrder==="bank"?"📖 ตามลำดับในคลัง":"🎲 สุ่มข้อ")+'</button><div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px;margin-bottom:10px;"><span style="color:var(--c-text-muted);">รวมที่เลือก</span><span><b style="font-size:17px;">'+total+'</b> ข้อ · '+subs+' วิชา</span></div><button class="btn sm" style="width:100%;justify-content:center;'+(subs?'':'opacity:.4;')+'" '+(subs?'':'disabled ')+'onclick="A.makePick()">📄 สร้างไฟล์ข้อสอบ</button></div></div>';
 }
 /* ───── ปฏิทินวางแผนล่วงหน้า ───── */
 function planEmoji(t){ return t==="study"?"📖":t==="quiz"?"📝":"🏃"; }
