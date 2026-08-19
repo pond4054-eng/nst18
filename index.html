@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v98";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v99";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2972,12 +2972,15 @@ function mathHelp(){
       }).join("")+
     '</div></details>';
 }
-function adminTabBar(){
-  var tabs=[['exams','📝 ข้อสอบ'],['content','🎬 เนื้อหา'],['phys','🏃 พละ'],['publish','📤 ส่งให้นักเรียน'],['system','⚙️ ระบบ']];
+function adminNavBar(){
+  var tabs=[['exams','📝','ข้อสอบ'],['content','🎬','เนื้อหา'],['phys','🏃','พละ'],['publish','📤','ส่งออก'],['system','⚙️','ระบบ']];
   var cur=S.adminTab||'exams';
-  return '<div style="display:flex;gap:6px;overflow-x:auto;margin:-2px -2px 16px;padding:2px 0 4px;">'+
+  return '<div style="flex:none;display:flex;border-top:1px solid var(--c-border);background:var(--c-surface);padding-bottom:env(safe-area-inset-bottom);">'+
     tabs.map(function(t){ var on=t[0]===cur;
-      return '<button onclick="A.adminTab(\''+t[0]+'\')" style="flex:none;font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:999px;border:1px solid '+(on?'var(--pri)':'var(--c-border)')+';background:'+(on?'var(--pri)':'var(--c-surface)')+';color:'+(on?'#fff':'var(--c-text-muted)')+';white-space:nowrap;cursor:pointer;">'+t[1]+'</button>';
+      return '<button onclick="A.adminTab(\''+t[0]+'\')" style="flex:1;min-width:0;background:none;border:none;padding:8px 2px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;color:'+(on?'var(--pri)':'var(--c-text-subtle)')+';">'+
+        '<span style="font-size:21px;line-height:1;filter:'+(on?'none':'grayscale(0.4)')+';">'+t[1]+'</span>'+
+        '<span style="font-size:9.5px;font-weight:700;">'+t[2]+'</span>'+
+      '</button>';
     }).join('')+'</div>';
 }
 function adminSheet(){
@@ -3005,7 +3008,7 @@ function adminSheet(){
            '<button class="btn sm ghost" onclick="A.logoutAdmin()">ออกจากระบบ</button>'+
            '<button class="x" onclick="A.closeAdmin()">✕</button>'+
          '</div></div>'+
-       '<div class="sheetbody">'+adminTabBar();
+       '<div class="sheetbody" style="flex:1;min-height:0;">';
     var TAB=S.adminTab||'exams';
     if(TAB==='exams'){
     h+='<div class="lbl" style="margin-bottom:4px;">คลังข้อสอบรายหัวข้อ</div>'+
@@ -3185,6 +3188,7 @@ function adminSheet(){
          '<button class="btn sm" style="background:var(--pri);border-color:var(--pri);" onclick="A.resetStudents()">🔄 รีเซ็ตนักเรียนทุกคน…</button>'+
        '</div>';
     h+='</div>';
+    h+=adminNavBar();
   } else if(S.adminView==="bank"){
     var tObj=(S.topics[S.adminSubj]||[]).find(function(x){ return x.id===S.adminTopic; });
     var list=((S.bank||{})[S.adminTopic]||[]);
