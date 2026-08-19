@@ -497,7 +497,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v97";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v98";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2972,6 +2972,14 @@ function mathHelp(){
       }).join("")+
     '</div></details>';
 }
+function adminTabBar(){
+  var tabs=[['exams','📝 ข้อสอบ'],['content','🎬 เนื้อหา'],['phys','🏃 พละ'],['publish','📤 ส่งให้นักเรียน'],['system','⚙️ ระบบ']];
+  var cur=S.adminTab||'exams';
+  return '<div style="display:flex;gap:6px;overflow-x:auto;margin:-2px -2px 16px;padding:2px 0 4px;">'+
+    tabs.map(function(t){ var on=t[0]===cur;
+      return '<button onclick="A.adminTab(\''+t[0]+'\')" style="flex:none;font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:999px;border:1px solid '+(on?'var(--pri)':'var(--c-border)')+';background:'+(on?'var(--pri)':'var(--c-surface)')+';color:'+(on?'#fff':'var(--c-text-muted)')+';white-space:nowrap;cursor:pointer;">'+t[1]+'</button>';
+    }).join('')+'</div>';
+}
 function adminSheet(){
   var h='<div class="sheet"><div class="sheetin">';
   if(S.adminView==="login"){
@@ -2997,8 +3005,10 @@ function adminSheet(){
            '<button class="btn sm ghost" onclick="A.logoutAdmin()">ออกจากระบบ</button>'+
            '<button class="x" onclick="A.closeAdmin()">✕</button>'+
          '</div></div>'+
-       '<div class="sheetbody">'+
-         '<div class="lbl" style="margin-bottom:4px;">คลังข้อสอบรายหัวข้อ</div>'+
+       '<div class="sheetbody">'+adminTabBar();
+    var TAB=S.adminTab||'exams';
+    if(TAB==='exams'){
+    h+='<div class="lbl" style="margin-bottom:4px;">คลังข้อสอบรายหัวข้อ</div>'+
          '<div class="muted" style="margin-bottom:14px;">ลงข้อสอบเองต่อหัวข้อ — นักเรียนจะได้สุ่ม 10 ข้อจากคลังนี้ ใช้ได้แม้ไม่มีเน็ต</div>'+
          '<div style="display:flex;flex-direction:column;gap:14px;">';
     subjects().forEach(function(su){
@@ -3015,8 +3025,10 @@ function adminSheet(){
       h+='</div></div>';
     });
     h+='</div>';
+    }
 
     // วิดีโอติวหนังสือรายหัวข้อ
+    if(TAB==='content'){
     h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">วิดีโอติวหนังสือรายหัวข้อ</div>'+
          '<div class="muted" style="margin-bottom:14px;">ใส่ลิงก์ YouTube ต่อหัวข้อ — นักเรียนดูวิดีโอเรียนเนื้อหาแบบฝังในแอป (ต้องมีเน็ต) ระบบบันทึกความคืบหน้า/ประวัติให้อัตโนมัติ</div>'+
@@ -3035,8 +3047,10 @@ function adminSheet(){
       h+='</div></div>';
     });
     h+='</div></div>';
+    }
 
     // ท่าฝึกพละ
+    if(TAB==='phys'){
     h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">ท่าฝึกพละและเกณฑ์</div>'+
          '<div class="muted" style="margin-bottom:12px;">แก้ชื่อ · คำอธิบาย · เกณฑ์ · หน่วย · ทิศทางที่ถือว่าดี หรือเพิ่ม/ลบท่า</div>'+
@@ -3057,8 +3071,10 @@ function adminSheet(){
     h+='</div>'+
        '<button class="btn sm" style="margin-top:10px;padding:9px 14px;" onclick="A.addPhys()">＋ เพิ่มท่าฝึก</button>'+
      '</div>';
+    }
 
     // ── คลังความรู้ ──
+    if(TAB==='content'){
     h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">คลังความรู้ (คำศัพท์ / ภาพ / PDF)</div>'+
          '<div class="muted" style="margin-bottom:12px;">เลือกวิชา แล้วเพิ่ม: คำศัพท์ · อัปโหลดภาพ (แอปย่อให้อัตโนมัติ) · ลิงก์ PDF (Google Drive)</div>'+
@@ -3098,8 +3114,10 @@ function adminSheet(){
          '</div>';
     }
     h+='</div>';
+    }
 
     // สำรองข้อมูล
+    if(TAB==='system')
     h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">สำรอง / ย้ายข้อมูล</div>'+
          '<div class="muted" style="margin-bottom:12px;">ข้อมูลทั้งหมดเก็บในเครื่องนี้เท่านั้น — ล้างข้อมูลเบราว์เซอร์แล้วจะหาย ควรกดสำรองเก็บไว้</div>'+
@@ -3108,8 +3126,9 @@ function adminSheet(){
            '<button class="btn sm ghost" onclick="A.importData()">⬆︎ นำเข้าไฟล์</button>'+
          '</div>'+
          '<input type="file" id="importfile" accept="application/json" hidden onchange="A.importFile(this)">'+
-       '</div>'+
-       '<div style="margin-top:22px;">'+
+       '</div>';
+    if(TAB==='publish')
+    h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">ส่งข้อสอบ + วิดีโอ ให้นักเรียนทุกคน</div>'+
          '<div class="muted" style="margin-bottom:12px;"><b>ข้อสอบและวิดีโอที่ลงไว้ยังอยู่แค่ในเครื่องนี้</b> — ต้องกดปุ่มนี้เพื่อได้ไฟล์ <b>questions.json</b> '+
            '(รวมทั้งข้อสอบและลิงก์วิดีโอ) แล้ว<b>อัปโหลดทับไฟล์เดิมบนเว็บ</b> นักเรียนถึงจะเห็นของใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
@@ -3125,43 +3144,47 @@ function adminSheet(){
                '</div>'+
              '</div>'
            : "")+
-       '</div>'+
-       '<div style="margin-top:22px;">'+
+       '</div>';
+    if(TAB==='publish')
+    h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">ดึงข้อสอบล่าสุดจากเว็บ</div>'+
          '<div class="muted" style="margin-bottom:12px;">ใช้เมื่อเครื่องนี้ยังเห็นข้อสอบชุดเก่าทั้งที่อัปของใหม่ขึ้นเว็บไปแล้ว '+
            '<b style="color:var(--pri);">ข้อสอบที่แก้ค้างไว้ในเครื่องนี้จะหาย</b></div>'+
          '<button class="btn sm ghost" onclick="A.pullLatest()">↻ ดึงข้อสอบล่าสุดจากเว็บ</button>'+
-       '</div>'+
-       '<div style="margin-top:22px;">'+
+       '</div>';
+    if(TAB==='exams')
+    h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">สร้างชุดข้อสอบเสมือนจริง '+MOCK_TOTAL+' ข้อ</div>'+
          '<div class="muted" style="margin-bottom:10px;">สุ่มจากคลังตามสัดส่วนข้อสอบจริง พร้อมเฉลย — สั่งพิมพ์หรือบันทึกเป็น PDF ได้</div>'+
          mockPlanHTML()+
          '<button class="btn sm" style="margin-top:12px;" onclick="A.makeMock()">🎲 สุ่มชุดข้อสอบใหม่</button>'+
-       '</div>'+
-       '<div style="margin-top:22px;">'+
+       '</div>';
+    if(TAB==='exams')
+    h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">ดึงข้อสอบเป็นไฟล์เอง</div>'+
          '<div class="muted" style="margin-bottom:12px;">เลือกวิชา หัวข้อ และจำนวนข้อที่ต้องการ ได้ทั้งตัวข้อสอบและเฉลย — พิมพ์หรือบันทึกเป็น PDF ได้</div>'+
          pickFormHTML()+
-       '</div>'+
-       '<div style="margin-top:22px;">'+
+       '</div>';
+    if(TAB==='system')
+    h+='<div style="margin-top:22px;">'+
          '<div class="lbl" style="margin-bottom:4px;">ขนาดข้อมูล</div>'+
          '<div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--c-text-muted);">'+
            '<div>คลังข้อสอบ: <b style="color:var(--c-text);">'+Object.values(S.bank||{}).reduce(function(a,b){return a+b.length;},0)+' ข้อ</b> · '+
              Math.round(JSON.stringify(S.bank||{}).length/1024)+' KB (อยู่ในไฟล์บนเว็บ ไม่กินพื้นที่เครื่อง)</div>'+
            '<div>ข้อมูลที่เก็บในเครื่องนี้: <b style="color:var(--c-text);">'+storeKB()+' KB</b> (ความคืบหน้า/ผลสอบ/ผลพละ)</div>'+
          '</div>'+
-       '</div>'+
-       // โซนอันตราย: รีเซ็ตนักเรียนทุกคน (ต้องใส่รหัสผ่าน)
-       '<div style="margin-top:26px;padding:14px;border:1px solid #F5C6C8;border-radius:12px;background:#FEF4F4;">'+
+       '</div>';
+    // โซนอันตราย: รีเซ็ตนักเรียนทุกคน (ต้องใส่รหัสผ่าน)
+    if(TAB==='system')
+    h+='<div style="margin-top:26px;padding:14px;border:1px solid #F5C6C8;border-radius:12px;background:#FEF4F4;">'+
          '<div class="lbl" style="margin-bottom:4px;color:#7A1219;">⚠️ รีเซ็ตความคืบหน้านักเรียนทุกคน</div>'+
          '<div style="font-size:12px;color:#7A1219;line-height:1.7;margin-bottom:12px;">'+
            'ล้าง <b>คะแนนสอบ + สถานะเช็กลิสต์ + ช่องติ๊กงานประจำวัน</b> ของนักเรียนทุกคนกลับเป็นค่าเริ่มต้น '+
            '(เก็บวันสอบ ตั้งค่าส่วนตัว และรหัสเปิดใช้งานไว้) — ต้องใส่รหัสผ่าน และต้องอัปโหลด questions.json ทับบนเว็บ '+
            'นักเรียนจะถูกรีเซ็ตเมื่อเปิดแอปครั้งถัดไปที่มีเน็ต · <b>ย้อนกลับไม่ได้</b></div>'+
          '<button class="btn sm" style="background:var(--pri);border-color:var(--pri);" onclick="A.resetStudents()">🔄 รีเซ็ตนักเรียนทุกคน…</button>'+
-       '</div>'+
-       '<div style="font-size:11.5px;color:var(--c-text-subtle);margin-top:16px;line-height:1.5;">ส่วนหัวข้อ ปรับแก้ได้จากปุ่ม “จัดการหัวข้อ” และ “✎ แก้ไข” ในแต่ละแท็บโดยตรง</div>'+
        '</div>';
+    h+='</div>';
   } else if(S.adminView==="bank"){
     var tObj=(S.topics[S.adminSubj]||[]).find(function(x){ return x.id===S.adminTopic; });
     var list=((S.bank||{})[S.adminTopic]||[]);
@@ -3296,6 +3319,7 @@ var A={
   backKnow:function(){ S.knowSubj=null; render(); },
   // ── คลังความรู้ (แอดมิน) ──
   adminKnowSubj:function(v){ S.adminKnowSubj=v||null; render(); },
+  adminTab:function(k){ S.adminTab=k; renderOverlays(); var sb=document.querySelector('#overlays .sheetbody'); if(sb) sb.scrollTop=0; },
   addVocab:function(){
     if(!S.adminKnowSubj){ toast("เลือกวิชาก่อน"); return; }
     var term=((document.getElementById("kvTerm")||{}).value||"").trim(), def=((document.getElementById("kvDef")||{}).value||"").trim();
