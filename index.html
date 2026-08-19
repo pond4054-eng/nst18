@@ -504,7 +504,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v102";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v103";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2817,7 +2817,7 @@ function quizSheet(){
                      '<div style="margin-top:9px;background:var(--c-bg);border-radius:9px;padding:10px 11px;">'+
                        '<div style="font-size:11px;font-weight:700;color:var(--c-text-muted);margin-bottom:4px;">วิธีทำโดยละเอียด</div>'+
                        (qq.ximg ? imgHTML(qq.ximg, 220) : "")+
-                       '<div style="font-size:12.5px;line-height:1.9;white-space:pre-wrap;">'+mfrac(qq.explain||"")+'</div></div>':"")+
+                       '<div class="pexp" style="font-size:12.5px;line-height:1.9;">'+fmtExp(qq.explain||"")+'</div></div>':"")+
                  '</div></div></div>';
            }).join("")+
          '</div>'+
