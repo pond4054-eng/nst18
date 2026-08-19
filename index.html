@@ -535,7 +535,7 @@ function load(){
   var saved={};
   try{ saved=JSON.parse(localStorage.getItem(LS)||"{}"); }catch(e){}
   S=Object.assign(defState(), saved);
-  if(!S.everAdmin && S.bankDirty){ S.bankDirty=false; }   // ปลดล็อกเครื่องนักเรียนที่เคยติดธง "แก้ค้าง" ค้างถาวร → กลับมารับอัปเดตได้
+  if(S.bankDirty && !(saved && saved.bank && Object.keys(saved.bank).length)){ S.bankDirty=false; }   // ปลดธง "แก้ค้าง" ที่ไม่มีข้อสอบค้างจริงในเครื่อง → กันเขียน localStorage ก้อนใหญ่จนแอปค้าง + กลับมารับอัปเดต
   S.quiz=null; S.quizConfirm=false; S.adminOpen=false; S.adminMode=false; S.adminView="login";
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
   S.player=null; S.studySubj=null; S.vidDraft=null; S.feed=null;
@@ -3157,11 +3157,11 @@ function adminSheet(){
            '(รวมทั้งข้อสอบและลิงก์วิดีโอ) แล้ว<b>อัปโหลดทับไฟล์เดิมบนเว็บ</b> นักเรียนถึงจะเห็นของใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
          '<button class="btn sm" onclick="A.exportQuestions()">⬇︎ ส่งออกข้อสอบ + วิดีโอ (questions.json)</button>'+
          '<div style="font-size:11px;color:var(--c-text-subtle);margin-top:8px;">เวอร์ชันเนื้อหาปัจจุบัน: '+(S.contentVersion||0)+' → จะส่งออกเป็นเวอร์ชัน '+((S.contentVersion||0)+1)+'</div>'+
-         ((S.bankDirty||S.videosDirty||S.knowledgeDirty)
+         ((S.bankDirty||S.videosDirty||S.knowledgeDirty||S.topicsDirty)
            ? '<div style="margin-top:12px;padding:12px 14px;background:#FEF4F4;border:1px solid #F5C6C8;border-left:3px solid var(--pri);border-radius:9px;">'+
                '<div style="font-size:13px;font-weight:700;color:#7A1219;margin-bottom:5px;">⚠️ มีของที่เพิ่ม/แก้ไว้ ยังไม่ได้ส่งออก</div>'+
                '<div style="font-size:12px;color:#7A1219;line-height:1.6;">'+
-                 'มี'+[S.bankDirty?"ข้อสอบ":"",S.videosDirty?"วิดีโอ":"",S.knowledgeDirty?"คลังความรู้":""].filter(Boolean).join(" · ")+' ที่เพิ่ม/แก้ในเครื่องนี้ แต่ยังไม่ได้ส่งออก '+
+                 'มี'+[S.bankDirty?"ข้อสอบ":"",S.videosDirty?"วิดีโอ":"",S.knowledgeDirty?"คลังความรู้":"",S.topicsDirty?"การเลือกหัวข้อออกข้อสอบ":""].filter(Boolean).join(" · ")+' ที่เพิ่ม/แก้ในเครื่องนี้ แต่ยังไม่ได้ส่งออก '+
                  '<b>นักเรียนจะยังไม่เห็นจนกว่าจะกดปุ่มส่งออกด้านบน แล้วอัปโหลดไฟล์ทับบนเว็บ</b>'+
                  (S.bankDirty?'<br>(ระหว่างนี้ระบบหยุดดึงข้อสอบใหม่จากเว็บไว้ก่อน เพื่อไม่ให้ที่แก้ไว้หาย)':"")+
                '</div>'+
@@ -3344,8 +3344,8 @@ var A={
   // ── คลังความรู้ (แอดมิน) ──
   adminKnowSubj:function(v){ S.adminKnowSubj=v||null; render(); },
   adminExamSubj:function(v){ S.adminExamSubj=v||"math"; render(); },
-  toggleExamTopic:function(subj,tid){ (S.topics[subj]||[]).forEach(function(t){ if(t.id===tid){ t.exam=(t.exam===false); } }); set({topics:S.topics, bankDirty:true}); },
-  examSelectAll:function(subj,on){ (S.topics[subj]||[]).forEach(function(t){ t.exam=on?true:false; }); set({topics:S.topics, bankDirty:true}); },
+  toggleExamTopic:function(subj,tid){ (S.topics[subj]||[]).forEach(function(t){ if(t.id===tid){ t.exam=(t.exam===false); } }); set({topics:S.topics, topicsDirty:true}); },
+  examSelectAll:function(subj,on){ (S.topics[subj]||[]).forEach(function(t){ t.exam=on?true:false; }); set({topics:S.topics, topicsDirty:true}); },
   addVocab:function(){
     if(!S.adminKnowSubj){ toast("เลือกวิชาก่อน"); return; }
     var term=((document.getElementById("kvTerm")||{}).value||"").trim(), def=((document.getElementById("kvDef")||{}).value||"").trim();
@@ -3803,7 +3803,7 @@ var A={
     a.download="questions.json";
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
-    set({contentVersion:v, bankDirty:false, videosDirty:false, knowledgeDirty:false});
+    set({contentVersion:v, bankDirty:false, videosDirty:false, knowledgeDirty:false, topicsDirty:false});
     toast("ได้ไฟล์แล้ว (รวมข้อสอบ+วิดีโอ+คลังความรู้) — อัปโหลดทับ questions.json บนเว็บ");
   },
   /* รีเซ็ตความคืบหน้านักเรียน "ทุกคน" กลับเป็นค่าเริ่มต้น (คะแนน+เช็กลิสต์+ช่องติ๊กแผน)
@@ -3827,7 +3827,7 @@ var A={
       : "ดึงข้อสอบล่าสุดจากเว็บมาทับของในเครื่องนี้?";
     if(!confirm(msg)) return;
     var before = Object.values(S.bank||{}).reduce(function(a,b){return a+b.length;},0);
-    set({bankDirty:false});
+    set({bankDirty:false, topicsDirty:false});
     toast("กำลังดึงข้อสอบล่าสุด…");
     syncContent().then(function(){
       var after = Object.values(S.bank||{}).reduce(function(a,b){return a+b.length;},0);
@@ -4039,7 +4039,7 @@ function applyContent(d){
     toast("ครูรีเซ็ตความคืบหน้าใหม่ทั้งหมดแล้ว — เริ่มต้นใหม่ได้เลย");
   }
   var v=d.version||0, newer = v!==(S.contentVersion||0);
-  if(S.everAdmin && S.bankDirty){              // เฉพาะเครื่องแอดมินจริงที่มีข้อสอบแก้ค้าง ห้ามทับ (เครื่องนักเรียนไม่โดนแช่แข็ง)
+  if(S.everAdmin && (S.bankDirty || S.topicsDirty)){              // เฉพาะเครื่องแอดมินจริงที่มีของแก้ค้าง ห้ามทับ (เครื่องนักเรียนไม่โดนแช่แข็ง)
     if(newer) toast("มีเนื้อหาใหม่บนเว็บ — แต่ยังไม่ดึงมา เพราะมีข้อสอบที่ยังไม่ได้ส่งออก");
     return;
   }
