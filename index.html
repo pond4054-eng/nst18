@@ -275,7 +275,9 @@
     .mockwrap .printarea{ overflow:visible !important; max-height:none !important;
                           padding:0 !important; background:var(--c-surface) !important; }
     .paperbody{ background-size:100% auto !important; }
-    img{ max-height:170px !important; }
+    img{ max-height:170px !important; break-inside:avoid !important; page-break-inside:avoid !important; }
+    /* กันข้อสอบ/รูปถูกตัดข้ามหน้า ทำให้รูปหาย */
+    .pq, .pq-t{ break-inside:avoid; page-break-inside:avoid; }
   }
 </style>
 <script>
@@ -504,7 +506,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v108";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v109";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2967,8 +2969,9 @@ function delDraftImage(t, i){
 function kb(s){ return Math.round((s ? s.length : 0) * 0.75 / 1024); }
 function imgHTML(src, max){
   if(!src) return "";
-  return '<img src="'+esc(src)+'" alt="รูปประกอบโจทย์" loading="lazy" '+
-    'style="display:block;max-width:100%;max-height:'+(max||260)+'px;margin:8px 0;border-radius:10px;border:1px solid var(--c-border);background:var(--c-surface);">';
+  /* eager (ไม่ lazy) — รูปเป็น data URI ฝังในไฟล์อยู่แล้ว การ lazy ทำให้รูปที่อยู่ล่าง ๆ ไม่ถูกพิมพ์ลง PDF (โหลดเฉพาะตอนเลื่อนเห็น) */
+  return '<img src="'+esc(src)+'" alt="รูปประกอบโจทย์" loading="eager" decoding="sync" '+
+    'style="display:block;max-width:100%;max-height:'+(max||260)+'px;margin:8px 0;border-radius:10px;border:1px solid var(--c-border);background:var(--c-surface);break-inside:avoid;page-break-inside:avoid;">';
 }
 /* ปุ่มเลือก/ลบรูป ในแผงแอดมิน */
 function imgBtn(label, t, i, cur){
