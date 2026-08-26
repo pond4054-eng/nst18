@@ -1,6 +1,6 @@
 {
  "_comment": "คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อย่าแก้ไฟล์นี้ด้วยมือ ให้ใช้ปุ่ม 'ส่งออกคลังข้อสอบ' ในแผงแอดมินแล้วอัปโหลดทับไฟล์นี้",
- "version": 169,
+ "version": 170,
  "topics": {
   "math": [
    {
@@ -45864,6 +45864,119 @@
     ],
     "answer": 3,
     "explain": "💡 คู่แรกคือ 'หน่วยย่อย : หน่วยที่ใหญ่ถัดขึ้นไปซึ่งบรรจุมันไว้'\n📐 หาความสัมพันธ์\n• หลายเดือนรวมเป็น 1 ปี\n• หลายสัปดาห์รวมเป็น 1 เดือน\n⚠️ 'วัน' เป็นหน่วยที่เล็กกว่าสัปดาห์ (ทิศทางกลับกัน)\n✓ ตอบ เดือน"
+   },
+   {
+    "q": "พิจารณาเหตุต่อไปนี้\n1) สัตว์เลี้ยงลูกด้วยนมทุกตัวมีกระดูกสันหลัง\n2) แมวทุกตัวเป็นสัตว์เลี้ยงลูกด้วยนม\n3) ไม่มีสัตว์มีกระดูกสันหลังตัวใดเป็นแมลง\n4) ผีเสื้อเป็นแมลง\nข้อสรุปใดสมเหตุสมผล",
+    "choices": [
+     "ผีเสื้อไม่ใช่แมว",
+     "แมวเป็นแมลง",
+     "ผีเสื้อมีกระดูกสันหลัง",
+     "แมวไม่มีกระดูกสันหลัง"
+    ],
+    "answer": 0,
+    "explain": "💡 ต่อเหตุเป็นลูกโซ่ทั้งวงซ้อนและวงที่แยกออก แล้วดูว่าสมาชิกถูกบังคับไปอยู่ที่ใด\n📐 อ่านแผนภาพ\n• แมว ⊂ เลี้ยงลูกด้วยนม ⊂ มีกระดูกสันหลัง (เหตุ 1–2)\n• วง 'แมลง' แยกขาดจากวง 'มีกระดูกสันหลัง' (เหตุ 3)\n• ผีเสื้อเป็นแมลง จึงอยู่นอกวงมีกระดูกสันหลัง และนอกวงแมว ⇒ ผีเสื้อไม่ใช่แมว\n⚠️ 'ผีเสื้อมีกระดูกสันหลัง' ขัดกับเหตุ 3–4 โดยตรง\n✓ ตอบ ผีเสื้อไม่ใช่แมว",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDAgMjQ0IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ0MCIgaGVpZ2h0PSIyNDQiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxNDAiIGN5PSIxMjgiIHI9Ijk4IiBmaWxsPSIjRjNFRUZCIiBzdHJva2U9IiM4QTVBQzIiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTMyIiBjeT0iMTM4IiByPSI2NiIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjEyMiIgY3k9IjE0OCIgcj0iMzYiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIzNDAiIGN5PSIxMjgiIHI9IjY2IiBmaWxsPSIjRkJFQUVBIiBzdHJva2U9IiNDMjRBNEEiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMTQwIiB5PSI0MCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzVCMzQ4QyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lih4Li14LiB4Lij4Liw4LiU4Li54LiB4Liq4Lix4LiZ4Lir4Lil4Lix4LiHPC90ZXh0Pjx0ZXh0IHg9IjE0MCIgeT0iODQiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxRTYzMzUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5gOC4peC4teC5ieC4ouC4h+C4peC4ueC4geC4lOC5ieC4p+C4ouC4meC4oTwvdGV4dD48dGV4dCB4PSIxMjIiIHk9IjE1MSIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjk3IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guYHguKHguKc8L3RleHQ+PHRleHQgeD0iMzQwIiB5PSI3MiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzlBMkMyQyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmB4Lih4Lil4LiHPC90ZXh0PjxjaXJjbGUgY3g9IjM0MCIgY3k9IjEzOCIgcj0iNS41IiBmaWxsPSIjRTQxMTFGIi8+PHRleHQgeD0iMzQwIiB5PSIxMjciIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4nOC4teC5gOC4quC4t+C5ieC4rTwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "ในห้องมีนักเรียน 40 คน โดย 25 คนชอบชา, 20 คนชอบกาแฟ และทุกคนชอบอย่างน้อยหนึ่งอย่าง มีกี่คนที่ชอบทั้งชาและกาแฟ",
+    "choices": [
+     "10 คน",
+     "5 คน",
+     "15 คน",
+     "8 คน"
+    ],
+    "answer": 1,
+    "explain": "💡 ใช้หลักการรวม-การซ้อน: |ชา| + |กาแฟ| − |ทั้งสอง| = |ทั้งหมด|\n📐 คำนวณ\n• 25 + 20 = 45 แต่มีเพียง 40 คน แสดงว่านับซ้ำไป 45 − 40 = 5\n• จำนวนที่ถูกนับซ้ำ = คนที่ชอบทั้งสองอย่าง = 5 คน\n• ตรวจจากแผนภาพ: ชาอย่างเดียว 20 + ทั้งสอง 5 + กาแฟอย่างเดียว 15 = 40 ✓\n✓ ตอบ 5 คน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjggMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyOCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxNjAiIGN5PSIxMjgiIHI9Ijg2IiBmaWxsPSIjRkJGNEU0IiBzdHJva2U9IiM4QTY0MTQiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjY4IiBjeT0iMTI4IiByPSI4NiIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMUU2MzM1IiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjEyMCIgeT0iNjAiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4QTY0MTQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4iuC4sjwvdGV4dD48dGV4dCB4PSIzMDgiIHk9IjYwIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guIHguLLguYHguJ88L3RleHQ+PHRleHQgeD0iMTIwIiB5PSIxMzIiIGZvbnQtc2l6ZT0iMTciIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM1QTQzMEQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjIwPC90ZXh0Pjx0ZXh0IHg9IjIxNCIgeT0iMTMyIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjQzAzOTJCIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj41PC90ZXh0Pjx0ZXh0IHg9IjMwOCIgeT0iMTMyIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTI0OTJBIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xNTwvdGV4dD48dGV4dCB4PSIyMTQiIHk9IjIyNCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKPguKfguKEgNDAg4LiE4LiZICjguJfguLjguIHguITguJnguIrguK3guJrguK3guKLguYjguLLguIfguJnguYnguK3guKLguKvguJnguLbguYjguIfguK3guKLguYjguLLguIcpPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "สามคน: เอก โท ตรี — แต่ละคนพูดจริงเสมอหรือโกหกเสมอ\n• เอกพูดว่า “โทพูดความจริง”\n• โทพูดว่า “ตรีโกหก”\n• ตรีพูดว่า “เอกกับโทเป็นคนละชนิดกัน (คนหนึ่งจริง อีกคนโกหก)”\nมีคนพูดจริงกี่คน",
+    "choices": [
+     "0 คน",
+     "1 คน",
+     "2 คน",
+     "3 คน"
+    ],
+    "answer": 2,
+    "explain": "💡 เริ่มจากคำพูดที่ผูกสองคนเข้าด้วยกัน (ตรี) แล้วไล่ความสอดคล้อง\n📐 ตรวจสอบ\n• สมมติเอกพูดจริง ⇒ (ตามคำเอก) โทพูดจริงด้วย ⇒ เอกกับโทเป็น 'ชนิดเดียวกัน'\n• แต่ตรีพูดว่า 'เอกกับโทคนละชนิด' ซึ่งตอนนี้เป็นเท็จ ⇒ ตรีโกหก\n• โทพูดจริงว่า 'ตรีโกหก' ✓ สอดคล้องพอดี\n• ได้ เอกจริง, โทจริง, ตรีโกหก ⇒ คนพูดจริง 2 คน\n✓ ตอบ 2 คน"
+   },
+   {
+    "q": "คน 5 คน (A B C D E) นั่งเรียงเป็นแถวตำแหน่งที่ 1–5\n• A อยู่ปลายแถว (ตำแหน่งที่ 1)\n• B นั่งติดกับ A\n• C อยู่ตรงกลางพอดี (ตำแหน่งที่ 3)\n• D ไม่นั่งติดกับ C\nตำแหน่งที่ 4 คือใคร",
+    "choices": [
+     "D",
+     "B",
+     "C",
+     "E"
+    ],
+    "answer": 3,
+    "explain": "💡 ตรึงตำแหน่งที่ชัดก่อน แล้วใช้เงื่อนไข 'ไม่ติดกัน' ตัดตัวเลือก\n📐 ไล่เงื่อนไข\n• A = ที่ 1, C = ที่ 3\n• B ติด A ⇒ B = ที่ 2\n• เหลือ D, E สำหรับที่ 4, 5\n• D ห้ามติด C (ที่ 3) ⇒ D ≠ ที่ 4 ⇒ D = ที่ 5\n• ดังนั้น E = ที่ 4\n✓ ตอบ E"
+   },
+   {
+    "q": "ข้อใดมีความสัมพันธ์ 'ต่างจากข้ออื่น'",
+    "choices": [
+     "หนังสือ : อ่าน",
+     "ปากกา : เขียน",
+     "มีด : หั่น",
+     "แปรง : ทาสี"
+    ],
+    "answer": 0,
+    "explain": "💡 หาว่าความสัมพันธ์ส่วนใหญ่เป็นแบบใด แล้วมองหาตัวที่ผิดแบบ\n📐 วิเคราะห์\n• ปากกา–เขียน, มีด–หั่น, แปรง–ทาสี = 'เครื่องมือ : การกระทำที่คนใช้เครื่องมือนั้นทำ'\n• หนังสือ–อ่าน: หนังสือไม่ใช่เครื่องมือที่ใช้ 'อ่าน' แต่เป็น 'สิ่งที่ถูกอ่าน'\n• จึงเป็นความสัมพันธ์คนละแบบ (สิ่งที่ถูกกระทำ : การกระทำ)\n✓ ตอบ หนังสือ : อ่าน"
+   },
+   {
+    "q": "กำหนดให้ประพจน์ต่อไปนี้เป็นจริง: (ถ้า A แล้ว B), (ถ้า B แล้ว C), (ถ้า C แล้ว D) และ 'ไม่ใช่ D' ข้อใดต้องเป็นจริงแน่นอน",
+    "choices": [
+     "A เป็นจริง",
+     "A, B และ C เป็นเท็จทั้งหมด",
+     "มีเพียง C ที่เป็นเท็จ",
+     "สรุปแน่นอนไม่ได้"
+    ],
+    "answer": 1,
+    "explain": "💡 ไล่ย้อนกลับด้วย Modus Tollens ทีละขั้นจากท้ายไปหน้า\n📐 ให้เหตุผล\n• ไม่ใช่ D + (C→D) ⇒ ไม่ใช่ C\n• ไม่ใช่ C + (B→C) ⇒ ไม่ใช่ B\n• ไม่ใช่ B + (A→B) ⇒ ไม่ใช่ A\n• ดังนั้น A, B, C เป็นเท็จทั้งหมด\n✓ ตอบ A, B และ C เป็นเท็จทั้งหมด"
+   },
+   {
+    "q": "ของหายในห้อง มีผู้ต้องสงสัย 3 คน โดย 'คนผิดโกหก' ส่วน 'คนบริสุทธิ์พูดความจริง' และมีคนผิดเพียงคนเดียว\n• เอ: “ผมไม่ได้ทำ”\n• บี: “เอเป็นคนทำ”\n• ซี: “บีพูดโกหก”\nใครคือคนผิด",
+    "choices": [
+     "เอ",
+     "ซี",
+     "บี",
+     "สรุปไม่ได้"
+    ],
+    "answer": 2,
+    "explain": "💡 ลองสมมติทีละคนเป็นคนผิด แล้วตรวจว่าคำพูดทุกคนเข้ากันได้ (คนผิดต้องโกหก คนบริสุทธิ์ต้องจริง)\n📐 ทดสอบสมมติ 'บีเป็นคนผิด'\n• บีโกหก: 'เอเป็นคนทำ' เป็นเท็จ ⇒ เอไม่ได้ทำ (สอดคล้อง)\n• เอบริสุทธิ์: 'ผมไม่ได้ทำ' จริง ✔\n• ซีบริสุทธิ์: 'บีพูดโกหก' จริง (เพราะบีคือคนผิด/โกหก) ✔\n• ลงตัวหมด และคนผิดคนเดียวคือบี (ลองเอหรือซีเป็นคนผิดจะเกิดข้อขัดแย้ง)\n✓ ตอบ บี"
+   },
+   {
+    "q": "นักเรียน 50 คน: 30 คนเรียนภาษาอังกฤษ, 25 คนเรียนภาษาจีน และ 10 คนเรียนทั้งสองภาษา มีกี่คนที่ไม่เรียนภาษาใดเลย",
+    "choices": [
+     "10 คน",
+     "15 คน",
+     "0 คน",
+     "5 คน"
+    ],
+    "answer": 3,
+    "explain": "💡 หาคนที่เรียนอย่างน้อยหนึ่งภาษาก่อน แล้วเอาจำนวนทั้งหมดลบออก\n📐 คำนวณ\n• เรียนอย่างน้อยหนึ่งภาษา = 30 + 25 − 10 = 45 คน\n• ไม่เรียนเลย = 50 − 45 = 5 คน\n• ตรวจจากแผนภาพ: อังกฤษอย่างเดียว 20 + ทั้งสอง 10 + จีนอย่างเดียว 15 = 45, นอกวง 5\n✓ ตอบ 5 คน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgMjQ2IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyMCIgaGVpZ2h0PSIyNDYiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI4IiB5PSI4IiB3aWR0aD0iNDA0IiBoZWlnaHQ9IjIxMiIgcng9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjE2MCIgY3k9IjEyMCIgcj0iODQiIGZpbGw9IiNFOUVFRkIiIHN0cm9rZT0iIzE3M0Y5NyIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIyNjQiIGN5PSIxMjAiIHI9Ijg0IiBmaWxsPSIjRkJFQUVBIiBzdHJva2U9IiM4QTJDMkMiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMTIwIiB5PSI1NCIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lit4Lix4LiH4LiB4Lik4LipPC90ZXh0Pjx0ZXh0IHg9IjMwNCIgeT0iNTQiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4QTJDMkMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4iOC4teC4mTwvdGV4dD48dGV4dCB4PSIxMjIiIHk9IjEyNiIgZm9udC1zaXplPSIxNyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MjA8L3RleHQ+PHRleHQgeD0iMjEyIiB5PSIxMjYiIGZvbnQtc2l6ZT0iMTciIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNDMDM5MkIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjEwPC90ZXh0Pjx0ZXh0IHg9IjMwMiIgeT0iMTI2IiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOEEyQzJDIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xNTwvdGV4dD48dGV4dCB4PSIzNzYiIHk9IjIwNiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmaWxsPSIjNDQ0IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guYTguKHguYjguYDguKPguLXguKLguJnguYDguKXguKI6IDU8L3RleHQ+PHRleHQgeD0iMjE0IiB5PSIyMzIiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lij4Lin4LihIDUwIOC4hOC4mTwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "จงหาคำที่มีความสัมพันธ์แบบเดียวกัน\nแพทย์ : โรค  เปรียบเหมือน  ช่างซ่อม : ?",
+    "choices": [
+     "ความชำรุด",
+     "เครื่องมือ",
+     "อะไหล่",
+     "ลูกค้า"
+    ],
+    "answer": 0,
+    "explain": "💡 คู่แรกคือ 'ผู้แก้ไข : สิ่งที่เขามีหน้าที่ขจัด/แก้ให้หมดไป'\n📐 หาความสัมพันธ์\n• แพทย์มีหน้าที่ขจัด โรค\n• ช่างซ่อมมีหน้าที่ขจัด ความชำรุด (ของที่เสีย)\n⚠️ เครื่องมือ/อะไหล่ = สิ่งที่ช่างใช้, ลูกค้า = ผู้มารับบริการ ไม่ใช่ 'สิ่งที่ถูกขจัด'\n✓ ตอบ ความชำรุด"
+   },
+   {
+    "q": "มีสี่คน: เอ บี ซี ดี แต่ละคนพูดจริงเสมอหรือโกหกเสมอ ต่างบอกจำนวน 'คนโกหก' ในกลุ่มดังนี้\n• เอ: “มีคนโกหก 1 คน”\n• บี: “มีคนโกหก 2 คน”\n• ซี: “มีคนโกหก 3 คน”\n• ดี: “มีคนโกหก 4 คน”\nมีคนพูดจริงกี่คน",
+    "choices": [
+     "0 คน",
+     "1 คน",
+     "2 คน",
+     "3 คน"
+    ],
+    "answer": 1,
+    "explain": "💡 ทั้งสี่บอกตัวเลขต่างกัน จึงถูกได้ 'อย่างมากคนเดียว' ⇒ มีคนพูดจริงไม่เกิน 1 คน (คนโกหกอย่างน้อย 3)\n📐 ทดสอบ\n• ถ้าคนโกหกจริง ๆ = 3 คน ⇒ คนที่พูด '3' (ซี) พูดจริง คนอื่นพูดผิดจึงโกหกทั้งหมด (3 คน) ตรงกันพอดี ✔\n• ถ้าคนโกหก = 4 คน ⇒ ดีที่พูด '4' จะกลายเป็นพูดจริง ขัดกับ 'โกหกทั้ง 4' จึงเป็นไปไม่ได้\n• จึงมีคนพูดจริงเพียง 1 คน (คือซี)\n✓ ตอบ 1 คน"
    }
   ],
   "eng_07": [
@@ -49829,7 +49942,7 @@
   "math_14": 1787324579825,
   "math_15": 1787582916267,
   "math_19": 1787727205970,
-  "math_22": 1787732641200
+  "math_22": 1787733245622
  },
  "subjStatus": {
   "thai": {
