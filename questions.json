@@ -1,6 +1,6 @@
 {
  "_comment": "คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อย่าแก้ไฟล์นี้ด้วยมือ ให้ใช้ปุ่ม 'ส่งออกคลังข้อสอบ' ในแผงแอดมินแล้วอัปโหลดทับไฟล์นี้",
- "version": 167,
+ "version": 168,
  "topics": {
   "math": [
    {
@@ -45402,7 +45402,244 @@
     "explain": "คำแปลโจทย์\nIf you had asked me (แฮด อาสค์ท์ มี = คุณถามฉัน), I _____ told you the truth (โทลด์ ยู เดอะ ทรูธ = บอกความจริงกับคุณ).\n= “ถ้าตอนนั้นคุณถามฉัน ฉันก็คงบอกความจริงไปแล้ว (แต่คุณไม่ได้ถาม)”\nศัพท์ที่ต้องรู้\nคำ | คำอ่าน | แปล\nask | อาสค์ | ถาม\ntold | โทลด์ | บอก (ช่อง 3)\ntruth | ทรูธ | ความจริง\nหลักการ\nท่อน if ใช้ had + V3 = Type 3 ท่อนหลักต้องใช้ would have + V3\nคำอธิบาย\nโจทย์มี told (V3) อยู่แล้ว ช่องว่างจึงต้องเติม would have\nโครงสร้าง\nIf + S + had + V3, S + would have + V3\nตัวอย่าง\nIf you had come, you would have met her. (ถ้าคุณมา ก็คงได้เจอเธอ)\nIf they had checked, they would have found it. (ถ้าพวกเขาตรวจ ก็คงเจอ)\nวิธีจำ\nสรุปทั้งชุดเป็นตารางสั้น ๆ ในใจ\nType 1 = if V1 กับ will V1 Type 2 = if V2 กับ would V1 Type 3 = if had V3 กับ would have V3\nจุดที่ต้องระวัง\nType 3 ต้องมีคำว่า have ในท่อนหลักเสมอ ถ้าลืมจะกลายเป็น Type 2 ทันที ซึ่งเป็นข้อผิดพลาดที่พบบ่อยที่สุดของบทนี้\nทำไมข้ออื่นผิด\nก. will have (วิล แฮฟ) = เป็น Future Perfect ไม่ใช้ในประโยคสมมติ Type 3\nข. would (วูด = คงจะ) = เป็น Type 2 ขาดคำว่า have\nค. had (แฮด) = จะกลายเป็น had told ซึ่งซ้ำกับท่อน if และผิดโครงสร้าง"
    }
   ],
-  "math_22": [],
+  "math_22": [
+   {
+    "q": "ข้อความว่า “จำนวน 2, 4, 6, 8 หารด้วย 2 ลงตัว ดังนั้นจำนวนคู่ทุกจำนวนหารด้วย 2 ลงตัว” เป็นการให้เหตุผลแบบใด",
+    "choices": [
+     "การให้เหตุผลแบบอุปนัย",
+     "การให้เหตุผลแบบนิรนัย",
+     "ทั้งอุปนัยและนิรนัย",
+     "ไม่ใช่การให้เหตุผล"
+    ],
+    "answer": 0,
+    "explain": "💡 ดูทิศทางของการสรุป: จาก 'ตัวอย่างย่อย ๆ หลายกรณี' ไปหา 'กฎทั่วไป' คืออุปนัย\n📐 หลักการ\n• อุปนัย (Inductive) = สังเกตหลายตัวอย่าง → สรุปเป็นกฎรวม\n• นิรนัย (Deductive) = มีกฎทั่วไปอยู่ก่อน → สรุปกรณีเฉพาะ\n• ข้อนี้ยกตัวอย่าง 2,4,6,8 (กรณีย่อย) แล้วเหมาเป็น 'จำนวนคู่ทุกจำนวน' (กฎรวม) → อุปนัย\n✓ ตอบ การให้เหตุผลแบบอุปนัย"
+   },
+   {
+    "q": "“3, 5, 7 เป็นจำนวนเฉพาะ ดังนั้นจำนวนคี่ทุกจำนวนเป็นจำนวนเฉพาะ” ข้อสรุปแบบอุปนัยนี้เป็นจริงหรือไม่ เพราะเหตุใด",
+    "choices": [
+     "เป็นจริง เพราะยกตัวอย่างมาถูกต้องแล้ว",
+     "เป็นเท็จ เพราะ 9 เป็นจำนวนคี่ แต่ไม่ใช่จำนวนเฉพาะ",
+     "เป็นจริง เพราะจำนวนคี่ทุกตัวหารด้วย 1 ได้",
+     "สรุปไม่ได้ เพราะข้อมูลไม่พอ"
+    ],
+    "answer": 1,
+    "explain": "💡 ข้อสรุปแบบอุปนัย 'อาจไม่จริงเสมอ' ถ้าเจอตัวอย่างค้านเพียงตัวเดียวก็ล้มได้\n📐 ตรวจสอบ\n• 3, 5, 7 เป็นจำนวนเฉพาะจริง แต่นั่นเป็นแค่บางตัวอย่าง\n• ลองหาตัวค้าน: 9 เป็นจำนวนคี่ แต่ 9 = 3×3 จึงไม่ใช่จำนวนเฉพาะ\n• มีตัวค้าน ⇒ ข้อสรุปเป็นเท็จ\n⚠️ นี่คือจุดอ่อนของอุปนัย: ยกตัวอย่างถูกไม่ได้แปลว่ากฎรวมจริงเสมอ\n✓ ตอบ เป็นเท็จ เพราะ 9 เป็นจำนวนคี่ แต่ไม่ใช่จำนวนเฉพาะ"
+   },
+   {
+    "q": "พิจารณาการอ้างเหตุผลต่อไปนี้\nเหตุ 1: สุนัขทุกตัวเป็นสัตว์เลี้ยงลูกด้วยนม\nเหตุ 2: สัตว์เลี้ยงลูกด้วยนมทุกตัวเป็นสัตว์มีกระดูกสันหลัง\nข้อสรุป: สุนัขทุกตัวเป็นสัตว์มีกระดูกสันหลัง\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "ไม่สมเหตุสมผล",
+     "สมเหตุสมผลเฉพาะบางตัว",
+     "สมเหตุสมผล",
+     "สรุปไม่ได้"
+    ],
+    "answer": 2,
+    "explain": "💡 วาดวงกลมซ้อนตามเหตุ ถ้าข้อสรุปถูกบังคับให้จริงเสมอจากแผนภาพ = สมเหตุสมผล\n📐 อ่านแผนภาพ\n• วง 'สุนัข' อยู่ในวง 'สัตว์เลี้ยงลูกด้วยนม' (เหตุ 1)\n• วง 'สัตว์เลี้ยงลูกด้วยนม' อยู่ในวง 'สัตว์มีกระดูกสันหลัง' (เหตุ 2)\n• ดังนั้นวง 'สุนัข' จึงอยู่ในวงนอกสุดด้วยแน่นอน ⇒ ข้อสรุปจริงเสมอ\n✓ ตอบ สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODAgMjUwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjM4MCIgaGVpZ2h0PSIyNTAiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOTAiIGN5PSIxMjAiIHI9IjE2OCIgZmlsbD0iI0ZCRjRFNCIgc3Ryb2tlPSIjQzk5NjJGIiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjE3OCIgY3k9IjEzMiIgcj0iMTEwIiBmaWxsPSIjRUFGNkVFIiBzdHJva2U9IiMyRTdENDYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTYyIiBjeT0iMTUwIiByPSI1NSIgZmlsbD0iI0U2RURGQiIgc3Ryb2tlPSIjMjQ1NkM4IiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjE5MCIgeT0iMzIiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4QTY0MTQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4quC4seC4leC4p+C5jOC4oeC4teC4geC4o+C4sOC4lOC4ueC4geC4quC4seC4meC4q+C4peC4seC4hzwvdGV4dD48dGV4dCB4PSIyMTAiIHk9IjcyIiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxRTYzMzUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4quC4seC4leC4p+C5jOC5gOC4peC4teC5ieC4ouC4h+C4peC4ueC4geC4lOC5ieC4p+C4ouC4meC4oTwvdGV4dD48dGV4dCB4PSIxNjIiIHk9IjE1MyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Liq4Li44LiZ4Lix4LiCPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "พิจารณาการอ้างเหตุผลต่อไปนี้\nเหตุ 1: แมวทุกตัวเป็นสัตว์สี่ขา\nเหตุ 2: สุนัขเป็นสัตว์สี่ขา\nข้อสรุป: สุนัขเป็นแมว\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "สมเหตุสมผลเพราะต่างเป็นสัตว์สี่ขา",
+     "เป็นจริงทุกกรณี",
+     "ไม่สมเหตุสมผล"
+    ],
+    "answer": 3,
+    "explain": "💡 ถ้าวาดแผนภาพแล้ว 'มีทางวาง' ที่ทำให้เหตุจริงแต่ข้อสรุปเท็จได้ = ไม่สมเหตุสมผล\n📐 อ่านแผนภาพ\n• 'แมว' เป็นวงย่อยที่อยู่ในวง 'สัตว์สี่ขา'\n• 'สุนัข' อยู่ในวง 'สัตว์สี่ขา' ก็จริง แต่ไปอยู่นอกวง 'แมว' ได้\n• เหตุทั้งสองยังจริง แต่ข้อสรุป 'สุนัขเป็นแมว' เป็นเท็จ ⇒ ไม่สมเหตุสมผล\n⚠️ การอยู่ในกลุ่มใหญ่เดียวกัน (สี่ขา) ไม่ได้แปลว่าเป็นสมาชิกกลุ่มย่อยเดียวกัน\n✓ ตอบ ไม่สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjM4MCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOTAiIGN5PSIxMjQiIHI9IjEwOCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjE0NSIgY3k9IjEzOCIgcj0iNTIiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIxOTAiIHk9IjMyIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKrguLHguJXguKfguYzguKrguLXguYjguILguLI8L3RleHQ+PHRleHQgeD0iMTQ1IiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5geC4oeC4pzwvdGV4dD48Y2lyY2xlIGN4PSIyNTgiIGN5PSIxMjgiIHI9IjUuNSIgZmlsbD0iI0U0MTExRiIvPjx0ZXh0IHg9IjI1OCIgeT0iMTE2IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTQxMTFGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKrguLjguJnguLHguII8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "พิจารณาการอ้างเหตุผลต่อไปนี้\nเหตุ 1: ไม่มีปลาตัวใดเป็นสัตว์เลี้ยงลูกด้วยนม\nเหตุ 2: วาฬเป็นสัตว์เลี้ยงลูกด้วยนม\nข้อสรุป: วาฬไม่ใช่ปลา\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "ไม่สมเหตุสมผล",
+     "สมเหตุสมผลเฉพาะบางกรณี",
+     "สรุปไม่ได้"
+    ],
+    "answer": 0,
+    "explain": "💡 'ไม่มี...เป็น...' วาดเป็นวงกลมสองวงที่แยกจากกัน (ไม่ทับกันเลย)\n📐 อ่านแผนภาพ\n• วง 'ปลา' กับวง 'สัตว์เลี้ยงลูกด้วยนม' แยกกันสนิท (เหตุ 1)\n• 'วาฬ' เป็นจุดอยู่ในวง 'สัตว์เลี้ยงลูกด้วยนม' (เหตุ 2)\n• เมื่อสองวงไม่ทับกัน วาฬจึงอยู่นอกวง 'ปลา' แน่นอน ⇒ วาฬไม่ใช่ปลา จริงเสมอ\n✓ ตอบ สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSIxMjQiIHI9Ijc0IiBmaWxsPSIjRkJFQUVBIiBzdHJva2U9IiNDMjRBNEEiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjcyIiBjeT0iMTI0IiByPSI4NiIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjExMCIgeT0iMTI4IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOUEyQzJDIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJvguKXguLI8L3RleHQ+PHRleHQgeD0iMjcyIiB5PSI3MCIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKrguLHguJXguKfguYzguYDguKXguLXguYnguKLguIfguKXguLnguIHguJTguYnguKfguKLguJnguKE8L3RleHQ+PGNpcmNsZSBjeD0iMjcyIiBjeT0iMTMyIiByPSI1LjUiIGZpbGw9IiNFNDExMUYiLz48dGV4dCB4PSIyNzIiIHk9IjEyMCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0MTExRiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lin4Liy4LisPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "พิจารณาการอ้างเหตุผลต่อไปนี้\nเหตุ 1: สัตว์ปีกบางชนิดบินได้\nเหตุ 2: นกกระจอกเป็นสัตว์ปีก\nข้อสรุป: นกกระจอกบินได้\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล เพราะนกกระจอกบินได้จริง",
+     "ไม่สมเหตุสมผล (แม้ข้อสรุปจะจริงในความเป็นจริง)",
+     "สมเหตุสมผล เพราะเป็นสัตว์ปีก",
+     "เป็นเท็จทั้งการอ้างและข้อสรุป"
+    ],
+    "answer": 1,
+    "explain": "💡 กับดักสำคัญ: 'สมเหตุสมผล' ดูที่ 'โครงสร้าง' ว่าข้อสรุปตามมาจากเหตุไหม ไม่ใช่ว่าจริงในโลกจริงไหม\n📐 อ่านแผนภาพ\n• เหตุ 1 บอกแค่ 'บางชนิด' บินได้ ⇒ วง 'สัตว์ปีก' ทับวง 'บินได้' เพียงบางส่วน\n• 'นกกระจอก' เป็นสัตว์ปีก แต่จากเหตุ วางไว้ในส่วนที่ 'ไม่บินได้' ก็ได้\n• เหตุยังจริงทั้งคู่ แต่ข้อสรุปไม่ถูกบังคับให้จริง ⇒ ไม่สมเหตุสมผล\n⚠️ แม้ความจริงคือนกกระจอกบินได้ แต่ 'ข้อสรุปนี้ไม่ได้ตามมาจากเหตุที่ให้' จึงไม่สมเหตุสมผล\n✓ ตอบ ไม่สมเหตุสมผล (แม้ข้อสรุปจะจริงในความเป็นจริง)",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxMzUiIGN5PSIxMjQiIHI9Ijg2IiBmaWxsPSIjRTlFRUZCIiBzdHJva2U9IiMyNDU2QzgiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjU1IiBjeT0iMTI0IiByPSI4NiIgZmlsbD0iI0ZCRjRFNCIgc3Ryb2tlPSIjQzk5NjJGIiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjkyIiB5PSI2MCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Liq4Lix4LiV4Lin4LmM4Lib4Li14LiBPC90ZXh0Pjx0ZXh0IHg9IjMwMCIgeT0iNjAiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4QTY0MTQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4muC4tOC4meC5hOC4lOC5iTwvdGV4dD48Y2lyY2xlIGN4PSI5MiIgY3k9IjE0MCIgcj0iNS41IiBmaWxsPSIjRTQxMTFGIi8+PHRleHQgeD0iOTIiIHk9IjEyOCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0MTExRiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiZ4LiB4LiB4Lij4Liw4LiI4Lit4LiBPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "เหตุ 1: คนที่ออกกำลังกายสม่ำเสมอทุกคนสุขภาพดี\nเหตุ 2: สมชายออกกำลังกายสม่ำเสมอ\nข้อสรุปในข้อใด 'สมเหตุสมผล'",
+    "choices": [
+     "สมชายสุขภาพไม่ดี",
+     "คนสุขภาพดีทุกคนออกกำลังกายสม่ำเสมอ",
+     "สมชายสุขภาพดี",
+     "สรุปแน่นอนไม่ได้"
+    ],
+    "answer": 2,
+    "explain": "💡 หยิบสมาชิกที่เจาะจง (สมชาย) เข้าไปในกฎทั่วไป แล้วดูว่าถูกบังคับให้ได้ข้อสรุปใด\n📐 อ่านแผนภาพ\n• วง 'ออกกำลังกายสม่ำเสมอ' อยู่ในวง 'สุขภาพดี' (เหตุ 1)\n• จุด 'สมชาย' อยู่ในวงออกกำลังกาย (เหตุ 2) จึงอยู่ในวงสุขภาพดีด้วยแน่นอน\n⚠️ ข้อ 'คนสุขภาพดีทุกคนออกกำลังกาย' คือการกลับเหตุ ซึ่งไม่จำเป็นต้องจริง\n✓ ตอบ สมชายสุขภาพดี",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODAgMjM2IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM4MCIgaGVpZ2h0PSIyMzYiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxODAiIGN5PSIxMjIiIHI9Ijk4IiBmaWxsPSIjRUFGNkVFIiBzdHJva2U9IiMyRTdENDYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTYwIiBjeT0iMTM0IiByPSI1NCIgZmlsbD0iI0U2RURGQiIgc3Ryb2tlPSIjMjQ1NkM4IiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjE4MCIgeT0iMzgiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFFNjMzNSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Liq4Li44LiC4Lig4Liy4Lie4LiU4Li1PC90ZXh0Pjx0ZXh0IHg9IjE5MCIgeT0iOTYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lit4Lit4LiB4LiB4Liz4Lil4Lix4LiH4LiB4Liy4Lii4Liq4Lih4LmI4Liz4LmA4Liq4Lih4LitPC90ZXh0PjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0MCIgcj0iNS41IiBmaWxsPSIjRTQxMTFGIi8+PHRleHQgeD0iMTUwIiB5PSIxMjgiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4quC4oeC4iuC4suC4ojwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "เหตุ 1: นักเรียนบางคนเล่นดนตรี\nเหตุ 2: คนที่เล่นดนตรีทุกคนมีสมาธิดี\nข้อสรุป: นักเรียนบางคนมีสมาธิดี\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "ไม่สมเหตุสมผล",
+     "สมเหตุสมผลก็ต่อเมื่อนักเรียนทุกคนเล่นดนตรี",
+     "สรุปไม่ได้",
+     "สมเหตุสมผล"
+    ],
+    "answer": 3,
+    "explain": "💡 แบบ 'บาง...' + 'ทุก...' มักได้ข้อสรุปแบบ 'บาง...' ลองวาดวงตามเหตุ\n📐 อ่านแผนภาพ\n• วง 'นักเรียน' ทับวง 'ดนตรี' บางส่วน (เหตุ 1 — นักเรียนบางคนเล่นดนตรี)\n• วง 'ดนตรี' อยู่ในวง 'สมาธิดี' ทั้งวง (เหตุ 2)\n• ส่วนที่ทับ (นักเรียนที่เล่นดนตรี) จึงตกอยู่ในวงสมาธิดีด้วย ⇒ มีนักเรียนบางคนสมาธิดีแน่นอน\n✓ ตอบ สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyNTUiIGN5PSIxMjYiIHI9IjEwNCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjI1OCIgY3k9IjE0MCIgcj0iNTQiIGZpbGw9IiNGQkY0RTQiIHN0cm9rZT0iI0M5OTYyRiIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIxNDAiIGN5PSIxMzgiIHI9IjcwIiBmaWxsPSIjRTlFRUZCIiBzdHJva2U9IiMyNDU2QzgiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMzAwIiB5PSI0NCIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKrguKHguLLguJjguLTguJTguLU8L3RleHQ+PHRleHQgeD0iMjkyIiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4QTY0MTQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4lOC4meC4leC4o+C4tTwvdGV4dD48dGV4dCB4PSI5NiIgeT0iOTYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4meC4seC4geC5gOC4o+C4teC4ouC4mTwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "เหตุ 1: นักเรียน ม.6 ทุกคนเป็นนักเรียนมัธยม\nเหตุ 2: นักเรียนมัธยมทุกคนเป็นนักเรียน\nเหตุ 3: นักเรียนทุกคนเป็นเยาวชน\nข้อสรุป: นักเรียน ม.6 ทุกคนเป็นเยาวชน\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "ไม่สมเหตุสมผล",
+     "สมเหตุสมผลเฉพาะบางคน",
+     "สรุปไม่ได้"
+    ],
+    "answer": 0,
+    "explain": "💡 เหตุแบบ 'ทุก' ต่อกันเป็นลูกโซ่ วาดเป็นวงซ้อนกันหลายชั้นได้\n📐 อ่านแผนภาพ\n• วงในสุด 'ม.6' ⊂ 'นักเรียนมัธยม' ⊂ 'นักเรียน' ⊂ 'เยาวชน' (วงนอกสุด)\n• เมื่อวงในสุดถูกครอบด้วยวงนอกสุดเสมอ ⇒ นักเรียน ม.6 ทุกคนเป็นเยาวชนแน่นอน\n✓ ตอบ สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MTAgMjQ2IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQxMCIgaGVpZ2h0PSIyNDYiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMDUiIGN5PSIxMjYiIHI9IjExNiIgZmlsbD0iI0YxRUFGQSIgc3Ryb2tlPSIjOEE1QUMyIiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjE5NiIgY3k9IjEzNCIgcj0iODgiIGZpbGw9IiNGQkY0RTQiIHN0cm9rZT0iI0M5OTYyRiIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIxODYiIGN5PSIxNDQiIHI9IjYwIiBmaWxsPSIjRUFGNkVFIiBzdHJva2U9IiMyRTdENDYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTcyIiBjeT0iMTU2IiByPSIzMyIgZmlsbD0iI0U2RURGQiIgc3Ryb2tlPSIjMjQ1NkM4IiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjIwNSIgeT0iMjYiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzVCMzQ4QyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4Lii4Liy4Lin4LiK4LiZPC90ZXh0Pjx0ZXh0IHg9IjIxNCIgeT0iNjYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhBNjQxNCIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiZ4Lix4LiB4LmA4Lij4Li14Lii4LiZPC90ZXh0Pjx0ZXh0IHg9IjIwNiIgeT0iMTA0IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxRTYzMzUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4meC4seC4geC5gOC4o+C4teC4ouC4meC4oeC4seC4mOC4ouC4oTwvdGV4dD48dGV4dCB4PSIxNzIiIHk9IjE1OSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LihLjY8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "แดงสูงกว่าเขียว, เขียวสูงกว่าขาว และขาวสูงกว่าดำ ข้อใดถูกต้อง",
+    "choices": [
+     "ขาวเตี้ยที่สุด",
+     "ดำเตี้ยที่สุด",
+     "แดงเตี้ยที่สุด",
+     "เขียวสูงที่สุด"
+    ],
+    "answer": 1,
+    "explain": "💡 เป็นการให้เหตุผลแบบนิรนัยโดยใช้การถ่ายทอด (ถ้า A>B และ B>C แล้ว A>C) เรียงลำดับให้ครบ\n📐 เรียงจากสูงไปเตี้ย\n• แดง > เขียว (ข้อ 1)\n• เขียว > ขาว (ข้อ 2)\n• ขาว > ดำ (ข้อ 3)\n• รวมได้ลำดับ: แดง > เขียว > ขาว > ดำ ⇒ ดำอยู่ท้ายสุด คือเตี้ยที่สุด\n✓ ตอบ ดำเตี้ยที่สุด",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgMjA1IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyMCIgaGVpZ2h0PSIyMDUiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMDAiIHk9IjI2IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guYDguKPguLXguKLguIfguIjguLLguIHguKrguLnguIcg4oaSIOC5gOC4leC4teC5ieC4ojwvdGV4dD48cmVjdCB4PSI3MCIgeT0iNDQiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSIjRTQ3MDdBIi8+PHRleHQgeD0iMzE4IiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guYHguJTguIcgKOC4quC4ueC4h+C4quC4uOC4lCk8L3RleHQ+PHJlY3QgeD0iNzAiIHk9IjgyIiB3aWR0aD0iMTg1IiBoZWlnaHQ9IjI2IiByeD0iNiIgZmlsbD0iIzY2Qjc4NCIvPjx0ZXh0IHg9IjI2MyIgeT0iMTAxIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5gOC4guC4teC4ouC4pzwvdGV4dD48cmVjdCB4PSI3MCIgeT0iMTIwIiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjI2IiByeD0iNiIgZmlsbD0iI0UwQjg0RSIvPjx0ZXh0IHg9IjIwOCIgeT0iMTM5IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4guC4suC4pzwvdGV4dD48cmVjdCB4PSI3MCIgeT0iMTU4IiB3aWR0aD0iNzgiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSIjNUU4NkQ2Ii8+PHRleHQgeD0iMTU2IiB5PSIxNzciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiU4LizICjguYDguJXguLXguYnguKLguKrguLjguJQpPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "เหตุ 1: นักกีฬาบางคนเป็นนักเรียน\nเหตุ 2: นักเรียนทุกคนสวมชุดนักเรียน\nข้อสรุป: นักกีฬาทุกคนสวมชุดนักเรียน\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "สมเหตุสมผลเพราะนักเรียนสวมชุดนักเรียน",
+     "ไม่สมเหตุสมผล",
+     "เป็นจริงทุกกรณี"
+    ],
+    "answer": 2,
+    "explain": "💡 ระวังการขยาย 'บาง' ให้กลายเป็น 'ทุก' — เหตุพูดถึงนักกีฬาแค่บางคน จะเหมาว่าทุกคนไม่ได้\n📐 อ่านแผนภาพ\n• วง 'นักกีฬา' ทับวง 'นักเรียน' เพียงบางส่วน (เหตุ 1)\n• วง 'นักเรียน' อยู่ในวง 'สวมชุดนักเรียน' (เหตุ 2)\n• นักกีฬาส่วนที่อยู่ 'นอก' วงนักเรียน ไม่จำเป็นต้องสวมชุดนักเรียน\n• จึงสรุปว่า 'นักกีฬาทุกคน' สวมชุดนักเรียนไม่ได้ ⇒ ไม่สมเหตุสมผล\n⚠️ ได้แค่ 'นักกีฬาบางคนสวมชุดนักเรียน' เท่านั้น\n✓ ตอบ ไม่สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyNDAiIGN5PSIxMjYiIHI9IjEwMCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjI0MiIgY3k9IjEzOCIgcj0iNTYiIGZpbGw9IiNGQkY0RTQiIHN0cm9rZT0iI0M5OTYyRiIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIxMDgiIGN5PSIxMzIiIHI9IjY4IiBmaWxsPSIjRTlFRUZCIiBzdHJva2U9IiMyNDU2QzgiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMjkyIiB5PSI0NiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKrguKfguKHguIrguLjguJTguJnguLHguIHguYDguKPguLXguKLguJk8L3RleHQ+PHRleHQgeD0iMjY4IiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4QTY0MTQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4meC4seC4geC5gOC4o+C4teC4ouC4mTwvdGV4dD48dGV4dCB4PSI3OCIgeT0iOTIiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiZ4Lix4LiB4LiB4Li14Lis4LiyPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "ข้อความ “มนุษย์ทุกคนต้องตาย โสเครตีสเป็นมนุษย์ ดังนั้นโสเครตีสต้องตาย” เป็นการให้เหตุผลแบบใด",
+    "choices": [
+     "การให้เหตุผลแบบอุปนัย",
+     "ทั้งนิรนัยและอุปนัย",
+     "ไม่ใช่การให้เหตุผล",
+     "การให้เหตุผลแบบนิรนัย"
+    ],
+    "answer": 3,
+    "explain": "💡 ดูทิศทาง: จาก 'กฎทั่วไป' (มนุษย์ทุกคนต้องตาย) มาสู่ 'กรณีเฉพาะ' (โสเครตีส) คือนิรนัย\n📐 หลักการ\n• นิรนัย = มีกฎทั่วไปก่อน → สรุปกรณีย่อย และถ้าเหตุจริง ผลจริงแน่นอน\n• เหตุใหญ่ 'มนุษย์ทุกคนต้องตาย' + เหตุย่อย 'โสเครตีสเป็นมนุษย์' → ผลถูกบังคับให้จริง\n✓ ตอบ การให้เหตุผลแบบนิรนัย"
+   },
+   {
+    "q": "จากการสังเกตว่าอีกาที่พบตัวที่ 1, 2, 3, ... ล้วนมีสีดำ จึงสรุปว่า “อีกาทุกตัวมีสีดำ” การสรุปนี้มีลักษณะอย่างไร",
+    "choices": [
+     "เป็นอุปนัย และข้อสรุปอาจไม่จริงเสมอ",
+     "เป็นนิรนัย และข้อสรุปจริงแน่นอน",
+     "เป็นอุปนัย และข้อสรุปจริงแน่นอน",
+     "เป็นนิรนัย และข้อสรุปอาจไม่จริง"
+    ],
+    "answer": 0,
+    "explain": "💡 สรุปจาก 'ตัวอย่างที่พบ' ไปเป็น 'ทุกตัว' คืออุปนัย ซึ่งไม่รับประกันว่าจริงเสมอ\n📐 วิเคราะห์\n• สังเกตหลายตัวอย่าง → เหมาเป็นกฎรวม = อุปนัย\n• ยังมีโอกาสเจออีกาสีอื่นที่ยังไม่พบ ⇒ ข้อสรุปอาจถูกล้มได้\n⚠️ อุปนัยให้ 'ความน่าจะเป็น' ไม่ใช่ความจริงที่รับประกัน\n✓ ตอบ เป็นอุปนัย และข้อสรุปอาจไม่จริงเสมอ"
+   },
+   {
+    "q": "เหตุ 1: แมลงทุกชนิดมี 6 ขา\nเหตุ 2: มดเป็นแมลง\nข้อสรุป: มดมี 6 ขา\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "ไม่สมเหตุสมผล",
+     "สมเหตุสมผล",
+     "สมเหตุสมผลเฉพาะบางตัว",
+     "สรุปไม่ได้"
+    ],
+    "answer": 1,
+    "explain": "💡 สมาชิก (มด) อยู่ในกลุ่มที่มีคุณสมบัติร่วม (แมลง→6 ขา) จึงได้คุณสมบัตินั้น\n📐 อ่านแผนภาพ\n• วง 'แมลง' อยู่ในวง 'มี 6 ขา'\n• จุด 'มด' อยู่ในวงแมลง จึงอยู่ในวง '6 ขา' ด้วยแน่นอน\n✓ ตอบ สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODAgMjM2IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM4MCIgaGVpZ2h0PSIyMzYiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxODAiIGN5PSIxMjIiIHI9Ijk2IiBmaWxsPSIjRUFGNkVFIiBzdHJva2U9IiMyRTdENDYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTYwIiBjeT0iMTM0IiByPSI1MiIgZmlsbD0iI0U2RURGQiIgc3Ryb2tlPSIjMjQ1NkM4IiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjE4MCIgeT0iMzgiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFFNjMzNSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lih4Li1IDYg4LiC4LiyICjguYHguKHguKXguIcpPC90ZXh0Pjx0ZXh0IHg9IjE5MCIgeT0iOTgiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmB4Lih4Lil4LiHPC90ZXh0PjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0MCIgcj0iNS41IiBmaWxsPSIjRTQxMTFGIi8+PHRleHQgeD0iMTUwIiB5PSIxMjgiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4oeC4lDwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "เหตุ 1: นกทุกตัววางไข่\nเหตุ 2: งูวางไข่\nข้อสรุป: งูเป็นนก\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "สมเหตุสมผลเพราะต่างก็วางไข่",
+     "ไม่สมเหตุสมผล",
+     "เป็นจริงทุกกรณี"
+    ],
+    "answer": 2,
+    "explain": "💡 การมีคุณสมบัติร่วม (วางไข่) ไม่ได้บังคับให้เป็นสมาชิกกลุ่มเดียวกัน (นก)\n📐 อ่านแผนภาพ\n• วง 'นก' อยู่ในวง 'สัตว์ที่วางไข่'\n• 'งู' อยู่ในวงวางไข่ก็จริง แต่ไปอยู่นอกวง 'นก' ได้\n• เหตุยังจริง แต่ข้อสรุป 'งูเป็นนก' เป็นเท็จ ⇒ ไม่สมเหตุสมผล\n⚠️ วางไข่เหมือนกัน ไม่ได้แปลว่าเป็นนก\n✓ ตอบ ไม่สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM4MCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxOTAiIGN5PSIxMjQiIHI9IjEwNCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjE0NSIgY3k9IjEzOCIgcj0iNTIiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIxOTAiIHk9IjM0IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxRTYzMzUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4quC4seC4leC4p+C5jOC4l+C4teC5iOC4p+C4suC4h+C5hOC4guC5iDwvdGV4dD48dGV4dCB4PSIxNDUiIHk9IjE0MCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiZ4LiBPC90ZXh0PjxjaXJjbGUgY3g9IjI1OCIgY3k9IjEyNiIgcj0iNS41IiBmaWxsPSIjRTQxMTFGIi8+PHRleHQgeD0iMjU4IiB5PSIxMTQiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4h+C4uTwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "เหตุ 1: ไม่มีสัตว์เลื้อยคลานตัวใดมีขน\nเหตุ 2: เต่าเป็นสัตว์เลื้อยคลาน\nข้อสรุปในข้อใดสมเหตุสมผล",
+    "choices": [
+     "เต่ามีขน",
+     "สัตว์มีขนทุกตัวเป็นสัตว์เลื้อยคลาน",
+     "สรุปแน่นอนไม่ได้",
+     "เต่าไม่มีขน"
+    ],
+    "answer": 3,
+    "explain": "💡 เหตุแบบ 'ไม่มี...เป็น...' วาดเป็นสองวงที่แยกจากกัน แล้ววางสมาชิกตามเหตุ\n📐 อ่านแผนภาพ\n• วง 'สัตว์เลื้อยคลาน' กับวง 'สัตว์มีขน' แยกกันสนิท (เหตุ 1)\n• จุด 'เต่า' อยู่ในวงสัตว์เลื้อยคลาน จึงอยู่นอกวงสัตว์มีขน ⇒ เต่าไม่มีขน\n✓ ตอบ เต่าไม่มีขน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjM2IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMzYiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSIxMjQiIHI9Ijc0IiBmaWxsPSIjRkJFQUVBIiBzdHJva2U9IiNDMjRBNEEiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjcyIiBjeT0iMTI0IiByPSI4NCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjExMCIgeT0iMTI4IiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5QTJDMkMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4quC4seC4leC4p+C5jOC4oeC4teC4guC4mTwvdGV4dD48dGV4dCB4PSIyNzIiIHk9IjY2IiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKrguLHguJXguKfguYzguYDguKXguLfguYnguK3guKLguITguKXguLLguJk8L3RleHQ+PGNpcmNsZSBjeD0iMjcyIiBjeT0iMTMyIiByPSI1LjUiIGZpbGw9IiNFNDExMUYiLz48dGV4dCB4PSIyNzIiIHk9IjEyMCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0MTExRiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4LiV4LmI4LiyPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "เหตุ 1: ถ้าเป็นสมาชิกชมรม จะต้องมีบัตรสมาชิก\nเหตุ 2: ปอนด์ไม่มีบัตรสมาชิก\nข้อสรุป: ปอนด์ไม่เป็นสมาชิกชมรม\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "ไม่สมเหตุสมผล",
+     "สมเหตุสมผลเฉพาะบางกรณี",
+     "สรุปไม่ได้"
+    ],
+    "answer": 0,
+    "explain": "💡 ใช้การย้อนกลับจากผล: ถ้าขาดสิ่งที่จำเป็น (บัตร) ก็เป็นสมาชิกไม่ได้\n📐 อ่านแผนภาพ\n• วง 'เป็นสมาชิก' อยู่ในวง 'มีบัตรสมาชิก' (สมาชิกทุกคนต้องมีบัตร)\n• 'ปอนด์' อยู่นอกวงมีบัตร จึงต้องอยู่นอกวงเป็นสมาชิกด้วย ⇒ ไม่เป็นสมาชิก\n✓ ตอบ สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxOTAiIGN5PSIxMjQiIHI9IjEwNCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjE2MCIgY3k9IjEzNiIgcj0iNTIiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIxOTAiIHk9IjM0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKHguLXguJrguLHguJXguKPguKrguKHguLLguIrguLTguIE8L3RleHQ+PHRleHQgeD0iMTY4IiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4Lib4LmH4LiZ4Liq4Lih4Liy4LiK4Li04LiBPC90ZXh0PjxjaXJjbGUgY3g9IjMwMCIgY3k9IjE1MCIgcj0iNS41IiBmaWxsPSIjRTQxMTFGIi8+PHRleHQgeD0iMzAwIiB5PSIxMzgiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4m+C4reC4meC4lOC5jDwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "คะแนนสอบ: เอมากกว่าบี, ซีมากกว่าเอ และบีมากกว่าดี ใครได้คะแนนมากที่สุด",
+    "choices": [
+     "เอ",
+     "ซี",
+     "บี",
+     "ดี"
+    ],
+    "answer": 1,
+    "explain": "💡 เป็นนิรนัยแบบถ่ายทอด (ถ้า A>B และ B>C แล้ว A>C) เรียงลำดับให้ครบ\n📐 เรียงจากมากไปน้อย\n• ซี > เอ (โจทย์)\n• เอ > บี (โจทย์)\n• บี > ดี (โจทย์)\n• รวมได้ ซี > เอ > บี > ดี ⇒ ซีมากที่สุด\n✓ ตอบ ซี",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzAgMjA1IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzMCIgaGVpZ2h0PSIyMDUiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMDUiIHk9IjI2IiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5gOC4o+C4teC4ouC4h+C4iOC4suC4geC4hOC4sOC5geC4meC4meC4oeC4suC4gSDihpIg4LiZ4LmJ4Lit4LiiPC90ZXh0PjxyZWN0IHg9IjcwIiB5PSI0NCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNiIgcng9IjYiIGZpbGw9IiM2NkI3ODQiLz48dGV4dCB4PSIzMTgiIHk9IjYzIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4i+C4tSAo4Lih4Liy4LiB4Liq4Li44LiUKTwvdGV4dD48cmVjdCB4PSI3MCIgeT0iODIiIHdpZHRoPSIxODUiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSIjRTQ3MDdBIi8+PHRleHQgeD0iMjYzIiB5PSIxMDEiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4LitPC90ZXh0PjxyZWN0IHg9IjcwIiB5PSIxMjAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSIjRTBCODRFIi8+PHRleHQgeD0iMjA4IiB5PSIxMzkiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lia4Li1PC90ZXh0PjxyZWN0IHg9IjcwIiB5PSIxNTgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIyNiIgcng9IjYiIGZpbGw9IiM1RTg2RDYiLz48dGV4dCB4PSIxNTgiIHk9IjE3NyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJTguLUgKOC4meC5ieC4reC4ouC4quC4uOC4lCk8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "เหตุ 1: นักเรียนบางคนเล่นกีฬา\nเหตุ 2: นักเรียนบางคนเรียนพิเศษ\nข้อสรุปในข้อใดถูกต้อง",
+    "choices": [
+     "นักเรียนที่เล่นกีฬาทุกคนเรียนพิเศษ",
+     "ไม่มีนักเรียนที่เล่นกีฬาและเรียนพิเศษ",
+     "สรุปแน่นอนไม่ได้ว่านักเรียนที่เล่นกีฬาเรียนพิเศษหรือไม่",
+     "นักเรียนทุกคนเล่นกีฬา"
+    ],
+    "answer": 2,
+    "explain": "💡 เหตุสองข้อเป็น 'บาง' ทั้งคู่ และไม่ได้บอกความเกี่ยวข้องระหว่างสองกลุ่ม จึงสรุปเจาะจงไม่ได้\n📐 อ่านแผนภาพ\n• กลุ่ม 'เล่นกีฬา' กับ 'เรียนพิเศษ' ต่างเป็นบางส่วนของนักเรียน\n• เหตุไม่ได้บอกว่าสองกลุ่มนี้ทับกันหรือไม่ ⇒ อาจทับ อาจไม่ทับก็ได้\n• จึงสรุปแน่นอนไม่ได้\n⚠️ เมื่อข้อมูลไม่พอ อย่าเดาว่าทับหรือไม่ทับ\n✓ ตอบ สรุปแน่นอนไม่ได้ว่านักเรียนที่เล่นกีฬาเรียนพิเศษหรือไม่",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjIwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMjAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMjgiIHI9IjExNiIgZmlsbD0iI0Y0RUZGQiIgc3Ryb2tlPSIjOEE1QUMyIiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjEzMiIgcj0iNTIiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIyNTUiIGN5PSIxMzIiIHI9IjUyIiBmaWxsPSIjRkJGNEU0IiBzdHJva2U9IiNDOTk2MkYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMjAwIiB5PSIzMCIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzVCMzQ4QyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiZ4Lix4LiB4LmA4Lij4Li14Lii4LiZPC90ZXh0Pjx0ZXh0IHg9IjE1MCIgeT0iMTM2IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5gOC4peC5iOC4meC4geC4teC4rOC4sjwvdGV4dD48dGV4dCB4PSIyNTUiIHk9IjEzNiIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhBNjQxNCIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4Lij4Li14Lii4LiZ4Lie4Li04LmA4Lio4LipPC90ZXh0Pjx0ZXh0IHg9IjIwMiIgeT0iMjAwIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjQzAzOTJCIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJfguLHguJrguIHguLHguJnguKvguKPguLfguK3guYTguKHguYggPyDguYTguKHguYjguKPguLnguYk8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "เหตุ 1: ถ้าฝนตก ถนนจะเปียก\nเหตุ 2: ถนนเปียก\nข้อสรุป: ฝนตก\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "สมเหตุสมผลเพราะถนนเปียกจริง",
+     "เป็นจริงทุกกรณี",
+     "ไม่สมเหตุสมผล"
+    ],
+    "answer": 3,
+    "explain": "💡 กับดักคลาสสิก: รู้ผล (ถนนเปียก) แล้วเหมาว่าต้องมาจากเหตุนั้น (ฝนตก) — ผลเดียวอาจมาจากหลายเหตุ\n📐 อ่านแผนภาพ\n• วง 'ฝนตก' อยู่ในวง 'ถนนเปียก' (ฝนตกทำให้เปียกเสมอ)\n• แต่ 'ถนนที่เปียกตอนนี้' อาจอยู่ในวงถนนเปียกโดยไม่ได้อยู่ในวงฝนตก (เช่น รถน้ำราด)\n• จึงสรุปว่าฝนตกไม่ได้ ⇒ ไม่สมเหตุสมผล\n⚠️ 'ยืนยันผลแล้วสรุปเหตุ' เป็นการอ้างที่ผิดหลัก\n✓ ตอบ ไม่สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMjQiIHI9IjEwNCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjEzNiIgcj0iNTAiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIyMDUiIHk9IjM0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJbguJnguJnguYDguJvguLXguKLguIE8L3RleHQ+PHRleHQgeD0iMTY4IiB5PSIxMDIiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4neC4meC4leC4gTwvdGV4dD48Y2lyY2xlIGN4PSIyOTAiIGN5PSIxNTAiIHI9IjUuNSIgZmlsbD0iI0U0MTExRiIvPjx0ZXh0IHg9IjI5MCIgeT0iMTM4IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTQxMTFGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJbguJnguJnguJfguLXguYjguYDguJvguLXguKLguIHguJXguK3guJnguJnguLXguYk8L3RleHQ+PC9zdmc+"
+   }
+  ],
   "eng_07": [
    {
     "q": "I enjoy _____ to music in the evening.",
@@ -49365,7 +49602,8 @@
   "math_07": 1787317964699,
   "math_14": 1787324579825,
   "math_15": 1787582916267,
-  "math_19": 1787727205970
+  "math_19": 1787727205970,
+  "math_22": 1787731078315
  },
  "subjStatus": {
   "thai": {
