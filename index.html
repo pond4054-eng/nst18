@@ -88,6 +88,8 @@
   input,select,textarea,button{ font-family:inherit; }
   .mono{ font-family:'IBM Plex Mono',monospace; }
   .np-scroll::-webkit-scrollbar{ width:0; }
+  .fire-badge{ display:inline-block; flex:none; font-size:10px; font-weight:800; color:#fff; background:linear-gradient(95deg,#FFB01F,#FF5A00,#E4111F); padding:2px 9px 2px 7px; border-radius:20px; margin-left:6px; vertical-align:middle; white-space:nowrap; animation:flick 1.1s ease-in-out infinite; }
+  @keyframes flick{ 0%,100%{ box-shadow:0 0 4px rgba(255,120,0,.5),0 0 8px rgba(228,17,31,.35); filter:brightness(1); } 50%{ box-shadow:0 0 9px rgba(255,150,0,.85),0 0 16px rgba(228,17,31,.6); filter:brightness(1.12); } }
   @keyframes flipIn{ from{ transform:rotateX(-88deg); opacity:0; } to{ transform:rotateX(0); opacity:1; } }
   @keyframes fadeUp{ from{ transform:translateY(8px); opacity:0; } to{ transform:none; opacity:1; } }
 
@@ -506,7 +508,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v118";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v119";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -961,7 +963,7 @@ var TOPIC_CFG = {
   math_12: { draw:15, passN:13 },
   math_13: { draw:15, passN:13, badge:"Lv.อัพ" },
   math_14: { draw:15, passN:13, badge:"Lv.อัพ" },
-  math_15: { draw:15, passN:13 },
+  math_15: { draw:15, passN:13, badge:"Lv.อัพ" },
   math_16: { draw:15, passN:13 },
   math_17: { draw:15, passN:13 },
   math_18: { draw:15, passN:13 },
@@ -994,7 +996,10 @@ function isNew(id, pub){
   return Date.now()-S.newAt[id] < 3*MS;
 }
 function newBadge(id, pub, label){
-  return isNew(id,pub) ? '<span style="flex:none;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;">'+(label||"ใหม่")+'</span>' : '';
+  if(label){   // ป้ายกำกับกำหนดเอง (เช่น "Lv.อัพ") = ป้ายถาวร สไตล์ไฟ
+    return '<span class="fire-badge">🔥 '+label+'</span>';
+  }
+  return isNew(id,pub) ? '<span style="flex:none;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;">ใหม่</span>' : '';
 }
 function render(){
   applyTheme();
