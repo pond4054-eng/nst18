@@ -1,6 +1,6 @@
 {
  "_comment": "คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อย่าแก้ไฟล์นี้ด้วยมือ ให้ใช้ปุ่ม 'ส่งออกคลังข้อสอบ' ในแผงแอดมินแล้วอัปโหลดทับไฟล์นี้",
- "version": 168,
+ "version": 169,
  "topics": {
   "math": [
    {
@@ -45638,6 +45638,232 @@
     "answer": 3,
     "explain": "💡 กับดักคลาสสิก: รู้ผล (ถนนเปียก) แล้วเหมาว่าต้องมาจากเหตุนั้น (ฝนตก) — ผลเดียวอาจมาจากหลายเหตุ\n📐 อ่านแผนภาพ\n• วง 'ฝนตก' อยู่ในวง 'ถนนเปียก' (ฝนตกทำให้เปียกเสมอ)\n• แต่ 'ถนนที่เปียกตอนนี้' อาจอยู่ในวงถนนเปียกโดยไม่ได้อยู่ในวงฝนตก (เช่น รถน้ำราด)\n• จึงสรุปว่าฝนตกไม่ได้ ⇒ ไม่สมเหตุสมผล\n⚠️ 'ยืนยันผลแล้วสรุปเหตุ' เป็นการอ้างที่ผิดหลัก\n✓ ตอบ ไม่สมเหตุสมผล",
     "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMjQiIHI9IjEwNCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjEzNiIgcj0iNTAiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIyMDUiIHk9IjM0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJbguJnguJnguYDguJvguLXguKLguIE8L3RleHQ+PHRleHQgeD0iMTY4IiB5PSIxMDIiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4neC4meC4leC4gTwvdGV4dD48Y2lyY2xlIGN4PSIyOTAiIGN5PSIxNTAiIHI9IjUuNSIgZmlsbD0iI0U0MTExRiIvPjx0ZXh0IHg9IjI5MCIgeT0iMTM4IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTQxMTFGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJbguJnguJnguJfguLXguYjguYDguJvguLXguKLguIHguJXguK3guJnguJnguLXguYk8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "จงหาคำที่มีความสัมพันธ์แบบเดียวกัน\nกล้าหาญ : บ้าบิ่น  เปรียบเหมือน  ประหยัด : ?",
+    "choices": [
+     "ขี้เหนียว",
+     "สุรุ่ยสุร่าย",
+     "ใจกว้าง",
+     "ร่ำรวย"
+    ],
+    "answer": 0,
+    "explain": "💡 คู่แรกคือ 'คุณสมบัติที่ดีพอดี : คุณสมบัตินั้นที่ มากเกินไป จนกลายเป็นข้อเสีย'\n📐 หาความสัมพันธ์\n• กล้าหาญ (ดี) → มากเกินไปเป็น บ้าบิ่น\n• ประหยัด (ดี) → มากเกินไปเป็น ขี้เหนียว\n⚠️ 'สุรุ่ยสุร่าย' คือตรงข้าม/น้อยเกินไป ไม่ใช่ 'มากเกินไป'\n✓ ตอบ ขี้เหนียว"
+   },
+   {
+    "q": "จงหาคำที่มีความสัมพันธ์แบบเดียวกัน\nแพทย์ : หูฟัง (stethoscope)  เปรียบเหมือน  จิตรกร : ?",
+    "choices": [
+     "ภาพวาด",
+     "พู่กัน",
+     "สีน้ำมัน",
+     "ผ้าใบ"
+    ],
+    "answer": 1,
+    "explain": "💡 เจาะจงชั้นความสัมพันธ์: 'อาชีพ : เครื่องมือที่ถือใช้ลงมือทำงาน'\n📐 หาความสัมพันธ์\n• แพทย์ใช้ หูฟัง เป็นเครื่องมือตรวจ\n• จิตรกรใช้ พู่กัน เป็นเครื่องมือวาด\n⚠️ ภาพวาด=ผลงาน, สีน้ำมัน=วัตถุดิบ, ผ้าใบ=พื้นรองรับ ไม่ใช่ 'เครื่องมือ'\n✓ ตอบ พู่กัน"
+   },
+   {
+    "q": "บ้าน 4 หลังเรียงกันเป็นแถวเดียว โดย\n• บ้านสีแดงอยู่ซ้ายสุด\n• บ้านสีเขียวอยู่ติดกับบ้านสีแดง\n• บ้านสีน้ำเงินอยู่ขวาสุด\n• บ้านสีเหลืองอยู่ระหว่างบ้านสีเขียวกับบ้านสีน้ำเงิน\nการเรียงจากซ้ายไปขวาเป็นอย่างไร",
+    "choices": [
+     "แดง–เหลือง–เขียว–น้ำเงิน",
+     "เขียว–แดง–เหลือง–น้ำเงิน",
+     "แดง–เขียว–เหลือง–น้ำเงิน",
+     "แดง–เขียว–น้ำเงิน–เหลือง"
+    ],
+    "answer": 2,
+    "explain": "💡 ตรึงตำแหน่งที่ชัดสุดก่อน (ซ้าย/ขวาสุด) แล้วเติมด้วยเงื่อนไขติดกัน\n📐 ไล่เงื่อนไข\n• แดง=ที่ 1, น้ำเงิน=ที่ 4\n• เขียวติดแดง ⇒ เขียว=ที่ 2\n• เหลืองอยู่ระหว่างเขียวกับน้ำเงิน ⇒ เหลือง=ที่ 3\n✓ ตอบ แดง–เขียว–เหลือง–น้ำเงิน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgMTYwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyMCIgaGVpZ2h0PSIxNjAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTAiIHk9IjI2IiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4i+C5ieC4suC4oiDihpIg4LiC4Lin4LiyPC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI2MCIgd2lkdGg9Ijc4IiBoZWlnaHQ9IjYwIiByeD0iOCIgZmlsbD0iI0QyNTQ0RSIgc3Ryb2tlPSIjMDAwMyIvPjxwb2x5Z29uIHBvaW50cz0iMjAsNjAgNTksMzggOTgsNjAiIGZpbGw9IiNEMjU0NEUiIHN0cm9rZT0iIzAwMDMiLz48dGV4dCB4PSI1OSIgeT0iOTgiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmB4LiU4LiHPC90ZXh0Pjx0ZXh0IHg9IjU5IiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiX4Li14LmIIDE8L3RleHQ+PHJlY3QgeD0iMTIwIiB5PSI2MCIgd2lkdGg9Ijc4IiBoZWlnaHQ9IjYwIiByeD0iOCIgZmlsbD0iIzRFOUU2QiIgc3Ryb2tlPSIjMDAwMyIvPjxwb2x5Z29uIHBvaW50cz0iMTIwLDYwIDE1OSwzOCAxOTgsNjAiIGZpbGw9IiM0RTlFNkIiIHN0cm9rZT0iIzAwMDMiLz48dGV4dCB4PSIxNTkiIHk9Ijk4IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5gOC4guC4teC4ouC4pzwvdGV4dD48dGV4dCB4PSIxNTkiIHk9IjE0MCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJfguLXguYggMjwvdGV4dD48cmVjdCB4PSIyMjAiIHk9IjYwIiB3aWR0aD0iNzgiIGhlaWdodD0iNjAiIHJ4PSI4IiBmaWxsPSIjRDZBODNFIiBzdHJva2U9IiMwMDAzIi8+PHBvbHlnb24gcG9pbnRzPSIyMjAsNjAgMjU5LDM4IDI5OCw2MCIgZmlsbD0iI0Q2QTgzRSIgc3Ryb2tlPSIjMDAwMyIvPjx0ZXh0IHg9IjI1OSIgeT0iOTgiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4Lir4Lil4Li34Lit4LiHPC90ZXh0Pjx0ZXh0IHg9IjI1OSIgeT0iMTQwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4l+C4teC5iCAzPC90ZXh0PjxyZWN0IHg9IjMyMCIgeT0iNjAiIHdpZHRoPSI3OCIgaGVpZ2h0PSI2MCIgcng9IjgiIGZpbGw9IiM0RTc3QzQiIHN0cm9rZT0iIzAwMDMiLz48cG9seWdvbiBwb2ludHM9IjMyMCw2MCAzNTksMzggMzk4LDYwIiBmaWxsPSIjNEU3N0M0IiBzdHJva2U9IiMwMDAzIi8+PHRleHQgeD0iMzU5IiB5PSI5OCIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJnguYnguLPguYDguIfguLTguJk8L3RleHQ+PHRleHQgeD0iMzU5IiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiX4Li14LmIIDQ8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "เหตุ 1: สุนัขพันธุ์เล็กทุกตัวเป็นสุนัข\nเหตุ 2: สุนัขบางตัวดุ\nข้อสรุป: สุนัขพันธุ์เล็กบางตัวดุ\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "สมเหตุสมผลเพราะพันธุ์เล็กก็เป็นสุนัข",
+     "เป็นจริงทุกกรณี",
+     "ไม่สมเหตุสมผล"
+    ],
+    "answer": 3,
+    "explain": "💡 'สุนัขบางตัวดุ' ไม่ได้บอกว่าตัวที่ดุเป็น 'พันธุ์เล็ก' หรือไม่\n📐 อ่านแผนภาพ\n• วง 'พันธุ์เล็ก' อยู่ในวง 'สุนัข'\n• วง 'ดุ' ทับ 'สุนัข' บางส่วน และอาจไม่แตะวง 'พันธุ์เล็ก'\n• จึงเป็นไปได้ที่ตัวดุไม่มีตัวไหนเป็นพันธุ์เล็ก ⇒ สรุปไม่ได้\n⚠️ 'บาง' ของกลุ่มใหญ่ ไม่ถ่ายทอดลงกลุ่มย่อยอัตโนมัติ\n✓ ตอบ ไม่สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNDAiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxODAiIGN5PSIxMjYiIHI9IjEwNCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjEyOCIgY3k9IjEzOCIgcj0iNDIiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIyODUiIGN5PSIxMjYiIHI9IjY0IiBmaWxsPSIjRkJFQUVBIiBzdHJva2U9IiNDMjRBNEEiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMTcwIiB5PSI0MCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFFNjMzNSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Liq4Li44LiZ4Lix4LiCPC90ZXh0Pjx0ZXh0IHg9IjEyNiIgeT0iMTQyIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4nuC4seC4meC4mOC4uOC5jOC5gOC4peC5h+C4gTwvdGV4dD48dGV4dCB4PSIzMDAiIHk9IjcwIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOUEyQzJDIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJTguLg8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "มีสามคน: เอก โท ตรี — มี 'คนพูดจริงเพียงคนเดียว' อีกสองคนโกหกเสมอ\n• เอกพูดว่า “โทโกหก”\n• โทพูดว่า “ตรีโกหก”\n• ตรีพูดว่า “เอกกับโทโกหกทั้งคู่”\nใครคือคนที่พูดจริง",
+    "choices": [
+     "โท",
+     "เอก",
+     "ตรี",
+     "สรุปไม่ได้"
+    ],
+    "answer": 0,
+    "explain": "💡 มีคนพูดจริงคนเดียว ลองสมมติทีละคน แล้วตรวจว่าคำพูดทุกคนสอดคล้องกัน\n📐 ทดสอบ\n• สมมติ 'โท' พูดจริง (เอก,ตรี โกหก)\n• โทพูด 'ตรีโกหก' → จริง ✔\n• เอกโกหก: 'โทโกหก' ต้องเท็จ → โทพูดจริง ✔\n• ตรีโกหก: 'เอกกับโทโกหกทั้งคู่' ต้องเท็จ → มีคนพูดจริง(โท) ✔\n• สอดคล้องหมด มีคนพูดจริงคนเดียวคือโท\n✓ ตอบ โท"
+   },
+   {
+    "q": "ข้อความ “ถ้าจำนวนหนึ่งหารด้วย 6 ลงตัว แล้วจำนวนนั้นหารด้วย 4 ลงตัว” ข้อใดเป็น 'ตัวอย่างค้าน' ที่ทำให้ข้อความนี้เป็นเท็จ",
+    "choices": [
+     "12",
+     "6",
+     "24",
+     "36"
+    ],
+    "answer": 1,
+    "explain": "💡 ตัวอย่างค้านของ 'ถ้า A แล้ว B' = จำนวนที่เข้า A แต่ไม่เข้า B (หาร 6 ลงตัว แต่ไม่หาร 4 ลงตัว)\n📐 ตรวจ\n• 6 → หาร 6 ลงตัว แต่ 6÷4=1.5 ไม่ลงตัว → ค้านได้ ✔\n• 12,24,36 หารด้วย 4 ลงตัวทั้งหมด จึงไม่ค้าน\n✓ ตอบ 6"
+   },
+   {
+    "q": "จงหาคำที่มีความสัมพันธ์แบบเดียวกัน\nแพทย์ : รักษา  เปรียบเหมือน  ผู้พิพากษา : ?",
+    "choices": [
+     "จับกุม",
+     "ฟ้องร้อง",
+     "ตัดสิน",
+     "แก้ต่าง"
+    ],
+    "answer": 2,
+    "explain": "💡 คู่แรกคือ 'อาชีพ : หน้าที่หลักของอาชีพนั้น'\n📐 หาความสัมพันธ์\n• แพทย์ มีหน้าที่ รักษา\n• ผู้พิพากษา มีหน้าที่ ตัดสิน\n⚠️ จับกุม=ตำรวจ, ฟ้องร้อง=อัยการ, แก้ต่าง=ทนายความ\n✓ ตอบ ตัดสิน"
+   },
+   {
+    "q": "จงหาคำที่มีความสัมพันธ์แบบเดียวกัน\nลูกอ๊อด : กบ  เปรียบเหมือน  หนอน : ?",
+    "choices": [
+     "ใบไม้",
+     "นก",
+     "ดักแด้",
+     "ผีเสื้อ"
+    ],
+    "answer": 3,
+    "explain": "💡 คู่แรกคือ 'ระยะตัวอ่อน : ตัวเต็มวัยที่โตขึ้น'\n📐 หาความสัมพันธ์\n• ลูกอ๊อด เจริญเป็น กบ\n• หนอน เจริญเป็น ผีเสื้อ\n⚠️ ดักแด้เป็นระยะ 'กลาง' ไม่ใช่ตัวเต็มวัย จึงยังไม่ตรง\n✓ ตอบ ผีเสื้อ"
+   },
+   {
+    "q": "จงหาคำที่มีความสัมพันธ์แบบเดียวกัน\nองศา : มุม  เปรียบเหมือน  กิโลกรัม : ?",
+    "choices": [
+     "มวล",
+     "ความยาว",
+     "อุณหภูมิ",
+     "เวลา"
+    ],
+    "answer": 0,
+    "explain": "💡 คู่แรกคือ 'หน่วยวัด : ปริมาณที่หน่วยนั้นใช้วัด'\n📐 หาความสัมพันธ์\n• องศา ใช้วัด มุม\n• กิโลกรัม ใช้วัด มวล\n⚠️ ความยาววัดด้วยเมตร, อุณหภูมิด้วยองศาเซลเซียส, เวลาด้วยวินาที\n✓ ตอบ มวล"
+   },
+   {
+    "q": "เรื่องอายุ: ก แก่กว่า ข, ค อ่อนกว่า ข, ง แก่กว่า ก และ จ อ่อนกว่า ค ใครแก่ที่สุด",
+    "choices": [
+     "ก",
+     "ง",
+     "ข",
+     "จ"
+    ],
+    "answer": 1,
+    "explain": "💡 นิรนัยแบบถ่ายทอด ค่อย ๆ ต่อความสัมพันธ์จนได้ลำดับสมบูรณ์\n📐 เรียงจากแก่ไปอ่อน\n• ง แก่กว่า ก, ก แก่กว่า ข, ข แก่กว่า ค, ค แก่กว่า จ\n• รวมได้ ง > ก > ข > ค > จ ⇒ ง แก่ที่สุด\n✓ ตอบ ง",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzAgMjIyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzMCIgaGVpZ2h0PSIyMjIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTUiIHk9IjI0IiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5gOC4o+C4teC4ouC4h+C4iOC4suC4geC5geC4geC5iOC4quC4uOC4lCDihpIg4Lit4LmI4Lit4LiZ4Liq4Li44LiUPC90ZXh0PjxyZWN0IHg9Ijg2IiB5PSI0MCIgd2lkdGg9IjIzNSIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiNEMjU0NEUiLz48dGV4dCB4PSIzMjkiIHk9IjU4IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiHICjguYHguIHguYjguKrguLjguJQpPC90ZXh0PjxyZWN0IHg9Ijg2IiB5PSI3NCIgd2lkdGg9IjE5MiIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiNFMEEyNEUiLz48dGV4dCB4PSIyODYiIHk9IjkyIiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiBPC90ZXh0PjxyZWN0IHg9Ijg2IiB5PSIxMDgiIHdpZHRoPSIxNTAiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjNjZCNzg0Ii8+PHRleHQgeD0iMjQ0IiB5PSIxMjYiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guII8L3RleHQ+PHJlY3QgeD0iODYiIHk9IjE0MiIgd2lkdGg9IjEwOCIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiM1RTlCRDYiLz48dGV4dCB4PSIyMDIiIHk9IjE2MCIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4hDwvdGV4dD48cmVjdCB4PSI4NiIgeT0iMTc2IiB3aWR0aD0iNjYiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjOUI3QkQwIi8+PHRleHQgeD0iMTYwIiB5PSIxOTQiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guIggKOC4reC5iOC4reC4meC4quC4uOC4lCk8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "แดง เขียว น้ำเงิน เล่นกีฬาคนละชนิด (ฟุตบอล บาส ว่ายน้ำ) โดย\n• แดงไม่เล่นฟุตบอลและไม่ว่ายน้ำ\n• เขียวไม่เล่นบาสและไม่ว่ายน้ำ\nใครเล่นว่ายน้ำ",
+    "choices": [
+     "แดง",
+     "เขียว",
+     "น้ำเงิน",
+     "สรุปไม่ได้"
+    ],
+    "answer": 2,
+    "explain": "💡 ใช้การตัดตัวเลือก (elimination) ทีละเงื่อนไข\n📐 ไล่เงื่อนไข\n• แดงไม่เล่นฟุตบอล/ว่ายน้ำ ⇒ แดง = บาส\n• เขียวไม่เล่นบาส/ว่ายน้ำ ⇒ เขียว = ฟุตบอล\n• เหลือ ว่ายน้ำ เป็นของ น้ำเงิน\n✓ ตอบ น้ำเงิน"
+   },
+   {
+    "q": "สองคน: เอ บี แต่ละคนพูดจริงเสมอ หรือโกหกเสมอ\n• เอพูดว่า “เราสองคนเป็นชนิดเดียวกัน”\n• บีพูดว่า “เราสองคนเป็นคนละชนิดกัน”\nใครพูดความจริง",
+    "choices": [
+     "เอ",
+     "พูดจริงทั้งคู่",
+     "โกหกทั้งคู่",
+     "บี"
+    ],
+    "answer": 3,
+    "explain": "💡 ลองสมมติชนิดของเอ แล้วตรวจว่าคำพูดสอดคล้องกับตัวเองไหม\n📐 ทดสอบ\n• ถ้าเอพูดจริง คำพูด 'เป็นชนิดเดียวกัน' ต้องจริง ⇒ บีพูดจริงด้วย ⇒ แต่บีพูด 'คนละชนิด' ซึ่งขัดกัน\n• ดังนั้นเอโกหก ⇒ ความจริงคือ 'คนละชนิดกัน' ⇒ บีพูดจริง (และบีพูดว่าคนละชนิด ตรงกัน)\n✓ ตอบ บี"
+   },
+   {
+    "q": "เหตุ 1: แมงมุมทุกตัวเป็นสัตว์ขาปล้อง\nเหตุ 2: ไม่มีสัตว์ขาปล้องตัวใดเป็นสัตว์เลี้ยงลูกด้วยนม\nเหตุ 3: วาฬเป็นสัตว์เลี้ยงลูกด้วยนม\nข้อสรุป: วาฬไม่ใช่แมงมุม\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "ไม่สมเหตุสมผล",
+     "สมเหตุสมผลเฉพาะบางกรณี",
+     "สรุปไม่ได้"
+    ],
+    "answer": 0,
+    "explain": "💡 ต่อเหตุเป็นลูกโซ่ด้วยแผนภาพ: วงย่อย–วงใหญ่–วงที่แยกออกไป\n📐 อ่านแผนภาพ\n• 'แมงมุม' อยู่ในวง 'สัตว์ขาปล้อง'\n• วง 'ขาปล้อง' แยกขาดจากวง 'เลี้ยงลูกด้วยนม'\n• 'วาฬ' อยู่ในวงเลี้ยงลูกด้วยนม จึงอยู่นอกวงขาปล้อง และนอกวงแมงมุมด้วย ⇒ วาฬไม่ใช่แมงมุม\n✓ ตอบ สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDAgMjQ0IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ0MCIgaGVpZ2h0PSIyNDQiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxNDAiIGN5PSIxMjgiIHI9Ijk2IiBmaWxsPSIjRUFGNkVFIiBzdHJva2U9IiMyRTdENDYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTIwIiBjeT0iMTQyIiByPSI0NCIgZmlsbD0iI0U2RURGQiIgc3Ryb2tlPSIjMjQ1NkM4IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjMyMiIgY3k9IjEyOCIgcj0iNzQiIGZpbGw9IiNGQkVBRUEiIHN0cm9rZT0iI0MyNEE0QSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIxMzIiIHk9IjQ0IiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUU2MzM1IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKrguLHguJXguKfguYzguILguLLguJvguKXguYnguK3guIc8L3RleHQ+PHRleHQgeD0iMTE4IiB5PSIxNDYiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5geC4oeC4h+C4oeC4uOC4oTwvdGV4dD48dGV4dCB4PSIzMjIiIHk9IjY2IiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5QTJDMkMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5gOC4peC4teC5ieC4ouC4h+C4peC4ueC4geC4lOC5ieC4p+C4ouC4meC4oTwvdGV4dD48Y2lyY2xlIGN4PSIzMjIiIGN5PSIxMzgiIHI9IjUuNSIgZmlsbD0iI0U0MTExRiIvPjx0ZXh0IHg9IjMyMiIgeT0iMTI3IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4p+C4suC4rDwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "เหตุ 1: นักเรียนทุกคนใส่เครื่องแบบ\nเหตุ 2: คนที่ใส่เครื่องแบบบางคนเป็นทหาร\nข้อสรุป: นักเรียนบางคนเป็นทหาร\nการอ้างเหตุผลนี้เป็นอย่างไร",
+    "choices": [
+     "สมเหตุสมผล",
+     "ไม่สมเหตุสมผล",
+     "สมเหตุสมผลเพราะต่างใส่เครื่องแบบ",
+     "เป็นจริงทุกกรณี"
+    ],
+    "answer": 1,
+    "explain": "💡 คนใส่เครื่องแบบที่เป็นทหาร อาจไม่ใช่ 'นักเรียน' เลยก็ได้\n📐 อ่านแผนภาพ\n• วง 'นักเรียน' อยู่ในวง 'ใส่เครื่องแบบ'\n• วง 'ทหาร' ทับ 'ใส่เครื่องแบบ' บางส่วน แต่ส่วนที่ทับอาจอยู่นอกวง 'นักเรียน'\n• จึงสรุปว่านักเรียนบางคนเป็นทหารไม่ได้ ⇒ ไม่สมเหตุสมผล\n✓ ตอบ ไม่สมเหตุสมผล",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgMjQ0IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyMCIgaGVpZ2h0PSIyNDQiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxODAiIGN5PSIxMjgiIHI9IjEwNCIgZmlsbD0iI0VBRjZFRSIgc3Ryb2tlPSIjMkU3RDQ2IiBzdHJva2Utd2lkdGg9IjIuNSIvPjxjaXJjbGUgY3g9IjEzMiIgY3k9IjE0MCIgcj0iNDYiIGZpbGw9IiNFNkVERkIiIHN0cm9rZT0iIzI0NTZDOCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSIxMjgiIHI9IjY0IiBmaWxsPSIjRkJGNEU0IiBzdHJva2U9IiNDOTk2MkYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMTYwIiB5PSI0NCIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFFNjMzNSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmD4Liq4LmI4LmA4LiE4Lij4Li34LmI4Lit4LiH4LmB4Lia4LiaPC90ZXh0Pjx0ZXh0IHg9IjEzMCIgeT0iMTQ0IiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjk3IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guJnguLHguIHguYDguKPguLXguKLguJk8L3RleHQ+PHRleHQgeD0iMzIwIiB5PSI3MiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhBNjQxNCIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiX4Lir4Liy4LijPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "ข้อความ “จำนวนเฉพาะทุกจำนวนเป็นจำนวนคี่” ข้อใดเป็น 'ตัวอย่างค้าน'",
+    "choices": [
+     "9",
+     "15",
+     "2",
+     "21"
+    ],
+    "answer": 2,
+    "explain": "💡 ตัวอย่างค้าน = เป็นจำนวนเฉพาะ 'และ' เป็นจำนวนคู่ (ค้านคำว่า 'คี่')\n📐 ตรวจ\n• 2 เป็นจำนวนเฉพาะ และเป็นจำนวนคู่ → ค้านได้ ✔\n• 9=3×3, 15=3×5, 21=3×7 ไม่ใช่จำนวนเฉพาะด้วยซ้ำ จึงใช้ค้านไม่ได้\n✓ ตอบ 2"
+   },
+   {
+    "q": "จากประโยค “การมีน้ำเป็นเงื่อนไขจำเป็นของการมีชีวิต” ข้อใดสรุปได้ถูกต้อง",
+    "choices": [
+     "ถ้ามีน้ำ ก็จะมีชีวิตเสมอ",
+     "สิ่งมีชีวิตทุกชนิดอยู่ในน้ำ",
+     "น้ำจัดเป็นสิ่งมีชีวิต",
+     "ถ้าไม่มีน้ำ ก็จะไม่มีชีวิต"
+    ],
+    "answer": 3,
+    "explain": "💡 'เงื่อนไขจำเป็น' ของ B แปลว่า ถ้าขาดสิ่งนี้ B เกิดไม่ได้ (ไม่ได้แปลว่ามีแล้วจะเกิดเสมอ)\n📐 แปลความ\n• น้ำจำเป็นต่อชีวิต ⇒ ไม่มีน้ำ = ไม่มีชีวิต (ถูก)\n⚠️ 'มีน้ำแล้วมีชีวิตเสมอ' คือสับสนกับ 'เงื่อนไขเพียงพอ' ซึ่งประโยคไม่ได้บอก\n✓ ตอบ ถ้าไม่มีน้ำ ก็จะไม่มีชีวิต"
+   },
+   {
+    "q": "กล่อง A หนักกว่า B, C เบากว่า B และ D หนักกว่า A ข้อใดถูกต้อง",
+    "choices": [
+     "D หนักที่สุด",
+     "A หนักที่สุด",
+     "C หนักที่สุด",
+     "B เบาที่สุด"
+    ],
+    "answer": 0,
+    "explain": "💡 นิรนัยแบบถ่ายทอด เรียงน้ำหนักจากมากไปน้อยให้ครบ\n📐 เรียงลำดับ\n• D > A (โจทย์), A > B, B > C\n• รวมได้ D > A > B > C ⇒ D หนักที่สุด และ C เบาที่สุด\n⚠️ 'B เบาที่สุด' ผิด เพราะ C เบากว่า B\n✓ ตอบ D หนักที่สุด",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzAgMTUwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmZmYiLz48ZGVmcz48bWFya2VyIGlkPSJhciIgbWFya2VyV2lkdGg9IjgiIG1hcmtlckhlaWdodD0iOCIgcmVmWD0iNiIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCwwIEw2LDMgTDAsNiBaIiBmaWxsPSIjYmJiIi8+PC9tYXJrZXI+PC9kZWZzPjx0ZXh0IHg9IjIxNSIgeT0iMjYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lir4LiZ4Lix4LiB4LiX4Li14LmI4Liq4Li44LiUIOKGkiDguYDguJrguLLguJfguLXguYjguKrguLjguJQ8L3RleHQ+PHJlY3QgeD0iMjAiIHk9IjU4IiB3aWR0aD0iODAiIGhlaWdodD0iNTQiIHJ4PSI5IiBmaWxsPSIjRDI1NDRFIi8+PHRleHQgeD0iNjAiIHk9IjkwIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj5EPC90ZXh0Pjx0ZXh0IHg9IjYwIiB5PSIxMzAiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4q+C4meC4seC4geC4quC4uOC4lDwvdGV4dD48bGluZSB4MT0iMTAwIiB5MT0iODUiIHgyPSIxMTgiIHkyPSI4NSIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjIuNSIgbWFya2VyLWVuZD0idXJsKCNhcikiLz48cmVjdCB4PSIxMjIiIHk9IjU4IiB3aWR0aD0iODAiIGhlaWdodD0iNTQiIHJ4PSI5IiBmaWxsPSIjRTBBMjRFIi8+PHRleHQgeD0iMTYyIiB5PSI5MCIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+QTwvdGV4dD48dGV4dCB4PSIxNjIiIHk9IjEzMCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC90ZXh0PjxsaW5lIHgxPSIyMDIiIHkxPSI4NSIgeDI9IjIyMCIgeTI9Ijg1IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMi41IiBtYXJrZXItZW5kPSJ1cmwoI2FyKSIvPjxyZWN0IHg9IjIyNCIgeT0iNTgiIHdpZHRoPSI4MCIgaGVpZ2h0PSI1NCIgcng9IjkiIGZpbGw9IiM2NkI3ODQiLz48dGV4dCB4PSIyNjQiIHk9IjkwIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj5CPC90ZXh0Pjx0ZXh0IHg9IjI2NCIgeT0iMTMwIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48L3RleHQ+PGxpbmUgeDE9IjMwNCIgeTE9Ijg1IiB4Mj0iMzIyIiB5Mj0iODUiIHN0cm9rZT0iI2JiYiIgc3Ryb2tlLXdpZHRoPSIyLjUiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+PHJlY3QgeD0iMzI2IiB5PSI1OCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjU0IiByeD0iOSIgZmlsbD0iIzVFOUJENiIvPjx0ZXh0IHg9IjM2NiIgeT0iOTAiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPkM8L3RleHQ+PHRleHQgeD0iMzY2IiB5PSIxMzAiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC5gOC4muC4suC4quC4uOC4lDwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "เหตุ 1: ถ้าฝนตก การแข่งขันจะถูกยกเลิก\nเหตุ 2: การแข่งขันไม่ถูกยกเลิก\nข้อใดต้องเป็นจริงแน่นอน",
+    "choices": [
+     "ฝนตก",
+     "ฝนไม่ตก",
+     "การแข่งขันถูกเลื่อน",
+     "สรุปแน่นอนไม่ได้"
+    ],
+    "answer": 1,
+    "explain": "💡 ย้อนจากผลกลับไปเหตุ (Modus Tollens): ผลไม่เกิด แสดงว่าเหตุก็ไม่เกิด\n📐 ให้เหตุผล\n• ถ้าฝนตก → ยกเลิก แต่ 'ไม่ยกเลิก'\n• ถ้าฝนตกจริง ต้องยกเลิก ซึ่งขัดกับที่ว่าไม่ยกเลิก\n• ดังนั้น ฝนต้องไม่ตก\n✓ ตอบ ฝนไม่ตก"
+   },
+   {
+    "q": "ชี้ไปที่รูปชายคนหนึ่ง แล้วสมชายพูดว่า “พ่อของชายในรูป เป็นลูกชายคนเดียวของพ่อผม” ชายในรูปเป็นอะไรกับสมชาย",
+    "choices": [
+     "น้องชายของสมชาย",
+     "พ่อของสมชาย",
+     "ลูกชายของสมชาย",
+     "หลานลุงของสมชาย"
+    ],
+    "answer": 2,
+    "explain": "💡 แกะทีละชั้น เริ่มจากวลี 'ลูกชายคนเดียวของพ่อผม'\n📐 ไล่ความสัมพันธ์\n• 'ลูกชายคนเดียวของพ่อสมชาย' = ตัวสมชายเอง\n• ดังนั้น 'พ่อของชายในรูป' = สมชาย\n• เมื่อสมชายเป็นพ่อของเขา ⇒ ชายในรูปเป็น 'ลูกชายของสมชาย'\n✓ ตอบ ลูกชายของสมชาย"
+   },
+   {
+    "q": "จงหาคำที่มีความสัมพันธ์แบบเดียวกัน\nเดือน : ปี  เปรียบเหมือน  สัปดาห์ : ?",
+    "choices": [
+     "วัน",
+     "ปี",
+     "ชั่วโมง",
+     "เดือน"
+    ],
+    "answer": 3,
+    "explain": "💡 คู่แรกคือ 'หน่วยย่อย : หน่วยที่ใหญ่ถัดขึ้นไปซึ่งบรรจุมันไว้'\n📐 หาความสัมพันธ์\n• หลายเดือนรวมเป็น 1 ปี\n• หลายสัปดาห์รวมเป็น 1 เดือน\n⚠️ 'วัน' เป็นหน่วยที่เล็กกว่าสัปดาห์ (ทิศทางกลับกัน)\n✓ ตอบ เดือน"
    }
   ],
   "eng_07": [
@@ -49603,7 +49829,7 @@
   "math_14": 1787324579825,
   "math_15": 1787582916267,
   "math_19": 1787727205970,
-  "math_22": 1787731078315
+  "math_22": 1787732641200
  },
  "subjStatus": {
   "thai": {
