@@ -236,6 +236,7 @@
   .ex-li::before{ content:"•"; position:absolute; left:2px; color:var(--pri); font-weight:800; }
   .ex-hl{ background:#FFF1B8; color:#5A4200; border-radius:3px; padding:0 3px; font-weight:600; }
   .ex-warn{ background:#FEECEC; border-left:3px solid #E4111F; border-radius:0 8px 8px 0; padding:8px 11px; margin:9px 0; font-size:11.5px; color:#7A1219; line-height:1.6; }
+  .ex-eq{ background:#fff; border:1.5px solid #D7E3EE; border-radius:10px; padding:11px 10px; margin:11px 0; text-align:center; font-size:15px; font-weight:700; color:#123; overflow-x:auto; }
   .ex-formula{ background:#EAF7EF; border:1px solid #B7E0C7; border-left:4px solid #1E9E5A; border-radius:10px; padding:11px 13px; margin:11px 0; }
   .ex-formula-t{ font-size:11.5px; font-weight:800; color:#1E7A44; margin-bottom:9px; letter-spacing:.02em; }
   .ex-formula-row{ margin-bottom:10px; }
@@ -508,7 +509,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v119";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v120";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -764,6 +765,7 @@ function fmtExp(s){
       }
       out+='<div class="ex-formula"><div class="ex-formula-t">📐 '+esc(ftitle||"สูตรที่ใช้")+'</div>'+frows+'</div>'; continue;
     }
+    if(/^🟰/.test(ln)){ out+='<div class="ex-eq">'+mrender(ln.replace(/^🟰\s*/,"").trim())+'</div>'; i++; continue; }   // สมการเศษส่วนแบบแสดงกลางจอ
     if(/^⚠️/.test(ln)){ out+='<div class="ex-warn">'+expHL(mrender(ln))+'</div>'; i++; continue; }
     if(/^[-–•●▪✓]\s+/.test(ln)){ out+='<div class="ex-li">'+expHL(mrender(ln.replace(/^[-–•●▪✓]\s+/,"")))+'</div>'; i++; continue; }
     var m=ln.match(EXP_HEAD);
@@ -969,7 +971,7 @@ var TOPIC_CFG = {
   math_18: { draw:15, passN:13 },
   math_19: { draw:15, passN:13, badge:"Lv.อัพ" },
   math_20: { draw:15, passN:13 },
-  math_21: { draw:15, passN:13 },
+  math_21: { draw:15, passN:13, badge:"Lv.อัพ" },
   math_22: { draw:15, passN:13, badge:"Lv.อัพ" },
   math_23: { draw:15, passN:13 }
 };

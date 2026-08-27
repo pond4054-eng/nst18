@@ -1,6 +1,6 @@
 {
  "_comment": "คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อย่าแก้ไฟล์นี้ด้วยมือ ให้ใช้ปุ่ม 'ส่งออกคลังข้อสอบ' ในแผงแอดมินแล้วอัปโหลดทับไฟล์นี้",
- "version": 170,
+ "version": 171,
  "topics": {
   "math": [
    {
@@ -13061,554 +13061,244 @@
   ],
   "math_21": [
    {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 4, 6, 8",
+    "q": "คะแนนสอบวิชาคณิตศาสตร์ของนักเรียน 5 คน เป็นดังนี้ 68, 72, 75, 80 และ 85 คะแนน จงหาค่าเฉลี่ยเลขคณิตของคะแนนกลุ่มนี้",
     "choices": [
-     "6",
-     "4",
-     "3",
-     "8"
+     "76 คะแนน",
+     "78 คะแนน",
+     "75 คะแนน",
+     "80 คะแนน"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ (4+6+8) ÷ 3 = 18 ÷ 3 = 6\n\n✓ ตอบ: 6"
+    "explain": "💡 ค่าเฉลี่ยคิดง่าย ๆ ว่า “เอาคะแนนทุกคนมากองรวมกัน แล้วแบ่งเท่า ๆ กันให้ทุกคน จะได้คนละเท่าไร”\n📐 สูตรที่ใช้\n• ค่าเฉลี่ย (x̄) — x̄ = (ผลรวมข้อมูล)/(จำนวนข้อมูล) = (Σx)/(N)\nบวกคะแนนทั้งห้าก่อน แล้วหารด้วยจำนวนคน\n🟰 x̄ = (68+72+75+80+85)/(5) = (380)/(5) = 76\nเห็นไหมว่า 76 อยู่ตรงกลาง ๆ ของคะแนนพอดี (จุดแดงในภาพ)\n✓ ตอบ 76 คะแนน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgMTUwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTAiIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guITguLDguYHguJnguJnguYHguJXguYjguKXguLDguITguJkgKyDguIjguLjguJTguYDguInguKXguLXguYjguKI8L3RleHQ+PGxpbmUgeDE9IjQ3IiB5MT0iMTEyIiB4Mj0iMzgzIiB5Mj0iMTEyIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSI1NSIgeTE9IjEwNyIgeDI9IjU1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iNTUiIHk9IjEzMyIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NjQ8L3RleHQ+PGxpbmUgeDE9IjEzNSIgeTE9IjEwNyIgeDI9IjEzNSIgeTI9IjExNyIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjEzNSIgeT0iMTMzIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTkiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj43MDwvdGV4dD48bGluZSB4MT0iMjE1IiB5MT0iMTA3IiB4Mj0iMjE1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMjE1IiB5PSIxMzMiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjc2PC90ZXh0PjxsaW5lIHgxPSIyOTUiIHkxPSIxMDciIHgyPSIyOTUiIHkyPSIxMTciIHN0cm9rZT0iI2JiYiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIyOTUiIHk9IjEzMyIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+ODI8L3RleHQ+PGxpbmUgeDE9IjM3NSIgeTE9IjEwNyIgeDI9IjM3NSIgeTI9IjExNyIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjM3NSIgeT0iMTMzIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTkiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj44ODwvdGV4dD48Y2lyY2xlIGN4PSIxMDguMzMzIiBjeT0iMTEyIiByPSI2IiBmaWxsPSIjNEU3N0M0Ii8+PGNpcmNsZSBjeD0iMTYxLjY2NyIgY3k9IjExMiIgcj0iNiIgZmlsbD0iIzRFNzdDNCIvPjxjaXJjbGUgY3g9IjIwMS42NjciIGN5PSIxMTIiIHI9IjYiIGZpbGw9IiM0RTc3QzQiLz48Y2lyY2xlIGN4PSIyNjguMzMzIiBjeT0iMTEyIiByPSI2IiBmaWxsPSIjNEU3N0M0Ii8+PGNpcmNsZSBjeD0iMzM1IiBjeT0iMTEyIiByPSI2IiBmaWxsPSIjNEU3N0M0Ii8+PHBvbHlnb24gcG9pbnRzPSIyMTUsOTYgMjA3LDgyIDIyMyw4MiIgZmlsbD0iI0U0MTExRiIvPjxsaW5lIHgxPSIyMTUiIHkxPSIxMTIiIHgyPSIyMTUiIHkyPSI5NiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjMgMiIvPjx0ZXh0IHg9IjIxNSIgeT0iNzQiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guYDguInguKXguLXguYjguKIgNzY8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 10, 20, 30, 40",
+    "q": "อุณหภูมิเที่ยงวันของเมืองหนึ่งในรอบ 6 วัน (องศาเซลเซียส) เป็นดังนี้ 20, 25, 30, 15, 40, 20 จงหาค่าเฉลี่ยของอุณหภูมิ",
     "choices": [
-     "26",
-     "25",
-     "4",
-     "100"
+     "26 องศา",
+     "25 องศา",
+     "24 องศา",
+     "30 องศา"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 100 ÷ 4 = 25\n\n✓ ตอบ: 25"
+    "explain": "💡 ค่าเฉลี่ยไม่ต้องเรียงก็ได้ แค่บวกทั้งหมดแล้วหารด้วยจำนวนวัน\n📐 สูตรที่ใช้\n• ค่าเฉลี่ย — x̄ = (Σx)/(N)\n🟰 x̄ = (20+25+30+15+40+20)/(6) = (150)/(6) = 25\n✓ ตอบ 25 องศา",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgMTUwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTAiIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guK3guLjguJPguKvguKDguLnguKHguLQgNiDguKfguLHguJkgKyDguIjguLjguJTguYDguInguKXguLXguYjguKI8L3RleHQ+PGxpbmUgeDE9IjQ3IiB5MT0iMTEyIiB4Mj0iMzgzIiB5Mj0iMTEyIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSI1NSIgeTE9IjEwNyIgeDI9IjU1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iNTUiIHk9IjEzMyIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MTA8L3RleHQ+PGxpbmUgeDE9IjEzNSIgeTE9IjEwNyIgeDI9IjEzNSIgeTI9IjExNyIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjEzNSIgeT0iMTMzIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTkiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xOC43NTwvdGV4dD48bGluZSB4MT0iMjE1IiB5MT0iMTA3IiB4Mj0iMjE1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMjE1IiB5PSIxMzMiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjI3LjU8L3RleHQ+PGxpbmUgeDE9IjI5NSIgeTE9IjEwNyIgeDI9IjI5NSIgeTI9IjExNyIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjI5NSIgeT0iMTMzIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTkiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4zNi4yNTwvdGV4dD48bGluZSB4MT0iMzc1IiB5MT0iMTA3IiB4Mj0iMzc1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMzc1IiB5PSIxMzMiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjQ1PC90ZXh0PjxjaXJjbGUgY3g9IjE0Ni40MjkiIGN5PSIxMTIiIHI9IjYiIGZpbGw9IiM0RTc3QzQiLz48Y2lyY2xlIGN4PSIxOTIuMTQzIiBjeT0iMTEyIiByPSI2IiBmaWxsPSIjNEU3N0M0Ii8+PGNpcmNsZSBjeD0iMjM3Ljg1NyIgY3k9IjExMiIgcj0iNiIgZmlsbD0iIzRFNzdDNCIvPjxjaXJjbGUgY3g9IjEwMC43MTQiIGN5PSIxMTIiIHI9IjYiIGZpbGw9IiM0RTc3QzQiLz48Y2lyY2xlIGN4PSIzMjkuMjg2IiBjeT0iMTEyIiByPSI2IiBmaWxsPSIjNEU3N0M0Ii8+PGNpcmNsZSBjeD0iMTQ2LjQyOSIgY3k9IjExMiIgcj0iNiIgZmlsbD0iIzRFNzdDNCIvPjxwb2x5Z29uIHBvaW50cz0iMTkyLjE0Myw5NiAxODQuMTQzLDgyIDIwMC4xNDMsODIiIGZpbGw9IiNFNDExMUYiLz48bGluZSB4MT0iMTkyLjE0MyIgeTE9IjExMiIgeDI9IjE5Mi4xNDMiIHkyPSI5NiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjMgMiIvPjx0ZXh0IHg9IjE5Mi4xNDMiIHk9Ijc0IiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTQxMTFGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4LiJ4Lil4Li14LmI4LiiIDI1PC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 5, 5, 5, 5",
+    "q": "จำนวนลูกค้าที่เข้าร้านใน 7 วัน เรียงจากน้อยไปมากได้ดังนี้ 3, 8, 8, 12, 15, 20, 25 คน จงหามัธยฐาน",
     "choices": [
-     "4",
-     "20",
-     "5",
-     "6"
+     "8 คน",
+     "15 คน",
+     "12 คน",
+     "13 คน"
     ],
     "answer": 2,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 20 ÷ 4 = 5\n\n✓ ตอบ: 5"
+    "explain": "💡 มัธยฐาน = ตัวที่อยู่ “ตรงกลางแถว” พอดี เมื่อข้อมูลเรียงแล้ว ถ้าจำนวนข้อมูลเป็นเลขคี่ จะมีตัวกลางตัวเดียวเป๊ะ\n📐 สูตรที่ใช้\n• มัธยฐาน (N เป็นคี่) — ตัวที่ตำแหน่ง (N+1)/(2)\nมี 7 ตัว ⇒ ตำแหน่งกลาง = (7+1)/(2) = 4 นับไปตัวที่ 4 คือ 12\n✓ ตอบ 12 คน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NjQgMTQ5IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ2NCIgaGVpZ2h0PSIxNDkiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzIiIHk9IjI0IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guYDguKPguLXguKLguIfguYHguKXguYnguKfguJTguLnguJXguLHguKfguIHguKXguLLguIc8L3RleHQ+PHJlY3QgeD0iNDAiIHk9IjU0IiB3aWR0aD0iNDgiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSIjRjNGNUY4IiBzdHJva2U9IiNjZmQ2ZGUiIHN0cm9rZS13aWR0aD0iMS4zIi8+PHRleHQgeD0iNjQiIHk9IjgzIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MzwvdGV4dD48cmVjdCB4PSI5NiIgeT0iNTQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0NCIgcng9IjgiIGZpbGw9IiNGM0Y1RjgiIHN0cm9rZT0iI2NmZDZkZSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48dGV4dCB4PSIxMjAiIHk9IjgzIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+ODwvdGV4dD48cmVjdCB4PSIxNTIiIHk9IjU0IiB3aWR0aD0iNDgiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSIjRjNGNUY4IiBzdHJva2U9IiNjZmQ2ZGUiIHN0cm9rZS13aWR0aD0iMS4zIi8+PHRleHQgeD0iMTc2IiB5PSI4MyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjg8L3RleHQ+PHJlY3QgeD0iMjA4IiB5PSI1NCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ0IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMzIiIHk9IjgzIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MTI8L3RleHQ+PHJlY3QgeD0iMjY0IiB5PSI1NCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ0IiByeD0iOCIgZmlsbD0iI0YzRjVGOCIgc3Ryb2tlPSIjY2ZkNmRlIiBzdHJva2Utd2lkdGg9IjEuMyIvPjx0ZXh0IHg9IjI4OCIgeT0iODMiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xNTwvdGV4dD48cmVjdCB4PSIzMjAiIHk9IjU0IiB3aWR0aD0iNDgiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSIjRjNGNUY4IiBzdHJva2U9IiNjZmQ2ZGUiIHN0cm9rZS13aWR0aD0iMS4zIi8+PHRleHQgeD0iMzQ0IiB5PSI4MyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjIwPC90ZXh0PjxyZWN0IHg9IjM3NiIgeT0iNTQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0NCIgcng9IjgiIGZpbGw9IiNGM0Y1RjgiIHN0cm9rZT0iI2NmZDZkZSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48dGV4dCB4PSI0MDAiIHk9IjgzIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MjU8L3RleHQ+PHRleHQgeD0iMjMyIiB5PSIxMzIiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4oeC4seC4mOC4ouC4kOC4suC4mSA9IDEyICjguJXguLHguKfguJfguLXguYggNCk8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 2, 4, 6, 8, 10",
+    "q": "น้ำหนักของนักกีฬา 6 คน เรียงจากน้อยไปมากได้ดังนี้ 45, 52, 60, 63, 70, 88 กิโลกรัม จงหามัธยฐาน",
     "choices": [
-     "7",
-     "30",
-     "6",
-     "5"
+     "63 กิโลกรัม",
+     "60 กิโลกรัม",
+     "63.5 กิโลกรัม",
+     "61.5 กิโลกรัม"
     ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 30 ÷ 5 = 6\n\n✓ ตอบ: 6"
+    "answer": 3,
+    "explain": "💡 ถ้าจำนวนข้อมูลเป็นเลข “คู่” จะไม่มีตัวกลางตัวเดียว ต้องเอา 2 ตัวกลางมาเฉลี่ยกัน\n📐 สูตรที่ใช้\n• มัธยฐาน (N เป็นคู่) — เฉลี่ยตัวตำแหน่งที่ (N)/(2) กับ (N)/(2)+1\nมี 6 คน ⇒ ตัวกลางคือตัวที่ 3 และ 4 นั่นคือ 60 กับ 63 (ช่องเขียวในภาพ)\n🟰 มัธยฐาน = (60+63)/(2) = (123)/(2) = 61.5\n⚠️ อย่าตอบ 63 เฉย ๆ เพราะยังไม่ได้เฉลี่ยกับ 60\n✓ ตอบ 61.5 กิโลกรัม",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDggMTQ5IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQwOCIgaGVpZ2h0PSIxNDkiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMDQiIHk9IjI0IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guYDguKPguLXguKLguIfguYHguKXguYnguKfguJTguLkgMiDguJXguLHguKfguIHguKXguLLguIc8L3RleHQ+PHJlY3QgeD0iNDAiIHk9IjU0IiB3aWR0aD0iNDgiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSIjRjNGNUY4IiBzdHJva2U9IiNjZmQ2ZGUiIHN0cm9rZS13aWR0aD0iMS4zIi8+PHRleHQgeD0iNjQiIHk9IjgzIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NDU8L3RleHQ+PHJlY3QgeD0iOTYiIHk9IjU0IiB3aWR0aD0iNDgiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSIjRjNGNUY4IiBzdHJva2U9IiNjZmQ2ZGUiIHN0cm9rZS13aWR0aD0iMS4zIi8+PHRleHQgeD0iMTIwIiB5PSI4MyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjUyPC90ZXh0PjxyZWN0IHg9IjE1MiIgeT0iNTQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0NCIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTc2IiB5PSI4MyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjYwPC90ZXh0PjxyZWN0IHg9IjIwOCIgeT0iNTQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0NCIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjMyIiB5PSI4MyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjYzPC90ZXh0PjxyZWN0IHg9IjI2NCIgeT0iNTQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0NCIgcng9IjgiIGZpbGw9IiNGM0Y1RjgiIHN0cm9rZT0iI2NmZDZkZSIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48dGV4dCB4PSIyODgiIHk9IjgzIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NzA8L3RleHQ+PHJlY3QgeD0iMzIwIiB5PSI1NCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ0IiByeD0iOCIgZmlsbD0iI0YzRjVGOCIgc3Ryb2tlPSIjY2ZkNmRlIiBzdHJva2Utd2lkdGg9IjEuMyIvPjx0ZXh0IHg9IjM0NCIgeT0iODMiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj44ODwvdGV4dD48dGV4dCB4PSIyMDQiIHk9IjEzMiIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lih4Lix4LiY4Lii4LiQ4Liy4LiZID0gKDYwKzYzKS8yID0gNjEuNTwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 12, 15, 18",
+    "q": "ร้านกาแฟบันทึกจำนวนแก้วที่ขายได้ในแต่ละชั่วโมง 8 ชั่วโมง ได้แก่ 7, 9, 12, 9, 15, 9, 12, 7 แก้ว จงหาฐานนิยม",
     "choices": [
-     "16",
-     "3",
-     "15",
-     "45"
+     "9 แก้ว",
+     "12 แก้ว",
+     "7 แก้ว",
+     "10 แก้ว"
     ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 45 ÷ 3 = 15\n\n✓ ตอบ: 15"
+    "answer": 0,
+    "explain": "💡 ฐานนิยม = ค่าที่โผล่มา “บ่อยที่สุด” เหมือนหาว่าเลขไหนซ้ำเยอะสุด\n📐 สูตรที่ใช้\n• ฐานนิยม (Mode) — ค่าที่มีความถี่ (จำนวนครั้ง) สูงสุด\nนับความถี่: 7 มา 2 ครั้ง, 9 มา 3 ครั้ง, 12 มา 2 ครั้ง, 15 มา 1 ครั้ง (แท่งสูงสุดในภาพคือ 9)\n✓ ตอบ 9 แก้ว",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNTQgMTY5IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM1NCIgaGVpZ2h0PSIxNjkiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIxNzciIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guITguKfguLLguKHguJbguLXguYjguILguK3guIfguYHguJXguYjguKXguLDguITguYjguLI8L3RleHQ+PGxpbmUgeDE9IjM5IiB5MT0iMTM1IiB4Mj0iMzE1IiB5Mj0iMTM1IiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ1IiB5PSI3MS42NjY3IiB3aWR0aD0iNDQiIGhlaWdodD0iNjMuMzMzMyIgcng9IjQiIGZpbGw9IiM5REI0RDQiLz48dGV4dCB4PSI2NyIgeT0iNjQuNjY2NyIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDU2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MjwvdGV4dD48dGV4dCB4PSI2NyIgeT0iMTUzIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NzwvdGV4dD48cmVjdCB4PSIxMTEiIHk9IjQwIiB3aWR0aD0iNDQiIGhlaWdodD0iOTUiIHJ4PSI0IiBmaWxsPSIjRTQ3MDdBIi8+PHRleHQgeD0iMTMzIiB5PSIzMyIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjQzAzOTJCIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MzwvdGV4dD48dGV4dCB4PSIxMzMiIHk9IjE1MyIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjk8L3RleHQ+PHJlY3QgeD0iMTc3IiB5PSI3MS42NjY3IiB3aWR0aD0iNDQiIGhlaWdodD0iNjMuMzMzMyIgcng9IjQiIGZpbGw9IiM5REI0RDQiLz48dGV4dCB4PSIxOTkiIHk9IjY0LjY2NjciIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzQ1NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjI8L3RleHQ+PHRleHQgeD0iMTk5IiB5PSIxNTMiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xMjwvdGV4dD48cmVjdCB4PSIyNDMiIHk9IjEwMy4zMzMiIHdpZHRoPSI0NCIgaGVpZ2h0PSIzMS42NjY3IiByeD0iNCIgZmlsbD0iIzlEQjRENCIvPjx0ZXh0IHg9IjI2NSIgeT0iOTYuMzMzMyIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDU2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MTwvdGV4dD48dGV4dCB4PSIyNjUiIHk9IjE1MyIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjE1PC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 7, 9, 11, 13",
+    "q": "ร้านรองเท้าขายรองเท้าได้ตามเบอร์ดังนี้ 38, 39, 40, 39, 41, 39, 40 จงหาเบอร์รองเท้าที่เป็นฐานนิยม",
     "choices": [
-     "4",
-     "10",
-     "11",
-     "40"
+     "เบอร์ 40",
+     "เบอร์ 39",
+     "เบอร์ 41",
+     "เบอร์ 38"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 40 ÷ 4 = 10\n\n✓ ตอบ: 10"
+    "explain": "💡 เจ้าของร้านสนใจฐานนิยม เพราะมันบอกว่า “เบอร์ไหนขายดี/ลูกค้าซื้อบ่อยสุด”\n📐 สูตรที่ใช้\n• ฐานนิยม — เบอร์ที่ขายได้บ่อยที่สุด (ความถี่สูงสุด)\nนับ: เบอร์ 39 ขายได้ 3 ครั้ง มากกว่าเบอร์อื่น (แท่งสูงสุดในภาพ)\n✓ ตอบ เบอร์ 39",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNTQgMTY5IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM1NCIgaGVpZ2h0PSIxNjkiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIxNzciIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guIjguLPguJnguKfguJnguITguKPguLHguYnguIfguJfguLXguYjguILguLLguKLguYHguJXguYjguKXguLDguYDguJrguK3guKPguYw8L3RleHQ+PGxpbmUgeDE9IjM5IiB5MT0iMTM1IiB4Mj0iMzE1IiB5Mj0iMTM1IiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ1IiB5PSIxMDMuMzMzIiB3aWR0aD0iNDQiIGhlaWdodD0iMzEuNjY2NyIgcng9IjQiIGZpbGw9IiM5REI0RDQiLz48dGV4dCB4PSI2NyIgeT0iOTYuMzMzMyIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDU2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MTwvdGV4dD48dGV4dCB4PSI2NyIgeT0iMTUzIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+Mzg8L3RleHQ+PHJlY3QgeD0iMTExIiB5PSI0MCIgd2lkdGg9IjQ0IiBoZWlnaHQ9Ijk1IiByeD0iNCIgZmlsbD0iI0U0NzA3QSIvPjx0ZXh0IHg9IjEzMyIgeT0iMzMiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0MwMzkyQiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjM8L3RleHQ+PHRleHQgeD0iMTMzIiB5PSIxNTMiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4zOTwvdGV4dD48cmVjdCB4PSIxNzciIHk9IjcxLjY2NjciIHdpZHRoPSI0NCIgaGVpZ2h0PSI2My4zMzMzIiByeD0iNCIgZmlsbD0iIzlEQjRENCIvPjx0ZXh0IHg9IjE5OSIgeT0iNjQuNjY2NyIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDU2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MjwvdGV4dD48dGV4dCB4PSIxOTkiIHk9IjE1MyIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjQwPC90ZXh0PjxyZWN0IHg9IjI0MyIgeT0iMTAzLjMzMyIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjMxLjY2NjciIHJ4PSI0IiBmaWxsPSIjOURCNEQ0Ii8+PHRleHQgeD0iMjY1IiB5PSI5Ni4zMzMzIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0NTYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xPC90ZXh0Pjx0ZXh0IHg9IjI2NSIgeT0iMTUzIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NDE8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 3, 6, 9, 12, 15",
+    "q": "คะแนนของนักเรียน 5 คน คือ 15, 42, 28, 60 และ 33 คะแนน จงหาพิสัยของคะแนนชุดนี้",
     "choices": [
-     "10",
-     "5",
+     "48 คะแนน",
+     "60 คะแนน",
+     "45 คะแนน",
+     "30 คะแนน"
+    ],
+    "answer": 2,
+    "explain": "💡 พิสัย คือ “ช่วงกว้างของข้อมูล” ดูว่าค่ามากสุดกับน้อยสุดห่างกันแค่ไหน\n📐 สูตรที่ใช้\n• พิสัย — พิสัย = ค่าสูงสุด − ค่าต่ำสุด\nค่าสูงสุด = 60, ค่าต่ำสุด = 15 (สองจุดปลายในภาพ)\n🟰 พิสัย = 60 − 15 = 45\n✓ ตอบ 45 คะแนน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgMTUwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTAiIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guITguYjguLLguJXguYjguLPguKrguLjguJQgMTUg4oaUIOC4hOC5iOC4suC4quC4ueC4h+C4quC4uOC4lCA2MDwvdGV4dD48bGluZSB4MT0iNDciIHkxPSIxMTIiIHgyPSIzODMiIHkyPSIxMTIiIHN0cm9rZT0iIzk5OSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjU1IiB5MT0iMTA3IiB4Mj0iNTUiIHkyPSIxMTciIHN0cm9rZT0iI2JiYiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSI1NSIgeT0iMTMzIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTkiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xMDwvdGV4dD48bGluZSB4MT0iMTM1IiB5MT0iMTA3IiB4Mj0iMTM1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMTM1IiB5PSIxMzMiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjIzLjc1PC90ZXh0PjxsaW5lIHgxPSIyMTUiIHkxPSIxMDciIHgyPSIyMTUiIHkyPSIxMTciIHN0cm9rZT0iI2JiYiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIyMTUiIHk9IjEzMyIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MzcuNTwvdGV4dD48bGluZSB4MT0iMjk1IiB5MT0iMTA3IiB4Mj0iMjk1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMjk1IiB5PSIxMzMiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjUxLjI1PC90ZXh0PjxsaW5lIHgxPSIzNzUiIHkxPSIxMDciIHgyPSIzNzUiIHkyPSIxMTciIHN0cm9rZT0iI2JiYiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIzNzUiIHk9IjEzMyIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NjU8L3RleHQ+PGNpcmNsZSBjeD0iODQuMDkwOSIgY3k9IjExMiIgcj0iNiIgZmlsbD0iIzRFNzdDNCIvPjxjaXJjbGUgY3g9IjI0MS4xODIiIGN5PSIxMTIiIHI9IjYiIGZpbGw9IiM0RTc3QzQiLz48Y2lyY2xlIGN4PSIxNTkuNzI3IiBjeT0iMTEyIiByPSI2IiBmaWxsPSIjNEU3N0M0Ii8+PGNpcmNsZSBjeD0iMzQ1LjkwOSIgY3k9IjExMiIgcj0iNiIgZmlsbD0iIzRFNzdDNCIvPjxjaXJjbGUgY3g9IjE4OC44MTgiIGN5PSIxMTIiIHI9IjYiIGZpbGw9IiM0RTc3QzQiLz48L3N2Zz4="
+   },
+   {
+    "q": "นักเรียนคนหนึ่งได้ผลการเรียน 3 วิชา คือ คณิต (3 หน่วยกิต) เกรด 4, อังกฤษ (2 หน่วยกิต) เกรด 3 และวิทยาศาสตร์ (1 หน่วยกิต) เกรด 2 จงหาเกรดเฉลี่ย",
+    "choices": [
+     "3.00",
+     "3.50",
+     "2.67",
+     "3.33"
+    ],
+    "answer": 3,
+    "explain": "💡 ทำไมเฉลี่ยตรง ๆ ไม่ได้? เพราะแต่ละวิชา “น้ำหนักไม่เท่ากัน” วิชาหน่วยกิตเยอะย่อมสำคัญกว่า ต้องคูณเกรดด้วยหน่วยกิตก่อน\n📐 สูตรที่ใช้\n• เกรดเฉลี่ย — x̄ = (Σ(เกรด×หน่วยกิต))/(Σหน่วยกิต)\nคูณเกรด×หน่วยกิตแต่ละวิชาแล้วบวกกัน (บล็อกในภาพ: จำนวนบล็อก=หน่วยกิต เลขบนบล็อก=เกรด)\n🟰 x̄ = ((4×3)+(3×2)+(2×1))/(3+2+1) = (20)/(6) ≈ 3.33\n⚠️ ถ้าเฉลี่ยเกรดตรง ๆ จะได้ (4+3+2)/(3) = 3.00 ซึ่งผิด\n✓ ตอบ 3.33",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzAgMTUwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTUiIHk9IjIwIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lia4Lil4LmH4Lit4LiBPeC4q+C4meC5iOC4p+C4ouC4geC4tOC4lSwg4LmA4Lil4LiCPeC5gOC4geC4o+C4lDwvdGV4dD48cmVjdCB4PSI0MiIgeT0iNTAiIHdpZHRoPSIzMiIgaGVpZ2h0PSI1NiIgcng9IjciIGZpbGw9IiM0RTc3QzQiLz48dGV4dCB4PSI1OCIgeT0iODUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPjQ8L3RleHQ+PHJlY3QgeD0iODIiIHk9IjUwIiB3aWR0aD0iMzIiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjNEU3N0M0Ii8+PHRleHQgeD0iOTgiIHk9Ijg1IiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmZmZmIj40PC90ZXh0PjxyZWN0IHg9IjEyMiIgeT0iNTAiIHdpZHRoPSIzMiIgaGVpZ2h0PSI1NiIgcng9IjciIGZpbGw9IiM0RTc3QzQiLz48dGV4dCB4PSIxMzgiIHk9Ijg1IiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmZmZmIj40PC90ZXh0Pjx0ZXh0IHg9Ijk4IiB5PSIxMjgiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzQ0NCIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4hOC4k+C4tOC4lTwvdGV4dD48cmVjdCB4PSIxNzYiIHk9IjUwIiB3aWR0aD0iMzIiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjRTBBMjRFIi8+PHRleHQgeD0iMTkyIiB5PSI4NSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZmZmZiI+MzwvdGV4dD48cmVjdCB4PSIyMTYiIHk9IjUwIiB3aWR0aD0iMzIiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjRTBBMjRFIi8+PHRleHQgeD0iMjMyIiB5PSI4NSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZmZmZiI+MzwvdGV4dD48dGV4dCB4PSIyMTIiIHk9IjEyOCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDQ0IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lit4Lix4LiH4LiB4Lik4LipPC90ZXh0PjxyZWN0IHg9IjI3MCIgeT0iNTAiIHdpZHRoPSIzMiIgaGVpZ2h0PSI1NiIgcng9IjciIGZpbGw9IiM2NkI3ODQiLz48dGV4dCB4PSIyODYiIHk9Ijg1IiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmZmZmIj4yPC90ZXh0Pjx0ZXh0IHg9IjI4NiIgeT0iMTI4IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0NDQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKfguLTguJfguKLguYw8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "แม่ค้าซื้อผลไม้ 2 กิโลกรัม ราคากิโลกรัมละ 30 บาท และอีก 3 กิโลกรัม ราคากิโลกรัมละ 50 บาท จงหาราคาเฉลี่ยต่อกิโลกรัมของผลไม้ที่ซื้อมาทั้งหมด",
+    "choices": [
+     "42 บาท",
+     "40 บาท",
+     "45 บาท",
+     "38 บาท"
+    ],
+    "answer": 0,
+    "explain": "💡 ราคาเฉลี่ยต่อกิโล = เอาเงินที่จ่ายจริงทั้งหมด หารด้วยน้ำหนักรวม (ไม่ใช่เฉลี่ยราคาสองแบบตรง ๆ)\n📐 สูตรที่ใช้\n• ราคาเฉลี่ย — ราคาเฉลี่ย = (เงินที่จ่ายทั้งหมด)/(น้ำหนักรวม)\n🟰 ราคาเฉลี่ย = ((2×30)+(3×50))/(2+3) = (210)/(5) = 42\n⚠️ เฉลี่ยราคาตรง ๆ (30+50)/(2)=40 ผิด เพราะซื้อของ 50 บาทมามากกว่า\n✓ ตอบ 42 บาท",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzAgMTUwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTUiIHk9IjIwIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lia4Lil4LmH4Lit4LiBPeC4geC4tOC5guC4peC4geC4o+C4seC4oSwg4LmA4Lil4LiCPeC4o+C4suC4hOC4si/guIHguIEuPC90ZXh0PjxyZWN0IHg9IjQyIiB5PSI1MCIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjU2IiByeD0iNyIgZmlsbD0iIzY2Qjc4NCIvPjx0ZXh0IHg9IjY1IiB5PSI4NSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZmZmZiI+MzA8L3RleHQ+PHJlY3QgeD0iOTYiIHk9IjUwIiB3aWR0aD0iNDYiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjNjZCNzg0Ii8+PHRleHQgeD0iMTE5IiB5PSI4NSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZmZmZiI+MzA8L3RleHQ+PHRleHQgeD0iOTIiIHk9IjEyOCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDQ0IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MzDguJouPC90ZXh0PjxyZWN0IHg9IjE2NCIgeT0iNTAiIHdpZHRoPSI0NiIgaGVpZ2h0PSI1NiIgcng9IjciIGZpbGw9IiNFMDcwNEEiLz48dGV4dCB4PSIxODciIHk9Ijg1IiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmZmZmIj41MDwvdGV4dD48cmVjdCB4PSIyMTgiIHk9IjUwIiB3aWR0aD0iNDYiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjRTA3MDRBIi8+PHRleHQgeD0iMjQxIiB5PSI4NSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZmZmZiI+NTA8L3RleHQ+PHJlY3QgeD0iMjcyIiB5PSI1MCIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjU2IiByeD0iNyIgZmlsbD0iI0UwNzA0QSIvPjx0ZXh0IHg9IjI5NSIgeT0iODUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPjUwPC90ZXh0Pjx0ZXh0IHg9IjI0MSIgeT0iMTI4IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0NDQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj41MOC4mi48L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "ข้อมูลชุดหนึ่งมี 6 จำนวน มีค่าเฉลี่ยเท่ากับ 50 ถ้าผลรวมของ 5 จำนวนแรกเท่ากับ 272 จำนวนที่หกมีค่าเท่าใด",
+    "choices": [
+     "22",
+     "28",
+     "32",
+     "18"
+    ],
+    "answer": 1,
+    "explain": "💡 เคล็ดลับ: ถ้ารู้ค่าเฉลี่ย เราหา “ผลรวมทั้งหมด” ได้เสมอ แล้วค่อยลบส่วนที่รู้ออก\n📐 สูตรที่ใช้\n• ผลรวมทั้งหมด — Σx = x̄ × N\n🟰 ผลรวมทั้ง 6 จำนวน = 50 × 6 = 300\n🟰 จำนวนที่หก = 300 − 272 = 28\n✓ ตอบ 28",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNjggODgiIGZvbnQtZmFtaWx5PSInU2FyYWJ1bicsJ05vdG8gU2FucyBUaGFpJyxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iMzY4IiBoZWlnaHQ9Ijg4IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMSIgeT0iMSIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjE1MSIgeT0iMSIgd2lkdGg9IjExMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjI2MSIgeT0iMSIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjEiIHk9IjQxIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRUZGM0Y4Ii8+PHJlY3QgeD0iMTUxIiB5PSI0MSIgd2lkdGg9IjExMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjI2MSIgeT0iNDEiIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48bGluZSB4MT0iMSIgeTE9IjEiIHgyPSIzNjEiIHkyPSIxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSI0MSIgeDI9IjM2MSIgeTI9IjQxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSI4MSIgeDI9IjM2MSIgeTI9IjgxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSIxIiB4Mj0iMSIgeTI9IjgxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjE1MSIgeTE9IjEiIHgyPSIxNTEiIHkyPSI4MSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIyNjEiIHkxPSIxIiB4Mj0iMjYxIiB5Mj0iODEiIHN0cm9rZT0iI0I5QzREMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMzYxIiB5MT0iMSIgeDI9IjM2MSIgeTI9IjgxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PHRleHQgeD0iNzYiIHk9IjI2IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjVGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lic4Lil4Lij4Lin4Lih4LiX4Lix4LmJ4LiH4Lir4Lih4LiUPC90ZXh0Pjx0ZXh0IHg9IjIwNiIgeT0iMjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGNUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj41IOC4iOC4s+C4meC4p+C4meC5geC4o+C4gTwvdGV4dD48dGV4dCB4PSIzMTEiIHk9IjI2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjVGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiI4Liz4LiZ4Lin4LiZ4LiX4Li14LmIIDY8L3RleHQ+PHRleHQgeD0iNzYiIHk9IjY2IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjVGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MzAwPC90ZXh0Pjx0ZXh0IHg9IjIwNiIgeT0iNjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4yNzI8L3RleHQ+PHRleHQgeD0iMzExIiB5PSI2NiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIyMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPj88L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "จำนวน 4 จำนวน คือ 10, 20, 30 และ x มีค่าเฉลี่ยเท่ากับ 25 จงหาค่า x",
+    "choices": [
+     "35",
      "45",
-     "9"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 45 ÷ 5 = 9\n\n✓ ตอบ: 9"
-   },
-   {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 100, 200, 300",
-    "choices": [
-     "201",
-     "3",
-     "600",
-     "200"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 600 ÷ 3 = 200\n\n✓ ตอบ: 200"
-   },
-   {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 1, 2, 3, 4, 5, 6",
-    "choices": [
-     "21.0",
-     "6.0",
-     "3.5",
-     "4.5"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 21 ÷ 6 = 3.5\n\n✓ ตอบ: 3.5"
-   },
-   {
-    "q": "จงหาค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้: 8, 8, 10, 14",
-    "choices": [
-     "4",
      "40",
-     "10",
-     "11"
+     "30"
     ],
     "answer": 2,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 40 ÷ 4 = 10\n\n✓ ตอบ: 10"
+    "explain": "💡 ย้อนจากค่าเฉลี่ยไปหาผลรวมก่อน แล้วลบสามตัวที่รู้ค่าออก ก็จะเหลือ x\n📐 สูตรที่ใช้\n• ผลรวมทั้งหมด — Σx = x̄ × N\n🟰 ผลรวมทั้ง 4 จำนวน = 25 × 4 = 100\n🟰 x = 100 − (10+20+30) = 100 − 60 = 40\n✓ ตอบ 40",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNTggODgiIGZvbnQtZmFtaWx5PSInU2FyYWJ1bicsJ05vdG8gU2FucyBUaGFpJyxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iMzU4IiBoZWlnaHQ9Ijg4IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMSIgeT0iMSIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjE1MSIgeT0iMSIgd2lkdGg9IjExMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjI2MSIgeT0iMSIgd2lkdGg9IjkwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRUZGM0Y4Ii8+PHJlY3QgeD0iMSIgeT0iNDEiIHdpZHRoPSIxNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNFRkYzRjgiLz48cmVjdCB4PSIxNTEiIHk9IjQxIiB3aWR0aD0iMTEwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMjYxIiB5PSI0MSIgd2lkdGg9IjkwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZmZmIi8+PGxpbmUgeDE9IjEiIHkxPSIxIiB4Mj0iMzUxIiB5Mj0iMSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIxIiB5MT0iNDEiIHgyPSIzNTEiIHkyPSI0MSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIxIiB5MT0iODEiIHgyPSIzNTEiIHkyPSI4MSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIxIiB5MT0iMSIgeDI9IjEiIHkyPSI4MSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIxNTEiIHkxPSIxIiB4Mj0iMTUxIiB5Mj0iODEiIHN0cm9rZT0iI0I5QzREMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMjYxIiB5MT0iMSIgeDI9IjI2MSIgeTI9IjgxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjM1MSIgeTE9IjEiIHgyPSIzNTEiIHkyPSI4MSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjx0ZXh0IHg9Ijc2IiB5PSIyNiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4nOC4peC4o+C4p+C4oeC4l+C4teC5iOC4leC5ieC4reC4h+C5hOC4lOC5iTwvdGV4dD48dGV4dCB4PSIyMDYiIHk9IjI2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjVGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MTArMjArMzA8L3RleHQ+PHRleHQgeD0iMzA2IiB5PSIyNiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPng8L3RleHQ+PHRleHQgeD0iNzYiIHk9IjY2IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjVGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MTAwPC90ZXh0Pjx0ZXh0IHg9IjIwNiIgeT0iNjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj42MDwvdGV4dD48dGV4dCB4PSIzMDYiIHk9IjY2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMjIyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PzwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 3, 5, 7",
+    "q": "ตารางแสดงจำนวนพี่น้องของนักเรียนในห้องหนึ่ง จงหาค่าเฉลี่ยจำนวนพี่น้องต่อคน",
     "choices": [
-     "5",
-     "7",
-     "6",
-     "4"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ค่ากลาง (จำนวนคี่)\n\nวิธีทำ\n→ ตัวกลาง = 5\n\n✓ ตอบ: 5"
-   },
-   {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 2, 4, 6, 8",
-    "choices": [
-     "5",
-     "6",
-     "2",
-     "4"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: เฉลี่ยสองค่ากลาง (จำนวนคู่)\n\nวิธีทำ\n→ (4 + 6) ÷ 2 = 5\n\n✓ ตอบ: 5"
-   },
-   {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 1, 3, 5, 7, 9",
-    "choices": [
-     "5",
-     "6",
-     "4",
-     "7"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ค่ากลาง\n\nวิธีทำ\n→ ตัวกลาง = 5\n\n✓ ตอบ: 5"
-   },
-   {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 10, 20, 30, 40, 50",
-    "choices": [
-     "30",
-     "29",
-     "31",
-     "32"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ค่ากลาง\n\nวิธีทำ\n→ ตัวกลาง = 30\n\n✓ ตอบ: 30"
-   },
-   {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 4, 8, 15, 16, 23, 42",
-    "choices": [
-     "15.5",
-     "2.0",
-     "15.0",
-     "16.0"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: เฉลี่ยสองค่ากลาง\n\nวิธีทำ\n→ (15 + 16) ÷ 2 = 15.5\n\n✓ ตอบ: 15.5"
-   },
-   {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 7, 2, 9, 4, 5",
-    "choices": [
-     "5",
-     "7",
-     "4",
-     "2"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: เรียงก่อน แล้วหาค่ากลาง\n\nวิธีทำ\n→ เรียง: 2, 4, 5, 7, 9 → ตัวกลาง = 5\n\n✓ ตอบ: 5"
-   },
-   {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 12, 15, 11, 14, 13",
-    "choices": [
-     "11",
-     "14",
-     "12",
-     "13"
+     "3 คน",
+     "2.5 คน",
+     "2.6 คน",
+     "2.8 คน"
     ],
     "answer": 3,
-    "explain": "หลักที่ใช้: เรียงก่อน\n\nวิธีทำ\n→ เรียง: 11, 12, 13, 14, 15 → 13\n\n✓ ตอบ: 13"
+    "explain": "💡 ตารางความถี่ย่อข้อมูลซ้ำ ๆ ให้สั้นลง เวลาหาค่าเฉลี่ยต้อง “ถ่วงด้วยความถี่” คือคูณค่ากับจำนวนคนที่ได้ค่านั้น\n📐 สูตรที่ใช้\n• ค่าเฉลี่ยจากตาราง — x̄ = (Σ(ค่า×ความถี่))/(Σความถี่)\nคูณ ค่า×ความถี่ ทุกช่องแล้วบวก: (1×2)+(2×5)+(3×8)+(4×5) = 2+10+24+20 = 56 ; คนทั้งหมด = 20\n🟰 x̄ = (56)/(20) = 2.8\n⚠️ ห้ามเฉลี่ยแค่ค่า (1+2+3+4)/(4) เพราะจำนวนคนแต่ละค่าไม่เท่ากัน\n✓ ตอบ 2.8 คน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDggMjA4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjMwOCIgaGVpZ2h0PSIyMDgiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIxIiB5PSIxIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRUZGM0Y4Ii8+PHJlY3QgeD0iMTAxIiB5PSIxIiB3aWR0aD0iMTEwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRUZGM0Y4Ii8+PHJlY3QgeD0iMjExIiB5PSIxIiB3aWR0aD0iOTAiIGhlaWdodD0iNDAiIGZpbGw9IiNFRkYzRjgiLz48cmVjdCB4PSIxIiB5PSI0MSIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjEwMSIgeT0iNDEiIHdpZHRoPSIxMTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyMTEiIHk9IjQxIiB3aWR0aD0iOTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIxIiB5PSI4MSIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjEwMSIgeT0iODEiIHdpZHRoPSIxMTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyMTEiIHk9IjgxIiB3aWR0aD0iOTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIxIiB5PSIxMjEiIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIGZpbGw9IiNFRkYzRjgiLz48cmVjdCB4PSIxMDEiIHk9IjEyMSIgd2lkdGg9IjExMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjIxMSIgeT0iMTIxIiB3aWR0aD0iOTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIxIiB5PSIxNjEiIHdpZHRoPSIxMDAiIGhlaWdodD0iNDAiIGZpbGw9IiNFRkYzRjgiLz48cmVjdCB4PSIxMDEiIHk9IjE2MSIgd2lkdGg9IjExMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjIxMSIgeT0iMTYxIiB3aWR0aD0iOTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48bGluZSB4MT0iMSIgeTE9IjEiIHgyPSIzMDEiIHkyPSIxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSI0MSIgeDI9IjMwMSIgeTI9IjQxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSI4MSIgeDI9IjMwMSIgeTI9IjgxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSIxMjEiIHgyPSIzMDEiIHkyPSIxMjEiIHN0cm9rZT0iI0I5QzREMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMSIgeTE9IjE2MSIgeDI9IjMwMSIgeTI9IjE2MSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIxIiB5MT0iMjAxIiB4Mj0iMzAxIiB5Mj0iMjAxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSIxIiB4Mj0iMSIgeTI9IjIwMSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIxMDEiIHkxPSIxIiB4Mj0iMTAxIiB5Mj0iMjAxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjIxMSIgeTE9IjEiIHgyPSIyMTEiIHkyPSIyMDEiIHN0cm9rZT0iI0I5QzREMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMzAxIiB5MT0iMSIgeDI9IjMwMSIgeTI9IjIwMSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjx0ZXh0IHg9IjUxIiB5PSIyNiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4hOC5iOC4siAoeCk8L3RleHQ+PHRleHQgeD0iMTU2IiB5PSIyNiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4hOC4p+C4suC4oeC4luC4teC5iCAoZik8L3RleHQ+PHRleHQgeD0iMjU2IiB5PSIyNiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPnggw5cgZjwvdGV4dD48dGV4dCB4PSI1MSIgeT0iNjYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGNUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xPC90ZXh0Pjx0ZXh0IHg9IjE1NiIgeT0iNjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4yPC90ZXh0Pjx0ZXh0IHg9IjI1NiIgeT0iNjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4yPC90ZXh0Pjx0ZXh0IHg9IjUxIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGNUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4yPC90ZXh0Pjx0ZXh0IHg9IjE1NiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMjIyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NTwvdGV4dD48dGV4dCB4PSIyNTYiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIyMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjEwPC90ZXh0Pjx0ZXh0IHg9IjUxIiB5PSIxNDYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGNUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4zPC90ZXh0Pjx0ZXh0IHg9IjE1NiIgeT0iMTQ2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMjIyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+ODwvdGV4dD48dGV4dCB4PSIyNTYiIHk9IjE0NiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIyMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjI0PC90ZXh0Pjx0ZXh0IHg9IjUxIiB5PSIxODYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGNUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj40PC90ZXh0Pjx0ZXh0IHg9IjE1NiIgeT0iMTg2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMjIyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NTwvdGV4dD48dGV4dCB4PSIyNTYiIHk9IjE4NiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIyMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjIwPC90ZXh0Pjwvc3ZnPg==",
+    "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNzggODgiIGZvbnQtZmFtaWx5PSInU2FyYWJ1bicsJ05vdG8gU2FucyBUaGFpJyxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iMzc4IiBoZWlnaHQ9Ijg4IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMSIgeT0iMSIgd2lkdGg9IjE3MCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjE3MSIgeT0iMSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRUZGM0Y4Ii8+PHJlY3QgeD0iMjIxIiB5PSIxIiB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNFRkYzRjgiLz48cmVjdCB4PSIyNzEiIHk9IjEiIHdpZHRoPSI1MCIgaGVpZ2h0PSI0MCIgZmlsbD0iI0VGRjNGOCIvPjxyZWN0IHg9IjMyMSIgeT0iMSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRUZGM0Y4Ii8+PHJlY3QgeD0iMSIgeT0iNDEiIHdpZHRoPSIxNzAiIGhlaWdodD0iNDAiIGZpbGw9IiNFRkYzRjgiLz48cmVjdCB4PSIxNzEiIHk9IjQxIiB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyMjEiIHk9IjQxIiB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyNzEiIHk9IjQxIiB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIzMjEiIHk9IjQxIiB3aWR0aD0iNTAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiLz48bGluZSB4MT0iMSIgeTE9IjEiIHgyPSIzNzEiIHkyPSIxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSI0MSIgeDI9IjM3MSIgeTI9IjQxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSI4MSIgeDI9IjM3MSIgeTI9IjgxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjEiIHkxPSIxIiB4Mj0iMSIgeTI9IjgxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjE3MSIgeTE9IjEiIHgyPSIxNzEiIHkyPSI4MSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIyMjEiIHkxPSIxIiB4Mj0iMjIxIiB5Mj0iODEiIHN0cm9rZT0iI0I5QzREMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMjcxIiB5MT0iMSIgeDI9IjI3MSIgeTI9IjgxIiBzdHJva2U9IiNCOUM0RDAiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjMyMSIgeTE9IjEiIHgyPSIzMjEiIHkyPSI4MSIgc3Ryb2tlPSIjQjlDNEQwIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIzNzEiIHkxPSIxIiB4Mj0iMzcxIiB5Mj0iODEiIHN0cm9rZT0iI0I5QzREMCIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48dGV4dCB4PSI4NiIgeT0iMjYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGNUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guIjguLPguJnguKfguJnguJ7guLXguYjguJnguYnguK3guIcgKOC4hOC4mSk8L3RleHQ+PHRleHQgeD0iMTk2IiB5PSIyNiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjE8L3RleHQ+PHRleHQgeD0iMjQ2IiB5PSIyNiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjI8L3RleHQ+PHRleHQgeD0iMjk2IiB5PSIyNiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjM8L3RleHQ+PHRleHQgeD0iMzQ2IiB5PSIyNiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y1RiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjQ8L3RleHQ+PHRleHQgeD0iODYiIHk9IjY2IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjVGIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiI4Liz4LiZ4Lin4LiZ4LiZ4Lix4LiB4LmA4Lij4Li14Lii4LiZICjguITguJkpPC90ZXh0Pjx0ZXh0IHg9IjE5NiIgeT0iNjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4yPC90ZXh0Pjx0ZXh0IHg9IjI0NiIgeT0iNjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj41PC90ZXh0Pjx0ZXh0IHg9IjI5NiIgeT0iNjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj44PC90ZXh0Pjx0ZXh0IHg9IjM0NiIgeT0iNjYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj41PC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 6, 2, 8, 4",
+    "q": "จากตารางจำนวนพี่น้องเดิม (ความถี่ 2, 5, 8, 5 สำหรับพี่น้อง 1, 2, 3, 4 คน) จงหาฐานนิยมของจำนวนพี่น้อง",
     "choices": [
-     "8",
-     "5",
-     "6",
-     "4"
+     "3 คน",
+     "8 คน",
+     "4 คน",
+     "2.8 คน"
+    ],
+    "answer": 0,
+    "explain": "💡 ในตารางความถี่ ฐานนิยมคือ “ค่าที่มีความถี่มากที่สุด” (ระวัง! ตอบเป็นค่า ไม่ใช่ตอบความถี่)\n📐 สูตรที่ใช้\n• ฐานนิยมจากตาราง — ค่า x ที่มีความถี่ f สูงสุด\nความถี่สูงสุดคือ 8 ซึ่งตรงกับค่า x = 3 (แท่งสูงสุดในภาพ)\n⚠️ อย่าตอบ 8 นั่นคือ “จำนวนคน” ไม่ใช่ “จำนวนพี่น้อง”\n✓ ตอบ 3 คน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNTQgMTY5IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM1NCIgaGVpZ2h0PSIxNjkiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIxNzciIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guITguKfguLLguKHguJbguLXguYjguILguK3guIfguIjguLPguJnguKfguJnguJ7guLXguYjguJnguYnguK3guIc8L3RleHQ+PGxpbmUgeDE9IjM5IiB5MT0iMTM1IiB4Mj0iMzE1IiB5Mj0iMTM1IiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ1IiB5PSIxMTEuMjUiIHdpZHRoPSI0NCIgaGVpZ2h0PSIyMy43NSIgcng9IjQiIGZpbGw9IiM5REI0RDQiLz48dGV4dCB4PSI2NyIgeT0iMTA0LjI1IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0NTYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4yPC90ZXh0Pjx0ZXh0IHg9IjY3IiB5PSIxNTMiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4xPC90ZXh0PjxyZWN0IHg9IjExMSIgeT0iNzUuNjI1IiB3aWR0aD0iNDQiIGhlaWdodD0iNTkuMzc1IiByeD0iNCIgZmlsbD0iIzlEQjRENCIvPjx0ZXh0IHg9IjEzMyIgeT0iNjguNjI1IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0NTYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj41PC90ZXh0Pjx0ZXh0IHg9IjEzMyIgeT0iMTUzIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MjwvdGV4dD48cmVjdCB4PSIxNzciIHk9IjQwIiB3aWR0aD0iNDQiIGhlaWdodD0iOTUiIHJ4PSI0IiBmaWxsPSIjRTQ3MDdBIi8+PHRleHQgeD0iMTk5IiB5PSIzMyIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjQzAzOTJCIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+ODwvdGV4dD48dGV4dCB4PSIxOTkiIHk9IjE1MyIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjM8L3RleHQ+PHJlY3QgeD0iMjQzIiB5PSI3NS42MjUiIHdpZHRoPSI0NCIgaGVpZ2h0PSI1OS4zNzUiIHJ4PSI0IiBmaWxsPSIjOURCNEQ0Ii8+PHRleHQgeD0iMjY1IiB5PSI2OC42MjUiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzQ1NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjU8L3RleHQ+PHRleHQgeD0iMjY1IiB5PSIxNTMiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj40PC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "จากแผนภูมิแท่งแสดงยอดขายสินค้าของร้านหนึ่งใน 4 เดือนแรก จงหายอดขายเฉลี่ยต่อเดือน",
+    "choices": [
+     "50 พันบาท",
+     "45 พันบาท",
+     "40 พันบาท",
+     "45.5 พันบาท"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: เรียงก่อน แล้วเฉลี่ยสองตัวกลาง\n\nวิธีทำ\n→ เรียง: 2, 4, 6, 8 → (4+6)÷2 = 5\n\n✓ ตอบ: 5"
+    "explain": "💡 อ่านความสูงของแต่ละแท่งออกมาเป็นตัวเลขก่อน แล้วหาค่าเฉลี่ยตามปกติ\n📐 สูตรที่ใช้\n• ค่าเฉลี่ย — x̄ = (Σx)/(N)\nจากภาพ: ม.ค. 40, ก.พ. 60, มี.ค. 50, เม.ย. 30 (พันบาท)\n🟰 x̄ = (40+60+50+30)/(4) = (180)/(4) = 45\n✓ ตอบ 45 พันบาท",
+    "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzOTIgMTgyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM5MiIgaGVpZ2h0PSIxODIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIxOTYiIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKLguK3guJTguILguLLguKIgKOC4nuC4seC4meC4muC4suC4lyk8L3RleHQ+PGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMzYyIiB5Mj0iMTUwIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ4IiB5PSI4Ni4yMzE5IiB3aWR0aD0iNDgiIGhlaWdodD0iNjMuNzY4MSIgcng9IjQiIGZpbGw9IiM0RTc3QzQiLz48dGV4dCB4PSI3MiIgeT0iNzkuMjMxOSIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjk3IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NDA8L3RleHQ+PHRleHQgeD0iNzIiIHk9IjE2OCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDQ0IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LihLuC4hC48L3RleHQ+PHJlY3QgeD0iMTIyIiB5PSI1NC4zNDc4IiB3aWR0aD0iNDgiIGhlaWdodD0iOTUuNjUyMiIgcng9IjQiIGZpbGw9IiM0RTc3QzQiLz48dGV4dCB4PSIxNDYiIHk9IjQ3LjM0NzgiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjYwPC90ZXh0Pjx0ZXh0IHg9IjE0NiIgeT0iMTY4IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0NDQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guIEu4LieLjwvdGV4dD48cmVjdCB4PSIxOTYiIHk9IjcwLjI4OTkiIHdpZHRoPSI0OCIgaGVpZ2h0PSI3OS43MTAxIiByeD0iNCIgZmlsbD0iIzRFNzdDNCIvPjx0ZXh0IHg9IjIyMCIgeT0iNjMuMjg5OSIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjk3IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NTA8L3RleHQ+PHRleHQgeD0iMjIwIiB5PSIxNjgiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzQ0NCIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4oeC4tS7guIQuPC90ZXh0PjxyZWN0IHg9IjI3MCIgeT0iMTAyLjE3NCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ3LjgyNjEiIHJ4PSI0IiBmaWxsPSIjNEU3N0M0Ii8+PHRleHQgeD0iMjk0IiB5PSI5NS4xNzM5IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4zMDwvdGV4dD48dGV4dCB4PSIyOTQiIHk9IjE2OCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDQ0IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4LihLuC4oi48L3RleHQ+PGxpbmUgeDE9IjQwIiB5MT0iNzguMjYwOSIgeDI9IjM2MiIgeTI9Ijc4LjI2MDkiIHN0cm9rZT0iI0U0MTExRiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDMiLz48dGV4dCB4PSIzNTgiIHk9IjczLjI2MDkiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJlbmQiIGZpbGw9IiNFNDExMUYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guYDguInguKXguLXguYjguKIgNDU8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 20, 10, 30",
+    "q": "จากแผนภูมิแท่งยอดขาย 4 เดือนเดิม (ม.ค. 40, ก.พ. 60, มี.ค. 50, เม.ย. 30 พันบาท) เดือนที่ขายดีที่สุดกับเดือนที่ขายน้อยที่สุด ต่างกันกี่พันบาท",
     "choices": [
-     "30",
-     "20",
-     "10",
-     "21"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: เรียงก่อน\n\nวิธีทำ\n→ เรียง: 10, 20, 30 → 20\n\n✓ ตอบ: 20"
-   },
-   {
-    "q": "จงหามัธยฐานของข้อมูลชุดนี้: 5, 3, 9, 7, 1, 11",
-    "choices": [
-     "5",
-     "3",
-     "7",
-     "6"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: เรียงก่อน แล้วเฉลี่ยสองตัวกลาง\n\nวิธีทำ\n→ เรียง: 1,3,5,7,9,11 → (5+7)÷2 = 6\n\n✓ ตอบ: 6"
-   },
-   {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 2, 3, 3, 4, 5",
-    "choices": [
-     "4",
-     "5",
-     "2",
-     "3"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ค่าที่ปรากฏบ่อยสุด\n\nวิธีทำ\n→ 3 ปรากฏ 2 ครั้ง → ฐานนิยม = 3\n\n✓ ตอบ: 3"
-   },
-   {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 1, 1, 2, 3, 3, 3, 4",
-    "choices": [
-     "4",
-     "2",
-     "3",
-     "5"
+     "20 พันบาท",
+     "60 พันบาท",
+     "30 พันบาท",
+     "10 พันบาท"
     ],
     "answer": 2,
-    "explain": "หลักที่ใช้: ค่าที่ปรากฏบ่อยสุด\n\nวิธีทำ\n→ 3 ปรากฏ 3 ครั้ง → 3\n\n✓ ตอบ: 3"
+    "explain": "💡 หาแท่งที่สูงสุดและเตี้ยสุดก่อน แล้วเอามาลบกัน (นี่ก็คือ ‘พิสัย’ ของข้อมูลนั่นเอง)\n📐 สูตรที่ใช้\n• ผลต่าง (พิสัย) — สูงสุด − ต่ำสุด\nขายดีสุด = ก.พ. 60, น้อยสุด = เม.ย. 30\n🟰 ผลต่าง = 60 − 30 = 30\n✓ ตอบ 30 พันบาท",
+    "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzOTIgMTgyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM5MiIgaGVpZ2h0PSIxODIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIxOTYiIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guKLguK3guJTguILguLLguKIgKOC4nuC4seC4meC4muC4suC4lyk8L3RleHQ+PGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMzYyIiB5Mj0iMTUwIiBzdHJva2U9IiM5OTkiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjQ4IiB5PSI4Ni4yMzE5IiB3aWR0aD0iNDgiIGhlaWdodD0iNjMuNzY4MSIgcng9IjQiIGZpbGw9IiM0RTc3QzQiLz48dGV4dCB4PSI3MiIgeT0iNzkuMjMxOSIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjk3IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NDA8L3RleHQ+PHRleHQgeD0iNzIiIHk9IjE2OCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDQ0IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LihLuC4hC48L3RleHQ+PHJlY3QgeD0iMTIyIiB5PSI1NC4zNDc4IiB3aWR0aD0iNDgiIGhlaWdodD0iOTUuNjUyMiIgcng9IjQiIGZpbGw9IiM0RTc3QzQiLz48dGV4dCB4PSIxNDYiIHk9IjQ3LjM0NzgiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE3M0Y5NyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjYwPC90ZXh0Pjx0ZXh0IHg9IjE0NiIgeT0iMTY4IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0NDQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guIEu4LieLjwvdGV4dD48cmVjdCB4PSIxOTYiIHk9IjcwLjI4OTkiIHdpZHRoPSI0OCIgaGVpZ2h0PSI3OS43MTAxIiByeD0iNCIgZmlsbD0iIzRFNzdDNCIvPjx0ZXh0IHg9IjIyMCIgeT0iNjMuMjg5OSIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTczRjk3IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NTA8L3RleHQ+PHRleHQgeD0iMjIwIiB5PSIxNjgiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzQ0NCIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4oeC4tS7guIQuPC90ZXh0PjxyZWN0IHg9IjI3MCIgeT0iMTAyLjE3NCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ3LjgyNjEiIHJ4PSI0IiBmaWxsPSIjNEU3N0M0Ii8+PHRleHQgeD0iMjk0IiB5PSI5NS4xNzM5IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzNGOTciIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4zMDwvdGV4dD48dGV4dCB4PSIyOTQiIHk9IjE2OCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNDQ0IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4LihLuC4oi48L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 5, 6, 6, 7, 8, 8, 8",
+    "q": "งบประมาณรายเดือน 6,000 บาท ถูกแบ่งตามแผนภูมิวงกลม เป็นค่าอาหาร 40%, ค่าที่พัก 30%, ค่าเดินทาง 20% และอื่น ๆ 10% ค่าอาหารคิดเป็นเงินเท่าใด",
     "choices": [
-     "9",
-     "7",
-     "3",
-     "8"
+     "1,800 บาท",
+     "2,000 บาท",
+     "2,600 บาท",
+     "2,400 บาท"
     ],
     "answer": 3,
-    "explain": "หลักที่ใช้: ค่าที่ปรากฏบ่อยสุด\n\nวิธีทำ\n→ 8 ปรากฏ 3 ครั้ง → 8\n\n✓ ตอบ: 8"
+    "explain": "💡 แผนภูมิวงกลมบอกเป็น “เปอร์เซ็นต์ของทั้งหมด” แค่แปลงเปอร์เซ็นต์กลับเป็นเงิน โดยคูณกับงบทั้งหมด\n📐 สูตรที่ใช้\n• ส่วนของงบ — เงินส่วนนั้น = (ร้อยละ)/(100) × งบทั้งหมด\n🟰 ค่าอาหาร = (40)/(100) × 6000 = 2400\n✓ ตอบ 2,400 บาท",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNDAgMTkwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjM0MCIgaGVpZ2h0PSIxOTAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTUiIHk9IjIwIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Liq4Lix4LiU4Liq4LmI4Lin4LiZ4LiH4Lia4Lib4Lij4Liw4Lih4Liy4LiTPC90ZXh0PjxwYXRoIGQ9Ik0xMTAsOTUgTDExMCwyMyBBNzIsNzIgMCAwIDEgMTUyLjMyMSwxNTMuMjQ5IFoiIGZpbGw9IiNFNDcwN0EiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48cmVjdCB4PSIyMTAiIHk9IjQ4IiB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHJ4PSIzIiBmaWxsPSIjRTQ3MDdBIi8+PHRleHQgeD0iMjI4IiB5PSI1OSIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lit4Liy4Lir4Liy4LijIDQwJTwvdGV4dD48cGF0aCBkPSJNMTEwLDk1IEwxNTIuMzIxLDE1My4yNDkgQTcyLDcyIDAgMCAxIDQxLjUyMzksMTE3LjI0OSBaIiBmaWxsPSIjNjZCNzg0IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHJlY3QgeD0iMjEwIiB5PSI3MCIgd2lkdGg9IjEzIiBoZWlnaHQ9IjEzIiByeD0iMyIgZmlsbD0iIzY2Qjc4NCIvPjx0ZXh0IHg9IjIyOCIgeT0iODEiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPuC4l+C4teC5iOC4nuC4seC4gSAzMCU8L3RleHQ+PHBhdGggZD0iTTExMCw5NSBMNDEuNTIzOSwxMTcuMjQ5IEE3Miw3MiAwIDAgMSA2Ny42Nzk1LDM2Ljc1MDggWiIgZmlsbD0iI0UwQTI0RSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNSIvPjxyZWN0IHg9IjIxMCIgeT0iOTIiIHdpZHRoPSIxMyIgaGVpZ2h0PSIxMyIgcng9IjMiIGZpbGw9IiNFMEEyNEUiLz48dGV4dCB4PSIyMjgiIHk9IjEwMyIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LmA4LiU4Li04LiZ4LiX4Liy4LiHIDIwJTwvdGV4dD48cGF0aCBkPSJNMTEwLDk1IEw2Ny42Nzk1LDM2Ljc1MDggQTcyLDcyIDAgMCAxIDExMCwyMyBaIiBmaWxsPSIjN0U5QkQwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHJlY3QgeD0iMjEwIiB5PSIxMTQiIHdpZHRoPSIxMyIgaGVpZ2h0PSIxMyIgcng9IjMiIGZpbGw9IiM3RTlCRDAiLz48dGV4dCB4PSIyMjgiIHk9IjEyNSIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMzMzIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4Lit4Li34LmI4LiZ4LmGIDEwJTwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 10, 20, 20, 30",
+    "q": "กลุ่ม A มีนักเรียน 4 คน คะแนนเฉลี่ย 70 คะแนน ส่วนกลุ่ม B มีนักเรียน 6 คน คะแนนเฉลี่ย 80 คะแนน ถ้ารวมสองกลุ่มเข้าด้วยกัน คะแนนเฉลี่ยของทั้งหมดเป็นเท่าใด",
     "choices": [
-     "21",
-     "20",
-     "19",
-     "2"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ค่าที่ปรากฏบ่อยสุด\n\nวิธีทำ\n→ 20 ปรากฏ 2 ครั้ง → 20\n\n✓ ตอบ: 20"
-   },
-   {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 4, 4, 5, 5, 6",
-    "choices": [
-     "6 และ 3",
-     "7 และ 2",
-     "3 และ 6",
-     "4 และ 5"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: อาจมีมากกว่าหนึ่งค่า\n\nวิธีทำ\n→ 4 และ 5 ปรากฏอย่างละ 2 ครั้ง → มี 2 ฐานนิยม\n\n✓ ตอบ: 4 และ 5"
-   },
-   {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 7, 8, 9, 10",
-    "choices": [
-     "30 องศา",
-     "ไม่มีฐานนิยม",
-     "4 และ 5",
-     "2,600 คะแนน"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ทุกค่าปรากฏเท่ากัน\n\nวิธีทำ\n→ ไม่มีค่าใดปรากฏบ่อยกว่า → ไม่มีฐานนิยม\n\n✓ ตอบ: ไม่มีฐานนิยม"
-   },
-   {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 2, 2, 2, 5, 5, 8",
-    "choices": [
-     "3",
-     "1",
-     "2",
-     "4"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ค่าที่ปรากฏบ่อยสุด\n\nวิธีทำ\n→ 2 ปรากฏ 3 ครั้ง → 2\n\n✓ ตอบ: 2"
-   },
-   {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 9, 9, 9, 9",
-    "choices": [
-     "9",
-     "11",
-     "10",
-     "8"
+     "76 คะแนน",
+     "75 คะแนน",
+     "74 คะแนน",
+     "77 คะแนน"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: ค่าที่ปรากฏบ่อยสุด\n\nวิธีทำ\n→ 9 → 9\n\n✓ ตอบ: 9"
+    "explain": "💡 ห้ามเอา 70 กับ 80 มาเฉลี่ยตรง ๆ เพราะสองกลุ่มมีจำนวนคนไม่เท่ากัน ต้องกลับไปหา “ผลรวมคะแนนจริง” ของแต่ละกลุ่มก่อน\n📐 สูตรที่ใช้\n• ผลรวมของกลุ่ม — Σ = ค่าเฉลี่ย × จำนวนคน\nกลุ่ม A รวม = 70×4 = 280 ; กลุ่ม B รวม = 80×6 = 480\n🟰 x̄รวม = (280+480)/(4+6) = (760)/(10) = 76\n⚠️ เฉลี่ยตรง ๆ (70+80)/(2)=75 ผิด เพราะกลุ่ม B คนเยอะกว่า ดึงค่าเฉลี่ยเข้าใกล้ 80 มากกว่า\n✓ ตอบ 76 คะแนน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NjAgMTcyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ2MCIgaGVpZ2h0PSIxNzIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjIyIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiE4Li04LiU4Lic4Lil4Lij4Lin4Lih4LmB4LiV4LmI4Lil4Liw4LiB4Lil4Li44LmI4Lih4LiB4LmI4Lit4LiZPC90ZXh0PjxyZWN0IHg9IjI4IiB5PSI0MiIgd2lkdGg9IjQwNCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiM0RTc3QzQiIG9wYWNpdHk9IjAuMTMiLz48cmVjdCB4PSIyOCIgeT0iNDIiIHdpZHRoPSI2IiBoZWlnaHQ9IjM0IiByeD0iMyIgZmlsbD0iIzRFNzdDNCIvPjx0ZXh0IHg9IjQ2IiB5PSI2NCIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMyYTMxMzgiPuC4geC4peC4uOC5iOC4oSBBIDogNCDguITguJkgw5cg4LmA4LiJ4Lil4Li14LmI4LiiIDcwID0gMjgwPC90ZXh0PjxyZWN0IHg9IjI4IiB5PSI4NCIgd2lkdGg9IjQwNCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiNFMDcwNEEiIG9wYWNpdHk9IjAuMTMiLz48cmVjdCB4PSIyOCIgeT0iODQiIHdpZHRoPSI2IiBoZWlnaHQ9IjM0IiByeD0iMyIgZmlsbD0iI0UwNzA0QSIvPjx0ZXh0IHg9IjQ2IiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMmEzMTM4Ij7guIHguKXguLjguYjguKEgQiA6IDYg4LiE4LiZIMOXIOC5gOC4ieC4peC4teC5iOC4oiA4MCA9IDQ4MDwvdGV4dD48cmVjdCB4PSIyOCIgeT0iMTI2IiB3aWR0aD0iNDA0IiBoZWlnaHQ9IjM2IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjQjdFMEM3Ii8+PHRleHQgeD0iNDYiIHk9IjE0OSIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMEU1QTMyIj7guKPguKfguKEgOiAoMjgwKzQ4MCkgw7cgMTAg4LiE4LiZID0gNzY8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 3, 5, 3, 5, 3",
+    "q": "นักเรียน 5 คน มีคะแนนเฉลี่ย 60 คะแนน ต่อมามีนักเรียนเข้ามาเพิ่มอีก 1 คน ซึ่งได้ 90 คะแนน คะแนนเฉลี่ยใหม่ของทั้ง 6 คนเป็นเท่าใด",
     "choices": [
-     "4",
-     "5",
-     "3",
-     "2"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ค่าที่ปรากฏบ่อยสุด\n\nวิธีทำ\n→ 3 ปรากฏ 3 ครั้ง → 3\n\n✓ ตอบ: 3"
-   },
-   {
-    "q": "จงหาฐานนิยมของข้อมูลชุดนี้: 12, 15, 12, 18, 12, 15",
-    "choices": [
-     "11",
-     "12",
-     "13",
-     "3"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ค่าที่ปรากฏบ่อยสุด\n\nวิธีทำ\n→ 12 ปรากฏ 3 ครั้ง → 12\n\n✓ ตอบ: 12"
-   },
-   {
-    "q": "จงหาพิสัยของข้อมูลชุดนี้: 3, 8, 12, 5",
-    "choices": [
-     "3",
-     "10",
-     "12",
-     "9"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: สูงสุด − ต่ำสุด\n\nวิธีทำ\n→ 12 − 3 = 9\n\n✓ ตอบ: 9"
-   },
-   {
-    "q": "จงหาพิสัยของข้อมูลชุดนี้: 10, 25, 40, 15",
-    "choices": [
-     "40",
-     "31",
-     "30",
-     "10"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: สูงสุด − ต่ำสุด\n\nวิธีทำ\n→ 40 − 10 = 30\n\n✓ ตอบ: 30"
-   },
-   {
-    "q": "จงหาพิสัยของข้อมูลชุดนี้: 7, 7, 7",
-    "choices": [
-     "7",
-     "1",
-     "0",
-     "2"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: สูงสุด − ต่ำสุด\n\nวิธีทำ\n→ 7 − 7 = 0\n\n✓ ตอบ: 0"
-   },
-   {
-    "q": "จงหาพิสัยของข้อมูลชุดนี้: 100, 50, 75, 90",
-    "choices": [
-     "51",
-     "49",
-     "100",
-     "50"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: สูงสุด − ต่ำสุด\n\nวิธีทำ\n→ 100 − 50 = 50\n\n✓ ตอบ: 50"
-   },
-   {
-    "q": "คะแนนสอบของนักเรียน 5 คน ได้แก่ 60, 70, 80, 90 และ 100 คะแนน คะแนนเฉลี่ยเท่ากับเท่าใด",
-    "choices": [
-     "80",
-     "400",
-     "81",
-     "5"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 400 ÷ 5 = 80\n\n✓ ตอบ: 80"
-   },
-   {
-    "q": "คะแนนสอบของนักเรียน 5 คน ได้แก่ 60, 70, 80, 90 และ 100 คะแนน พิสัยของคะแนนเท่ากับเท่าใด",
-    "choices": [
-     "41",
-     "100",
-     "40",
-     "60"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: สูงสุด − ต่ำสุด\n\nวิธีทำ\n→ 100 − 60 = 40\n\n✓ ตอบ: 40"
-   },
-   {
-    "q": "คะแนนสอบของนักเรียน 5 คน ได้แก่ 60, 70, 80, 90 และ 100 คะแนน มัธยฐานของคะแนนเท่ากับเท่าใด",
-    "choices": [
-     "80",
-     "81",
-     "79",
-     "82"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ค่ากลาง\n\nวิธีทำ\n→ ตัวกลาง = 80\n\n✓ ตอบ: 80"
-   },
-   {
-    "q": "อุณหภูมิในรอบ 5 วัน วัดได้ 28, 30, 32, 29 และ 31 องศาเซลเซียส อุณหภูมิเฉลี่ยเท่ากับเท่าใด",
-    "choices": [
-     "29 องศา",
-     "30 องศา",
-     "5 องศา",
-     "31 องศา"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 150 ÷ 5 = 30\n\n✓ ตอบ: 30 องศา"
-   },
-   {
-    "q": "ข้อมูลชุดหนึ่งประกอบด้วย 6, 8, 10 และ 12 ค่าเฉลี่ยเลขคณิตเท่ากับเท่าใด",
-    "choices": [
-     "36",
-     "10",
-     "4",
-     "9"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ผลรวม ÷ จำนวน\n\nวิธีทำ\n→ 36 ÷ 4 = 9\n\n✓ ตอบ: 9"
-   },
-   {
-    "q": "ข้อมูลชุดหนึ่งประกอบด้วย 6, 8, 10 และ 12 พิสัยของข้อมูลเท่ากับเท่าใด",
-    "choices": [
-     "7",
-     "12",
-     "5",
-     "6"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: สูงสุด − ต่ำสุด\n\nวิธีทำ\n→ 12 − 6 = 6\n\n✓ ตอบ: 6"
-   },
-   {
-    "q": "นักเรียนคนหนึ่งสอบ 4 วิชา ได้คะแนน 75, 80, 85 และ x คะแนน ถ้าคะแนนเฉลี่ยเท่ากับ 80 คะแนน จงหาค่าของ x",
-    "choices": [
-     "x = 75",
-     "x = 80",
-     "x = 4",
-     "x = 85"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ผลรวม = เฉลี่ย × จำนวน\n\nวิธีทำ\n→ 75+80+85+x = 80×4 = 320\n→ 240 + x = 320 → x = 80\n\n✓ ตอบ: x = 80"
-   },
-   {
-    "q": "ข้อมูลชุดหนึ่งมี 5 จำนวน มีค่าเฉลี่ยเลขคณิตเท่ากับ 12 ผลรวมของข้อมูลทั้งหมดเท่ากับเท่าใด",
-    "choices": [
-     "5",
-     "61",
-     "60",
-     "12"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ผลรวม = เฉลี่ย × จำนวน\n\nวิธีทำ\n→ 12 × 5 = 60\n\n✓ ตอบ: 60"
-   },
-   {
-    "q": "นักเรียน 3 คน มีอายุเฉลี่ย 10 ปี ถ้ามีนักเรียนคนที่ 4 อายุ 14 ปี เข้ามาเพิ่ม อายุเฉลี่ยของทั้ง 4 คนจะเท่ากับกี่ปี",
-    "choices": [
-     "14 ปี",
-     "11 ปี",
-     "10 ปี",
-     "4 ปี"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: หาผลรวมเดิมก่อน\n\nวิธีทำ\n→ ผลรวมเดิม = 10×3 = 30\n→ (30 + 14) ÷ 4 = 44 ÷ 4 = 11\n\n✓ ตอบ: 11 ปี"
-   },
-   {
-    "q": "ข้อมูลชุดหนึ่งประกอบด้วย 2, 4, 4, 6 และ 9 จงหาค่าเฉลี่ยเลขคณิต มัธยฐาน และฐานนิยมของข้อมูลชุดนี้",
-    "choices": [
-     "เฉลี่ย 5, มัธยฐาน 4, ฐานนิยม 4",
-     "เฉลี่ย 5, มัธยฐาน 4, ฐานนิยม 3",
-     "เฉลี่ย 5, มัธยฐาน 4, ฐานนิยม 5",
-     "เฉลี่ย 5, มัธยฐาน 4, ฐานนิยม 6"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: หาทีละค่า\n\nวิธีทำ\n→ ค่าเฉลี่ย = 25÷5 = 5\n→ มัธยฐาน = 4 ; ฐานนิยม = 4\n\n✓ ตอบ: เฉลี่ย 5, มัธยฐาน 4, ฐานนิยม 4"
-   },
-   {
-    "q": "นักเรียน 5 คน มีคะแนนเฉลี่ย 70 คะแนน ต่อมาพบว่าคะแนนของคนหนึ่งผิด จึงแก้จาก 50 เป็น 90 คะแนน คะแนนเฉลี่ยใหม่เท่ากับเท่าใด",
-    "choices": [
-     "78",
-     "40",
-     "350",
-     "5"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ปรับผลรวม\n\nวิธีทำ\n→ ผลรวมเดิม = 350 ; เพิ่มขึ้น 40 → 390\n→ 390 ÷ 5 = 78\n\n✓ ตอบ: 78"
-   },
-   {
-    "q": "ข้อมูลชุดหนึ่งประกอบด้วย 10, 12, 14, 16 และ 18 มัธยฐานและค่าเฉลี่ยเลขคณิตของข้อมูลชุดนี้เท่ากับเท่าใด",
-    "choices": [
-     "ทั้งคู่เท่ากับ 15",
-     "ทั้งคู่เท่ากับ 14",
-     "ทั้งคู่เท่ากับ 5",
-     "ทั้งคู่เท่ากับ 13"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: หาทั้งสองค่า\n\nวิธีทำ\n→ มัธยฐาน = 14 ; ค่าเฉลี่ย = 70÷5 = 14\n\n✓ ตอบ: ทั้งคู่เท่ากับ 14"
-   },
-   {
-    "q": "คน 6 คน มีน้ำหนัก 40, 45, 50, 55, 60 และ x กิโลกรัม ถ้าน้ำหนักเฉลี่ยเท่ากับ 52 กิโลกรัม จงหาค่าของ x",
-    "choices": [
-     "x = 250",
-     "x = 52",
-     "x = 6",
-     "x = 62"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ผลรวม = เฉลี่ย × จำนวน\n\nวิธีทำ\n→ ผลรวม = 52×6 = 312\n→ 250 + x = 312 → x = 62\n\n✓ ตอบ: x = 62"
-   },
-   {
-    "q": "ค่าเฉลี่ยเลขคณิตของ 20 กับ x เท่ากับ 30 จงหาค่าของ x",
-    "choices": [
-     "x = 40",
-     "x = 41",
-     "x = 60",
-     "x = 20"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: (20 + x) ÷ 2 = 30\n\nวิธีทำ\n→ 20 + x = 60 → x = 40\n\n✓ ตอบ: x = 40"
-   },
-   {
-    "q": "ข้อมูลชุดหนึ่งประกอบด้วย 3, 7, 7, 7, 10, 10 และ 15 จงหาฐานนิยมและพิสัยของข้อมูลชุดนี้",
-    "choices": [
-     "ฐานนิยม 7, พิสัย 15",
-     "ฐานนิยม 7, พิสัย 7",
-     "ฐานนิยม 7, พิสัย 12",
-     "ฐานนิยม 7, พิสัย 3"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: หาทั้งสองค่า\n\nวิธีทำ\n→ ฐานนิยม = 7 (ปรากฏ 3 ครั้ง)\n→ พิสัย = 15 − 3 = 12\n\n✓ ตอบ: ฐานนิยม 7, พิสัย 12"
-   },
-   {
-    "q": "นักเรียน 40 คน สอบได้คะแนนเฉลี่ย 65 คะแนน ผลรวมคะแนนของนักเรียนทั้งหมดเท่ากับเท่าใด",
-    "choices": [
-     "2,601 คะแนน",
-     "2,600 คะแนน",
+     "70 คะแนน",
      "65 คะแนน",
-     "40 คะแนน"
+     "62 คะแนน",
+     "75 คะแนน"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: ผลรวม = เฉลี่ย × จำนวน\n\nวิธีทำ\n→ 65 × 40 = 2,600\n\n✓ ตอบ: 2,600 คะแนน"
+    "explain": "💡 พอมีคนใหม่เข้ามา ต้องคิดผลรวมใหม่ทั้งหมด แล้วหารด้วยจำนวนคนที่เพิ่มขึ้นด้วย\n📐 สูตรที่ใช้\n• ผลรวมเดิม — Σ = x̄ × N\nผลรวมเดิมของ 5 คน = 60×5 = 300 ; เพิ่มคนได้ 90 ⇒ ผลรวมใหม่ = 390 ; คนเป็น 6\n🟰 x̄ใหม่ = (300+90)/(6) = (390)/(6) = 65\n⚠️ คนใหม่ได้คะแนนสูงกว่าเฉลี่ยเดิม ค่าเฉลี่ยเลยขยับขึ้น (จาก 60 เป็น 65)\n✓ ตอบ 65 คะแนน"
+   },
+   {
+    "q": "ข้อมูล 2 ชุด มีค่าเฉลี่ยเท่ากันคือ 50 — ชุด A: 48, 50, 52 และชุด B: 30, 50, 70 ชุดใดมีการกระจายของข้อมูลมากกว่ากัน",
+    "choices": [
+     "ชุด A เพราะพิสัยมากกว่า",
+     "เท่ากัน เพราะค่าเฉลี่ยเท่ากัน",
+     "ชุด B เพราะพิสัยมากกว่า",
+     "เปรียบเทียบไม่ได้"
+    ],
+    "answer": 2,
+    "explain": "💡 ค่าเฉลี่ยเท่ากันไม่ได้แปลว่าข้อมูลเหมือนกัน! ต้องดู “การกระจาย” ว่าข้อมูลเกาะกลุ่มหรือกระจายห่าง — วัดง่าย ๆ ด้วยพิสัย\n📐 สูตรที่ใช้\n• พิสัย — สูงสุด − ต่ำสุด (ยิ่งมาก ยิ่งกระจายมาก)\nชุด A: พิสัย = 52 − 48 = 4 (เกาะกลุ่มแน่น)\nชุด B: พิสัย = 70 − 30 = 40 (กระจายห่าง)\n🟰 40 > 4 ⇒ ชุด B กระจายมากกว่า\n✓ ตอบ ชุด B เพราะพิสัยมากกว่า",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgMTUwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQyMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTAiIHk9IjIyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj7guIrguLjguJQgQSAo4LmA4LiB4Liy4Liw4LiB4Lil4Li44LmI4LihIDQ44oCTNTIpPC90ZXh0PjxsaW5lIHgxPSI0NyIgeTE9IjExMiIgeDI9IjM4MyIgeTI9IjExMiIgc3Ryb2tlPSIjOTk5IiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSB4MT0iNTUiIHkxPSIxMDciIHgyPSI1NSIgeTI9IjExNyIgc3Ryb2tlPSIjYmJiIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjU1IiB5PSIxMzMiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjI1PC90ZXh0PjxsaW5lIHgxPSIxMzUiIHkxPSIxMDciIHgyPSIxMzUiIHkyPSIxMTciIHN0cm9rZT0iI2JiYiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIxMzUiIHk9IjEzMyIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+MzcuNTwvdGV4dD48bGluZSB4MT0iMjE1IiB5MT0iMTA3IiB4Mj0iMjE1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMjE1IiB5PSIxMzMiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjUwPC90ZXh0PjxsaW5lIHgxPSIyOTUiIHkxPSIxMDciIHgyPSIyOTUiIHkyPSIxMTciIHN0cm9rZT0iI2JiYiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIyOTUiIHk9IjEzMyIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+NjIuNTwvdGV4dD48bGluZSB4MT0iMzc1IiB5MT0iMTA3IiB4Mj0iMzc1IiB5Mj0iMTE3IiBzdHJva2U9IiNiYmIiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMzc1IiB5PSIxMzMiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjc1PC90ZXh0PjxjaXJjbGUgY3g9IjIwMi4yIiBjeT0iMTEyIiByPSI2IiBmaWxsPSIjNEU3N0M0Ii8+PGNpcmNsZSBjeD0iMjE1IiBjeT0iMTEyIiByPSI2IiBmaWxsPSIjNEU3N0M0Ii8+PGNpcmNsZSBjeD0iMjI3LjgiIGN5PSIxMTIiIHI9IjYiIGZpbGw9IiM0RTc3QzQiLz48L3N2Zz4="
+   },
+   {
+    "q": "ในห้องเรียนหนึ่งมีนักเรียนชาย 20 คน คะแนนเฉลี่ย 65 คะแนน และนักเรียนหญิง 30 คน คะแนนเฉลี่ย 75 คะแนน จงหาคะแนนเฉลี่ยรวมของทั้งห้อง",
+    "choices": [
+     "70 คะแนน",
+     "72 คะแนน",
+     "69 คะแนน",
+     "71 คะแนน"
+    ],
+    "answer": 3,
+    "explain": "💡 โจทย์แนวนี้ต้องกลับไปหา “ผลรวมคะแนนจริง” ของแต่ละกลุ่มก่อนเสมอ แล้วค่อยรวมกันหารด้วยคนทั้งหมด\n📐 สูตรที่ใช้\n• เฉลี่ยรวม — x̄ = (ผลรวมทุกกลุ่ม)/(จำนวนคนทั้งหมด)\nชาย: 65×20 = 1300 ; หญิง: 75×30 = 2250 ; คนทั้งหมด = 50\n🟰 x̄ = (1300+2250)/(50) = (3550)/(50) = 71\n⚠️ (65+75)/(2)=70 ผิด เพราะหญิงมีคนมากกว่า ค่าเฉลี่ยจึงเอียงไปทาง 75 นิดหน่อย\n✓ ตอบ 71 คะแนน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NjAgMTcyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ2MCIgaGVpZ2h0PSIxNzIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjIyIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+4LiE4Li04LiU4Lic4Lil4Lij4Lin4Lih4LmB4LiV4LmI4Lil4Liw4LiB4Lil4Li44LmI4Lih4LiB4LmI4Lit4LiZPC90ZXh0PjxyZWN0IHg9IjI4IiB5PSI0MiIgd2lkdGg9IjQwNCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiM0RTc3QzQiIG9wYWNpdHk9IjAuMTMiLz48cmVjdCB4PSIyOCIgeT0iNDIiIHdpZHRoPSI2IiBoZWlnaHQ9IjM0IiByeD0iMyIgZmlsbD0iIzRFNzdDNCIvPjx0ZXh0IHg9IjQ2IiB5PSI2NCIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMyYTMxMzgiPuC4iuC4suC4oiA6IDIwIOC4hOC4mSDDlyA2NSA9IDEzMDA8L3RleHQ+PHJlY3QgeD0iMjgiIHk9Ijg0IiB3aWR0aD0iNDA0IiBoZWlnaHQ9IjM0IiByeD0iOCIgZmlsbD0iI0UwNzA0QSIgb3BhY2l0eT0iMC4xMyIvPjxyZWN0IHg9IjI4IiB5PSI4NCIgd2lkdGg9IjYiIGhlaWdodD0iMzQiIHJ4PSIzIiBmaWxsPSIjRTA3MDRBIi8+PHRleHQgeD0iNDYiIHk9IjEwNiIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMyYTMxMzgiPuC4q+C4jeC4tOC4hyA6IDMwIOC4hOC4mSDDlyA3NSA9IDIyNTA8L3RleHQ+PHJlY3QgeD0iMjgiIHk9IjEyNiIgd2lkdGg9IjQwNCIgaGVpZ2h0PSIzNiIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iI0I3RTBDNyIvPjx0ZXh0IHg9IjQ2IiB5PSIxNDkiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzBFNUEzMiI+4Lij4Lin4LihIDogMzU1MCDDtyA1MCDguITguJkgPSA3MTwvdGV4dD48L3N2Zz4="
    }
   ],
   "math_23": [
@@ -49942,7 +49632,8 @@
   "math_14": 1787324579825,
   "math_15": 1787582916267,
   "math_19": 1787727205970,
-  "math_22": 1787733245622
+  "math_22": 1787733245622,
+  "math_21": 1787807915434
  },
  "subjStatus": {
   "thai": {
