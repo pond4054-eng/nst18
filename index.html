@@ -516,7 +516,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v124";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v125";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2535,7 +2535,7 @@ function renderOverlays(){
 /* ── กระดาษข้อสอบ + เฉลย (ออกแบบให้พิมพ์ลงกระดาษ A4 ได้เลย) ── */
 function mockSheet(){
   var m=S.mock, showAns=S.mockView==="key";
-  var h='<div class="sheet mockwrap psk"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);max-height:94vh;">'+
+  var h='<div class="sheet mockwrap'+pskCls()+'"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);max-height:94vh;">'+
     '<div class="sheethead noprint" style="align-items:flex-start;">'+
       '<div style="min-width:0;">'+
         '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">'+
@@ -2549,6 +2549,7 @@ function mockSheet(){
       '<button class="btn sm '+(showAns?"":"ghost")+'" onclick="A.mockView(\'key\')">เฉลย</button>'+
       '<button class="btn sm ghost" onclick="A.printMock()">🖨️ พิมพ์ / บันทึก PDF</button>'+
       '<button class="btn sm ghost" onclick="'+(m._track?("A.exportTrackPDF('"+m._track+"')"):("A."+(m.mockSet?"makeMock":"makePick")+"()"))+'">🎲 สุ่มชุดใหม่</button>'+
+      '<div style="margin-left:auto;display:flex;align-items:center;">'+fontToggleHTML()+'</div>'+
     '</div>'+
     (m.gaps.length
       ? '<div class="noprint" style="margin:12px 18px 0;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">'+
@@ -2723,9 +2724,10 @@ function reviewSheet(){
   var items=(att.items||[]).filter(function(it){ return mode==="all" || it.pick!==it.ans; });
   var subjCount={}; items.forEach(function(it){ subjCount[it.subj]=(subjCount[it.subj]||0)+1; });
   var shown=items.filter(function(it){ if(filt==="all") return true; if(filt==="star") return (S.starred||{})[it.fp]; return it.subj===filt; });
-  var h='<div class="sheet psk"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-bg);">'+
+  var h='<div class="sheet'+pskCls()+'"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-bg);">'+
     '<div class="sheethead" style="background:var(--c-surface);align-items:flex-start;"><div style="min-width:0;"><div style="font-size:10.5px;font-weight:700;color:var(--pri);">'+(mode==="all"?"เฉลยทั้งรอบ":"ทบทวนข้อผิด")+' · '+items.length+' ข้อ</div><div style="font-size:16px;font-weight:800;">'+relDate(att.ts)+'</div></div><button class="x" onclick="A.closeReview()">✕</button></div>'+
-    '<div class="sheetbody">';
+    '<div class="sheetbody">'+
+      '<div class="noprint" style="display:flex;justify-content:flex-end;padding-bottom:10px;">'+fontToggleHTML()+'</div>';
   if(mode==="wrong"){ var top=Object.keys(subjCount).sort(function(a,b){return subjCount[b]-subjCount[a];}).slice(0,2);
     if(top.length) h+='<div style="background:#FFF7E9;border:1px solid #F3D98C;border-radius:12px;padding:10px 12px;font-size:12px;color:#8A6400;line-height:1.5;margin-bottom:12px;">💡 พลาดบ่อย: '+top.map(function(s){return '<b>'+esc(s)+' ('+subjCount[s]+')</b>';}).join(' · ')+'</div>'; }
   var chips=[['all','ทั้งหมด '+items.length]]; Object.keys(subjCount).forEach(function(s){ chips.push([s,esc(s)+' '+subjCount[s]]); }); chips.push(['star','⭐ เก็บไว้']);
@@ -2747,9 +2749,26 @@ function reviewSheet(){
   if(wc) h+='<div style="position:sticky;bottom:0;margin:6px -2px 0;padding:12px 2px 4px;background:linear-gradient(transparent,var(--c-bg) 45%);"><button class="btn" style="width:100%;" onclick="A.redoWrong()">🔁 ทำใหม่เฉพาะข้อที่ผิด ('+wc+' ข้อ)</button></div>';
   return h+'</div></div></div>';
 }
+/* ── ปุ่มเลือกฟอนต์ (นักเรียนเลือกเอง จำค่าในเครื่อง; ค่าเริ่มต้น = Sarabun เดิม) ── */
+function fontPref(){
+  if(S.fontPref==null){ try{ S.fontPref=localStorage.getItem("nst18_font"); }catch(e){} if(S.fontPref!=="psk") S.fontPref="sara"; }
+  return S.fontPref;
+}
+function pskCls(){ return fontPref()==="psk" ? " psk" : ""; }
+function fontToggleHTML(){
+  var f=fontPref();
+  function b(v,lb){ var on=f===v;
+    return '<button onclick="A.setFont(\''+v+'\')" style="border:0;padding:5px 13px;font-size:12px;font-weight:700;cursor:pointer;'+
+      'background:'+(on?"var(--pri)":"transparent")+';color:'+(on?"#fff":"var(--pri)")+';">'+lb+'</button>'; }
+  return '<div class="noprint" style="display:inline-flex;align-items:center;gap:7px;">'+
+      '<span style="font-size:12px;color:var(--c-text-muted);font-weight:600;">ฟอนต์</span>'+
+      '<div style="display:inline-flex;border:1.5px solid var(--pri);border-radius:999px;overflow:hidden;">'+b("sara","เดิม")+b("psk","ตัวใหญ่")+'</div>'+
+    '</div>';
+}
+
 function quizSheet(){
   var q=S.quiz, h="";
-  h+='<div class="sheet psk"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);">'+
+  h+='<div class="sheet'+pskCls()+'"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);">'+
        '<div class="sheethead" style="align-items:flex-start;">'+
          '<div style="min-width:0;">'+
            '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">แบบทดสอบ'+(q.questions.length?(" "+q.questions.length+" ข้อ"):"")+((q.isMock&&q.mockSections)?' · เกณฑ์ผ่านแยกภาค':' · ผ่าน 80%')+((q.status==="active"&&q.totalMs)?(" · เวลา "+fmtClock(q.totalMs)):"")+'</div>'+
@@ -2757,7 +2776,8 @@ function quizSheet(){
          '</div>'+
          '<button class="x" onclick="A.closeQuiz()">✕</button>'+
        '</div>'+
-       '<div class="sheetbody">';
+       '<div class="sheetbody">'+
+         '<div class="noprint" style="display:flex;justify-content:flex-end;padding-bottom:10px;">'+fontToggleHTML()+'</div>';
 
   if(q.status==="loading"){
     h+='<div style="text-align:center;padding:40px 10px;color:var(--c-text-muted);">'+
@@ -3926,6 +3946,7 @@ var A={
   },
   closeMock:function(){ S.mock=null; render(); },
   mockView:function(v){ S.mockView=v; render(); var b=document.getElementById("printarea"); if(b) b.scrollTop=0; },
+  setFont:function(v){ S.fontPref=(v==="psk"?"psk":"sara"); try{ localStorage.setItem("nst18_font",S.fontPref); }catch(e){} renderOverlays(); },
   printMock:function(){ window.print(); },
   importData:function(){ document.getElementById("importfile").click(); },
   importFile:function(el){
