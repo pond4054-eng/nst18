@@ -236,6 +236,12 @@
   .ex-li::before{ content:"•"; position:absolute; left:2px; color:var(--pri); font-weight:800; }
   .ex-hl{ background:#FFF1B8; color:#5A4200; border-radius:3px; padding:0 3px; font-weight:600; }
   .ex-warn{ background:#FEECEC; border-left:3px solid #E4111F; border-radius:0 8px 8px 0; padding:8px 11px; margin:9px 0; font-size:11.5px; color:#7A1219; line-height:1.6; }
+  /* ── ฟอนต์ TH Sarabun PSK เฉพาะหน้าทำข้อสอบ + เฉลย + ไฟล์ที่แอดมินดึง (size-adjust ทำให้ใหญ่ขึ้น ~18% เท่า Sarabun เดิม) ── */
+  @font-face{ font-family:'THSarabunPSK'; src:url('fonts/THSarabunPSK.ttf') format('truetype'); font-weight:400; font-style:normal; font-display:swap; size-adjust:118%; }
+  @font-face{ font-family:'THSarabunPSK'; src:url('fonts/THSarabunPSK-Bold.ttf') format('truetype'); font-weight:700; font-style:normal; font-display:swap; size-adjust:118%; }
+  .psk{ font-family:'THSarabunPSK','Sarabun','Noto Sans Thai',sans-serif; }
+  .psk *{ font-family:inherit; }
+  .psk .mono, .psk #quizClock{ font-family:ui-monospace,'SFMono-Regular','Menlo',monospace; }
   .ex-eq{ background:#fff; border:1.5px solid #D7E3EE; border-radius:10px; padding:11px 10px; margin:11px 0; text-align:center; font-size:15px; font-weight:700; color:#123; overflow-x:auto; }
   .ex-formula{ background:#EAF7EF; border:1px solid #B7E0C7; border-left:4px solid #1E9E5A; border-radius:10px; padding:11px 13px; margin:11px 0; }
   .ex-formula-t{ font-size:11.5px; font-weight:800; color:#1E7A44; margin-bottom:9px; letter-spacing:.02em; }
@@ -509,7 +515,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v121";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v122";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2528,7 +2534,7 @@ function renderOverlays(){
 /* ── กระดาษข้อสอบ + เฉลย (ออกแบบให้พิมพ์ลงกระดาษ A4 ได้เลย) ── */
 function mockSheet(){
   var m=S.mock, showAns=S.mockView==="key";
-  var h='<div class="sheet mockwrap"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);max-height:94vh;">'+
+  var h='<div class="sheet mockwrap psk"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);max-height:94vh;">'+
     '<div class="sheethead noprint" style="align-items:flex-start;">'+
       '<div style="min-width:0;">'+
         '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">'+
@@ -2716,7 +2722,7 @@ function reviewSheet(){
   var items=(att.items||[]).filter(function(it){ return mode==="all" || it.pick!==it.ans; });
   var subjCount={}; items.forEach(function(it){ subjCount[it.subj]=(subjCount[it.subj]||0)+1; });
   var shown=items.filter(function(it){ if(filt==="all") return true; if(filt==="star") return (S.starred||{})[it.fp]; return it.subj===filt; });
-  var h='<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-bg);">'+
+  var h='<div class="sheet psk"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-bg);">'+
     '<div class="sheethead" style="background:var(--c-surface);align-items:flex-start;"><div style="min-width:0;"><div style="font-size:10.5px;font-weight:700;color:var(--pri);">'+(mode==="all"?"เฉลยทั้งรอบ":"ทบทวนข้อผิด")+' · '+items.length+' ข้อ</div><div style="font-size:16px;font-weight:800;">'+relDate(att.ts)+'</div></div><button class="x" onclick="A.closeReview()">✕</button></div>'+
     '<div class="sheetbody">';
   if(mode==="wrong"){ var top=Object.keys(subjCount).sort(function(a,b){return subjCount[b]-subjCount[a];}).slice(0,2);
@@ -2742,7 +2748,7 @@ function reviewSheet(){
 }
 function quizSheet(){
   var q=S.quiz, h="";
-  h+='<div class="sheet"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);">'+
+  h+='<div class="sheet psk"><div class="sheetin" style="border-radius:24px 24px 0 0;background:var(--c-surface);">'+
        '<div class="sheethead" style="align-items:flex-start;">'+
          '<div style="min-width:0;">'+
            '<div style="font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--pri);">แบบทดสอบ'+(q.questions.length?(" "+q.questions.length+" ข้อ"):"")+((q.isMock&&q.mockSections)?' · เกณฑ์ผ่านแยกภาค':' · ผ่าน 80%')+((q.status==="active"&&q.totalMs)?(" · เวลา "+fmtClock(q.totalMs)):"")+'</div>'+
