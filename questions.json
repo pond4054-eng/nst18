@@ -1,6 +1,6 @@
 {
  "_comment": "คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อย่าแก้ไฟล์นี้ด้วยมือ ให้ใช้ปุ่ม 'ส่งออกคลังข้อสอบ' ในแผงแอดมินแล้วอัปโหลดทับไฟล์นี้",
- "version": 173,
+ "version": 174,
  "topics": {
   "math": [
    {
@@ -13303,554 +13303,244 @@
   ],
   "math_23": [
    {
-    "q": "โยนเหรียญ 1 เหรียญ 1 ครั้ง ความน่าจะเป็นที่เหรียญจะออกหัวเท่ากับเท่าใด",
+    "q": "ในถุงมีลูกบอลสีแดง 3 ลูก และสีน้ำเงิน 5 ลูก สุ่มหยิบ 1 ลูก ความน่าจะเป็นที่จะได้สีแดงเท่ากับเท่าใด",
     "choices": [
-     "1/2",
-     "3/2",
-     "1/3",
-     "1/4"
+     "3/8",
+     "3/5",
+     "5/8",
+     "1/3"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: P = (ที่ต้องการ)/(ทั้งหมด)\n\nวิธีทำ\n→ ได้หัว 1 จาก 2 → 1/2\n\n✓ ตอบ: 1/2"
+    "explain": "💡 ความน่าจะเป็น = สิ่งที่ต้องการมีกี่แบบ หารด้วย ทั้งหมดมีกี่แบบ\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (จำนวนที่ต้องการ)/(จำนวนทั้งหมด)\nลูกแดง 3 ลูก ; ทั้งหมด 3+5 = 8 ลูก\n🟰 P(แดง) = (3)/(8)\n✓ ตอบ 3/8",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDAgMTQ0IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ0MCIgaGVpZ2h0PSIxNDQiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTUiIHk9IjIyIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lil4Li54LiB4Lia4Lit4Lil4LmD4LiZ4LiW4Li44LiHPC90ZXh0PjxjaXJjbGUgY3g9IjY0IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTU2IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjEyIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjU4IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzA0IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzUwIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzk2IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMjE1IiB5PSIxMjYiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5geC4lOC4hyAzICDigKIgIOC4meC5ieC4s+C5gOC4h+C4tOC4mSA1ICDigKIgIOC4l+C4seC5ieC4h+C4q+C4oeC4lCA4IOC4peC4ueC4gTwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "โยนเหรียญ 1 เหรียญ ความน่าจะเป็นที่ได้ก้อย",
+    "q": "ในถุงมีลูกบอลสีแดง 4 ลูก และสีน้ำเงิน 6 ลูก สุ่มหยิบ 1 ลูก ความน่าจะเป็นที่จะได้สีน้ำเงินเท่ากับเท่าใด",
     "choices": [
-     "1/2",
-     "3/2",
-     "1/3",
-     "1/4"
+     "2/5",
+     "3/5",
+     "6/10",
+     "3/10"
     ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: P = 1/2\n\nวิธีทำ\n→ 1/2\n\n✓ ตอบ: 1/2"
+    "answer": 1,
+    "explain": "💡 นับสิ่งที่ต้องการ (น้ำเงิน) หารด้วยทั้งหมด แล้วทำเศษส่วนอย่างต่ำ\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (ลูกน้ำเงิน)/(ลูกทั้งหมด)\nน้ำเงิน 6 ลูก ; ทั้งหมด 4+6 = 10 ลูก\n🟰 P(น้ำเงิน) = (6)/(10) = (3)/(5)\n✓ ตอบ 3/5",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MjggMTQ0IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjUyOCIgaGVpZ2h0PSIxNDQiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTUiIHk9IjIyIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lil4Li54LiB4Lia4Lit4Lil4LmD4LiZ4LiW4Li44LiHPC90ZXh0PjxjaXJjbGUgY3g9IjY0IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTU2IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjAyIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjU4IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzA0IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzUwIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzk2IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iNDQyIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iNDg4IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMjE1IiB5PSIxMjYiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5geC4lOC4hyA0ICDigKIgIOC4meC5ieC4s+C5gOC4h+C4tOC4mSA2ICDigKIgIOC4l+C4seC5ieC4h+C4q+C4oeC4lCAxMCDguKXguLnguIE8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "สุ่มหยิบบัตรเลข 1–10 ความน่าจะเป็นที่ได้เลข 5",
+    "q": "ในกล่องมีลูกแก้วสีแดง 2 ลูก และสีน้ำเงิน 8 ลูก สุ่มหยิบ 1 ลูก ความน่าจะเป็นที่จะได้สีแดงเท่ากับเท่าใด",
     "choices": [
-     "1/5",
-     "1/9",
+     "2/8",
      "1/10",
-     "1/11"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: 1 จาก 10\n\nวิธีทำ\n→ 1/10\n\n✓ ตอบ: 1/10"
-   },
-   {
-    "q": "สุ่มหยิบสลากที่มีหมายเลข 1 ถึง 10 มา 1 ใบ ความน่าจะเป็นที่จะได้หมายเลขคู่เท่ากับเท่าใด",
-    "choices": [
-     "3/2",
-     "1/2",
-     "1/3",
-     "1/4"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: เลขคู่มี 5 ตัว\n\nวิธีทำ\n→ 5/10 = 1/2\n\n✓ ตอบ: 1/2"
-   },
-   {
-    "q": "สุ่มหยิบสลากที่มีหมายเลข 1 ถึง 6 มา 1 ใบ ความน่าจะเป็นที่จะได้หมายเลขคี่เท่ากับเท่าใด",
-    "choices": [
-     "1/3",
-     "3/2",
-     "1/4",
-     "1/2"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: เลขคี่ 1,3,5 = 3 ตัว\n\nวิธีทำ\n→ 3/6 = 1/2\n\n✓ ตอบ: 1/2"
-   },
-   {
-    "q": "สุ่มเลข 1–20 ความน่าจะเป็นที่หารด้วย 5 ลงตัว",
-    "choices": [
-     "2/5",
-     "1/6",
      "1/5",
-     "1/4"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: 5,10,15,20 = 4 ตัว\n\nวิธีทำ\n→ 4/20 = 1/5\n\n✓ ตอบ: 1/5"
-   },
-   {
-    "q": "โยนเหรียญ 2 เหรียญ มีผลลัพธ์ที่เป็นไปได้ทั้งหมดกี่แบบ",
-    "choices": [
-     "4 แบบ",
-     "3 แบบ",
-     "5 แบบ",
-     "6 แบบ"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: 2² แบบ\n\nวิธีทำ\n→ HH, HT, TH, TT → 4 แบบ\n\n✓ ตอบ: 4 แบบ"
-   },
-   {
-    "q": "โยนเหรียญ 2 เหรียญ ความน่าจะเป็นที่ได้หัวทั้งคู่",
-    "choices": [
-     "1/5",
-     "1/2",
-     "1/4",
-     "1/3"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: 1 จาก 4\n\nวิธีทำ\n→ 1/4\n\n✓ ตอบ: 1/4"
-   },
-   {
-    "q": "โยนเหรียญ 2 เหรียญ ความน่าจะเป็นที่ได้หัว 1 ก้อย 1",
-    "choices": [
-     "1/4",
-     "3/2",
-     "1/3",
-     "1/2"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: HT, TH = 2 แบบ\n\nวิธีทำ\n→ 2/4 = 1/2\n\n✓ ตอบ: 1/2"
-   },
-   {
-    "q": "ความน่าจะเป็นของเหตุการณ์ที่เกิดขึ้นแน่นอน และเหตุการณ์ที่เป็นไปไม่ได้ มีค่าเท่าใด",
-    "choices": [
-     "4 และ −3",
-     "3 และ −2",
-     "1 และ 0",
-     "2 และ −1"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ขอบเขตของ P\n\nวิธีทำ\n→ แน่นอน = 1 ; เป็นไปไม่ได้ = 0\n\n✓ ตอบ: 1 และ 0"
-   },
-   {
-    "q": "ทอยลูกเต๋า 1 ลูก ความน่าจะเป็นที่ได้แต้ม 3",
-    "choices": [
-     "1/3",
-     "1/6",
-     "1/5",
-     "1/7"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: 1 จาก 6\n\nวิธีทำ\n→ 1/6\n\n✓ ตอบ: 1/6"
-   },
-   {
-    "q": "ทอยลูกเต๋า 1 ลูก 1 ครั้ง ความน่าจะเป็นที่จะได้แต้มคู่เท่ากับเท่าใด",
-    "choices": [
-     "1/4",
-     "1/3",
-     "3/2",
-     "1/2"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: 2,4,6 = 3 หน้า\n\nวิธีทำ\n→ 3/6 = 1/2\n\n✓ ตอบ: 1/2"
-   },
-   {
-    "q": "ทอยลูกเต๋า ความน่าจะเป็นที่ได้แต้มมากกว่า 4",
-    "choices": [
-     "1/4",
-     "1/2",
-     "2/3",
-     "1/3"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: 5,6 = 2 หน้า\n\nวิธีทำ\n→ 2/6 = 1/3\n\n✓ ตอบ: 1/3"
-   },
-   {
-    "q": "ทอยลูกเต๋า ความน่าจะเป็นที่ได้แต้มน้อยกว่า 3",
-    "choices": [
-     "1/3",
-     "2/3",
-     "1/4",
-     "1/2"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: 1,2 = 2 หน้า\n\nวิธีทำ\n→ 2/6 = 1/3\n\n✓ ตอบ: 1/3"
-   },
-   {
-    "q": "ทอยลูกเต๋า ความน่าจะเป็นที่ได้แต้มหารด้วย 3 ลงตัว",
-    "choices": [
-     "1/3",
-     "1/4",
-     "1/2",
-     "2/3"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: 3,6 = 2 หน้า\n\nวิธีทำ\n→ 2/6 = 1/3\n\n✓ ตอบ: 1/3"
-   },
-   {
-    "q": "ทอยลูกเต๋า ความน่าจะเป็นที่ได้แต้มเป็นจำนวนเฉพาะ",
-    "choices": [
-     "1/3",
-     "1/4",
-     "3/2",
-     "1/2"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: 2,3,5 = 3 หน้า\n\nวิธีทำ\n→ 3/6 = 1/2\n\n✓ ตอบ: 1/2"
-   },
-   {
-    "q": "ทอยลูกเต๋า 1 ลูก 1 ครั้ง ความน่าจะเป็นที่จะไม่ได้แต้ม 6 เท่ากับเท่าใด",
-    "choices": [
-     "5/6",
-     "2/3",
-     "5/7",
-     "1/6"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: P(ไม่เกิด) = 1 − P\n\nวิธีทำ\n→ 1 − 1/6 = 5/6\n\n✓ ตอบ: 5/6"
-   },
-   {
-    "q": "ทอยลูกเต๋า 2 ลูกพร้อมกัน 1 ครั้ง จะมีผลลัพธ์ที่เป็นไปได้ทั้งหมดกี่แบบ",
-    "choices": [
-     "35 แบบ",
-     "37 แบบ",
-     "36 แบบ",
-     "38 แบบ"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: 6 × 6\n\nวิธีทำ\n→ 36 แบบ\n\n✓ ตอบ: 36 แบบ"
-   },
-   {
-    "q": "ทอยลูกเต๋า 2 ลูก ความน่าจะเป็นที่ผลรวมแต้มเท่ากับ 7",
-    "choices": [
-     "1/3",
-     "1/6",
-     "1/5",
-     "1/7"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: คู่ที่รวมได้ 7 มี 6 คู่\n\nวิธีทำ\n→ (1,6)(2,5)(3,4)(4,3)(5,2)(6,1) = 6\n→ 6/36 = 1/6\n\n✓ ตอบ: 1/6"
-   },
-   {
-    "q": "ทอยลูกเต๋า 2 ลูก ความน่าจะเป็นที่ได้แต้มเท่ากันทั้งคู่",
-    "choices": [
-     "1/5",
-     "1/7",
-     "1/6",
-     "1/3"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: (1,1)...(6,6) = 6 คู่\n\nวิธีทำ\n→ 6/36 = 1/6\n\n✓ ตอบ: 1/6"
-   },
-   {
-    "q": "ถุงมีลูกบอลแดง 3 ลูก น้ำเงิน 2 ลูก หยิบ 1 ลูก ความน่าจะเป็นที่ได้สีแดง",
-    "choices": [
-     "3/5",
-     "1/2",
-     "4/5",
-     "2/5"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: แดง 3 จากทั้งหมด 5\n\nวิธีทำ\n→ 3/5\n\n✓ ตอบ: 3/5"
-   },
-   {
-    "q": "ถุงมีลูกบอลแดง 3 ลูก น้ำเงิน 2 ลูก หยิบ 1 ลูก ความน่าจะเป็นที่ได้สีน้ำเงิน",
-    "choices": [
-     "3/5",
-     "1/3",
-     "2/5",
-     "1/5"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: น้ำเงิน 2 จาก 5\n\nวิธีทำ\n→ 2/5\n\n✓ ตอบ: 2/5"
-   },
-   {
-    "q": "ถุงมีแดง 4 ขาว 6 หยิบ 1 ลูก ความน่าจะเป็นที่ได้สีแดง",
-    "choices": [
-     "1/3",
-     "2/5",
-     "1/5",
-     "3/5"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: 4 จาก 10\n\nวิธีทำ\n→ 4/10 = 2/5\n\n✓ ตอบ: 2/5"
-   },
-   {
-    "q": "ถุงมีแดง 4 ขาว 6 หยิบ 1 ลูก ความน่าจะเป็นที่ได้สีขาว",
-    "choices": [
-     "3/5",
-     "2/5",
-     "1/2",
      "4/5"
     ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: 6 จาก 10\n\nวิธีทำ\n→ 6/10 = 3/5\n\n✓ ตอบ: 3/5"
+    "answer": 2,
+    "explain": "💡 อย่าลืมทำเศษส่วนให้เป็นอย่างต่ำ\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (ลูกแดง)/(ทั้งหมด)\nแดง 2 ลูก ; ทั้งหมด 2+8 = 10 ลูก\n🟰 P(แดง) = (2)/(10) = (1)/(5)\n✓ ตอบ 1/5",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MjggMTQ0IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjUyOCIgaGVpZ2h0PSIxNDQiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMTUiIHk9IjIyIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lil4Li54LiB4Lia4Lit4Lil4LmD4LiZ4LiW4Li44LiHPC90ZXh0PjxjaXJjbGUgY3g9IjY0IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjRTQ3MDdBIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMTY2IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjEyIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMjU4IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzA0IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzUwIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iMzk2IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iNDQyIiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PGNpcmNsZSBjeD0iNDg4IiBjeT0iNzIiIHI9IjIwIiBmaWxsPSIjNUU4NkQ2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMjE1IiB5PSIxMjYiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5geC4lOC4hyAyICDigKIgIOC4meC5ieC4s+C5gOC4h+C4tOC4mSA4ICDigKIgIOC4l+C4seC5ieC4h+C4q+C4oeC4lCAxMCDguKXguLnguIE8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "กล่องมีลูกอม 10 เม็ด เป็นรสสตรอเบอรี่ 3 เม็ด หยิบ 1 เม็ด ความน่าจะเป็นที่ได้สตรอเบอรี่",
-    "choices": [
-     "3/10",
-     "3/11",
-     "2/5",
-     "1/5"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: 3 จาก 10\n\nวิธีทำ\n→ 3/10\n\n✓ ตอบ: 3/10"
-   },
-   {
-    "q": "สุ่มไพ่จากสำรับ 52 ใบ ความน่าจะเป็นที่ได้ไพ่หัวใจ (โพแดง)",
-    "choices": [
-     "1/4",
-     "1/5",
-     "1/2",
-     "1/3"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: หัวใจ 13 ใบ\n\nวิธีทำ\n→ 13/52 = 1/4\n\n✓ ตอบ: 1/4"
-   },
-   {
-    "q": "สุ่มหยิบไพ่ 1 ใบ จากสำรับที่มีไพ่ 52 ใบ ความน่าจะเป็นที่จะได้ไพ่ A เท่ากับเท่าใด",
-    "choices": [
-     "1/14",
-     "1/12",
-     "2/13",
-     "1/13"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: A มี 4 ใบ\n\nวิธีทำ\n→ 4/52 = 1/13\n\n✓ ตอบ: 1/13"
-   },
-   {
-    "q": "สุ่มหยิบไพ่ 1 ใบ จากสำรับที่มีไพ่ 52 ใบ ความน่าจะเป็นที่จะได้ไพ่สีแดงเท่ากับเท่าใด",
-    "choices": [
-     "1/2",
-     "1/4",
-     "3/2",
-     "1/3"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: สีแดง 26 ใบ\n\nวิธีทำ\n→ 26/52 = 1/2\n\n✓ ตอบ: 1/2"
-   },
-   {
-    "q": "ถุงมีลูกบอล 5 สีต่างกันอย่างละลูก หยิบ 1 ลูก ความน่าจะเป็นที่ได้สีที่กำหนดไว้ 1 สี",
-    "choices": [
-     "1/4",
-     "2/5",
-     "1/6",
-     "1/5"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: 1 จาก 5\n\nวิธีทำ\n→ 1/5\n\n✓ ตอบ: 1/5"
-   },
-   {
-    "q": "ถุงมีแดง 2 เขียว 3 เหลือง 5 หยิบ 1 ลูก ความน่าจะเป็นที่ได้สีเหลือง",
+    "q": "ทอยลูกเต๋า 1 ลูก 1 ครั้ง ความน่าจะเป็นที่จะได้แต้มเป็นจำนวนคู่เท่ากับเท่าใด",
     "choices": [
      "1/3",
-     "1/4",
-     "1/2",
-     "3/2"
+     "1/6",
+     "2/3",
+     "1/2"
     ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: 5 จาก 10\n\nวิธีทำ\n→ 5/10 = 1/2\n\n✓ ตอบ: 1/2"
+    "answer": 3,
+    "explain": "💡 ลูกเต๋ามี 6 หน้า (ทั้งหมด) แล้วนับหน้าที่เป็นเลขคู่\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (แต้มที่ต้องการ)/(6)\nแต้มคู่คือ 2, 4, 6 → 3 หน้า (สีแดงในภาพ)\n🟰 P(คู่) = (3)/(6) = (1)/(2)\n✓ ตอบ 1/2",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzYgMTEyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzNiIgaGVpZ2h0PSIxMTIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMjAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LmA4Lil4LiC4LiE4Li54LmI4LiE4Li34LitIDIsIDQsIDY8L3RleHQ+PHJlY3QgeD0iNDAiIHk9IjQ0IiB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSIxMiIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjY2IiB5PSI4MCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+MTwvdGV4dD48cmVjdCB4PSIxMDYiIHk9IjQ0IiB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSIxMiIgZmlsbD0iI0U0MTExRiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjEzMiIgeT0iODAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiPjI8L3RleHQ+PHJlY3QgeD0iMTcyIiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIxOTgiIHk9IjgwIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOGE5MDlhIj4zPC90ZXh0PjxyZWN0IHg9IjIzOCIgeT0iNDQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjEyIiBmaWxsPSIjRTQxMTFGIiBzdHJva2U9IiNFNDExMUYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMjY0IiB5PSI4MCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+NDwvdGV4dD48cmVjdCB4PSIzMDQiIHk9IjQ0IiB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSIxMiIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjMzMCIgeT0iODAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4YTkwOWEiPjU8L3RleHQ+PHJlY3QgeD0iMzcwIiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNFNDExMUYiIHN0cm9rZT0iI0U0MTExRiIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIzOTYiIHk9IjgwIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIj42PC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "ถุงมีแดง 2 เขียว 3 เหลือง 5 หยิบ 1 ลูก ความน่าจะเป็นที่ไม่ได้สีแดง",
+    "q": "ทอยลูกเต๋า 1 ลูก ความน่าจะเป็นที่จะได้แต้มมากกว่าหรือเท่ากับ 5 เท่ากับเท่าใด",
     "choices": [
-     "2/5",
-     "3/5",
-     "4/5",
+     "1/3",
+     "1/6",
+     "1/2",
+     "2/6"
+    ],
+    "answer": 0,
+    "explain": "💡 นับหน้าที่ ‘≥ 5’ ว่ามีกี่หน้า จากทั้งหมด 6\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (แต้ม ≥ 5)/(6)\nแต้มที่ ≥ 5 คือ 5 และ 6 → 2 หน้า (สีแดงในภาพ)\n🟰 P(≥5) = (2)/(6) = (1)/(3)\n✓ ตอบ 1/3",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzYgMTEyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzNiIgaGVpZ2h0PSIxMTIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMjAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LmB4LiV4LmJ4LihIOKJpSA1IOC4hOC4t+C4rSA1LCA2PC90ZXh0PjxyZWN0IHg9IjQwIiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSI2NiIgeT0iODAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4YTkwOWEiPjE8L3RleHQ+PHJlY3QgeD0iMTA2IiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIxMzIiIHk9IjgwIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOGE5MDlhIj4yPC90ZXh0PjxyZWN0IHg9IjE3MiIgeT0iNDQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjEyIiBmaWxsPSIjRjFGM0Y2IiBzdHJva2U9IiNkNWQ5ZGUiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMTk4IiB5PSI4MCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+MzwvdGV4dD48cmVjdCB4PSIyMzgiIHk9IjQ0IiB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSIxMiIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjI2NCIgeT0iODAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4YTkwOWEiPjQ8L3RleHQ+PHJlY3QgeD0iMzA0IiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNFNDExMUYiIHN0cm9rZT0iI0U0MTExRiIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIzMzAiIHk9IjgwIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIj41PC90ZXh0PjxyZWN0IHg9IjM3MCIgeT0iNDQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjEyIiBmaWxsPSIjRTQxMTFGIiBzdHJva2U9IiNFNDExMUYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMzk2IiB5PSI4MCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+NjwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "ทอยลูกเต๋า 1 ลูก ความน่าจะเป็นที่จะได้แต้มที่หารด้วย 3 ลงตัวเท่ากับเท่าใด",
+    "choices": [
+     "1/6",
+     "1/3",
+     "1/2",
      "2/3"
     ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ไม่แดง = 8 จาก 10\n\nวิธีทำ\n→ 8/10 = 4/5\n\n✓ ตอบ: 4/5"
+    "answer": 1,
+    "explain": "💡 แต้มที่หารด้วย 3 ลงตัว มีกี่หน้า จาก 6\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (หารด้วย 3 ลงตัว)/(6)\nแต้มที่หาร 3 ลงตัวคือ 3 และ 6 → 2 หน้า\n🟰 P = (2)/(6) = (1)/(3)\n✓ ตอบ 1/3",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzYgMTEyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzNiIgaGVpZ2h0PSIxMTIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMjAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Liy4Lij4LiU4LmJ4Lin4LiiIDMg4Lil4LiH4LiV4Lix4LinOiAzLCA2PC90ZXh0PjxyZWN0IHg9IjQwIiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSI2NiIgeT0iODAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4YTkwOWEiPjE8L3RleHQ+PHJlY3QgeD0iMTA2IiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIxMzIiIHk9IjgwIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOGE5MDlhIj4yPC90ZXh0PjxyZWN0IHg9IjE3MiIgeT0iNDQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjEyIiBmaWxsPSIjRTQxMTFGIiBzdHJva2U9IiNFNDExMUYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMTk4IiB5PSI4MCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+MzwvdGV4dD48cmVjdCB4PSIyMzgiIHk9IjQ0IiB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSIxMiIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjI2NCIgeT0iODAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4YTkwOWEiPjQ8L3RleHQ+PHJlY3QgeD0iMzA0IiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIzMzAiIHk9IjgwIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOGE5MDlhIj41PC90ZXh0PjxyZWN0IHg9IjM3MCIgeT0iNDQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjEyIiBmaWxsPSIjRTQxMTFGIiBzdHJva2U9IiNFNDExMUYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMzk2IiB5PSI4MCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+NjwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "กล่องมีบัตรเลข 1–8 หยิบ 1 ใบ ความน่าจะเป็นที่ได้เลขคู่",
+    "q": "สุ่มหยิบบัตรหมายเลข 1 ถึง 10 มา 1 ใบ ความน่าจะเป็นที่จะได้หมายเลขคู่เท่ากับเท่าใด",
     "choices": [
+     "1/10",
+     "2/5",
      "1/2",
-     "1/4",
+     "3/5"
+    ],
+    "answer": 2,
+    "explain": "💡 มีบัตร 10 ใบ (ทั้งหมด) นับใบที่เป็นเลขคู่\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (เลขคู่)/(10)\nเลขคู่ 1–10 คือ 2,4,6,8,10 → 5 ใบ (สีแดงในภาพ)\n🟰 P(คู่) = (5)/(10) = (1)/(2)\n✓ ตอบ 1/2",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgMTY4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjMyMCIgaGVpZ2h0PSIxNjgiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIxNjAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lia4Lix4LiV4LijIDHigJMxMCDCtyDguYDguKXguILguITguLnguYjguYHguJTguIc8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjQ0IiB3aWR0aD0iNDYiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNCIvPjx0ZXh0IHg9IjUzIiB5PSI3NSIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+MTwvdGV4dD48cmVjdCB4PSI4OCIgeT0iNDQiIHdpZHRoPSI0NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRTQxMTFGIiBzdHJva2U9IiNFNDExMUYiIHN0cm9rZS13aWR0aD0iMi40Ii8+PHRleHQgeD0iMTExIiB5PSI3NSIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+MjwvdGV4dD48cmVjdCB4PSIxNDYiIHk9IjQ0IiB3aWR0aD0iNDYiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNCIvPjx0ZXh0IHg9IjE2OSIgeT0iNzUiIGZvbnQtc2l6ZT0iMjEiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM4YTkwOWEiPjM8L3RleHQ+PHJlY3QgeD0iMjA0IiB5PSI0NCIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFNDExMUYiIHN0cm9rZT0iI0U0MTExRiIgc3Ryb2tlLXdpZHRoPSIyLjQiLz48dGV4dCB4PSIyMjciIHk9Ijc1IiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIj40PC90ZXh0PjxyZWN0IHg9IjI2MiIgeT0iNDQiIHdpZHRoPSI0NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRjFGM0Y2IiBzdHJva2U9IiNkNWQ5ZGUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjg1IiB5PSI3NSIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+NTwvdGV4dD48cmVjdCB4PSIzMCIgeT0iMTAyIiB3aWR0aD0iNDYiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0U0MTExRiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNCIvPjx0ZXh0IHg9IjUzIiB5PSIxMzMiIGZvbnQtc2l6ZT0iMjEiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiPjY8L3RleHQ+PHJlY3QgeD0iODgiIHk9IjEwMiIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIxMTEiIHk9IjEzMyIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+NzwvdGV4dD48cmVjdCB4PSIxNDYiIHk9IjEwMiIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFNDExMUYiIHN0cm9rZT0iI0U0MTExRiIgc3Ryb2tlLXdpZHRoPSIyLjQiLz48dGV4dCB4PSIxNjkiIHk9IjEzMyIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+ODwvdGV4dD48cmVjdCB4PSIyMDQiIHk9IjEwMiIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIyMjciIHk9IjEzMyIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+OTwvdGV4dD48cmVjdCB4PSIyNjIiIHk9IjEwMiIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFNDExMUYiIHN0cm9rZT0iI0U0MTExRiIgc3Ryb2tlLXdpZHRoPSIyLjQiLz48dGV4dCB4PSIyODUiIHk9IjEzMyIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+MTA8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "สุ่มหยิบบัตรหมายเลข 1 ถึง 10 มา 1 ใบ ความน่าจะเป็นที่จะได้หมายเลขที่หารด้วย 3 ลงตัวเท่ากับเท่าใด",
+    "choices": [
      "1/3",
-     "3/2"
+     "1/10",
+     "2/5",
+     "3/10"
+    ],
+    "answer": 3,
+    "explain": "💡 นับใบที่หารด้วย 3 ลงตัว จากทั้งหมด 10 ใบ\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (หารด้วย 3 ลงตัว)/(10)\nคือ 3, 6, 9 → 3 ใบ (สีแดงในภาพ)\n🟰 P = (3)/(10)\n✓ ตอบ 3/10",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgMTY4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjMyMCIgaGVpZ2h0PSIxNjgiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIxNjAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lia4Lix4LiV4LijIDHigJMxMCDCtyDguKvguLLguKMgMyDguKXguIfguJXguLHguKc8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjQ0IiB3aWR0aD0iNDYiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNCIvPjx0ZXh0IHg9IjUzIiB5PSI3NSIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+MTwvdGV4dD48cmVjdCB4PSI4OCIgeT0iNDQiIHdpZHRoPSI0NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRjFGM0Y2IiBzdHJva2U9IiNkNWQ5ZGUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMTExIiB5PSI3NSIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+MjwvdGV4dD48cmVjdCB4PSIxNDYiIHk9IjQ0IiB3aWR0aD0iNDYiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0U0MTExRiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNCIvPjx0ZXh0IHg9IjE2OSIgeT0iNzUiIGZvbnQtc2l6ZT0iMjEiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiPjM8L3RleHQ+PHJlY3QgeD0iMjA0IiB5PSI0NCIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIyMjciIHk9Ijc1IiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOGE5MDlhIj40PC90ZXh0PjxyZWN0IHg9IjI2MiIgeT0iNDQiIHdpZHRoPSI0NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRjFGM0Y2IiBzdHJva2U9IiNkNWQ5ZGUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjg1IiB5PSI3NSIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+NTwvdGV4dD48cmVjdCB4PSIzMCIgeT0iMTAyIiB3aWR0aD0iNDYiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0U0MTExRiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNCIvPjx0ZXh0IHg9IjUzIiB5PSIxMzMiIGZvbnQtc2l6ZT0iMjEiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiPjY8L3RleHQ+PHJlY3QgeD0iODgiIHk9IjEwMiIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIxMTEiIHk9IjEzMyIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+NzwvdGV4dD48cmVjdCB4PSIxNDYiIHk9IjEwMiIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIxNjkiIHk9IjEzMyIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+ODwvdGV4dD48cmVjdCB4PSIyMDQiIHk9IjEwMiIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFNDExMUYiIHN0cm9rZT0iI0U0MTExRiIgc3Ryb2tlLXdpZHRoPSIyLjQiLz48dGV4dCB4PSIyMjciIHk9IjEzMyIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+OTwvdGV4dD48cmVjdCB4PSIyNjIiIHk9IjEwMiIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIyODUiIHk9IjEzMyIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzhhOTA5YSI+MTA8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "ในกล่องมีสลาก 20 ใบ ถูกรางวัล 4 ใบ ที่เหลือไม่ถูกรางวัล สุ่ม 1 ใบ ความน่าจะเป็นที่จะ ‘ไม่ถูกรางวัล’ เท่ากับเท่าใด",
+    "choices": [
+     "4/5",
+     "1/5",
+     "16/25",
+     "3/4"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: 2,4,6,8 = 4 ใบ\n\nวิธีทำ\n→ 4/8 = 1/2\n\n✓ ตอบ: 1/2"
+    "explain": "💡 ‘ไม่ถูก’ คือส่วนที่เหลือ — คิดตรง ๆ หรือใช้ P(ไม่เกิด) = 1 − P(เกิด)\n📐 สูตรที่ใช้\n• ส่วนเติมเต็ม — P(ไม่ถูก) = 1 − P(ถูก)\nไม่ถูก = 20 − 4 = 16 ใบ (บล็อกเขียวในภาพ)\n🟰 P(ไม่ถูก) = (16)/(20) = (4)/(5)\nหรือ 1 − (4)/(20) = (4)/(5) ✔\n✓ ตอบ 4/5",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NjAgMTI0IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ2MCIgaGVpZ2h0PSIxMjQiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Liq4Lil4Liy4LiB4LiX4Lix4LmJ4LiH4Lir4Lih4LiUIDIwIOC5g+C4mjwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDIiIHdpZHRoPSI4MCIgaGVpZ2h0PSI0NiIgcng9IjYiIGZpbGw9IiNFNDcwN0EiLz48cmVjdCB4PSIxMTAiIHk9IjQyIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjQ2IiByeD0iNiIgZmlsbD0iIzY2Qjc4NCIvPjx0ZXh0IHg9IjcwIiB5PSI3MyIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+NDwvdGV4dD48dGV4dCB4PSIyNzAiIHk9IjczIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIj4xNjwvdGV4dD48dGV4dCB4PSI3MCIgeT0iMTA4IiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5QTJDMkMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guJbguLnguIHguKPguLLguIfguKfguLHguKU8L3RleHQ+PHRleHQgeD0iMjcwIiB5PSIxMDgiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFFN0E0NCIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5hOC4oeC5iOC4luC4ueC4geC4o+C4suC4h+C4p+C4seC4pTwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "ถ้าเหตุการณ์ E มีความน่าจะเป็น P(E) = 1/4 ความน่าจะเป็นที่เหตุการณ์ E จะไม่เกิดขึ้นเท่ากับเท่าใด",
+    "q": "ทอยลูกเต๋า 1 ลูก ความน่าจะเป็นที่จะ ‘ไม่ได้แต้ม 6’ เท่ากับเท่าใด",
     "choices": [
-     "3/5",
+     "1/6",
+     "5/6",
+     "4/6",
+     "1/2"
+    ],
+    "answer": 1,
+    "explain": "💡 ‘ไม่ได้ 6’ คือได้แต้มอื่น ๆ — นับ 1,2,3,4,5\n📐 สูตรที่ใช้\n• ส่วนเติมเต็ม — P(ไม่ได้ 6) = 1 − P(ได้ 6)\nแต้มที่ไม่ใช่ 6 มี 5 หน้า (สีแดงในภาพ)\n🟰 P(ไม่ได้ 6) = (5)/(6)  หรือ 1 − (1)/(6) = (5)/(6)\n✓ ตอบ 5/6",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MzYgMTEyIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQzNiIgaGVpZ2h0PSIxMTIiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMjAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LmE4Lih4LmI4LmE4LiU4LmJIDYgPSAxLDIsMyw0LDU8L3RleHQ+PHJlY3QgeD0iNDAiIHk9IjQ0IiB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSIxMiIgZmlsbD0iI0U0MTExRiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjY2IiB5PSI4MCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+MTwvdGV4dD48cmVjdCB4PSIxMDYiIHk9IjQ0IiB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSIxMiIgZmlsbD0iI0U0MTExRiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjEzMiIgeT0iODAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiPjI8L3RleHQ+PHJlY3QgeD0iMTcyIiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNFNDExMUYiIHN0cm9rZT0iI0U0MTExRiIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSIxOTgiIHk9IjgwIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIj4zPC90ZXh0PjxyZWN0IHg9IjIzOCIgeT0iNDQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjEyIiBmaWxsPSIjRTQxMTFGIiBzdHJva2U9IiNFNDExMUYiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iMjY0IiB5PSI4MCIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+NDwvdGV4dD48cmVjdCB4PSIzMDQiIHk9IjQ0IiB3aWR0aD0iNTIiIGhlaWdodD0iNTIiIHJ4PSIxMiIgZmlsbD0iI0U0MTExRiIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNSIvPjx0ZXh0IHg9IjMzMCIgeT0iODAiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiPjU8L3RleHQ+PHJlY3QgeD0iMzcwIiB5PSI0NCIgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSIzOTYiIHk9IjgwIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOGE5MDlhIj42PC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "โยนเหรียญ 2 เหรียญพร้อมกัน ความน่าจะเป็นที่ออกหัวทั้งสองเหรียญเท่ากับเท่าใด",
+    "choices": [
      "1/2",
+     "1/3",
      "1/4",
      "3/4"
     ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: 1 − P(E)\n\nวิธีทำ\n→ 1 − 1/4 = 3/4\n\n✓ ตอบ: 3/4"
-   },
-   {
-    "q": "ถ้าความน่าจะเป็นที่ฝนตก = 0.3 ความน่าจะเป็นที่ฝนไม่ตกเท่าใด",
-    "choices": [
-     "0.3",
-     "0.7",
-     "1.7",
-     "1.0"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: 1 − P\n\nวิธีทำ\n→ 1 − 0.3 = 0.7\n\n✓ ตอบ: 0.7"
-   },
-   {
-    "q": "ถ้าเหตุการณ์ E มีความน่าจะเป็น P(E) = 2/5 ความน่าจะเป็นที่เหตุการณ์ E จะไม่เกิดขึ้นเท่ากับเท่าใด",
-    "choices": [
-     "1/2",
-     "3/5",
-     "4/5",
-     "2/5"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: 1 − P(E)\n\nวิธีทำ\n→ 1 − 2/5 = 3/5\n\n✓ ตอบ: 3/5"
-   },
-   {
-    "q": "ทอยลูกเต๋า 1 ลูก 1 ครั้ง ความน่าจะเป็นที่จะไม่ได้แต้ม 1 เท่ากับเท่าใด",
-    "choices": [
-     "5/12",
-     "5/7",
-     "5/6",
-     "2/3"
-    ],
     "answer": 2,
-    "explain": "หลักที่ใช้: 1 − 1/6\n\nวิธีทำ\n→ 5/6\n\n✓ ตอบ: 5/6"
+    "explain": "💡 โยน 2 เหรียญ ผลที่เป็นไปได้ 4 แบบ (ดูในภาพ)\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (แบบที่ต้องการ)/(4)\n‘หัว-หัว’ มี 1 แบบ (ช่องเขียว) จาก 4 แบบ\n🟰 P(หัว-หัว) = (1)/(4)\n⚠️ อย่าตอบ 1/2 (นั่นคือเหรียญเดียว)\n✓ ตอบ 1/4",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NzAgMTIwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ3MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LmC4Lii4LiZIDIg4LmA4Lir4Lij4Li14Lii4LiNID0gNCDguYHguJrguJo8L3RleHQ+PHJlY3QgeD0iMzQiIHk9IjQyIiB3aWR0aD0iOTIiIGhlaWdodD0iNjAiIHJ4PSIxMiIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjgwIiB5PSI2OCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0Pjx0ZXh0IHg9IjgwIiB5PSI5MCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0PjxyZWN0IHg9IjE0MiIgeT0iNDIiIHdpZHRoPSI5MiIgaGVpZ2h0PSI2MCIgcng9IjEyIiBmaWxsPSIjRjFGM0Y2IiBzdHJva2U9IiNkNWQ5ZGUiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHRleHQgeD0iMTg4IiB5PSI2OCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjN2E4MDhhIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0Pjx0ZXh0IHg9IjE4OCIgeT0iOTAiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzdhODA4YSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4geC5ieC4reC4ojwvdGV4dD48cmVjdCB4PSIyNTAiIHk9IjQyIiB3aWR0aD0iOTIiIGhlaWdodD0iNjAiIHJ4PSIxMiIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjI5NiIgeT0iNjgiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzdhODA4YSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4geC5ieC4reC4ojwvdGV4dD48dGV4dCB4PSIyOTYiIHk9IjkwIiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM3YTgwOGEiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guKvguLHguKc8L3RleHQ+PHJlY3QgeD0iMzU4IiB5PSI0MiIgd2lkdGg9IjkyIiBoZWlnaHQ9IjYwIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSI0MDQiIHk9IjY4IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM3YTgwOGEiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guIHguYnguK3guKI8L3RleHQ+PHRleHQgeD0iNDA0IiB5PSI5MCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjN2E4MDhhIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LiB4LmJ4Lit4LiiPC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "ถุงมีลูกบอล 12 ลูก เป็นสีแดง 4 ลูก ความน่าจะเป็นที่หยิบไม่ได้สีแดง",
-    "choices": [
-     "4/3",
-     "1/3",
-     "2/3",
-     "1/2"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ไม่แดง = 8 จาก 12\n\nวิธีทำ\n→ 8/12 = 2/3\n\n✓ ตอบ: 2/3"
-   },
-   {
-    "q": "ความน่าจะเป็นของเหตุการณ์หนึ่งเท่ากับ 0.6 คิดเป็นโอกาสร้อยละเท่าใด",
-    "choices": [
-     "1%",
-     "60%",
-     "61%",
-     "100%"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: × 100\n\nวิธีทำ\n→ 0.6 × 100 = 60%\n\n✓ ตอบ: 60%"
-   },
-   {
-    "q": "สุ่มหยิบไพ่ 1 ใบ จากสำรับที่มีไพ่ 52 ใบ ความน่าจะเป็นที่จะไม่ได้ไพ่ A เท่ากับเท่าใด",
-    "choices": [
-     "6/13",
-     "11/13",
-     "12/13",
-     "6/7"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ไม่ใช่ A = 48 ใบ\n\nวิธีทำ\n→ 48/52 = 12/13\n\n✓ ตอบ: 12/13"
-   },
-   {
-    "q": "โอกาสถูกรางวัล 1 ใน 100 คิดเป็นความน่าจะเป็นเท่าใด (ทศนิยม)",
-    "choices": [
-     "0.02",
-     "0.01",
-     "2.01",
-     "1.01"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: 1/100\n\nวิธีทำ\n→ 1/100 = 0.01\n\n✓ ตอบ: 0.01"
-   },
-   {
-    "q": "สุ่มเลข 1–50 ความน่าจะเป็นที่หารด้วย 10 ลงตัว",
-    "choices": [
-     "1/5",
-     "1/9",
-     "1/11",
-     "1/10"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: 10,20,30,40,50 = 5 ตัว\n\nวิธีทำ\n→ 5/50 = 1/10\n\n✓ ตอบ: 1/10"
-   },
-   {
-    "q": "สุ่มเลข 1–50 ความน่าจะเป็นที่ได้เลขมากกว่า 45",
-    "choices": [
-     "1/10",
-     "1/9",
-     "1/5",
-     "1/11"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: 46,47,48,49,50 = 5 ตัว\n\nวิธีทำ\n→ 5/50 = 1/10\n\n✓ ตอบ: 1/10"
-   },
-   {
-    "q": "ถุงมีบอลแดง 6 น้ำเงิน 4 หยิบ 1 ลูก ความน่าจะเป็นที่ได้สีแดง (เขียนเป็นทศนิยม)",
-    "choices": [
-     "1.6",
-     "0.6",
-     "1.2",
-     "2.6"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: 6 จาก 10\n\nวิธีทำ\n→ 6/10 = 0.6\n\n✓ ตอบ: 0.6"
-   },
-   {
-    "q": "ทอยลูกเต๋า 2 ลูก ความน่าจะเป็นที่ผลรวมแต้มเท่ากับ 12",
-    "choices": [
-     "1/18",
-     "1/35",
-     "1/37",
-     "1/36"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: มีเพียง (6,6)\n\nวิธีทำ\n→ 1/36\n\n✓ ตอบ: 1/36"
-   },
-   {
-    "q": "ทอยลูกเต๋า 2 ลูก ความน่าจะเป็นที่ผลรวมแต้มไม่เกิน 4",
-    "choices": [
-     "1/3",
-     "1/7",
-     "1/5",
-     "1/6"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ผลรวม 2,3,4\n\nวิธีทำ\n→ รวม2:1, รวม3:2, รวม4:3 → 6 แบบ\n→ 6/36 = 1/6\n\n✓ ตอบ: 1/6"
-   },
-   {
-    "q": "โยนเหรียญ 3 เหรียญพร้อมกัน 1 ครั้ง จะมีผลลัพธ์ที่เป็นไปได้ทั้งหมดกี่แบบ",
-    "choices": [
-     "7 แบบ",
-     "9 แบบ",
-     "2 แบบ",
-     "8 แบบ"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: 2³\n\nวิธีทำ\n→ 2³ = 8 แบบ\n\n✓ ตอบ: 8 แบบ"
-   },
-   {
-    "q": "โยนเหรียญ 3 เหรียญ ความน่าจะเป็นที่ได้หัวทั้งสาม",
+    "q": "โยนเหรียญ 2 เหรียญพร้อมกัน ความน่าจะเป็นที่ได้หัว ‘อย่างน้อย 1 เหรียญ’ เท่ากับเท่าใด",
     "choices": [
      "1/4",
-     "1/8",
-     "1/7",
+     "1/2",
+     "2/3",
+     "3/4"
+    ],
+    "answer": 3,
+    "explain": "💡 ‘อย่างน้อย 1 หัว’ คือทุกแบบ ยกเว้น ‘ก้อยทั้งคู่’\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (แบบที่มีหัวอย่างน้อย 1)/(4)\nแบบที่มีหัว: หัว-หัว, หัว-ก้อย, ก้อย-หัว → 3 แบบ (เขียวในภาพ)\n🟰 P = (3)/(4)  หรือ 1 − (1)/(4) = (3)/(4)\n✓ ตอบ 3/4",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NzAgMTIwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ3MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LmC4Lii4LiZIDIg4LmA4Lir4Lij4Li14Lii4LiNID0gNCDguYHguJrguJo8L3RleHQ+PHJlY3QgeD0iMzQiIHk9IjQyIiB3aWR0aD0iOTIiIGhlaWdodD0iNjAiIHJ4PSIxMiIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjgwIiB5PSI2OCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0Pjx0ZXh0IHg9IjgwIiB5PSI5MCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0PjxyZWN0IHg9IjE0MiIgeT0iNDIiIHdpZHRoPSI5MiIgaGVpZ2h0PSI2MCIgcng9IjEyIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMi42Ii8+PHRleHQgeD0iMTg4IiB5PSI2OCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0Pjx0ZXh0IHg9IjE4OCIgeT0iOTAiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4geC5ieC4reC4ojwvdGV4dD48cmVjdCB4PSIyNTAiIHk9IjQyIiB3aWR0aD0iOTIiIGhlaWdodD0iNjAiIHJ4PSIxMiIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjI5NiIgeT0iNjgiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4geC5ieC4reC4ojwvdGV4dD48dGV4dCB4PSIyOTYiIHk9IjkwIiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guKvguLHguKc8L3RleHQ+PHJlY3QgeD0iMzU4IiB5PSI0MiIgd2lkdGg9IjkyIiBoZWlnaHQ9IjYwIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSI0MDQiIHk9IjY4IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM3YTgwOGEiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guIHguYnguK3guKI8L3RleHQ+PHRleHQgeD0iNDA0IiB5PSI5MCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjN2E4MDhhIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LiB4LmJ4Lit4LiiPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "โยนเหรียญ 2 เหรียญพร้อมกัน ความน่าจะเป็นที่ได้หัว ‘เพียง 1 เหรียญ’ เท่ากับเท่าใด",
+    "choices": [
+     "1/2",
+     "1/4",
+     "3/4",
+     "1/3"
+    ],
+    "answer": 0,
+    "explain": "💡 ‘หัวเพียง 1’ คือหัวหนึ่งเหรียญ ก้อยอีกเหรียญ\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (แบบที่มีหัว 1 ก้อย 1)/(4)\nคือ หัว-ก้อย และ ก้อย-หัว → 2 แบบ (เขียวในภาพ)\n🟰 P = (2)/(4) = (1)/(2)\n✓ ตอบ 1/2",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NzAgMTIwIiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ3MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LmC4Lii4LiZIDIg4LmA4Lir4Lij4Li14Lii4LiNID0gNCDguYHguJrguJo8L3RleHQ+PHJlY3QgeD0iMzQiIHk9IjQyIiB3aWR0aD0iOTIiIGhlaWdodD0iNjAiIHJ4PSIxMiIgZmlsbD0iI0YxRjNGNiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjgwIiB5PSI2OCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjN2E4MDhhIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0Pjx0ZXh0IHg9IjgwIiB5PSI5MCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjN2E4MDhhIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0PjxyZWN0IHg9IjE0MiIgeT0iNDIiIHdpZHRoPSI5MiIgaGVpZ2h0PSI2MCIgcng9IjEyIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMi42Ii8+PHRleHQgeD0iMTg4IiB5PSI2OCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lir4Lix4LinPC90ZXh0Pjx0ZXh0IHg9IjE4OCIgeT0iOTAiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4geC5ieC4reC4ojwvdGV4dD48cmVjdCB4PSIyNTAiIHk9IjQyIiB3aWR0aD0iOTIiIGhlaWdodD0iNjAiIHJ4PSIxMiIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjI5NiIgeT0iNjgiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4geC5ieC4reC4ojwvdGV4dD48dGV4dCB4PSIyOTYiIHk9IjkwIiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guKvguLHguKc8L3RleHQ+PHJlY3QgeD0iMzU4IiB5PSI0MiIgd2lkdGg9IjkyIiBoZWlnaHQ9IjYwIiByeD0iMTIiIGZpbGw9IiNGMUYzRjYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSI0MDQiIHk9IjY4IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM3YTgwOGEiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guIHguYnguK3guKI8L3RleHQ+PHRleHQgeD0iNDA0IiB5PSI5MCIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjN2E4MDhhIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LiB4LmJ4Lit4LiiPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "ทอยลูกเต๋า 2 ลูกพร้อมกัน ความน่าจะเป็นที่ผลรวมแต้มเท่ากับ 7 เป็นเท่าใด",
+    "choices": [
+     "1/12",
+     "1/6",
+     "7/36",
      "1/9"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: 1 จาก 8\n\nวิธีทำ\n→ 1/8\n\n✓ ตอบ: 1/8"
+    "explain": "💡 ทอย 2 ลูก ทั้งหมด 6×6 = 36 แบบ แล้วนับคู่ที่รวมได้ 7\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (คู่รวม 7)/(36)\nคู่ที่รวม 7 มี 6 คู่ (กล่องเขียวในภาพ)\n🟰 P(รวม 7) = (6)/(36) = (1)/(6)\n✓ ตอบ 1/6",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODIgMTI4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ4MiIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guJzguKXguKPguKfguKEgPSA3IOC4oeC4tSA2IOC4hOC4ueC5iDwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDIiIHdpZHRoPSI2NiIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjU3IiB5PSI2OSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjEgKyA2PC90ZXh0PjxyZWN0IHg9Ijk4IiB5PSI0MiIgd2lkdGg9IjY2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTMxIiB5PSI2OSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjIgKyA1PC90ZXh0PjxyZWN0IHg9IjE3MiIgeT0iNDIiIHdpZHRoPSI2NiIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjIwNSIgeT0iNjkiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4zICsgNDwvdGV4dD48cmVjdCB4PSIyNDYiIHk9IjQyIiB3aWR0aD0iNjYiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyNzkiIHk9IjY5IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+NCArIDM8L3RleHQ+PHJlY3QgeD0iMzIwIiB5PSI0MiIgd2lkdGg9IjY2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzUzIiB5PSI2OSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjUgKyAyPC90ZXh0PjxyZWN0IHg9IjM5NCIgeT0iNDIiIHdpZHRoPSI2NiIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjQyNyIgeT0iNjkiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj42ICsgMTwvdGV4dD48dGV4dCB4PSIyMzAiIHk9IjExMiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4iOC4suC4geC4l+C4seC5ieC4h+C4q+C4oeC4lCA2IMOXIDYgPSAzNiDguYHguJrguJo8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "สุ่มนักเรียน 1 คนจาก 30 คน (ชาย 18 หญิง 12) ความน่าจะเป็นที่ได้ผู้หญิง",
+    "q": "ทอยลูกเต๋า 2 ลูกพร้อมกัน ความน่าจะเป็นที่ผลรวมแต้มเท่ากับ 8 เป็นเท่าใด",
     "choices": [
-     "1/3",
-     "2/5",
-     "1/5",
-     "3/5"
+     "1/6",
+     "1/9",
+     "5/36",
+     "6/36"
     ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: 12 จาก 30\n\nวิธีทำ\n→ 12/30 = 2/5\n\n✓ ตอบ: 2/5"
+    "answer": 2,
+    "explain": "💡 นับคู่ที่รวมได้ 8 จากทั้งหมด 36 แบบ\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (คู่รวม 8)/(36)\nคู่ที่รวม 8: (2,6)(3,5)(4,4)(5,3)(6,2) → 5 คู่ (กล่องเขียวในภาพ)\n🟰 P(รวม 8) = (5)/(36)\n⚠️ ระวัง 8 มี 5 คู่ (ไม่ใช่ 6 เหมือน 7)\n✓ ตอบ 5/36",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NjAgMTI4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ2MCIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guJzguKXguKPguKfguKEgPSA4IOC4oeC4tSA1IOC4hOC4ueC5iDwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDIiIHdpZHRoPSI2NiIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjU3IiB5PSI2OSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjIgKyA2PC90ZXh0PjxyZWN0IHg9Ijk4IiB5PSI0MiIgd2lkdGg9IjY2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTMxIiB5PSI2OSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjMgKyA1PC90ZXh0PjxyZWN0IHg9IjE3MiIgeT0iNDIiIHdpZHRoPSI2NiIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjIwNSIgeT0iNjkiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj40ICsgNDwvdGV4dD48cmVjdCB4PSIyNDYiIHk9IjQyIiB3aWR0aD0iNjYiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyNzkiIHk9IjY5IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+NSArIDM8L3RleHQ+PHJlY3QgeD0iMzIwIiB5PSI0MiIgd2lkdGg9IjY2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzUzIiB5PSI2OSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjYgKyAyPC90ZXh0Pjx0ZXh0IHg9IjIzMCIgeT0iMTEyIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LiI4Liy4LiB4LiX4Lix4LmJ4LiH4Lir4Lih4LiUIDYgw5cgNiA9IDM2IOC5geC4muC4mjwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "สลากกินแบ่ง มีความน่าจะเป็นถูกรางวัล 1/1000 คิดเป็นร้อยละเท่าใด",
+    "q": "ทอยลูกเต๋า 2 ลูกพร้อมกัน ความน่าจะเป็นที่ได้แต้มเท่ากันทั้งสองลูก (เลขคู่แฝด) เป็นเท่าใด",
     "choices": [
-     "2.1%",
-     "0.0%",
-     "1.1%",
-     "0.1%"
+     "1/36",
+     "1/12",
+     "1/3",
+     "1/6"
     ],
     "answer": 3,
-    "explain": "หลักที่ใช้: × 100\n\nวิธีทำ\n→ 1/1000 × 100 = 0.1%\n\n✓ ตอบ: 0.1%"
+    "explain": "💡 ‘แต้มเท่ากัน’ คือทั้งสองลูกออกเลขเดียวกัน\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (คู่ที่เท่ากัน)/(36)\nคู่ที่เท่ากัน: (1,1)(2,2)(3,3)(4,4)(5,5)(6,6) → 6 คู่\n🟰 P = (6)/(36) = (1)/(6)\n✓ ตอบ 1/6",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODIgMTI4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ4MiIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guYHguJXguYnguKHguYDguJfguYjguLLguIHguLHguJkgKOC4hOC4ueC5iOC5geC4neC4lCkg4Lih4Li1IDYg4LiE4Li54LmIPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI0MiIgd2lkdGg9IjY2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTciIHk9IjY5IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+MSArIDE8L3RleHQ+PHJlY3QgeD0iOTgiIHk9IjQyIiB3aWR0aD0iNjYiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxMzEiIHk9IjY5IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+MiArIDI8L3RleHQ+PHJlY3QgeD0iMTcyIiB5PSI0MiIgd2lkdGg9IjY2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjA1IiB5PSI2OSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjMgKyAzPC90ZXh0PjxyZWN0IHg9IjI0NiIgeT0iNDIiIHdpZHRoPSI2NiIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjI3OSIgeT0iNjkiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj40ICsgNDwvdGV4dD48cmVjdCB4PSIzMjAiIHk9IjQyIiB3aWR0aD0iNjYiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzNTMiIHk9IjY5IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+NSArIDU8L3RleHQ+PHJlY3QgeD0iMzk0IiB5PSI0MiIgd2lkdGg9IjY2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNDI3IiB5PSI2OSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzBFNUEzMiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjYgKyA2PC90ZXh0Pjx0ZXh0IHg9IjIzMCIgeT0iMTEyIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LiI4Liy4LiB4LiX4Lix4LmJ4LiH4Lir4Lih4LiUIDYgw5cgNiA9IDM2IOC5geC4muC4mjwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "ถุงมีบัตรเลข 1–15 หยิบ 1 ใบ ความน่าจะเป็นที่ได้จำนวนเฉพาะ",
+    "q": "ทอยลูกเต๋า 2 ลูกพร้อมกัน ความน่าจะเป็นที่ได้แต้ม 6 ทั้งสองลูกเป็นเท่าใด",
     "choices": [
-     "1/3",
-     "2/5",
-     "3/5",
-     "1/5"
+     "1/36",
+     "1/6",
+     "2/6",
+     "1/12"
+    ],
+    "answer": 0,
+    "explain": "💡 เหตุการณ์อิสระ (ลูกหนึ่งไม่กระทบอีกลูก) → เอาความน่าจะเป็นมาคูณกัน\n📐 สูตรที่ใช้\n• เหตุการณ์อิสระ — P(A และ B) = P(A) × P(B)\nแต่ละลูก P(ได้ 6) = (1)/(6)\n🟰 P(6 ทั้งคู่) = (1)/(6) × (1)/(6) = (1)/(36)\n✓ ตอบ 1/36",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NjAgMTI4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ2MCIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwRTVBMzIiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guYTguJTguYkgNiDguJfguLHguYnguIfguKrguK3guIfguKXguLnguIEg4Lih4Li1IDEg4LmB4Lia4LiaPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI0MiIgd2lkdGg9IjY2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTciIHk9IjY5IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMEU1QTMyIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+NiArIDY8L3RleHQ+PHRleHQgeD0iMjMwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guIjguLLguIHguJfguLHguYnguIfguKvguKHguJQgNiDDlyA2ID0gMzYg4LmB4Lia4LiaPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "สุ่มหยิบไพ่ 1 ใบ จากสำรับ 52 ใบ ความน่าจะเป็นที่จะได้ไพ่ดอกโพแดง (♥) เท่ากับเท่าใด",
+    "choices": [
+     "1/13",
+     "1/4",
+     "1/52",
+     "13/26"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: เฉพาะ: 2,3,5,7,11,13 = 6 ตัว\n\nวิธีทำ\n→ 6/15 = 2/5\n\n✓ ตอบ: 2/5"
+    "explain": "💡 ไพ่ 52 ใบ = 4 ดอก ดอกละ 13 ใบ (ดูในภาพ) โพแดงเป็นหนึ่งดอก\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (โพแดง)/(52)\nโพแดง 13 ใบ ; ทั้งหมด 52 ใบ\n🟰 P(โพแดง) = (13)/(52) = (1)/(4)\n✓ ตอบ 1/4",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NzAgMTI4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ3MCIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LmE4Lie4LmIIDUyIOC5g+C4miA9IDQg4LiU4Lit4LiBIOC4lOC4reC4geC4peC4sCAxMyDguYPguJo8L3RleHQ+PHJlY3QgeD0iMzQiIHk9IjQwIiB3aWR0aD0iOTIiIGhlaWdodD0iNzIiIHJ4PSIxMSIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNCIvPjx0ZXh0IHg9IjgwIiB5PSI4MiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyI+4pmgPC90ZXh0Pjx0ZXh0IHg9IjgwIiB5PSIxMDIiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjEzIOC5g+C4mjwvdGV4dD48cmVjdCB4PSIxNDIiIHk9IjQwIiB3aWR0aD0iOTIiIGhlaWdodD0iNzIiIHJ4PSIxMSIgZmlsbD0iI0ZERUNFQyIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjE4OCIgeT0iODIiIGZvbnQtc2l6ZT0iMzAiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiPuKZpTwvdGV4dD48dGV4dCB4PSIxODgiIHk9IjEwMiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+MTMg4LmD4LiaPC90ZXh0PjxyZWN0IHg9IjI1MCIgeT0iNDAiIHdpZHRoPSI5MiIgaGVpZ2h0PSI3MiIgcng9IjExIiBmaWxsPSIjZmZmIiBzdHJva2U9IiNkNWQ5ZGUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjk2IiB5PSI4MiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0MTExRiI+4pmmPC90ZXh0Pjx0ZXh0IHg9IjI5NiIgeT0iMTAyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4xMyDguYPguJo8L3RleHQ+PHJlY3QgeD0iMzU4IiB5PSI0MCIgd2lkdGg9IjkyIiBoZWlnaHQ9IjcyIiByeD0iMTEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSI0MDQiIHk9IjgyIiBmb250LXNpemU9IjMwIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIj7imaM8L3RleHQ+PHRleHQgeD0iNDA0IiB5PSIxMDIiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjEzIOC5g+C4mjwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "สุ่มหยิบไพ่ 1 ใบ จากสำรับ 52 ใบ ความน่าจะเป็นที่จะได้ไพ่ ‘สีแดง’ (โพแดง ♥ หรือ ข้าวหลามตัด ♦) เท่ากับเท่าใด",
+    "choices": [
+     "1/4",
+     "13/52",
+     "1/2",
+     "2/13"
+    ],
+    "answer": 2,
+    "explain": "💡 ไพ่สีแดงมี 2 ดอก คือ โพแดง และ ข้าวหลามตัด (สองกล่องแดงในภาพ)\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (ไพ่แดง)/(52)\nแดง = 13 + 13 = 26 ใบ ; ทั้งหมด 52 ใบ\n🟰 P(แดง) = (26)/(52) = (1)/(2)\n✓ ตอบ 1/2",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NzAgMTI4IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ3MCIgaGVpZ2h0PSIxMjgiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4LmE4Lie4LmIIDUyIOC5g+C4miA9IDQg4LiU4Lit4LiBIOC4lOC4reC4geC4peC4sCAxMyDguYPguJo8L3RleHQ+PHJlY3QgeD0iMzQiIHk9IjQwIiB3aWR0aD0iOTIiIGhlaWdodD0iNzIiIHJ4PSIxMSIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjZDVkOWRlIiBzdHJva2Utd2lkdGg9IjEuNCIvPjx0ZXh0IHg9IjgwIiB5PSI4MiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMyI+4pmgPC90ZXh0Pjx0ZXh0IHg9IjgwIiB5PSIxMDIiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjEzIOC5g+C4mjwvdGV4dD48cmVjdCB4PSIxNDIiIHk9IjQwIiB3aWR0aD0iOTIiIGhlaWdodD0iNzIiIHJ4PSIxMSIgZmlsbD0iI0ZERUNFQyIgc3Ryb2tlPSIjRTQxMTFGIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjE4OCIgeT0iODIiIGZvbnQtc2l6ZT0iMzAiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNDExMUYiPuKZpTwvdGV4dD48dGV4dCB4PSIxODgiIHk9IjEwMiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+MTMg4LmD4LiaPC90ZXh0PjxyZWN0IHg9IjI1MCIgeT0iNDAiIHdpZHRoPSI5MiIgaGVpZ2h0PSI3MiIgcng9IjExIiBmaWxsPSIjRkRFQ0VDIiBzdHJva2U9IiNFNDExMUYiIHN0cm9rZS13aWR0aD0iMi42Ii8+PHRleHQgeD0iMjk2IiB5PSI4MiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0MTExRiI+4pmmPC90ZXh0Pjx0ZXh0IHg9IjI5NiIgeT0iMTAyIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4xMyDguYPguJo8L3RleHQ+PHJlY3QgeD0iMzU4IiB5PSI0MCIgd2lkdGg9IjkyIiBoZWlnaHQ9IjcyIiByeD0iMTEiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2Q1ZDlkZSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSI0MDQiIHk9IjgyIiBmb250LXNpemU9IjMwIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzIj7imaM8L3RleHQ+PHRleHQgeD0iNDA0IiB5PSIxMDIiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjEzIOC5g+C4mjwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "สุ่มหยิบไพ่ 1 ใบ จากสำรับ 52 ใบ ความน่าจะเป็นที่จะได้ ‘ไพ่เอซ (A)’ เท่ากับเท่าใด",
+    "choices": [
+     "1/52",
+     "4/13",
+     "1/4",
+     "1/13"
+    ],
+    "answer": 3,
+    "explain": "💡 ในสำรับมีไพ่เอซ 4 ใบ (ดอกละ 1 ใบ) จากทั้งหมด 52 ใบ\n📐 สูตรที่ใช้\n• ความน่าจะเป็น — P = (ไพ่เอซ)/(52)\nเอซมี 4 ใบ ; ทั้งหมด 52 ใบ\n🟰 P(เอซ) = (4)/(52) = (1)/(13)\n✓ ตอบ 1/13",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NjAgMTI0IiBmb250LWZhbWlseT0iJ1NhcmFidW4nLCdOb3RvIFNhbnMgVGhhaScsc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9IjQ2MCIgaGVpZ2h0PSIxMjQiIGZpbGw9IiNmZmYiLz48dGV4dCB4PSIyMzAiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Liq4Lil4Liy4LiB4LiX4Lix4LmJ4LiH4Lir4Lih4LiUIDUyIOC5g+C4mjwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDIiIHdpZHRoPSIzMC43NjkyIiBoZWlnaHQ9IjQ2IiByeD0iNiIgZmlsbD0iI0U0NzA3QSIvPjxyZWN0IHg9IjYwLjc2OTIiIHk9IjQyIiB3aWR0aD0iMzY5LjIzMSIgaGVpZ2h0PSI0NiIgcng9IjYiIGZpbGw9IiM2NkI3ODQiLz48dGV4dCB4PSI0NS4zODQ2IiB5PSI3MyIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+NDwvdGV4dD48dGV4dCB4PSIyNDUuMzg1IiB5PSI3MyIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+NDg8L3RleHQ+PHRleHQgeD0iNDUuMzg0NiIgeT0iMTA4IiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5QTJDMkMiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guYDguK3guIsgNCDguYPguJo8L3RleHQ+PHRleHQgeD0iMjQ1LjM4NSIgeT0iMTA4IiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxRTdBNDQiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7guYPguJrguK3guLfguYjguJkgNDg8L3RleHQ+PC9zdmc+"
    }
   ],
   "law_01": [
@@ -49633,7 +49323,8 @@
   "math_15": 1787582916267,
   "math_19": 1787727205970,
   "math_22": 1787733245622,
-  "math_21": 1787807915434
+  "math_21": 1787807915434,
+  "math_23": 1787903948453
  },
  "subjStatus": {
   "thai": {
