@@ -238,8 +238,8 @@
   .ex-warn{ background:#FEECEC; border-left:3px solid #E4111F; border-radius:0 8px 8px 0; padding:8px 11px; margin:9px 0; font-size:11.5px; color:#7A1219; line-height:1.6; }
   /* ── ฟอนต์ TH Sarabun PSK เฉพาะหน้าทำข้อสอบ + เฉลย + ไฟล์ที่แอดมินดึง (size-adjust ทำให้ใหญ่ขึ้น ~18% เท่า Sarabun เดิม) ── */
   /* unicode-range จำกัด PSK ไว้เฉพาะ ไทย+ละติน+ตัวเลข+เครื่องหมายวรรคตอน — สัญลักษณ์ตรรกะ/คณิต (↔ → ∧ ∨ ~ ∀ ∃ ≡ ≠ ≤ ≥ − ×÷ ฯลฯ) จะตกไปใช้ Sarabun ที่มี glyph ครบ กันเครื่องหมายกลายเป็นกล่อง ▯ บนมือถือ */
-  @font-face{ font-family:'THSarabunPSK'; src:url('fonts/THSarabunPSK.ttf') format('truetype'); font-weight:400; font-style:normal; font-display:swap; size-adjust:130%; unicode-range:U+0020-007E, U+00A0-00BF, U+0E00-0E7F, U+2013-2014, U+2018-201F, U+2022, U+2026; }
-  @font-face{ font-family:'THSarabunPSK'; src:url('fonts/THSarabunPSK-Bold.ttf') format('truetype'); font-weight:700; font-style:normal; font-display:swap; size-adjust:130%; unicode-range:U+0020-007E, U+00A0-00BF, U+0E00-0E7F, U+2013-2014, U+2018-201F, U+2022, U+2026; }
+  @font-face{ font-family:'THSarabunPSK'; src:url('fonts/THSarabunPSK.ttf') format('truetype'); font-weight:400; font-style:normal; font-display:swap; size-adjust:140%; unicode-range:U+0020-007E, U+00A0-00BF, U+0E00-0E7F, U+2013-2014, U+2018-201F, U+2022, U+2026; }
+  @font-face{ font-family:'THSarabunPSK'; src:url('fonts/THSarabunPSK-Bold.ttf') format('truetype'); font-weight:700; font-style:normal; font-display:swap; size-adjust:140%; unicode-range:U+0020-007E, U+00A0-00BF, U+0E00-0E7F, U+2013-2014, U+2018-201F, U+2022, U+2026; }
   .psk{ font-family:'THSarabunPSK','Sarabun','Noto Sans Thai',sans-serif; }
   .psk *{ font-family:inherit; }
   .psk .mono, .psk #quizClock{ font-family:ui-monospace,'SFMono-Regular','Menlo',monospace; }
@@ -526,7 +526,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v129";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v130";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
