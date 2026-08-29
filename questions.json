@@ -1,6 +1,6 @@
 {
  "_comment": "คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อย่าแก้ไฟล์นี้ด้วยมือ ให้ใช้ปุ่ม 'ส่งออกคลังข้อสอบ' ในแผงแอดมินแล้วอัปโหลดทับไฟล์นี้",
- "version": 179,
+ "version": 180,
  "topics": {
   "math": [
    {
@@ -1112,554 +1112,124 @@
   ],
   "math_04": [
    {
-    "q": "3, 7, 11, 15, ?",
+    "q": "5, 12, 19, 26, ?  จำนวนถัดไปคือเท่าใด",
     "choices": [
-     "19",
-     "4",
-     "20",
-     "15"
+     "33",
+     "34",
+     "32",
+     "40"
     ],
     "answer": 0,
-    "explain": "รูปแบบ: อนุกรมเลขคณิต (ผลต่างคงที่)\n\nวิธีทำ\n→ ผลต่างระหว่างพจน์ = +4 ทุกช่วง\n→ 15 + 4 = 19\n\n✓ ตอบ: 19"
+    "explain": "💡 ดูผลต่างของแต่ละคู่ที่ติดกัน ถ้าเท่ากันตลอด = อนุกรมเลขคณิต (บวกค่าคงที่)\n📐 กฎที่ใช้\n• อนุกรมเลขคณิต — พจน์ถัดไป = พจน์ก่อนหน้า + ผลต่างคงที่\n12−5=7, 19−12=7, 26−19=7 → +7 ทุกช่วง\n🟰 พจน์ถัดไป = 26 + 7 = 33\n✓ ตอบ 33",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODQgMTgyIiB3aWR0aD0iNDg0IiBoZWlnaHQ9IjE4MiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQyIiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5gOC4peC4guC4hOC4k+C4tOC4lTog4Lic4Lil4LiV4LmI4Liy4LiH4LiE4LiH4LiX4Li14LmIICs3PC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTMiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NTwvdGV4dD48cmVjdCB4PSIxMTIiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNDEiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTI8L3RleHQ+PHJlY3QgeD0iMjAwIiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjI5IiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE5PC90ZXh0PjxyZWN0IHg9IjI4OCIgeT0iODgiIHdpZHRoPSI1OCIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjMxNyIgeT0iMTE4IiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yNjwvdGV4dD48cmVjdCB4PSIzNzYiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjQwNSIgeT0iMTE4IiBmb250LXNpemU9IjE5IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4/PC90ZXh0PjxwYXRoIGQ9Ik03NiA4OCBRIDk3IDY2IDExOCA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUU3QTQ0IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTE4IDg4IGw1IC01IE0xMTggODggbC01IC01IiBzdHJva2U9IiMxRTdBNDQiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9Ijk3IiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjMUU3QTQ0IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+Kzc8L3RleHQ+PHBhdGggZD0iTTE2NCA4OCBRIDE4NSA2NiAyMDYgODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFFN0E0NCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTIwNiA4OCBsNSAtNSBNMjA2IDg4IGwtNSAtNSIgc3Ryb2tlPSIjMUU3QTQ0IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48dGV4dCB4PSIxODUiIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiMxRTdBNDQiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4rNzwvdGV4dD48cGF0aCBkPSJNMjUyIDg4IFEgMjczIDY2IDI5NCA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUU3QTQ0IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMjk0IDg4IGw1IC01IE0yOTQgODggbC01IC01IiBzdHJva2U9IiMxRTdBNDQiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjI3MyIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iIzFFN0E0NCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPis3PC90ZXh0PjxwYXRoIGQ9Ik0zNDAgODggUSAzNjEgNjYgMzgyIDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiMxRTdBNDQiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zODIgODggbDUgLTUgTTM4MiA4OCBsLTUgLTUiIHN0cm9rZT0iIzFFN0E0NCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMzYxIiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjMUU3QTQ0IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+Kzc8L3RleHQ+PHRleHQgeD0iMjQyIiB5PSIxNjIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4/ID0gMjYgKyA3ID0gMzM8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "5, 12, 19, 26, ?",
+    "q": "2, 6, 18, 54, ?  จำนวนถัดไปคือเท่าใด",
     "choices": [
-     "7",
-     "33",
-     "26",
-     "34"
+     "108",
+     "162",
+     "216",
+     "158"
     ],
     "answer": 1,
-    "explain": "รูปแบบ: เลขคณิต ผลต่าง +7\n\nวิธีทำ\n→ ผลต่าง = +7 ทุกช่วง\n→ 26 + 7 = 33\n\n✓ ตอบ: 33"
+    "explain": "💡 ถ้าผลต่างไม่คงที่ ลองดูว่าแต่ละพจน์ ‘คูณ’ ด้วยเลขเดิมหรือไม่ (อนุกรมเรขาคณิต)\n📐 กฎที่ใช้\n• อนุกรมเรขาคณิต — พจน์ถัดไป = พจน์ก่อนหน้า × อัตราส่วนคงที่\n6÷2=3, 18÷6=3, 54÷18=3 → ×3 ทุกช่วง\n🟰 พจน์ถัดไป = 54 × 3 = 162\n⚠️ อย่าเผลอบวก 54+54=108 — ชุดนี้เป็นการคูณ\n✓ ตอบ 162",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODQgMTgyIiB3aWR0aD0iNDg0IiBoZWlnaHQ9IjE4MiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQyIiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5gOC4o+C4guC4suC4hOC4k+C4tOC4lTog4Lit4Lix4LiV4Lij4Liy4Liq4LmI4Lin4LiZIMOXMzwvdGV4dD48cmVjdCB4PSIyNCIgeT0iODgiIHdpZHRoPSI1OCIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUzIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjI8L3RleHQ+PHJlY3QgeD0iMTEyIiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTQxIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjY8L3RleHQ+PHJlY3QgeD0iMjAwIiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjI5IiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE4PC90ZXh0PjxyZWN0IHg9IjI4OCIgeT0iODgiIHdpZHRoPSI1OCIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjMxNyIgeT0iMTE4IiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj41NDwvdGV4dD48cmVjdCB4PSIzNzYiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjQwNSIgeT0iMTE4IiBmb250LXNpemU9IjE5IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4/PC90ZXh0PjxwYXRoIGQ9Ik03NiA4OCBRIDk3IDY2IDExOCA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEE1QkI1IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTE4IDg4IGw1IC01IE0xMTggODggbC01IC01IiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9Ijk3IiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w5czPC90ZXh0PjxwYXRoIGQ9Ik0xNjQgODggUSAxODUgNjYgMjA2IDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0yMDYgODggbDUgLTUgTTIwNiA4OCBsLTUgLTUiIHN0cm9rZT0iIzhBNUJCNSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMTg1IiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w5czPC90ZXh0PjxwYXRoIGQ9Ik0yNTIgODggUSAyNzMgNjYgMjk0IDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0yOTQgODggbDUgLTUgTTI5NCA4OCBsLTUgLTUiIHN0cm9rZT0iIzhBNUJCNSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMjczIiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w5czPC90ZXh0PjxwYXRoIGQ9Ik0zNDAgODggUSAzNjEgNjYgMzgyIDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zODIgODggbDUgLTUgTTM4MiA4OCBsLTUgLTUiIHN0cm9rZT0iIzhBNUJCNSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMzYxIiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w5czPC90ZXh0Pjx0ZXh0IHg9IjI0MiIgeT0iMTYyIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+PyA9IDU0IMOXIDMgPSAxNjI8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "100, 92, 84, 76, ?",
+    "q": "96, 48, 24, 12, ?  จำนวนถัดไปคือเท่าใด",
     "choices": [
-     "68",
-     "76",
      "8",
-     "−68"
+     "24",
+     "6",
+     "4"
+    ],
+    "answer": 2,
+    "explain": "💡 ตัวเลขลดลงเรื่อยๆ และลดลงครึ่งหนึ่งทุกครั้ง = เรขาคณิตแบบหาร\n📐 กฎที่ใช้\n• อนุกรมเรขาคณิต (หาร) — พจน์ถัดไป = พจน์ก่อนหน้า ÷ 2\n96÷2=48, 48÷2=24, 24÷2=12 → ÷2 ทุกช่วง\n🟰 พจน์ถัดไป = 12 ÷ 2 = 6\n✓ ตอบ 6",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODQgMTgyIiB3aWR0aD0iNDg0IiBoZWlnaHQ9IjE4MiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQyIiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5gOC4o+C4guC4suC4hOC4k+C4tOC4lTog4Lir4Liy4Lij4LiU4LmJ4Lin4LiiIDI8L3RleHQ+PHJlY3QgeD0iMjQiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI1MyIgeT0iMTE4IiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj45NjwvdGV4dD48cmVjdCB4PSIxMTIiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNDEiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NDg8L3RleHQ+PHJlY3QgeD0iMjAwIiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjI5IiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjI0PC90ZXh0PjxyZWN0IHg9IjI4OCIgeT0iODgiIHdpZHRoPSI1OCIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjMxNyIgeT0iMTE4IiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xMjwvdGV4dD48cmVjdCB4PSIzNzYiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjQwNSIgeT0iMTE4IiBmb250LXNpemU9IjE5IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4/PC90ZXh0PjxwYXRoIGQ9Ik03NiA4OCBRIDk3IDY2IDExOCA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEE1QkI1IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTE4IDg4IGw1IC01IE0xMTggODggbC01IC01IiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9Ijk3IiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w7cyPC90ZXh0PjxwYXRoIGQ9Ik0xNjQgODggUSAxODUgNjYgMjA2IDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0yMDYgODggbDUgLTUgTTIwNiA4OCBsLTUgLTUiIHN0cm9rZT0iIzhBNUJCNSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMTg1IiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w7cyPC90ZXh0PjxwYXRoIGQ9Ik0yNTIgODggUSAyNzMgNjYgMjk0IDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0yOTQgODggbDUgLTUgTTI5NCA4OCBsLTUgLTUiIHN0cm9rZT0iIzhBNUJCNSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMjczIiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w7cyPC90ZXh0PjxwYXRoIGQ9Ik0zNDAgODggUSAzNjEgNjYgMzgyIDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zODIgODggbDUgLTUgTTM4MiA4OCBsLTUgLTUiIHN0cm9rZT0iIzhBNUJCNSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMzYxIiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w7cyPC90ZXh0Pjx0ZXh0IHg9IjI0MiIgeT0iMTYyIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+PyA9IDEyIMO3IDIgPSA2PC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "2, 6, 12, 20, 30, ?  จำนวนถัดไปคือเท่าใด",
+    "choices": [
+     "40",
+     "44",
+     "38",
+     "42"
+    ],
+    "answer": 3,
+    "explain": "💡 ผลต่างไม่คงที่ ให้ดู ‘ผลต่างของผลต่าง’ อีกชั้น ถ้าชั้นสองคงที่ ก็เดาต่อได้\n📐 กฎที่ใช้\n• ผลต่างเพิ่มเป็นขั้น — ผลต่างเพิ่มทีละค่าคงที่\nผลต่างชั้นแรก: +4, +6, +8, +10 (เพิ่มทีละ +2) → ช่วงถัดไป +12\n🟰 พจน์ถัดไป = 30 + 12 = 42\n✓ ตอบ 42",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzIgMTg4IiB3aWR0aD0iNTcyIiBoZWlnaHQ9IjE4OCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjg2IiB5PSIyMCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4nOC4peC4leC5iOC4suC4h+C5gOC4nuC4tOC5iOC4oeC4guC4tuC5ieC4meC4l+C4teC4peC4sCAyPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI3NiIgd2lkdGg9IjU0IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTEiIHk9IjEwNCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD48cmVjdCB4PSIxMTIiIHk9Ijc2IiB3aWR0aD0iNTQiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxMzkiIHk9IjEwNCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NjwvdGV4dD48cmVjdCB4PSIyMDAiIHk9Ijc2IiB3aWR0aD0iNTQiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMjciIHk9IjEwNCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTI8L3RleHQ+PHJlY3QgeD0iMjg4IiB5PSI3NiIgd2lkdGg9IjU0IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzE1IiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjIwPC90ZXh0PjxyZWN0IHg9IjM3NiIgeT0iNzYiIHdpZHRoPSI1NCIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjQwMyIgeT0iMTA0IiBmb250LXNpemU9IjE4IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4zMDwvdGV4dD48cmVjdCB4PSI0NjQiIHk9Ijc2IiB3aWR0aD0iNTQiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjQ5MSIgeT0iMTA0IiBmb250LXNpemU9IjE4IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4/PC90ZXh0Pjx0ZXh0IHg9Ijk1IiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPis0PC90ZXh0Pjx0ZXh0IHg9IjE4MyIgeT0iMTQwIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiNCNDUzMDkiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4rNjwvdGV4dD48dGV4dCB4PSIyNzEiIHk9IjE0MCIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjQjQ1MzA5IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+Kzg8L3RleHQ+PHRleHQgeD0iMzU5IiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPisxMDwvdGV4dD48dGV4dCB4PSI0NDciIHk9IjE0MCIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjQjQ1MzA5IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+PzwvdGV4dD48dGV4dCB4PSIyODYiIHk9IjE2OCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4nOC4peC4leC5iOC4suC4h+C5gOC4nuC4tOC5iOC4oeC4l+C4teC4peC4sCArMiDihpIgMzAgKyAxMiA9IDQyPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "2, 5, 10, 17, 26, ?  จำนวนถัดไปคือเท่าใด",
+    "choices": [
+     "37",
+     "35",
+     "36",
+     "38"
     ],
     "answer": 0,
-    "explain": "รูปแบบ: เลขคณิตแบบลด (ผลต่าง −8)\n\nวิธีทำ\n→ ผลต่าง = −8 ทุกช่วง\n→ 76 − 8 = 68\n\n✓ ตอบ: 68"
+    "explain": "💡 ผลต่างชั้นแรกเพิ่มเป็นเลขคี่เรียงกัน มักเกี่ยวกับ ‘เลขยกกำลังสอง’\n📐 กฎที่ใช้\n• ผลต่างเป็นเลขคี่เรียง — บวกด้วย 3,5,7,9,11...\nผลต่าง: +3, +5, +7, +9 → ถัดไป +11 (สังเกต: พจน์ที่ n = n²+1)\n🟰 พจน์ถัดไป = 26 + 11 = 37\n✓ ตอบ 37",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzIgMTg4IiB3aWR0aD0iNTcyIiBoZWlnaHQ9IjE4OCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjg2IiB5PSIyMCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4nOC4peC4leC5iOC4suC4h+C5gOC4peC4guC4hOC4teC5iDogKzMsKzUsKzcsKzksKzExPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI3NiIgd2lkdGg9IjU0IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTEiIHk9IjEwNCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD48cmVjdCB4PSIxMTIiIHk9Ijc2IiB3aWR0aD0iNTQiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxMzkiIHk9IjEwNCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NTwvdGV4dD48cmVjdCB4PSIyMDAiIHk9Ijc2IiB3aWR0aD0iNTQiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMjciIHk9IjEwNCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8L3RleHQ+PHJlY3QgeD0iMjg4IiB5PSI3NiIgd2lkdGg9IjU0IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzE1IiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE3PC90ZXh0PjxyZWN0IHg9IjM3NiIgeT0iNzYiIHdpZHRoPSI1NCIgaGVpZ2h0PSI0MiIgcng9IjEwIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjQwMyIgeT0iMTA0IiBmb250LXNpemU9IjE4IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yNjwvdGV4dD48cmVjdCB4PSI0NjQiIHk9Ijc2IiB3aWR0aD0iNTQiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjQ5MSIgeT0iMTA0IiBmb250LXNpemU9IjE4IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4/PC90ZXh0Pjx0ZXh0IHg9Ijk1IiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPiszPC90ZXh0Pjx0ZXh0IHg9IjE4MyIgeT0iMTQwIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiNCNDUzMDkiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4rNTwvdGV4dD48dGV4dCB4PSIyNzEiIHk9IjE0MCIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjQjQ1MzA5IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+Kzc8L3RleHQ+PHRleHQgeD0iMzU5IiB5PSIxNDAiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPis5PC90ZXh0Pjx0ZXh0IHg9IjQ0NyIgeT0iMTQwIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiNCNDUzMDkiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4/PC90ZXh0Pjx0ZXh0IHg9IjI4NiIgeT0iMTY4IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lic4Lil4LiV4LmI4Liy4LiH4LmA4Lie4Li04LmI4Lih4LiX4Li14Lil4LiwICsyIOKGkiAyNiArIDExID0gMzc8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "2, 5, 8, 11, 14, ?",
+    "q": "5, 8, 10, 16, 15, 32, ?  จำนวนถัดไปคือเท่าใด",
     "choices": [
-     "14",
-     "17",
-     "3",
+     "64",
+     "20",
+     "22",
      "18"
     ],
     "answer": 1,
-    "explain": "รูปแบบ: เลขคณิต ผลต่าง +3\n\nวิธีทำ\n→ ผลต่าง = +3 ทุกช่วง\n→ 14 + 3 = 17\n\n✓ ตอบ: 17"
+    "explain": "💡 บางอนุกรมมี ‘สองชุดสลับกัน’ ลองแยกพจน์ตำแหน่งคี่กับคู่ออกจากกัน\n📐 กฎที่ใช้\n• อนุกรมสลับ 2 ชุด — แยกตำแหน่งคี่/คู่แล้วหากฎแต่ละชุด\nตำแหน่งคี่: 5, 10, 15, ? (+5) ; ตำแหน่งคู่: 8, 16, 32 (×2)\nพจน์ถัดไปเป็นตำแหน่งคี่ → 15 + 5\n🟰 พจน์ถัดไป = 15 + 5 = 20\n⚠️ อย่าไปคูณ 32×2=64 — พจน์ถัดไปคือชุดฟ้า ไม่ใช่ชุดชมพู\n✓ ตอบ 20",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1OTAgMTgyIiB3aWR0aD0iNTkwIiBoZWlnaHQ9IjE4MiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjk1IiB5PSIyMCIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjMTIzIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+4Lit4LiZ4Li44LiB4Lij4Lih4Liq4Lil4Lix4LiaIDIg4LiK4Li44LiUPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI3NiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiNFQUYyRkYiIHN0cm9rZT0iIzJFNkJENiIgc3Ryb2tlLXdpZHRoPSIyLjMiLz48dGV4dCB4PSI1MCIgeT0iMTA1IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMUI0QzlFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj41PC90ZXh0PjxyZWN0IHg9IjEwMiIgeT0iNzYiIHdpZHRoPSI1MiIgaGVpZ2h0PSI0NCIgcng9IjEwIiBmaWxsPSIjRkRFRUY0IiBzdHJva2U9IiNENjQwN0UiIHN0cm9rZS13aWR0aD0iMi4zIi8+PHRleHQgeD0iMTI4IiB5PSIxMDUiIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNBMDIwNTciIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjg8L3RleHQ+PHJlY3QgeD0iMTgwIiB5PSI3NiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiNFQUYyRkYiIHN0cm9rZT0iIzJFNkJENiIgc3Ryb2tlLXdpZHRoPSIyLjMiLz48dGV4dCB4PSIyMDYiIHk9IjEwNSIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzFCNEM5RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8L3RleHQ+PHJlY3QgeD0iMjU4IiB5PSI3NiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiNGREVFRjQiIHN0cm9rZT0iI0Q2NDA3RSIgc3Ryb2tlLXdpZHRoPSIyLjMiLz48dGV4dCB4PSIyODQiIHk9IjEwNSIgZm9udC1zaXplPSIxNyIgZmlsbD0iI0EwMjA1NyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTY8L3RleHQ+PHJlY3QgeD0iMzM2IiB5PSI3NiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiNFQUYyRkYiIHN0cm9rZT0iIzJFNkJENiIgc3Ryb2tlLXdpZHRoPSIyLjMiLz48dGV4dCB4PSIzNjIiIHk9IjEwNSIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzFCNEM5RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTU8L3RleHQ+PHJlY3QgeD0iNDE0IiB5PSI3NiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiNGREVFRjQiIHN0cm9rZT0iI0Q2NDA3RSIgc3Ryb2tlLXdpZHRoPSIyLjMiLz48dGV4dCB4PSI0NDAiIHk9IjEwNSIgZm9udC1zaXplPSIxNyIgZmlsbD0iI0EwMjA1NyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzI8L3RleHQ+PHJlY3QgeD0iNDkyIiB5PSI3NiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjQ0IiByeD0iMTAiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyLjMiLz48dGV4dCB4PSI1MTgiIHk9IjEwNSIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PzwvdGV4dD48dGV4dCB4PSIyOTUiIHk9IjE0MiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzU1NiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4iuC4uOC4lOC4n+C5ieC4siAoMSwzLDUsLi4pIOC4geC4seC4miDguIrguLjguJTguIrguKHguJ7guLkgKDIsNCw2LC4uKSDguKrguKXguLHguJrguIHguLHguJk8L3RleHQ+PHRleHQgeD0iMjk1IiB5PSIxNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPj8gPSAxNSArIDUgPSAyMDwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "2, 6, 18, 54, ?",
-    "choices": [
-     "18",
-     "54",
-     "6",
-     "162"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: อนุกรมเรขาคณิต (อัตราส่วนคงที่)\n\nวิธีทำ\n→ แต่ละพจน์ × 3 (6÷2=3, 18÷6=3, ...)\n→ 54 × 3 = 162\n\n✓ ตอบ: 162"
-   },
-   {
-    "q": "3, 6, 12, 24, ?",
-    "choices": [
-     "24",
-     "49",
-     "48",
-     "2"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: เรขาคณิต อัตราส่วน × 2\n\nวิธีทำ\n→ แต่ละพจน์ × 2\n→ 24 × 2 = 48\n\n✓ ตอบ: 48"
-   },
-   {
-    "q": "640, 320, 160, 80, ?",
-    "choices": [
-     "2",
-     "41",
-     "80",
-     "40"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: เรขาคณิตแบบลด (÷ 2)\n\nวิธีทำ\n→ แต่ละพจน์ ÷ 2\n→ 80 ÷ 2 = 40\n\n✓ ตอบ: 40"
-   },
-   {
-    "q": "1, 4, 16, 64, ?",
-    "choices": [
-     "257",
-     "256",
-     "64",
-     "4"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: เรขาคณิต × 4\n\nวิธีทำ\n→ แต่ละพจน์ × 4\n→ 64 × 4 = 256\n\n✓ ตอบ: 256"
-   },
-   {
-    "q": "2, 6, 12, 20, 30, ?",
-    "choices": [
-     "42",
-     "12",
-     "10",
-     "30"
-    ],
-    "answer": 0,
-    "explain": "รูปแบบ: ผลต่างเพิ่มขึ้นเรื่อย ๆ (ผลต่างของผลต่างคงที่)\n\nวิธีทำ\n→ ผลต่าง: 4, 6, 8, 10 (เพิ่มทีละ 2)\n→ ผลต่างถัดไป = 12\n→ 30 + 12 = 42\n\n✓ ตอบ: 42"
-   },
-   {
-    "q": "1, 3, 6, 10, 15, ?",
-    "choices": [
-     "5",
-     "21",
-     "15",
-     "6"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: จำนวนสามเหลี่ยม (ผลต่างเพิ่มทีละ 1)\n\nวิธีทำ\n→ ผลต่าง: 2, 3, 4, 5\n→ ผลต่างถัดไป = 6\n→ 15 + 6 = 21\n\n✓ ตอบ: 21"
-   },
-   {
-    "q": "4, 5, 8, 13, 20, ?",
+    "q": "3, 4, 8, 9, 18, 19, ?  จำนวนถัดไปคือเท่าใด",
     "choices": [
      "20",
-     "7",
-     "9",
-     "29"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: ผลต่างเป็นเลขคี่เรียงกัน\n\nวิธีทำ\n→ ผลต่าง: 1, 3, 5, 7\n→ ผลต่างถัดไป = 9\n→ 20 + 9 = 29\n\n✓ ตอบ: 29"
-   },
-   {
-    "q": "1, 2, 5, 10, 17, ?",
-    "choices": [
-     "9",
-     "7",
-     "17",
-     "26"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: รูปแบบ n²+1 (ผลต่างเป็นเลขคี่)\n\nวิธีทำ\n→ ผลต่าง: 1, 3, 5, 7\n→ ผลต่างถัดไป = 9\n→ 17 + 9 = 26\n\n✓ ตอบ: 26"
-   },
-   {
-    "q": "3, 4, 7, 12, 19, ?",
-    "choices": [
-     "7",
-     "19",
-     "9",
-     "28"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: ผลต่างเป็นเลขคี่เรียงกัน\n\nวิธีทำ\n→ ผลต่าง: 1, 3, 5, 7\n→ ผลต่างถัดไป = 9\n→ 19 + 9 = 28\n\n✓ ตอบ: 28"
-   },
-   {
-    "q": "1, 4, 9, 16, 25, ?",
-    "choices": [
-     "4",
-     "36",
-     "6",
-     "5"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: กำลังสองของ 1, 2, 3, ...\n\nวิธีทำ\n→ 1², 2², 3², 4², 5²\n→ พจน์ถัดไป = 6² = 36\n\n✓ ตอบ: 36"
-   },
-   {
-    "q": "1, 8, 27, 64, ?",
-    "choices": [
-     "125",
-     "4",
-     "3",
-     "5"
-    ],
-    "answer": 0,
-    "explain": "รูปแบบ: กำลังสามของ 1, 2, 3, ...\n\nวิธีทำ\n→ 1³, 2³, 3³, 4³\n→ พจน์ถัดไป = 5³ = 125\n\n✓ ตอบ: 125"
-   },
-   {
-    "q": "2, 5, 10, 17, 26, ?",
-    "choices": [
-     "26",
-     "10",
-     "37",
-     "17"
+     "39",
+     "38",
+     "36"
     ],
     "answer": 2,
-    "explain": "รูปแบบ: รูปแบบ n²+1\n\nวิธีทำ\n→ 1²+1=2, 2²+1=5, 3²+1=10, 4²+1=17, 5²+1=26\n→ พจน์ถัดไป = 6²+1 = 37\n\n✓ ตอบ: 37"
+    "explain": "💡 ถ้าไม่ใช่บวกคงที่หรือคูณคงที่ ลองดูว่าการดำเนินการ ‘สลับกัน’ เป็นจังหวะหรือไม่\n📐 กฎที่ใช้\n• กฎสลับการดำเนินการ — ทำ +1 แล้ว ×2 สลับกันไป\n3(+1)4(×2)8(+1)9(×2)18(+1)19 → ช่วงถัดไปเป็น ×2\n🟰 พจน์ถัดไป = 19 × 2 = 38\n⚠️ อย่าตอบ 20 (ถ้าเผลอ +1) — จังหวะถัดไปคือคูณ\n✓ ตอบ 38",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NjAgMTgyIiB3aWR0aD0iNjYwIiBoZWlnaHQ9IjE4MiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMzMwIiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4quC4peC4seC4miArMSDguIHguLHguJogw5cyPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTMiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzwvdGV4dD48cmVjdCB4PSIxMTIiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNDEiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NDwvdGV4dD48cmVjdCB4PSIyMDAiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMjkiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ODwvdGV4dD48cmVjdCB4PSIyODgiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzMTciIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+OTwvdGV4dD48cmVjdCB4PSIzNzYiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI0MDUiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTg8L3RleHQ+PHJlY3QgeD0iNDY0IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNDkzIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE5PC90ZXh0PjxyZWN0IHg9IjU1MiIgeT0iODgiIHdpZHRoPSI1OCIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMi42Ii8+PHRleHQgeD0iNTgxIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj88L3RleHQ+PHBhdGggZD0iTTc2IDg4IFEgOTcgNjYgMTE4IDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0xMTggODggbDUgLTUgTTExOCA4OCBsLTUgLTUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iOTciIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiNCNDUzMDkiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4rMTwvdGV4dD48cGF0aCBkPSJNMTY0IDg4IFEgMTg1IDY2IDIwNiA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMjA2IDg4IGw1IC01IE0yMDYgODggbC01IC01IiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjE4NSIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPsOXMjwvdGV4dD48cGF0aCBkPSJNMjUyIDg4IFEgMjczIDY2IDI5NCA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMjk0IDg4IGw1IC01IE0yOTQgODggbC01IC01IiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjI3MyIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPisxPC90ZXh0PjxwYXRoIGQ9Ik0zNDAgODggUSAzNjEgNjYgMzgyIDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zODIgODggbDUgLTUgTTM4MiA4OCBsLTUgLTUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMzYxIiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjQjQ1MzA5IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w5cyPC90ZXh0PjxwYXRoIGQ9Ik00MjggODggUSA0NDkgNjYgNDcwIDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik00NzAgODggbDUgLTUgTTQ3MCA4OCBsLTUgLTUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iNDQ5IiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjQjQ1MzA5IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+KzE8L3RleHQ+PHBhdGggZD0iTTUxNiA4OCBRIDUzNyA2NiA1NTggODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTU1OCA4OCBsNSAtNSBNNTU4IDg4IGwtNSAtNSIgc3Ryb2tlPSIjQjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48dGV4dCB4PSI1MzciIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiNCNDUzMDkiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7DlzI8L3RleHQ+PHRleHQgeD0iMzMwIiB5PSIxNjIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4/ID0gMTkgw5cgMiA9IDM4PC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "0, 3, 8, 15, 24, ?",
+    "q": "1, 3, 7, 15, 31, ?  จำนวนถัดไปคือเท่าใด",
     "choices": [
-     "15",
-     "35",
-     "8",
-     "24"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: รูปแบบ n²−1\n\nวิธีทำ\n→ 1²−1=0, 2²−1=3, 3²−1=8, 4²−1=15, 5²−1=24\n→ พจน์ถัดไป = 6²−1 = 35\n\n✓ ตอบ: 35"
-   },
-   {
-    "q": "2, 9, 28, 65, ?",
-    "choices": [
-     "65",
-     "9",
-     "126",
-     "28"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: รูปแบบ n³+1\n\nวิธีทำ\n→ 1³+1=2, 2³+1=9, 3³+1=28, 4³+1=65\n→ พจน์ถัดไป = 5³+1 = 126\n\n✓ ตอบ: 126"
-   },
-   {
-    "q": "1, 1, 2, 3, 5, 8, ?",
-    "choices": [
-     "14",
-     "5",
-     "13",
-     "8"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: ฟีโบนัชชี (พจน์ = ผลบวกสองพจน์ก่อนหน้า)\n\nวิธีทำ\n→ 5 + 8 = 13\n\n✓ ตอบ: 13"
-   },
-   {
-    "q": "2, 3, 5, 8, 13, ?",
-    "choices": [
-     "22",
-     "13",
-     "8",
-     "21"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: ผลบวกสองพจน์ก่อนหน้า\n\nวิธีทำ\n→ 8 + 13 = 21\n\n✓ ตอบ: 21"
-   },
-   {
-    "q": "1, 4, 5, 9, 14, 23, ?",
-    "choices": [
-     "37",
-     "9",
-     "14",
-     "23"
-    ],
-    "answer": 0,
-    "explain": "รูปแบบ: ผลบวกสองพจน์ก่อนหน้า\n\nวิธีทำ\n→ ตรวจ: 1+4=5, 4+5=9, 5+9=14, 9+14=23\n→ 14 + 23 = 37\n\n✓ ตอบ: 37"
-   },
-   {
-    "q": "3, 5, 8, 13, 21, ?",
-    "choices": [
-     "34",
-     "35",
-     "21",
-     "13"
-    ],
-    "answer": 0,
-    "explain": "รูปแบบ: ผลบวกสองพจน์ก่อนหน้า\n\nวิธีทำ\n→ 13 + 21 = 34\n\n✓ ตอบ: 34"
-   },
-   {
-    "q": "1, 3, 7, 15, 31, ?",
-    "choices": [
-     "15",
-     "63",
-     "31",
-     "7"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: × 2 แล้ว + 1\n\nวิธีทำ\n→ 1×2+1=3, 3×2+1=7, 7×2+1=15, 15×2+1=31\n→ 31 × 2 + 1 = 63\n\n✓ ตอบ: 63"
-   },
-   {
-    "q": "2, 5, 11, 23, 47, ?",
-    "choices": [
-     "11",
-     "5",
      "47",
-     "95"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: × 2 แล้ว + 1\n\nวิธีทำ\n→ 2×2+1=5, 5×2+1=11, ...\n→ 47 × 2 + 1 = 95\n\n✓ ตอบ: 95"
-   },
-   {
-    "q": "1, 4, 13, 40, ?",
-    "choices": [
-     "13",
-     "4",
-     "121",
-     "40"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: × 3 แล้ว + 1\n\nวิธีทำ\n→ 1×3+1=4, 4×3+1=13, 13×3+1=40\n→ 40 × 3 + 1 = 121\n\n✓ ตอบ: 121"
-   },
-   {
-    "q": "3, 7, 15, 31, 63, ?",
-    "choices": [
-     "127",
-     "7",
-     "15",
+     "62",
+     "61",
      "63"
     ],
-    "answer": 0,
-    "explain": "รูปแบบ: × 2 แล้ว + 1\n\nวิธีทำ\n→ 3×2+1=7, 7×2+1=15, ...\n→ 63 × 2 + 1 = 127\n\n✓ ตอบ: 127"
+    "answer": 3,
+    "explain": "💡 คูณอย่างเดียวก็ไม่ลงตัว บวกอย่างเดียวก็ไม่คงที่ ลองกฎ ‘คูณแล้วบวก’\n📐 กฎที่ใช้\n• กฎผสม คูณแล้วบวก — พจน์ถัดไป = พจน์ก่อนหน้า × 2 + 1\n1×2+1=3, 3×2+1=7, 7×2+1=15, 15×2+1=31 ✓\n🟰 พจน์ถัดไป = 31 × 2 + 1 = 63\n✓ ตอบ 63",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzIgMTgyIiB3aWR0aD0iNTcyIiBoZWlnaHQ9IjE4MiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjg2IiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4geC4juC4nOC4quC4oTogw5cyICsxPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTMiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTwvdGV4dD48cmVjdCB4PSIxMTIiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNDEiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzwvdGV4dD48cmVjdCB4PSIyMDAiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMjkiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NzwvdGV4dD48cmVjdCB4PSIyODgiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzMTciIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTU8L3RleHQ+PHJlY3QgeD0iMzc2IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNDA1IiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjMxPC90ZXh0PjxyZWN0IHg9IjQ2NCIgeT0iODgiIHdpZHRoPSI1OCIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMi42Ii8+PHRleHQgeD0iNDkzIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj88L3RleHQ+PHBhdGggZD0iTTc2IDg4IFEgOTcgNjYgMTE4IDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0xMTggODggbDUgLTUgTTExOCA4OCBsLTUgLTUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iOTciIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiNCNDUzMDkiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7DlzIrMTwvdGV4dD48cGF0aCBkPSJNMTY0IDg4IFEgMTg1IDY2IDIwNiA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMjA2IDg4IGw1IC01IE0yMDYgODggbC01IC01IiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjE4NSIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPsOXMisxPC90ZXh0PjxwYXRoIGQ9Ik0yNTIgODggUSAyNzMgNjYgMjk0IDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0yOTQgODggbDUgLTUgTTI5NCA4OCBsLTUgLTUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iMjczIiB5PSI2MiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjQjQ1MzA5IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w5cyKzE8L3RleHQ+PHBhdGggZD0iTTM0MCA4OCBRIDM2MSA2NiAzODIgODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTM4MiA4OCBsNSAtNSBNMzgyIDg4IGwtNSAtNSIgc3Ryb2tlPSIjQjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48dGV4dCB4PSIzNjEiIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiNCNDUzMDkiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7DlzIrMTwvdGV4dD48cGF0aCBkPSJNNDI4IDg4IFEgNDQ5IDY2IDQ3MCA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNDcwIDg4IGw1IC01IE00NzAgODggbC01IC01IiBzdHJva2U9IiNCNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjQ0OSIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPsOXMisxPC90ZXh0Pjx0ZXh0IHg9IjI4NiIgeT0iMTYyIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+PyA9IDMxIMOXIDIgKyAxID0gNjM8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "2, 6, 14, 30, 62, ?",
+    "q": "2, 3, 5, 8, 13, ?  จำนวนถัดไปคือเท่าใด",
     "choices": [
-     "62",
-     "6",
-     "126",
-     "14"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: × 2 แล้ว + 2\n\nวิธีทำ\n→ 2×2+2=6, 6×2+2=14, ...\n→ 62 × 2 + 2 = 126\n\n✓ ตอบ: 126"
-   },
-   {
-    "q": "1, 10, 2, 20, 3, 30, ?",
-    "choices": [
-     "2",
-     "4",
-     "3",
-     "1"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: อนุกรมซ้อน 2 ชุด สลับกัน\n\nวิธีทำ\n→ ชุดที่ 1 (ตำแหน่งคี่): 1, 2, 3, ... → ถัดไป 4\n→ ชุดที่ 2 (ตำแหน่งคู่): 10, 20, 30\n→ พจน์ถัดไปเป็นชุดที่ 1 = 4\n\n✓ ตอบ: 4"
-   },
-   {
-    "q": "1, 2, 4, 5, 7, 8, ?",
-    "choices": [
-     "1",
-     "8",
-     "10",
-     "2"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: ผลต่างสลับ +1, +2\n\nวิธีทำ\n→ ผลต่าง: 1, 2, 1, 2, 1, (2)\n→ 8 + 2 = 10\n\n✓ ตอบ: 10"
-   },
-   {
-    "q": "5, 6, 8, 11, 15, ?",
-    "choices": [
+     "21",
+     "18",
      "20",
-     "4",
-     "15",
-     "5"
+     "26"
     ],
     "answer": 0,
-    "explain": "รูปแบบ: ผลต่างเพิ่มทีละ 1\n\nวิธีทำ\n→ ผลต่าง: 1, 2, 3, 4\n→ ผลต่างถัดไป = 5\n→ 15 + 5 = 20\n\n✓ ตอบ: 20"
+    "explain": "💡 ถ้าแต่ละพจน์โตขึ้นตามพจน์ก่อนๆ ลองบวก ‘สองพจน์ที่อยู่ก่อนหน้า’ เข้าด้วยกัน\n📐 กฎที่ใช้\n• อนุกรมฟีโบนัชชี — พจน์ถัดไป = สองพจน์ก่อนหน้าบวกกัน\n2+3=5, 3+5=8, 5+8=13 ✓\n🟰 พจน์ถัดไป = 8 + 13 = 21\n✓ ตอบ 21",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzIgMTgyIiB3aWR0aD0iNTcyIiBoZWlnaHQ9IjE4MiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjg2IiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4n+C4teC5guC4muC4meC4seC4iuC4iuC4tTog4Lia4Lin4LiB4Liq4Lit4LiH4Lie4LiI4LiZ4LmM4LiB4LmI4Lit4LiZ4Lir4LiZ4LmJ4LiyPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTMiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD48cmVjdCB4PSIxMTIiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNDEiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzwvdGV4dD48cmVjdCB4PSIyMDAiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMjkiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NTwvdGV4dD48cmVjdCB4PSIyODgiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzMTciIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ODwvdGV4dD48cmVjdCB4PSIzNzYiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI0MDUiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTM8L3RleHQ+PHJlY3QgeD0iNDY0IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIyLjYiLz48dGV4dCB4PSI0OTMiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PzwvdGV4dD48cGF0aCBkPSJNNzYgODggUSA5NyA2NiAxMTggODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFFN0E0NCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTExOCA4OCBsNSAtNSBNMTE4IDg4IGwtNSAtNSIgc3Ryb2tlPSIjMUU3QTQ0IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48dGV4dCB4PSI5NyIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iIzFFN0E0NCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjwvdGV4dD48cGF0aCBkPSJNMTY0IDg4IFEgMTg1IDY2IDIwNiA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUU3QTQ0IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMjA2IDg4IGw1IC01IE0yMDYgODggbC01IC01IiBzdHJva2U9IiMxRTdBNDQiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjE4NSIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iIzFFN0E0NCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjwvdGV4dD48cGF0aCBkPSJNMjUyIDg4IFEgMjczIDY2IDI5NCA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUU3QTQ0IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMjk0IDg4IGw1IC01IE0yOTQgODggbC01IC01IiBzdHJva2U9IiMxRTdBNDQiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjI3MyIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iIzFFN0E0NCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjwvdGV4dD48cGF0aCBkPSJNMzQwIDg4IFEgMzYxIDY2IDM4MiA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUU3QTQ0IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMzgyIDg4IGw1IC01IE0zODIgODggbC01IC01IiBzdHJva2U9IiMxRTdBNDQiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjM2MSIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iIzFFN0E0NCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjwvdGV4dD48cGF0aCBkPSJNNDI4IDg4IFEgNDQ5IDY2IDQ3MCA4OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUU3QTQ0IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNDcwIDg4IGw1IC01IE00NzAgODggbC01IC01IiBzdHJva2U9IiMxRTdBNDQiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjQ0OSIgeT0iNjIiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iIzFFN0E0NCIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjwvdGV4dD48dGV4dCB4PSIyODYiIHk9IjE2MiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPj8gPSA4ICsgMTMgPSAyMTwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "1, 2, 6, 24, 120, ?",
+    "q": "1, 8, 27, 64, ?  จำนวนถัดไปคือเท่าใด",
     "choices": [
-     "6",
-     "120",
-     "720",
-     "24"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: แฟกทอเรียล (× 2, × 3, × 4, × 5, ...)\n\nวิธีทำ\n→ 1×2=2, 2×3=6, 6×4=24, 24×5=120\n→ 120 × 6 = 720\n\n✓ ตอบ: 720"
-   },
-   {
-    "q": "100, 50, 52, 26, 28, 14, ?",
-    "choices": [
-     "28",
-     "26",
-     "14",
-     "16"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: สลับ ÷ 2 กับ + 2\n\nวิธีทำ\n→ 100÷2=50, 50+2=52, 52÷2=26, 26+2=28, 28÷2=14\n→ ขั้นถัดไปเป็น + 2 → 14 + 2 = 16\n\n✓ ตอบ: 16"
-   },
-   {
-    "q": "50, 45, 41, 38, 36, ?",
-    "choices": [
-     "1",
-     "−35",
-     "36",
-     "35"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: ผลต่างลดลงทีละ 1\n\nวิธีทำ\n→ ผลต่าง: −5, −4, −3, −2\n→ ผลต่างถัดไป = −1\n→ 36 − 1 = 35\n\n✓ ตอบ: 35"
-   },
-   {
-    "q": "90, 80, 71, 63, 56, ?",
-    "choices": [
-     "50",
-     "6",
-     "−50",
-     "56"
-    ],
-    "answer": 0,
-    "explain": "รูปแบบ: ผลต่างลดลงทีละ 1\n\nวิธีทำ\n→ ผลต่าง: −10, −9, −8, −7\n→ ผลต่างถัดไป = −6\n→ 56 − 6 = 50\n\n✓ ตอบ: 50"
-   },
-   {
-    "q": "25, 24, 22, 19, 15, ?",
-    "choices": [
-     "5",
-     "10",
-     "−10",
-     "15"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: ผลต่างเพิ่มขึ้น (ทางลบ)\n\nวิธีทำ\n→ ผลต่าง: −1, −2, −3, −4\n→ ผลต่างถัดไป = −5\n→ 15 − 5 = 10\n\n✓ ตอบ: 10"
-   },
-   {
-    "q": "2, 3, 5, 7, 11, 13, ?",
-    "choices": [
-     "7",
-     "17",
-     "13",
-     "11"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: จำนวนเฉพาะเรียงกัน\n\nวิธีทำ\n→ 2, 3, 5, 7, 11, 13 เป็นจำนวนเฉพาะ\n→ จำนวนเฉพาะถัดไป = 17\n\n✓ ตอบ: 17"
-   },
-   {
-    "q": "1, 4, 9, 16, 25, 36, ?",
-    "choices": [
-     "7",
-     "1",
-     "49",
-     "6"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: กำลังสอง\n\nวิธีทำ\n→ 1²…6²\n→ พจน์ถัดไป = 7² = 49\n\n✓ ตอบ: 49"
-   },
-   {
-    "q": "1, 3, 6, 10, 15, 21, ?",
-    "choices": [
-     "6",
-     "21",
-     "28",
-     "7"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: จำนวนสามเหลี่ยม (ผลต่างเพิ่มทีละ 1)\n\nวิธีทำ\n→ ผลต่าง: 2,3,4,5,6\n→ ผลต่างถัดไป = 7\n→ 21 + 7 = 28\n\n✓ ตอบ: 28"
-   },
-   {
-    "q": "1, 2, 4, 7, 11, 16, ?",
-    "choices": [
-     "16",
-     "6",
-     "5",
-     "22"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: ผลต่างเพิ่มทีละ 1\n\nวิธีทำ\n→ ผลต่าง: 1, 2, 3, 4, 5\n→ ผลต่างถัดไป = 6\n→ 16 + 6 = 22\n\n✓ ตอบ: 22"
-   },
-   {
-    "q": "3, 6, 11, 18, 27, ?",
-    "choices": [
-     "27",
-     "38",
-     "9",
-     "11"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: รูปแบบ n²+2 (ผลต่างเป็นเลขคี่)\n\nวิธีทำ\n→ ผลต่าง: 3, 5, 7, 9\n→ ผลต่างถัดไป = 11\n→ 27 + 11 = 38\n\n✓ ตอบ: 38"
-   },
-   {
-    "q": "6, 11, 21, 41, 81, ?",
-    "choices": [
-     "41",
      "81",
-     "161",
-     "21"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: × 2 แล้ว − 1\n\nวิธีทำ\n→ 6×2−1=11, 11×2−1=21, 21×2−1=41, 41×2−1=81\n→ 81 × 2 − 1 = 161\n\n✓ ตอบ: 161"
-   },
-   {
-    "q": "4, 9, 19, 39, 79, ?",
-    "choices": [
-     "9",
-     "19",
-     "159",
-     "79"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: × 2 แล้ว + 1\n\nวิธีทำ\n→ 4×2+1=9, 9×2+1=19, ...\n→ 79 × 2 + 1 = 159\n\n✓ ตอบ: 159"
-   },
-   {
-    "q": "1, 2, 3, 5, 8, 13, ?",
-    "choices": [
-     "21",
-     "8",
-     "5",
-     "13"
-    ],
-    "answer": 0,
-    "explain": "รูปแบบ: ฟีโบนัชชี (ผลบวกสองพจน์ก่อนหน้า)\n\nวิธีทำ\n→ ตรวจ: 2+3=5, 3+5=8, 5+8=13\n→ 8 + 13 = 21\n\n✓ ตอบ: 21"
-   },
-   {
-    "q": "7, 14, 28, 56, ?",
-    "choices": [
-     "112",
-     "113",
-     "2",
-     "56"
-    ],
-    "answer": 0,
-    "explain": "รูปแบบ: เรขาคณิต × 2\n\nวิธีทำ\n→ แต่ละพจน์ × 2\n→ 56 × 2 = 112\n\n✓ ตอบ: 112"
-   },
-   {
-    "q": "729, 243, 81, 27, ?",
-    "choices": [
-     "3",
-     "27",
-     "9",
-     "10"
-    ],
-    "answer": 2,
-    "explain": "รูปแบบ: เรขาคณิต ÷ 3\n\nวิธีทำ\n→ แต่ละพจน์ ÷ 3\n→ 27 ÷ 3 = 9\n\n✓ ตอบ: 9"
-   },
-   {
-    "q": "2, 4, 8, 16, 32, ?",
-    "choices": [
-     "64",
-     "65",
-     "32",
-     "2"
-    ],
-    "answer": 0,
-    "explain": "รูปแบบ: เรขาคณิต × 2 (กำลังของ 2)\n\nวิธีทำ\n→ แต่ละพจน์ × 2\n→ 32 × 2 = 64\n\n✓ ตอบ: 64"
-   },
-   {
-    "q": "1, 3, 9, 27, 81, ?",
-    "choices": [
-     "244",
-     "3",
-     "81",
-     "243"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: เรขาคณิต × 3 (กำลังของ 3)\n\nวิธีทำ\n→ แต่ละพจน์ × 3\n→ 81 × 3 = 243\n\n✓ ตอบ: 243"
-   },
-   {
-    "q": "อนุกรมตัวอักษร: A, C, E, G, ?",
-    "choices": [
-     "J",
-     "I",
-     "H",
-     "K"
+     "125",
+     "100",
+     "128"
     ],
     "answer": 1,
-    "explain": "รูปแบบ: ข้ามตัวอักษรทีละ 1 (ตำแหน่งเลขคี่)\n\nวิธีทำ\n→ ตำแหน่ง: A=1, C=3, E=5, G=7 (เพิ่มทีละ 2)\n→ ตำแหน่งถัดไป = 9 → ตัวอักษร I\n\n✓ ตอบ: I"
-   },
-   {
-    "q": "อนุกรมตัวอักษร: B, D, G, K, ?",
-    "choices": [
-     "R",
-     "O",
-     "Q",
-     "P"
-    ],
-    "answer": 3,
-    "explain": "รูปแบบ: ผลต่างของตำแหน่งเพิ่มทีละ 1\n\nวิธีทำ\n→ ตำแหน่ง: B=2, D=4, G=7, K=11 (ผลต่าง 2,3,4)\n→ ผลต่างถัดไป = 5 → 11+5 = 16 → ตัวอักษร P\n\n✓ ตอบ: P"
-   },
-   {
-    "q": "อนุกรมตัวอักษร: Z, X, V, T, ?",
-    "choices": [
-     "Q",
-     "R",
-     "T",
-     "S"
-    ],
-    "answer": 1,
-    "explain": "รูปแบบ: ถอยหลังทีละ 2 ตำแหน่ง\n\nวิธีทำ\n→ ตำแหน่ง: Z=26, X=24, V=22, T=20 (ลดทีละ 2)\n→ ตำแหน่งถัดไป = 18 → ตัวอักษร R\n\n✓ ตอบ: R"
+    "explain": "💡 ตัวเลขโตเร็วและเป็นจำนวนคุ้นตา ลองเทียบกับ ‘เลขยกกำลังสาม’ (ลูกบาศก์)\n📐 กฎที่ใช้\n• อนุกรมกำลังสาม — พจน์ที่ n = n³\n1=1³, 8=2³, 27=3³, 64=4³ → ถัดไป 5³\n🟰 พจน์ถัดไป = 5³ = 5×5×5 = 125\n⚠️ อย่าสับสนกับกำลังสอง — 81 คือ 9² ไม่เข้าแบบรูปนี้\n✓ ตอบ 125",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODQgMTgyIiB3aWR0aD0iNDg0IiBoZWlnaHQ9IjE4MiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQyIiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4peC4ueC4geC4muC4suC4qOC4geC5jDogbsKzPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTMiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTwvdGV4dD48cmVjdCB4PSIxMTIiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNDEiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ODwvdGV4dD48cmVjdCB4PSIyMDAiIHk9Ijg4IiB3aWR0aD0iNTgiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMjkiIHk9IjExOCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Mjc8L3RleHQ+PHJlY3QgeD0iMjg4IiB5PSI4OCIgd2lkdGg9IjU4IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzE3IiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjY0PC90ZXh0PjxyZWN0IHg9IjM3NiIgeT0iODgiIHdpZHRoPSI1OCIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMi42Ii8+PHRleHQgeD0iNDA1IiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj88L3RleHQ+PHBhdGggZD0iTTc2IDg4IFEgOTcgNjYgMTE4IDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyRTZCRDYiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0xMTggODggbDUgLTUgTTExOCA4OCBsLTUgLTUiIHN0cm9rZT0iIzJFNkJENiIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PHRleHQgeD0iOTciIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiMyRTZCRDYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj48L3RleHQ+PHBhdGggZD0iTTE2NCA4OCBRIDE4NSA2NiAyMDYgODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJFNkJENiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTIwNiA4OCBsNSAtNSBNMjA2IDg4IGwtNSAtNSIgc3Ryb2tlPSIjMkU2QkQ2IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48dGV4dCB4PSIxODUiIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiMyRTZCRDYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj48L3RleHQ+PHBhdGggZD0iTTI1MiA4OCBRIDI3MyA2NiAyOTQgODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJFNkJENiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTI5NCA4OCBsNSAtNSBNMjk0IDg4IGwtNSAtNSIgc3Ryb2tlPSIjMkU2QkQ2IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48dGV4dCB4PSIyNzMiIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiMyRTZCRDYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj48L3RleHQ+PHBhdGggZD0iTTM0MCA4OCBRIDM2MSA2NiAzODIgODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJFNkJENiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTM4MiA4OCBsNSAtNSBNMzgyIDg4IGwtNSAtNSIgc3Ryb2tlPSIjMkU2QkQ2IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48dGV4dCB4PSIzNjEiIHk9IjYyIiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiMyRTZCRDYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj48L3RleHQ+PHRleHQgeD0iMjQyIiB5PSIxNjIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4/ID0gNcKzID0gMTI1PC90ZXh0Pjwvc3ZnPg=="
    }
   ],
   "math_01": [
@@ -50051,7 +49621,8 @@
   "math_22": 1787733245622,
   "math_21": 1787807915434,
   "math_23": 1787906233903,
-  "math_24": 1787980344139
+  "math_24": 1787980344139,
+  "math_04": 1787990241394
  },
  "subjStatus": {
   "thai": {
