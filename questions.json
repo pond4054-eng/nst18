@@ -1,6 +1,6 @@
 {
  "_comment": "คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อย่าแก้ไฟล์นี้ด้วยมือ ให้ใช้ปุ่ม 'ส่งออกคลังข้อสอบ' ในแผงแอดมินแล้วอัปโหลดทับไฟล์นี้",
- "version": 182,
+ "version": 183,
  "topics": {
   "math": [
    {
@@ -5169,554 +5169,244 @@
   ],
   "math_08": [
    {
-    "q": "ลำดับ 5, 8, 11, 14, ... เป็นลำดับชนิดใด และมีผลต่างร่วม (d) หรืออัตราส่วนร่วม (r) เท่ากับเท่าใด",
+    "q": "2, 9, 16, 23, ...  จงหาพจน์ที่ 15 ของลำดับนี้",
     "choices": [
-     "เลขคณิต, d = 4",
-     "เลขคณิต, d = 3",
-     "เลขคณิต, d = 2",
-     "เลขคณิต, d = 8"
+     "100",
+     "98",
+     "93",
+     "107"
+    ],
+    "answer": 0,
+    "explain": "💡 แนวทาง: ดูว่าเพิ่มทีละเท่าไร (เลขคณิต) แล้วนับก้าวจากพจน์แรกไปให้ถึงพจน์ที่ต้องการ\n📐 หลักคิด\n• พจน์ที่ n = พจน์แรก + (จำนวนก้าว)×ผลต่าง\nเพิ่มทีละ 7 ; จากพจน์ที่ 1 ไปพจน์ที่ 15 = ก้าว 14 ครั้ง\n🟰 พจน์ที่ 15 = 2 + 14×7 = 2 + 98 = 100\n⚠️ ก้าวคือ (15−1)=14 ไม่ใช่ 15\n✓ ตอบ 100",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NzAgMTU2IiB3aWR0aD0iNDcwIiBoZWlnaHQ9IjE1NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjM1IiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4nuC4iOC4meC5jOC4l+C4teC5iCAxNTwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNjQiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUyIiB5PSI5NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjY0IiB3aWR0aD0iNTYiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VFRjNGQiIgc3Ryb2tlPSIjM0Y2RkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxMzgiIHk9Ijk0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj45PC90ZXh0PjxyZWN0IHg9IjE5NiIgeT0iNjQiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjIyNCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE2PC90ZXh0Pjx0ZXh0IHg9IjMxMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiM5OTkiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKApjwvdGV4dD48cmVjdCB4PSIzNjgiIHk9IjY0IiB3aWR0aD0iNTYiIGhlaWdodD0iNDYiIHJ4PSIxMSIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjIuNiIvPjx0ZXh0IHg9IjM5NiIgeT0iOTQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwMDwvdGV4dD48cGF0aCBkPSJNNzQgNjQgUSA5NSA0NCAxMTYgNjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iOTUiIHk9IjQwIiBmb250LXNpemU9IjEyIiBmaWxsPSIjQjQ1MzA5IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+Kzc8L3RleHQ+PHBhdGggZD0iTTE2MCA2NCBRIDE4MSA0NCAyMDIgNjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTgxIiB5PSI0MCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI0I0NTMwOSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPis3PC90ZXh0Pjx0ZXh0IHg9IjIzNSIgeT0iMTM2IiBmb250LXNpemU9IjEyLjUiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj4yICsgKDE14oiSMSnDlzcgPSAxMDA8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "3, 8, 13, 18, ...  จงหาผลรวมตั้งแต่พจน์ที่ 1 ถึงพจน์ที่ 20",
+    "choices": [
+     "1000",
+     "1010",
+     "505",
+     "1020"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: ผลต่างคงที่ = เลขคณิต\n\nวิธีทำ\n→ 8−5 = 3 คงที่ → ลำดับเลขคณิต\n→ d = 3\n\n✓ ตอบ: เลขคณิต, d = 3"
+    "explain": "💡 แนวทาง (จับคู่หัว-ท้าย): หาพจน์สุดท้ายก่อน แล้วจับคู่ ‘พจน์แรก+พจน์สุดท้าย’ ซึ่งทุกคู่บวกได้เท่ากัน\n📐 หลักคิด\n• ผลรวม = (จำนวนพจน์ ÷ 2) × (พจน์แรก + พจน์สุดท้าย)\nพจน์ที่ 20 = 3 + 19×5 = 98 ; คู่หัว-ท้าย = 3+98 = 101 ; มี 10 คู่\n🟰 ผลรวม = 10 × 101 = 1010\n✓ ตอบ 1,010",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4nOC4peC4o+C4p+C4oSAyMCDguJ7guIjguJnguYw8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjQwIiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjExOCIgcng9IjE0IiBmaWxsPSIjRjRGOEZDIiBzdHJva2U9IiNDOUQ2RTgiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSI3MiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4Lic4Lil4Lij4Lin4LihID0gKG4vMiko4Lie4LiI4LiZ4LmM4LmB4Lij4LiBICsg4Lie4LiI4LiZ4LmM4Liq4Li44LiU4LiX4LmJ4Liy4LiiKTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4nuC4iOC4meC5jOC4l+C4teC5iCAyMCA9IDk4IMK3IOC4hOC4ueC5iCA9IDMrOTggPSAxMDE8L3RleHQ+PHJlY3QgeD0iMTIwIiB5PSIxMjYiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjYiIHJ4PSI4IiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSIxNDUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gMTAgw5cgMTAxID0gMSwwMTA8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "ลำดับ 3, 6, 12, 24, ... เป็นลำดับชนิดใด และมีผลต่างร่วม (d) หรืออัตราส่วนร่วม (r) เท่ากับเท่าใด",
+    "q": "3, 6, 12, 24, ...  จงหาพจน์ที่ 8 ของลำดับนี้",
     "choices": [
-     "เรขาคณิต, r = 1",
-     "เรขาคณิต, r = 6",
-     "เรขาคณิต, r = 3",
-     "เรขาคณิต, r = 2"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: อัตราส่วนคงที่ = เรขาคณิต\n\nวิธีทำ\n→ 6÷3 = 2 คงที่ → เรขาคณิต\n→ r = 2\n\n✓ ตอบ: เรขาคณิต, r = 2"
-   },
-   {
-    "q": "ลำดับ 20, 16, 12, 8, ... เป็นลำดับชนิดใด และมีผลต่างร่วม (d) หรืออัตราส่วนร่วม (r) เท่ากับเท่าใด",
-    "choices": [
-     "เลขคณิต, d = 4",
-     "เลขคณิต, d = −4",
-     "เลขคณิต, d = −5",
-     "เลขคณิต, d = −3"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ผลต่างคงที่\n\nวิธีทำ\n→ 16−20 = −4 → เลขคณิต\n→ d = −4\n\n✓ ตอบ: เลขคณิต, d = −4"
-   },
-   {
-    "q": "ลำดับ 2, 10, 50, 250, ... เป็นลำดับชนิดใด และมีผลต่างร่วม (d) หรืออัตราส่วนร่วม (r) เท่ากับเท่าใด",
-    "choices": [
-     "เรขาคณิต, r = 10",
-     "เรขาคณิต, r = 2",
-     "เรขาคณิต, r = 6",
-     "เรขาคณิต, r = 5"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: อัตราส่วนคงที่\n\nวิธีทำ\n→ 10÷2 = 5 → เรขาคณิต\n→ r = 5\n\n✓ ตอบ: เรขาคณิต, r = 5"
-   },
-   {
-    "q": "ลำดับ 81, 27, 9, 3, ... เป็นลำดับชนิดใด และมีผลต่างร่วม (d) หรืออัตราส่วนร่วม (r) เท่ากับเท่าใด",
-    "choices": [
-     "เรขาคณิต, r = 2/3",
-     "เรขาคณิต, r = 1/4",
-     "เรขาคณิต, r = 1/3",
-     "เรขาคณิต, r = 1/2"
+     "192",
+     "768",
+     "384",
+     "256"
     ],
     "answer": 2,
-    "explain": "หลักที่ใช้: อัตราส่วนคงที่\n\nวิธีทำ\n→ 27÷81 = 1/3 → เรขาคณิต\n→ r = 1/3\n\n✓ ตอบ: เรขาคณิต, r = 1/3"
+    "explain": "💡 แนวทาง: ดูว่าคูณด้วยเท่าไร (เรขาคณิต) แล้วคูณต่อจากพจน์แรกตามจำนวนก้าว\n📐 หลักคิด\n• พจน์ที่ n = พจน์แรก × (อัตราส่วน)^(จำนวนก้าว)\nคูณ 2 ทุกพจน์ ; จากพจน์ที่ 1 ไปพจน์ที่ 8 = 7 ก้าว\n🟰 พจน์ที่ 8 = 3 × 2⁷ = 3 × 128 = 384\n⚠️ เลขชี้กำลังคือ 7 (=8−1)\n✓ ตอบ 384",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NzAgMTU2IiB3aWR0aD0iNDcwIiBoZWlnaHQ9IjE1NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjM1IiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4nuC4iOC4meC5jOC4l+C4teC5iCA4PC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI2NCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTIiIHk9Ijk0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4zPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iNjQiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUVGM0ZCIiBzdHJva2U9IiMzRjZGQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjEzOCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjY8L3RleHQ+PHJlY3QgeD0iMTk2IiB5PSI2NCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjI0IiB5PSI5NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTI8L3RleHQ+PHRleHQgeD0iMzEwIiB5PSI5NCIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzk5OSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4oCmPC90ZXh0PjxyZWN0IHg9IjM2OCIgeT0iNjQiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMi42Ii8+PHRleHQgeD0iMzk2IiB5PSI5NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Mzg0PC90ZXh0PjxwYXRoIGQ9Ik03NCA2NCBRIDk1IDQ0IDExNiA2NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEE1QkI1IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5NSIgeT0iNDAiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM4QTVCQjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7DlzI8L3RleHQ+PHBhdGggZD0iTTE2MCA2NCBRIDE4MSA0NCAyMDIgNjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhBNUJCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTgxIiB5PSI0MCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzhBNUJCNSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPsOXMjwvdGV4dD48dGV4dCB4PSIyMzUiIHk9IjEzNiIgZm9udC1zaXplPSIxMi41IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+MyDDlyAyXig44oiSMSkgPSAzODQ8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "ลำดับ 7, 12, 17, 22, ... เป็นลำดับชนิดใด และมีผลต่างร่วม (d) หรืออัตราส่วนร่วม (r) เท่ากับเท่าใด",
+    "q": "2, 6, 18, 54, ...  จงหาผลรวม 6 พจน์แรกของลำดับนี้",
     "choices": [
-     "เลขคณิต, d = 5",
-     "เลขคณิต, d = 6",
-     "เลขคณิต, d = 12",
-     "เลขคณิต, d = 4"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ผลต่างคงที่\n\nวิธีทำ\n→ 12−7 = 5 → เลขคณิต\n→ d = 5\n\n✓ ตอบ: เลขคณิต, d = 5"
-   },
-   {
-    "q": "ลำดับ 100, 50, 25, 12.5, ... เป็นลำดับชนิดใด และมีผลต่างร่วม (d) หรืออัตราส่วนร่วม (r) เท่ากับเท่าใด",
-    "choices": [
-     "เรขาคณิต, r = 1/4",
-     "เรขาคณิต, r = 1/3",
-     "เรขาคณิต, r = 3/2",
-     "เรขาคณิต, r = 1/2"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: อัตราส่วนคงที่\n\nวิธีทำ\n→ 50÷100 = 1/2 → เรขาคณิต\n→ r = 1/2\n\n✓ ตอบ: เรขาคณิต, r = 1/2"
-   },
-   {
-    "q": "ลำดับ −5, −1, 3, 7, ... เป็นลำดับชนิดใด และมีผลต่างร่วม (d) หรืออัตราส่วนร่วม (r) เท่ากับเท่าใด",
-    "choices": [
-     "เลขคณิต, d = 4",
-     "เลขคณิต, d = 6",
-     "เลขคณิต, d = 3",
-     "เลขคณิต, d = 5"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ผลต่างคงที่\n\nวิธีทำ\n→ −1−(−5) = 4 → เลขคณิต\n→ d = 4\n\n✓ ตอบ: เลขคณิต, d = 4"
-   },
-   {
-    "q": "ลำดับเลขคณิตลำดับหนึ่ง มีพจน์แรก a₁ = 2 และผลต่างร่วม d = 5 จงหาพจน์ที่ 10 (a₁₀)",
-    "choices": [
-     "47",
-     "5",
-     "9",
-     "2"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: aₙ = a₁ + (n−1)d\n\nวิธีทำ\n→ a₁₀ = 2 + 9×5 = 47\n\n✓ ตอบ: 47"
-   },
-   {
-    "q": "ลำดับเรขาคณิตลำดับหนึ่ง มีพจน์แรก a₁ = 3 และอัตราส่วนร่วม r = 2 จงหาพจน์ที่ 6 (a₆)",
-    "choices": [
-     "2",
-     "32",
-     "96",
-     "3"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: aₙ = a₁ · rⁿ⁻¹\n\nวิธีทำ\n→ a₆ = 3 · 2⁵ = 3×32 = 96\n\n✓ ตอบ: 96"
-   },
-   {
-    "q": "กำหนดลำดับเลขคณิต 4, 7, 10, ... จงหาพจน์ที่ 15 (a₁₅)",
-    "choices": [
-     "4",
-     "46",
-     "3",
-     "14"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: aₙ = a₁ + (n−1)d\n\nวิธีทำ\n→ a₁ = 4, d = 3\n→ a₁₅ = 4 + 14×3 = 46\n\n✓ ตอบ: 46"
-   },
-   {
-    "q": "กำหนดลำดับเรขาคณิต 2, 6, 18, ... จงหาพจน์ที่ 5 (a₅)",
-    "choices": [
-     "3",
-     "2",
-     "163",
-     "162"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: aₙ = a₁ · rⁿ⁻¹\n\nวิธีทำ\n→ r = 3\n→ a₅ = 2 · 3⁴ = 162\n\n✓ ตอบ: 162"
-   },
-   {
-    "q": "ลำดับเลขคณิตลำดับหนึ่ง มีพจน์แรก a₁ = 50 และผลต่างร่วม d = −4 จงหาพจน์ที่ 12 (a₁₂)",
-    "choices": [
-     "−6",
-     "6",
-     "−4",
-     "11"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: aₙ = a₁ + (n−1)d\n\nวิธีทำ\n→ a₁₂ = 50 + 11×(−4) = 50 − 44 = 6\n\n✓ ตอบ: 6"
-   },
-   {
-    "q": "กำหนดลำดับเรขาคณิต 1, 2, 4, ... จงหาพจน์ที่ 10 (a₁₀)",
-    "choices": [
-     "2",
-     "513",
-     "1",
-     "512"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: aₙ = a₁ · rⁿ⁻¹\n\nวิธีทำ\n→ r = 2\n→ a₁₀ = 1 · 2⁹ = 512\n\n✓ ตอบ: 512"
-   },
-   {
-    "q": "กำหนดลำดับเลขคณิต 3, 8, 13, ... จงหาพจน์ที่ 20 (a₂₀)",
-    "choices": [
-     "3",
-     "19",
-     "5",
-     "98"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: aₙ = a₁ + (n−1)d\n\nวิธีทำ\n→ a₁ = 3, d = 5\n→ a₂₀ = 3 + 19×5 = 98\n\n✓ ตอบ: 98"
-   },
-   {
-    "q": "ลำดับเรขาคณิตลำดับหนึ่ง มีพจน์แรก a₁ = 5 และอัตราส่วนร่วม r = 3 จงหาพจน์ที่ 4 (a₄)",
-    "choices": [
-     "135",
-     "3",
-     "27",
-     "5"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: aₙ = a₁ · rⁿ⁻¹\n\nวิธีทำ\n→ a₄ = 5 · 3³ = 5×27 = 135\n\n✓ ตอบ: 135"
-   },
-   {
-    "q": "จงหาผลรวมของ 20 พจน์แรก ของอนุกรมเลขคณิต 3, 7, 11, ...",
-    "choices": [
-     "79",
-     "19",
-     "820",
-     "82"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: Sₙ = (n)/2(a₁ + aₙ)\n\nวิธีทำ\n→ a₂₀ = 3 + 19×4 = 79\n→ S = 20/2(3 + 79) = 10×82 = 820\n\n✓ ตอบ: 820"
-   },
-   {
-    "q": "จงหาผลรวมของ 5 พจน์แรก ของอนุกรมเรขาคณิต 2, 6, 18, ...",
-    "choices": [
-     "5",
-     "3",
+     "726",
      "242",
-     "2"
+     "1458",
+     "728"
     ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: Sₙ = (a₁(rⁿ − 1))/((r − 1))\n\nวิธีทำ\n→ a₁=2, r=3, n=5\n→ S = (2(3⁵ − 1))/2 = 242\n\n✓ ตอบ: 242"
+    "answer": 3,
+    "explain": "💡 แนวทาง: อนุกรมเรขาคณิตใช้สูตรผลรวมเฉพาะ (คูณสามทุกพจน์ → r=3)\n📐 หลักคิด\n• ผลรวม = พจน์แรก × (rⁿ − 1) ÷ (r − 1)\na₁=2, r=3, n=6\n🟰 ผลรวม = 2 × (3⁶ − 1) ÷ (3 − 1) = 2 × 728 ÷ 2 = 728\n✓ ตอบ 728",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4nOC4peC4o+C4p+C4oSA2IOC4nuC4iOC4meC5jCAo4LmA4Lij4LiC4Liy4LiE4LiT4Li04LiVKTwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJzguKXguKPguKfguKEgPSBh4oKBKHLigb8g4oiSIDEpLyhyIOKIkiAxKTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPmHigoE9MiDCtyByPTMgwrcgbj02PC90ZXh0PjxyZWN0IHg9IjEyMCIgeT0iMTI2IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI2IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI0MCIgeT0iMTQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDIoNzI54oiSMSkvMiA9IDcyODwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "จงหาผลรวมของ 1 + 2 + 3 + ... + 40",
+    "q": "7, 11, 15, 19, ...  เลข 83 เป็นพจน์ที่เท่าใดของลำดับนี้",
     "choices": [
-     "41",
-     "40",
-     "820",
-     "2"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: Sₙ = (n(n+1))/2\n\nวิธีทำ\n→ S = (40×41)/2 = 820\n\n✓ ตอบ: 820"
-   },
-   {
-    "q": "จงหาผลรวมของ 6 พจน์แรก ของอนุกรมเรขาคณิต 1, 2, 4, ...",
-    "choices": [
-     "64",
-     "2",
-     "63",
-     "1"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: Sₙ = (a₁(rⁿ − 1))/((r − 1))\n\nวิธีทำ\n→ S = (1(2⁶ − 1))/1 = 63\n\n✓ ตอบ: 63"
-   },
-   {
-    "q": "จงหาผลรวมของ 10 พจน์แรก ของอนุกรมเลขคณิต 5, 9, 13, ...",
-    "choices": [
-     "230",
-     "46",
-     "9",
-     "41"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: Sₙ = (n)/2(a₁ + aₙ)\n\nวิธีทำ\n→ a₁₀ = 5 + 9×4 = 41\n→ S = 10/2(5 + 41) = 5×46 = 230\n\n✓ ตอบ: 230"
-   },
-   {
-    "q": "จงหาผลรวมของ 3 + 6 + 12 + 24",
-    "choices": [
-     "4",
-     "45",
-     "3",
-     "15"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: Sₙ = (a₁(rⁿ − 1))/((r − 1))\n\nวิธีทำ\n→ a₁=3, r=2, n=4\n→ S = (3(2⁴ − 1))/1 = 3×15 = 45\n\n✓ ตอบ: 45"
-   },
-   {
-    "q": "จงหาผลรวมของจำนวนคู่ 2 + 4 + 6 + ... + 40",
-    "choices": [
-     "40",
-     "42",
      "20",
-     "420"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: Sₙ = (n)/2(a₁ + aₙ)\n\nวิธีทำ\n→ n = 20\n→ S = 20/2(2 + 40) = 10×42 = 420\n\n✓ ตอบ: 420"
-   },
-   {
-    "q": "จงหาผลรวมของ 1 + 3 + 9 + 27 + 81",
-    "choices": [
-     "121",
-     "2",
-     "3",
-     "5"
+     "19",
+     "21",
+     "76"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: Sₙ = (a₁(rⁿ − 1))/((r − 1))\n\nวิธีทำ\n→ a₁=1, r=3, n=5\n→ S = ((3⁵ − 1))/2 = 121\n\n✓ ตอบ: 121"
+    "explain": "💡 แนวทาง: รู้ค่าแต่ไม่รู้ตำแหน่ง → ตั้งสมการจากสูตรพจน์ที่ n แล้วแก้หา n\n📐 หลักคิด\n• พจน์ที่ n = พจน์แรก + (n−1)×ผลต่าง\nเพิ่มทีละ 4 ; ตั้ง 7 + (n−1)×4 = 83\n🟰 (n−1)×4 = 76 → n−1 = 19 → n = 20\n✓ ตอบ พจน์ที่ 20",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4p+C5iOC4siA4MyDguK3guKLguLnguYjguJ7guIjguJnguYzguJfguLXguYjguYDguJfguYjguLLguYTguKM8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjQwIiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjExOCIgcng9IjE0IiBmaWxsPSIjRjRGOEZDIiBzdHJva2U9IiNDOUQ2RTgiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSI3MiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NyArIChu4oiSMSnDlzQgPSA4MzwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPihu4oiSMSnDlzQgPSA3NiDihpIgbuKIkjEgPSAxOTwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjEyNiIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNiIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjE0NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+biA9IDIwPC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "จงหาค่ากลางเลขคณิตของ 8 และ 20",
+    "q": "5, 9, 13, 17, ...  จงหาผลรวมตั้งแต่พจน์ที่ 1 ถึงพจน์ที่ 25",
     "choices": [
-     "8",
-     "14",
-     "2",
-     "20"
+     "1300",
+     "1325",
+     "1350",
+     "1250"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: A.M. = (a + b)/2\n\nวิธีทำ\n→ (8 + 20)/2 = 28/2 = 14\n\n✓ ตอบ: 14"
+    "explain": "💡 แนวทาง: หาพจน์สุดท้าย (พจน์ที่ 25) ก่อน แล้วใช้สูตรผลรวม\n📐 หลักคิด\n• ผลรวม = (n/2)(พจน์แรก + พจน์สุดท้าย)\nเพิ่มทีละ 4 ; พจน์ที่ 25 = 5 + 24×4 = 101\n🟰 ผลรวม = (25/2)(5 + 101) = (25/2)(106) = 25 × 53 = 1325\n✓ ตอบ 1,325",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4nOC4peC4o+C4p+C4oSAyNSDguJ7guIjguJnguYw8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjQwIiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjExOCIgcng9IjE0IiBmaWxsPSIjRjRGOEZDIiBzdHJva2U9IiNDOUQ2RTgiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSI3MiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4Lic4Lil4Lij4Lin4LihID0gKG4vMiko4Lie4LiI4LiZ4LmM4LmB4Lij4LiBICsg4Lie4LiI4LiZ4LmM4Liq4Li44LiU4LiX4LmJ4Liy4LiiKTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4nuC4iOC4meC5jOC4l+C4teC5iCAyNSA9IDUrMjTDlzQgPSAxMDE8L3RleHQ+PHJlY3QgeD0iMTIwIiB5PSIxMjYiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjYiIHJ4PSI4IiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSIxNDUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gMjUgw5cgNTMgPSAxLDMyNTwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "จงหาค่ากลางเลขคณิตของ 15 และ 27",
+    "q": "50, 47, 44, 41, ...  จงหาผลรวม 15 พจน์แรกของลำดับนี้",
     "choices": [
-     "2",
-     "27",
-     "21",
-     "15"
+     "450",
+     "420",
+     "435",
+     "405"
     ],
     "answer": 2,
-    "explain": "หลักที่ใช้: A.M. = (a + b)/2\n\nวิธีทำ\n→ (15 + 27)/2 = 42/2 = 21\n\n✓ ตอบ: 21"
+    "explain": "💡 แนวทาง: ลำดับที่ลดลง (ผลต่างเป็นลบ) ก็ใช้สูตรเดิมได้ แค่ระวังเครื่องหมาย\n📐 หลักคิด\n• ผลรวม = (n/2)[2×พจน์แรก + (n−1)×ผลต่าง]\nลดทีละ 3 → ผลต่าง = −3 ; n=15\n🟰 ผลรวม = (15/2)[2×50 + 14×(−3)] = (15/2)(100 − 42) = (15/2)(58) = 15 × 29 = 435\n✓ ตอบ 435",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4nOC4peC4o+C4p+C4oSAxNSDguJ7guIjguJnguYwgKOC4peC4lOC4peC4hyk8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjQwIiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjExOCIgcng9IjE0IiBmaWxsPSIjRjRGOEZDIiBzdHJva2U9IiNDOUQ2RTgiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSI3MiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4Lic4Lil4Lij4Lin4LihID0gKG4vMilbMmHigoEgKyAobuKIkjEpZF08L3RleHQ+PGxpbmUgeDE9IjYwIiB5MT0iODgiIHgyPSI0MjAiIHkyPSI4OCIgc3Ryb2tlPSIjRDdFM0VFIiBzdHJva2Utd2lkdGg9IjEuNCIvPjx0ZXh0IHg9IjI0MCIgeT0iMTEyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNUEzNTg1IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5h4oKBPTUwIMK3IGQ94oiSMyDCtyBuPTE1PC90ZXh0PjxyZWN0IHg9IjEyMCIgeT0iMTI2IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI2IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI0MCIgeT0iMTQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49ICgxNS8yKSg1OCkgPSA0MzU8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "จงหาค่ากลางเรขาคณิตของ 4 และ 9",
-    "choices": [
-     "36",
-     "4",
-     "9",
-     "6"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: G.M. = √(a × b)\n\nวิธีทำ\n→ √(4 × 9) = √36 = 6\n\n✓ ตอบ: 6"
-   },
-   {
-    "q": "จงหาค่ากลางเรขาคณิตของ 2 และ 8",
-    "choices": [
-     "2",
-     "16",
-     "4",
-     "8"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: G.M. = √(a × b)\n\nวิธีทำ\n→ √(2 × 8) = √16 = 4\n\n✓ ตอบ: 4"
-   },
-   {
-    "q": "จงแทรกค่ากลางเลขคณิต 1 จำนวน ระหว่าง 6 กับ 14 จำนวนที่แทรกคือจำนวนใด",
-    "choices": [
-     "10",
-     "6",
-     "14",
-     "2"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ค่ากลาง = (a + b)/2\n\nวิธีทำ\n→ (6 + 14)/2 = 10\n\n✓ ตอบ: 10"
-   },
-   {
-    "q": "จงหาค่ากลางเรขาคณิตของ 3 และ 12",
-    "choices": [
-     "3",
-     "12",
-     "36",
-     "6"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: G.M. = √(a × b)\n\nวิธีทำ\n→ √(3 × 12) = √36 = 6\n\n✓ ตอบ: 6"
-   },
-   {
-    "q": "ค่ากลางเลขคณิตของ 5 กับ x เท่ากับ 11 จงหาค่าของ x",
-    "choices": [
-     "x = 5",
-     "x = 18",
-     "x = 22",
-     "x = 17"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: (5 + x)/2 = 11\n\nวิธีทำ\n→ 5 + x = 22\n→ x = 17\n\n✓ ตอบ: x = 17"
-   },
-   {
-    "q": "จงหาค่ากลางเรขาคณิตของ 9 และ 16",
-    "choices": [
-     "16",
-     "9",
-     "12",
-     "144"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: G.M. = √(a × b)\n\nวิธีทำ\n→ √(9 × 16) = √144 = 12\n\n✓ ตอบ: 12"
-   },
-   {
-    "q": "จงหาผลรวมของอนุกรมเรขาคณิตอนันต์ 1 + 1/2 + 1/4 + 1/8 + ...",
+    "q": "128, 64, 32, 16, ...  จงหาพจน์ที่ 7 ของลำดับนี้",
     "choices": [
      "4",
-     "1",
-     "3",
-     "2"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: S∞ = (a₁)/((1 − r))  (a₁=1, r=1/2)\n\nวิธีทำ\n→ S∞ = 1/((1 − [1/2))] = 1/(([1/2))] = 2\n\n✓ ตอบ: 2"
-   },
-   {
-    "q": "จงหาผลรวมของอนุกรมเรขาคณิตอนันต์ 4 + 2 + 1 + 1/2 + ...",
-    "choices": [
      "1",
      "8",
-     "9",
-     "4"
+     "2"
+    ],
+    "answer": 3,
+    "explain": "💡 แนวทาง: ลำดับที่ลดลงครึ่งหนึ่ง = เรขาคณิต r=1/2 ใช้สูตรพจน์ที่ n\n📐 หลักคิด\n• พจน์ที่ n = พจน์แรก × (1/2)^(n−1)\nจากพจน์ที่ 1 ไปพจน์ที่ 7 = 6 ก้าว\n🟰 พจน์ที่ 7 = 128 × (1/2)⁶ = 128 ÷ 64 = 2\n✓ ตอบ 2",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NzAgMTU2IiB3aWR0aD0iNDcwIiBoZWlnaHQ9IjE1NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjM1IiB5PSIyMiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4nuC4iOC4meC5jOC4l+C4teC5iCA3PC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI2NCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTIiIHk9Ijk0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xMjg8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI2NCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTM4IiB5PSI5NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NjQ8L3RleHQ+PHJlY3QgeD0iMTk2IiB5PSI2NCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjQ2IiByeD0iMTEiIGZpbGw9IiNFRUYzRkIiIHN0cm9rZT0iIzNGNkZCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjI0IiB5PSI5NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzI8L3RleHQ+PHRleHQgeD0iMzEwIiB5PSI5NCIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzk5OSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4oCmPC90ZXh0PjxyZWN0IHg9IjM2OCIgeT0iNjQiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0NiIgcng9IjExIiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMi42Ii8+PHRleHQgeD0iMzk2IiB5PSI5NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD48cGF0aCBkPSJNNzQgNjQgUSA5NSA0NCAxMTYgNjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhBNUJCNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iOTUiIHk9IjQwIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOEE1QkI1IiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBwYWludC1vcmRlcj0ic3Ryb2tlIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyI+w7cyPC90ZXh0PjxwYXRoIGQ9Ik0xNjAgNjQgUSAxODEgNDQgMjAyIDY0IiBmaWxsPSJub25lIiBzdHJva2U9IiM4QTVCQjUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjE4MSIgeT0iNDAiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM4QTVCQjUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHBhaW50LW9yZGVyPSJzdHJva2UiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIj7DtzI8L3RleHQ+PHRleHQgeD0iMjM1IiB5PSIxMzYiIGZvbnQtc2l6ZT0iMTIuNSIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPjEyOCDDlyAoMS8yKV42ID0gMjwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "ลำดับเลขคณิตลำดับหนึ่ง พจน์ที่ 3 คือ 12 และพจน์ที่ 8 คือ 37  จงหาพจน์ที่ 12",
+    "choices": [
+     "57",
+     "52",
+     "62",
+     "47"
+    ],
+    "answer": 0,
+    "explain": "💡 แนวทาง: จากสองพจน์ที่รู้ หาผลต่างร่วมก่อน (ค่าที่ต่างกัน ÷ ตำแหน่งที่ต่างกัน)\n📐 หลักคิด\n• ผลต่าง = (ค่าที่ต่างกัน)/(ตำแหน่งที่ต่างกัน)\nด = (37−12)/(8−3) = 25/5 = 5 ; พจน์แรก = 12 − 2×5 = 2\n🟰 พจน์ที่ 12 = 2 + 11×5 = 2 + 55 = 57\n✓ ตอบ 57",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4iOC4suC4gSAyIOC4nuC4iOC4meC5jCDguKvguLLguJ7guIjguJnguYzguJfguLXguYggMTI8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjQwIiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjExOCIgcng9IjE0IiBmaWxsPSIjRjRGOEZDIiBzdHJva2U9IiNDOUQ2RTgiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSI3MiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ZCA9ICgzN+KIkjEyKS8oOOKIkjMpID0gNTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4nuC4iOC4meC5jOC5geC4o+C4gSA9IDEyIOKIkiAyKDUpID0gMjwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjEyNiIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNiIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjE0NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4Lie4LiI4LiZ4LmM4LiX4Li14LmIIDEyID0gMiArIDExKDUpID0gNTc8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "4, 7, 10, 13, ...  จงหาผลรวมตั้งแต่พจน์ที่ 1 ถึงพจน์ที่ 30",
+    "choices": [
+     "1400",
+     "1425",
+     "1450",
+     "1350"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: a₁=4, r=1/2\n\nวิธีทำ\n→ S∞ = 4/((1 − [1/2))] = 4/(([1/2))] = 8\n\n✓ ตอบ: 8"
+    "explain": "💡 แนวทาง: หาพจน์ที่ 30 ก่อน แล้วจับคู่หัว-ท้าย\n📐 หลักคิด\n• ผลรวม = (n/2)(พจน์แรก + พจน์สุดท้าย)\nเพิ่มทีละ 3 ; พจน์ที่ 30 = 4 + 29×3 = 91\n🟰 ผลรวม = (30/2)(4 + 91) = 15 × 95 = 1425\n✓ ตอบ 1,425",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4nOC4peC4o+C4p+C4oSAzMCDguJ7guIjguJnguYw8L3RleHQ+PHJlY3QgeD0iMzAiIHk9IjQwIiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjExOCIgcng9IjE0IiBmaWxsPSIjRjRGOEZDIiBzdHJva2U9IiNDOUQ2RTgiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSI3MiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4Lic4Lil4Lij4Lin4LihID0gKG4vMiko4Lie4LiI4LiZ4LmM4LmB4Lij4LiBICsg4Lie4LiI4LiZ4LmM4Liq4Li44LiU4LiX4LmJ4Liy4LiiKTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4nuC4iOC4meC5jOC4l+C4teC5iCAzMCA9IDQrMjnDlzMgPSA5MTwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjEyNiIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNiIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjE0NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PSAxNSDDlyA5NSA9IDEsNDI1PC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "จงหาผลรวมของอนุกรมเรขาคณิตอนันต์ 9 + 3 + 1 + 1/3 + ...",
+    "q": "วันแรกน้องหยอดกระปุก 10 บาท จากนั้นเพิ่มขึ้นวันละ 5 บาททุกวัน  พอครบ 30 วัน น้องจะมีเงินในกระปุกรวมทั้งหมดกี่บาท",
     "choices": [
-     "13.5",
-     "1.5",
-     "9.0",
-     "1.0"
+     "2400",
+     "2500",
+     "2475",
+     "1650"
+    ],
+    "answer": 2,
+    "explain": "💡 แนวทาง: เงินแต่ละวันเพิ่มทีละ 5 (เลขคณิต) เงินรวม = ผลบวก 30 พจน์\n📐 หลักคิด\n• เงินรวม = (n/2)[2×วันแรก + (n−1)×เพิ่มต่อวัน]\nวันแรก 10 ; เพิ่มวันละ 5 ; 30 วัน\n🟰 เงินรวม = (30/2)[2×10 + 29×5] = 15[20 + 145] = 15 × 165 = 2475\n✓ ตอบ 2,475 บาท",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5gOC4geC5h+C4muC4reC4reC4oeC5gOC4nuC4tOC5iOC4oeC4l+C4uOC4geC4p+C4seC4mTwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guYDguIfguLTguJnguKPguKfguKEgPSAobi8yKVsyYeKCgSArIChu4oiSMSlkXTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4p+C4seC4meC5geC4o+C4gSAxMCDCtyDguYDguJ7guLTguYjguKHguKfguLHguJnguKXguLAgNSDCtyAzMCDguKfguLHguJk8L3RleHQ+PHJlY3QgeD0iMTIwIiB5PSIxMjYiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjYiIHJ4PSI4IiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSIxNDUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gMTUgw5cgMTY1ID0gMiw0NzUg4Lia4Liy4LiXPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "โรงหนังจัดที่นั่งเป็นแถว แถวหน้าสุดมี 12 ที่ แถวถัดไปเพิ่มขึ้นแถวละ 3 ที่เรื่อยไป  ถ้ามีทั้งหมด 20 แถว จะมีที่นั่งรวมกี่ที่",
+    "choices": [
+     "780",
+     "840",
+     "900",
+     "810"
+    ],
+    "answer": 3,
+    "explain": "💡 แนวทาง: ที่นั่งแต่ละแถวเพิ่มทีละ 3 (เลขคณิต) ที่นั่งรวม = ผลบวก 20 แถว\n📐 หลักคิด\n• ที่นั่งรวม = (n/2)[2×แถวแรก + (n−1)×เพิ่มต่อแถว]\nแถวแรก 12 ; เพิ่มแถวละ 3 ; 20 แถว\n🟰 ที่นั่งรวม = (20/2)[2×12 + 19×3] = 10[24 + 57] = 10 × 81 = 810\n✓ ตอบ 810 ที่",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4l+C4teC5iOC4meC4seC5iOC4h+C5guC4o+C4h+C4q+C4meC4seC4h+C5gOC4nuC4tOC5iOC4oeC4l+C4teC4peC4sOC5geC4luC4pzwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJfguLXguYjguJnguLHguYjguIfguKPguKfguKEgPSAobi8yKVsyYeKCgSArIChu4oiSMSlkXTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC5geC4luC4p+C5geC4o+C4gSAxMiDCtyDguYDguJ7guLTguYjguKHguYHguJbguKfguKXguLAgMyDCtyAyMCDguYHguJbguKc8L3RleHQ+PHJlY3QgeD0iMTIwIiB5PSIxMjYiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjYiIHJ4PSI4IiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSIxNDUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gMTAgw5cgODEgPSA4MTAg4LiX4Li14LmIPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "เริ่มทำงานได้เงินเดือน 15,000 บาท และขึ้นเงินเดือนปีละ 800 บาททุกปี  พอขึ้นปีที่ 10 จะได้เงินเดือนเท่าใด",
+    "choices": [
+     "22200",
+     "21600",
+     "23000",
+     "22000"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: a₁=9, r=1/3\n\nวิธีทำ\n→ S∞ = 9/((1 − [1/3))] = 9/(([2/3))] = 9 × 3/2 = 13.5\n\n✓ ตอบ: 13.5"
+    "explain": "💡 แนวทาง: เงินเดือนเพิ่มทีละ 800 (เลขคณิต) หาพจน์ที่ 10\n📐 หลักคิด\n• เงินเดือนปีที่ n = เงินเดือนเริ่มต้น + (n−1)×ที่ขึ้นต่อปี\nเริ่ม 15,000 ; ขึ้นปีละ 800 ; ปีที่ 10 = ขึ้นมาแล้ว 9 ครั้ง\n🟰 ปีที่ 10 = 15,000 + 9×800 = 15,000 + 7,200 = 22,200\n✓ ตอบ 22,200 บาท",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5gOC4h+C4tOC4meC5gOC4lOC4t+C4reC4meC4guC4tuC5ieC4meC4guC4seC5ieC4meC4l+C4uOC4geC4m+C4tTwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJvguLXguJfguLXguYggbiA9IOC5gOC4o+C4tOC5iOC4oeC4leC5ieC4mSArIChu4oiSMSnDl+C4l+C4teC5iOC4guC4tuC5ieC4mTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE1LDAwMCArIDnDlzgwMDwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjEyNiIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNiIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjE0NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PSAxNSwwMDAgKyA3LDIwMCA9IDIyLDIwMDwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "จงหาผลรวมของอนุกรมเรขาคณิตอนันต์ 1 + 1/3 + 1/9 + ...",
+    "q": "แบคทีเรียเริ่มต้นมี 100 ตัว และแบ่งตัวเพิ่มเป็น 2 เท่าทุกชั่วโมง  ผ่านไป 6 ชั่วโมง จะมีแบคทีเรียกี่ตัว",
     "choices": [
-     "3/2",
-     "9/2",
-     "3/4",
-     "2/3"
+     "3200",
+     "6400",
+     "12800",
+     "640"
     ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: a₁=1, r=1/3\n\nวิธีทำ\n→ S∞ = 1/(([2/3))] = 3/2 = 1.5\n\n✓ ตอบ: 3/2"
+    "answer": 1,
+    "explain": "💡 แนวทาง: จำนวนเพิ่มเป็น 2 เท่าทุกชั่วโมง (เรขาคณิต r=2) หาค่าหลัง 6 ชั่วโมง\n📐 หลักคิด\n• จำนวนหลัง n ชั่วโมง = เริ่มต้น × 2ⁿ\nเริ่ม 100 ; 2 เท่าต่อชั่วโมง ; 6 ชั่วโมง\n🟰 หลัง 6 ชั่วโมง = 100 × 2⁶ = 100 × 64 = 6,400 ตัว\n✓ ตอบ 6,400 ตัว",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5geC4muC4hOC4l+C4teC5gOC4o+C4teC4ouC5gOC4nuC4tOC5iOC4oSAyIOC5gOC4l+C5iOC4suC4l+C4uOC4geC4iuC4seC5iOC4p+C5guC4oeC4hzwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guIjguLPguJnguKfguJkgPSDguYDguKPguLTguYjguKHguJXguYnguJkgw5cgMuKBvzwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwMCDDlyAy4oG2PC90ZXh0PjxyZWN0IHg9IjEyMCIgeT0iMTI2IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI2IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI0MCIgeT0iMTQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDEwMCDDlyA2NCA9IDYsNDAwIOC4leC4seC4pzwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "จงหาผลรวมของอนุกรมเรขาคณิตอนันต์ 6 + 2 + 2/3 + ...",
+    "q": "ลูกบอลตกจากที่สูง 12 เมตร กระดอนขึ้นได้ 1/2 ของความสูงเดิมทุกครั้ง  ระยะทางที่ลูกบอลกระดอน ‘ขึ้น’ รวมทั้งหมดจนหยุดนิ่งเป็นกี่เมตร",
     "choices": [
      "6",
-     "2",
-     "1",
-     "9"
+     "24",
+     "12",
+     "18"
+    ],
+    "answer": 2,
+    "explain": "💡 แนวทาง: ความสูงกระดอนแต่ละครั้งลดครึ่ง (เรขาคณิตอนันต์ r=1/2) — ใช้สูตรผลบวกอนันต์\n📐 หลักคิด\n• ผลบวกอนันต์ = พจน์แรก ÷ (1 − r)\nกระดอนขึ้นครั้งแรก = 12 × 1/2 = 6 ; r = 1/2\n🟰 ระยะกระดอนขึ้นรวม = 6 ÷ (1 − 1/2) = 6 ÷ (1/2) = 12 เมตร\n✓ ตอบ 12 เมตร",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4peC4ueC4geC4muC4reC4peC4geC4o+C4sOC4lOC4reC4meC4peC4lOC4hOC4o+C4tuC5iOC4h+C5hOC4oeC5iOC4o+C4ueC5ieC4iOC4mjwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJzguKXguJrguKfguIHguK3guJnguLHguJnguJXguYwgPSBh4oKBLygxIOKIkiByKTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4geC4o+C4sOC4lOC4reC4meC4guC4tuC5ieC4meC4hOC4o+C4seC5ieC4h+C5geC4o+C4gSA2IMK3IHI9MS8yPC90ZXh0PjxyZWN0IHg9IjEyMCIgeT0iMTI2IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI2IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI0MCIgeT0iMTQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDYvKDEvMikgPSAxMiDguYDguKHguJXguKM8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "ผ่อนหนี้งวดแรก 500 บาท งวดต่อไปลดลงงวดละ 20 บาทเรื่อยไป  ผ่อนครบ 10 งวดแรก จ่ายไปทั้งหมดกี่บาท",
+    "choices": [
+     "4200",
+     "4000",
+     "3600",
+     "4100"
     ],
     "answer": 3,
-    "explain": "หลักที่ใช้: a₁=6, r=1/3\n\nวิธีทำ\n→ S∞ = 6/(([2/3))] = 6 × 3/2 = 9\n\n✓ ตอบ: 9"
+    "explain": "💡 แนวทาง: ยอดผ่อนลดทีละ 20 (เลขคณิต ผลต่าง −20) รวม = ผลบวก 10 งวด\n📐 หลักคิด\n• จ่ายรวม = (n/2)[2×งวดแรก + (n−1)×ที่ลด]\nงวดแรก 500 ; ลดงวดละ 20 ; 10 งวด\n🟰 จ่ายรวม = (10/2)[2×500 + 9×(−20)] = 5[1000 − 180] = 5 × 820 = 4,100\n✓ ตอบ 4,100 บาท",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4nOC5iOC4reC4meC4peC4lOC4peC4h+C4l+C4uOC4geC4h+C4p+C4lDwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guIjguYjguLLguKLguKPguKfguKEgPSAobi8yKVsyYeKCgSArIChu4oiSMSlkXTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4h+C4p+C4lOC5geC4o+C4gSA1MDAgwrcg4Lil4LiUIDIwIMK3IDEwIOC4h+C4p+C4lDwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjEyNiIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyNiIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjE0NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PSA1IMOXIDgyMCA9IDQsMTAwIOC4muC4suC4lzwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "จงหาผลรวมของอนุกรมเรขาคณิตอนันต์ 10 + 5 + 2.5 + ...",
+    "q": "กองซุงวางเป็นชั้น ชั้นบนสุด 1 ท่อน ชั้นถัดลงมาเพิ่มขึ้นชั้นละ 1 ท่อนเรื่อยไป  ถ้ากองไว้ 12 ชั้น มีซุงทั้งหมดกี่ท่อน",
     "choices": [
-     "10",
-     "21",
-     "20",
-     "19"
+     "78",
+     "66",
+     "91",
+     "72"
     ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: a₁=10, r=1/2\n\nวิธีทำ\n→ S∞ = 10/(([1/2))] = 20\n\n✓ ตอบ: 20"
+    "answer": 0,
+    "explain": "💡 แนวทาง: จำนวนท่อนแต่ละชั้น = 1, 2, 3, ..., 12 (เพิ่มทีละ 1) รวม = ผลบวก 1 ถึง 12\n📐 หลักคิด\n• ผลบวก 1 ถึง n = (n/2)(1 + n)\n12 ชั้น ; ชั้นบน 1 ชั้นล่างสุด 12\n🟰 รวม = (12/2)(1 + 12) = 6 × 13 = 78 ท่อน\n✓ ตอบ 78 ท่อน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4geC4reC4h+C4i+C4uOC4h+C5gOC4nuC4tOC5iOC4oeC4iuC4seC5ieC4meC4peC4sOC4l+C5iOC4reC4mTwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guKPguKfguKEgPSAobi8yKSjguJ7guIjguJnguYzguYHguKPguIEgKyDguJ7guIjguJnguYzguKrguLjguJTguJfguYnguLLguKIpPC90ZXh0PjxsaW5lIHgxPSI2MCIgeTE9Ijg4IiB4Mj0iNDIwIiB5Mj0iODgiIHN0cm9rZT0iI0Q3RTNFRSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIyNDAiIHk9IjExMiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzVBMzU4NSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTIg4LiK4Lix4LmJ4LiZOiAxKzIrLi4uKzEyPC90ZXh0PjxyZWN0IHg9IjEyMCIgeT0iMTI2IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI2IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI0MCIgeT0iMTQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDYgw5cgMTMgPSA3OCDguJfguYjguK3guJk8L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "จงหาผลรวมของอนุกรมเรขาคณิตอนันต์ 2 + 2/5 + 2/25 + ...",
+    "q": "โปรโมชันบอกต่อ วันแรกมีคนมาใช้ 5 คน จากนั้นเพิ่มเป็น 2 เท่าของวันก่อนหน้าทุกวัน  รวม 5 วันแรก มีคนมาใช้ทั้งหมดกี่คน",
     "choices": [
-     "1.0",
-     "2.5",
-     "2.0",
-     "1.2"
+     "160",
+     "155",
+     "150",
+     "75"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: a₁=2, r=1/5\n\nวิธีทำ\n→ S∞ = 2/((1 − [1/5))] = 2/(([4/5))] = 2 × 5/4 = 2.5\n\n✓ ตอบ: 2.5"
+    "explain": "💡 แนวทาง: จำนวนคนต่อวันเป็น 2 เท่า (เรขาคณิต r=2) รวม = ผลบวก 5 พจน์\n📐 หลักคิด\n• ผลรวม = a₁(rⁿ − 1)/(r − 1)\nวันแรก 5 ; 2 เท่าต่อวัน ; 5 วัน\n🟰 ผลรวม = 5(2⁵ − 1)/(2 − 1) = 5(32 − 1)/1 = 5 × 31 = 155\n✓ ตอบ 155 คน",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4hOC4meC5g+C4iuC5ieC5gOC4nuC4tOC5iOC4oSAyIOC5gOC4l+C5iOC4suC4l+C4uOC4geC4p+C4seC4mTwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJzguKXguKPguKfguKEgPSBh4oKBKHLigb8g4oiSIDEpLyhyIOKIkiAxKTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4p+C4seC4meC5geC4o+C4gSA1IMK3IDIg4LmA4LiX4LmI4LiyIMK3IDUg4Lin4Lix4LiZPC90ZXh0PjxyZWN0IHg9IjEyMCIgeT0iMTI2IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI2IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI0MCIgeT0iMTQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDUgw5cgMzEgPSAxNTUg4LiE4LiZPC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "จงหาผลรวมของอนุกรมเรขาคณิตอนันต์ 1 − 1/2 + 1/4 − 1/8 + ...",
+    "q": "วันแรกเดินออกกำลังกาย 800 เมตร แล้วเพิ่มระยะขึ้นวันละ 200 เมตรทุกวัน  พอถึงวันที่ 12 จะเดินได้กี่เมตรในวันนั้น",
     "choices": [
-     "1/3",
-     "1/2",
-     "3/2",
-     "2/3"
+     "2800",
+     "3200",
+     "3000",
+     "2400"
+    ],
+    "answer": 2,
+    "explain": "💡 แนวทาง: ระยะเพิ่มทีละ 200 (เลขคณิต) หาระยะของวันที่ 12\n📐 หลักคิด\n• ระยะวันที่ n = วันแรก + (n−1)×เพิ่มต่อวัน\nวันแรก 800 ; เพิ่มวันละ 200 ; วันที่ 12\n🟰 วันที่ 12 = 800 + 11×200 = 800 + 2,200 = 3,000 เมตร\n✓ ตอบ 3,000 เมตร",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5gOC4lOC4tOC4meC5gOC4nuC4tOC5iOC4oeC4o+C4sOC4ouC4sOC4l+C4uOC4geC4p+C4seC4mTwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guKPguLDguKLguLDguKfguLHguJnguJfguLXguYggbiA9IOC4p+C4seC4meC5geC4o+C4gSArIChu4oiSMSnDl+C5gOC4nuC4tOC5iOC4oTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjgwMCArIDExw5cyMDA8L3RleHQ+PHJlY3QgeD0iMTIwIiB5PSIxMjYiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjYiIHJ4PSI4IiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjQwIiB5PSIxNDUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gODAwICsgMiwyMDAgPSAzLDAwMCDguYDguKHguJXguKM8L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "ถังน้ำรั่ว ชั่วโมงแรกไหลออก 8 ลิตร ชั่วโมงต่อไปไหลออกเหลือครึ่งหนึ่งของชั่วโมงก่อนเรื่อยไป  น้ำที่ไหลออกทั้งหมดจนหยุดเป็นกี่ลิตร",
+    "choices": [
+     "8",
+     "24",
+     "32",
+     "16"
     ],
     "answer": 3,
-    "explain": "หลักที่ใช้: a₁=1, r=−1/2\n\nวิธีทำ\n→ S∞ = 1/((1 − (−[1/2)))] = 1/(([3/2))] = 2/3\n\n✓ ตอบ: 2/3"
-   },
-   {
-    "q": "โรงภาพยนตร์แห่งหนึ่ง จัดเก้าอี้แถวแรกไว้ 10 ตัว และแต่ละแถวถัดไปเพิ่มขึ้นแถวละ 2 ตัว แถวที่ 8 จะมีเก้าอี้กี่ตัว",
-    "choices": [
-     "2 ตัว",
-     "24 ตัว",
-     "7 ตัว",
-     "10 ตัว"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: aₙ = a₁ + (n−1)d\n\nวิธีทำ\n→ a₈ = 10 + 7×2 = 24\n\n✓ ตอบ: 24 ตัว"
-   },
-   {
-    "q": "แบคทีเรียชนิดหนึ่งเพิ่มจำนวนเป็น 2 เท่าทุกปี ถ้าเริ่มต้นมีประชากร 500 คน เมื่อผ่านไป 4 ปี จะมีประชากรกี่คน",
-    "choices": [
-     "8,000 คน",
-     "2 คน",
-     "500 คน",
-     "16 คน"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: aₙ = a₁ · rⁿ\n\nวิธีทำ\n→ 500 × 2⁴ = 500×16 = 8000\n\n✓ ตอบ: 8,000 คน"
-   },
-   {
-    "q": "โรงภาพยนตร์แห่งหนึ่ง จัดเก้าอี้แถวแรกไว้ 10 ตัว และแต่ละแถวถัดไปเพิ่มขึ้นแถวละ 2 ตัว ถ้าโรงภาพยนตร์มีทั้งหมด 8 แถว จะมีเก้าอี้รวมทั้งหมดกี่ตัว",
-    "choices": [
-     "34 ตัว",
-     "10 ตัว",
-     "136 ตัว",
-     "24 ตัว"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: Sₙ = (n)/2(a₁ + aₙ)\n\nวิธีทำ\n→ a₈ = 24\n→ S = 8/2(10 + 24) = 4×34 = 136\n\n✓ ตอบ: 136 ตัว"
-   },
-   {
-    "q": "ลูกบอลลูกหนึ่งตกจากที่สูง 8 เมตร แล้วกระดอนขึ้นได้ 1/2 ของความสูงเดิมทุกครั้ง ระยะทางที่ลูกบอลกระดอนขึ้นรวมทั้งหมดเท่ากับกี่เมตร",
-    "choices": [
-     "9 เมตร",
-     "8 เมตร",
-     "4 เมตร",
-     "1 เมตร"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: อนุกรมอนันต์ ระยะขึ้นครั้งแรก = 4, r = 1/2\n\nวิธีทำ\n→ S∞ = 4/((1 − [1/2))] = 8\n\n✓ ตอบ: 8 เมตร"
-   },
-   {
-    "q": "ชายคนหนึ่งฝากเงินเดือนแรก 100 บาท และเพิ่มขึ้นเดือนละ 50 บาท เมื่อฝากครบ 12 เดือน เขาจะฝากเงินรวมทั้งหมดกี่บาท",
-    "choices": [
-     "4,500 บาท",
-     "650 บาท",
-     "100 บาท",
-     "750 บาท"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: aₙ แล้ว Sₙ\n\nวิธีทำ\n→ a₁₂ = 100 + 11×50 = 650\n→ S = 12/2(100 + 650) = 6×750 = 4500\n\n✓ ตอบ: 4,500 บาท"
-   },
-   {
-    "q": "แบคทีเรียชนิดหนึ่งเพิ่มจำนวนเป็น 3 เท่าทุกชั่วโมง ถ้าเริ่มต้นมี 20 ตัว เมื่อผ่านไป 4 ชั่วโมง จะมีแบคทีเรียกี่ตัว",
-    "choices": [
-     "20 ตัว",
-     "1,620 ตัว",
-     "3 ตัว",
-     "81 ตัว"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: aₙ = a₁ · rⁿ\n\nวิธีทำ\n→ 20 × 3⁴ = 20×81 = 1620\n\n✓ ตอบ: 1,620 ตัว"
-   },
-   {
-    "q": "นักวิ่งคนหนึ่งวิ่งวันแรก 3 กิโลเมตร และเพิ่มขึ้นวันละ 1 กิโลเมตร เมื่อครบ 10 วัน เขาจะวิ่งได้ระยะทางรวมทั้งหมดกี่กิโลเมตร",
-    "choices": [
-     "12 กม.",
-     "15 กม.",
-     "75 กม.",
-     "9 กม."
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: Sₙ = (n)/2(a₁ + aₙ)\n\nวิธีทำ\n→ a₁₀ = 3 + 9 = 12\n→ S = 10/2(3 + 12) = 5×15 = 75\n\n✓ ตอบ: 75 กม."
-   },
-   {
-    "q": "ลำดับเรขาคณิตลำดับหนึ่ง มีพจน์แรก a₁ = 2 และพจน์ที่ 4 คือ a₄ = 54 จงหาอัตราส่วนร่วม (r)",
-    "choices": [
-     "r = 3",
-     "r = 27",
-     "r = 54",
-     "r = 2"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: a₄ = a₁ · r³\n\nวิธีทำ\n→ 2 · r³ = 54 → r³ = 27\n→ r = 3\n\n✓ ตอบ: r = 3"
-   },
-   {
-    "q": "ลำดับเลขคณิตลำดับหนึ่ง มีพจน์ที่ 3 คือ a₃ = 12 และพจน์ที่ 7 คือ a₇ = 28 จงหาผลต่างร่วม (d)",
-    "choices": [
-     "d = 7",
-     "d = 4",
-     "d = 3",
-     "d = 12"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: d = (aₘ − aₖ) ÷ (m − k)\n\nวิธีทำ\n→ d = (28 − 12) ÷ (7 − 3) = 16 ÷ 4 = 4\n\n✓ ตอบ: d = 4"
-   },
-   {
-    "q": "อนุกรมเรขาคณิตอนันต์ชุดหนึ่ง มีผลรวมเท่ากับ 12 และมีอัตราส่วนร่วม r = 2/3 จงหาพจน์แรก (a₁)",
-    "choices": [
-     "a₁ = 4",
-     "a₁ = 1",
-     "a₁ = 3",
-     "a₁ = 12"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: S∞ = (a₁)/((1 − r))\n\nวิธีทำ\n→ 12 = (a₁)/((1 − [2/3))] = (a₁)/(([1/3))] = 3a₁\n→ a₁ = 4\n\n✓ ตอบ: a₁ = 4"
+    "explain": "💡 แนวทาง: ปริมาณไหลลดครึ่งทุกชั่วโมง (เรขาคณิตอนันต์ r=1/2) ใช้สูตรผลบวกอนันต์\n📐 หลักคิด\n• ผลบวกอนันต์ = พจน์แรก ÷ (1 − r)\nชั่วโมงแรก 8 ; r = 1/2\n🟰 น้ำรวม = 8 ÷ (1 − 1/2) = 8 ÷ (1/2) = 16 ลิตร\n✓ ตอบ 16 ลิตร",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMTc2IiB3aWR0aD0iNDgwIiBoZWlnaHQ9IjE3NiIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4meC5ieC4s+C4o+C4seC5iOC4p+C4peC4lOC4hOC4o+C4tuC5iOC4h+C4l+C4uOC4geC4iuC4seC5iOC4p+C5guC4oeC4hzwvdGV4dD48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTE4IiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDAiIHk9IjcyIiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJzguKXguJrguKfguIHguK3guJnguLHguJnguJXguYwgPSBh4oKBLygxIOKIkiByKTwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI4OCIgeDI9IjQyMCIgeTI9Ijg4IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjQwIiB5PSIxMTIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4iuC4seC5iOC4p+C5guC4oeC4h+C5geC4o+C4gSA4IMK3IHI9MS8yPC90ZXh0PjxyZWN0IHg9IjEyMCIgeT0iMTI2IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI2IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI0MCIgeT0iMTQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDgvKDEvMikgPSAxNiDguKXguLTguJXguKM8L3RleHQ+PC9zdmc+"
    }
   ],
   "math_09": [
@@ -50102,7 +49792,8 @@
   "math_21": 1787807915434,
   "math_23": 1787906233903,
   "math_24": 1787980344139,
-  "math_04": 1788010561034
+  "math_04": 1788010561034,
+  "math_08": 1788012065614
  },
  "subjStatus": {
   "thai": {
