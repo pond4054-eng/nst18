@@ -309,7 +309,11 @@
 #tb_ctl .cl{font-weight:800;font-size:15px;color:#e8608a;font-variant-numeric:tabular-nums;background:#fff;padding:7px 12px;border-radius:12px;box-shadow:0 3px 12px #0000001f}
 #tb_back{border:none;background:#fff;color:#46536a;font-weight:800;font-size:13px;padding:9px 13px;border-radius:12px;cursor:pointer;box-shadow:0 3px 12px #0000001f}
 #tb_head{position:absolute;z-index:12;border-radius:16px 16px 0 0;overflow:hidden;background:#fff;border:1px solid #edf1f7;border-bottom:none}
-#tb_head .acc{height:5px;background:linear-gradient(90deg,var(--tb-acc),color-mix(in srgb,var(--tb-acc) 55%,#fff))}
+#tb_brand{display:flex;align-items:center;gap:8px;padding:7px 12px;background-color:var(--tb-acc);background-image:linear-gradient(135deg,rgba(10,12,25,.34),rgba(10,12,25,.66))}
+#tb_brand .blg{width:26px;height:26px;flex:none;border-radius:8px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px}
+#tb_brand .bt{display:flex;flex-direction:column;line-height:1.08;min-width:0}
+#tb_brand .bth{color:#fff;font-weight:900;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tb_brand .ben{color:#f5c04a;font-weight:800;font-size:9px;letter-spacing:1.6px}
 #tb_hrow{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--tb-soft),#fff);padding:9px 12px;cursor:grab;touch-action:none}
 #tb_hrow .grip{color:#adbcd0;font-size:14px;letter-spacing:-3px}
 #tb_hrow .k{font-size:12.5px;font-weight:800;color:var(--tb-acc);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -577,7 +581,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v164";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v165";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4158,7 +4162,7 @@ var TB=(function(){
       '<div id="tb_ctl"><div class="cl" id="tb_clock">⏸ --:--</div><button id="tb_back">◀ กลับไปทำข้อสอบ</button></div>'+
       '<div id="tb_zoom"><button id="tb_zout" class="zb">−</button><button id="tb_zlbl" class="zb wide">100%</button><button id="tb_zin" class="zb">+</button></div>'+
       '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div></div>'+
-      '<div id="tb_head"><div class="acc"></div><div id="tb_hrow"><span class="grip">⣿</span><span class="k" id="tb_label"></span>'+
+      '<div id="tb_head"><div id="tb_brand"><span class="blg">🦁</span><span class="bt"><span class="bth">ติวนายสิบตำรวจนครพนม</span><span class="ben">LION KING ACADEMY</span></span></div><div id="tb_hrow"><span class="grip">⣿</span><span class="k" id="tb_label"></span>'+
         '<button class="hbtn" id="tb_rev">👁 เฉลย</button><button class="hbtn" id="tb_thbtn">🎨</button>'+
         '<button class="hbtn" id="tb_small">－</button><button class="hbtn" id="tb_big">＋</button><button class="hbtn" id="tb_min">▁</button></div></div>'+
       '<div id="tb_theme"><span class="tl">ธีมสี:</span></div>'+
