@@ -1,6 +1,6 @@
 {
  "_comment": "คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อย่าแก้ไฟล์นี้ด้วยมือ ให้ใช้ปุ่ม 'ส่งออกคลังข้อสอบ' ในแผงแอดมินแล้วอัปโหลดทับไฟล์นี้",
- "version": 188,
+ "version": 189,
  "topics": {
   "math": [
    {
@@ -6323,554 +6323,124 @@
   ],
   "math_10": [
    {
-    "q": "รถยนต์คันหนึ่งวิ่งด้วยความเร็ว 60 กิโลเมตรต่อชั่วโมง เป็นเวลา 3 ชั่วโมง รถคันนี้วิ่งได้ระยะทางกี่กิโลเมตร",
+    "q": "รถยนต์วิ่งด้วยความเร็ว 72 กิโลเมตรต่อชั่วโมง เป็นเวลา 2 ชั่วโมง 30 นาที  จะวิ่งได้ระยะทางกี่กิโลเมตร",
     "choices": [
-     "180 กม.",
-     "3 กม.",
-     "60 กม.",
-     "181 กม."
+     "180",
+     "144",
+     "150",
+     "216"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: ระยะ = ความเร็ว × เวลา\n\nวิธีทำ\n→ 60 × 3 = 180 กม.\n\n✓ ตอบ: 180 กม."
+    "explain": "📐 สูตรที่ใช้\n• ระยะทาง s = v × t\n• เมื่อ s = ระยะทาง · v = ความเร็ว · t = เวลา (หน่วยชั่วโมง)\nขั้นที่ 1 แปลงเวลาให้เป็นชั่วโมง: 2 ชม. 30 นาที = 2 + (30)/(60) = 2.5 ชม.\nขั้นที่ 2 แทนในสูตร\n🟰 ระยะทาง = 72 × 2.5 = 180 กิโลเมตร\n⚠️ ต้องแปลง 30 นาที เป็น 0.5 ชม. ก่อน (ไม่ใช่ 2.30)\n✓ ตอบ 180 กิโลเมตร",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4o+C4sOC4ouC4sOC4l+C4suC4hyAo4LmB4Lib4Lil4LiH4LmA4Lin4Lil4Liy4LiB4LmI4Lit4LiZKTwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDAiIHdpZHRoPSI0NTIiIGhlaWdodD0iMTIyIiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNTAiIHk9Ijc3Ljk1IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5zID0gdiDDlyB0PC90ZXh0PjxsaW5lIHgxPSI2MCIgeTE9Ijk2IiB4Mj0iNDQwIiB5Mj0iOTYiIHN0cm9rZT0iI0Q3RTNFRSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIyNTAiIHk9IjExOCIgZm9udC1zaXplPSIxMy41IiBmaWxsPSIjNUEzNTg1IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj52ID0gNzIgwrcgdCA9IDIuNSDguIrguKEuPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iMTMwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI1MCIgeT0iMTUwLjkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gNzIgw5cgMi41ID0gMTgwIOC4geC4oS48L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "รถยนต์คันหนึ่งวิ่งได้ระยะทาง 240 กิโลเมตร โดยใช้เวลา 4 ชั่วโมง รถคันนี้วิ่งด้วยความเร็วเฉลี่ยกี่กิโลเมตรต่อชั่วโมง",
+    "q": "รถยนต์วิ่งได้ระยะทาง 210 กิโลเมตร โดยใช้เวลา 3 ชั่วโมง  รถคันนี้วิ่งด้วยความเร็วเท่าใด",
     "choices": [
-     "60 กม./ชม.",
-     "4 กม./ชม.",
-     "59 กม./ชม.",
-     "61 กม./ชม."
+     "63",
+     "70",
+     "72",
+     "90"
+    ],
+    "answer": 1,
+    "explain": "📐 สูตรที่ใช้\n• ความเร็ว v = (s)/(t)\n• เมื่อ v = ความเร็ว · s = ระยะทาง · t = เวลา\nขั้นที่ 1 ใส่ค่า: s = 210, t = 3\nขั้นที่ 2 แทนในสูตร (เอาระยะหารเวลา)\n🟰 ความเร็ว = (210)/(3) = 70 กิโลเมตรต่อชั่วโมง\n✓ ตอบ 70 กม./ชม.",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4hOC4p+C4suC4oeC5gOC4o+C5h+C4pzwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDAiIHdpZHRoPSI0NTIiIGhlaWdodD0iMTIyIiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDEuMzc2IiB5PSI3Ny45NSIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+diA9IDwvdGV4dD48bGluZSB4MT0iMjYyLjA1NiIgeTE9IjcyIiB4Mj0iMjczLjMwNCIgeTI9IjcyIiBzdHJva2U9IiMyMDQwNkUiIHN0cm9rZS13aWR0aD0iMS44Ii8+PHRleHQgeD0iMjY3LjY4IiB5PSI2Ny41MzkyIiBmb250LXNpemU9IjEzLjk0IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5zPC90ZXh0Pjx0ZXh0IHg9IjI2Ny42OCIgeT0iODYuMjE4OCIgZm9udC1zaXplPSIxMy45NCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+dDwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI5NiIgeDI9IjQ0MCIgeTI9Ijk2IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjUwIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTMuNSIgZmlsbD0iIzVBMzU4NSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cyA9IDIxMCDCtyB0ID0gMzwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjEzMCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIxODguNzI2IiB5PSIxNTAuOSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PSA8L3RleHQ+PGxpbmUgeDE9IjE5OS4wMDYiIHkxPSIxNDYiIHgyPSIyMjAuOTE0IiB5Mj0iMTQ2IiBzdHJva2U9IiMwRTVBMzIiIHN0cm9rZS13aWR0aD0iMS44Ii8+PHRleHQgeD0iMjA5Ljk2IiB5PSIxNDIuMzI2IiBmb250LXNpemU9IjExLjQ4IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yMTA8L3RleHQ+PHRleHQgeD0iMjA5Ljk2IiB5PSIxNTcuNzEiIGZvbnQtc2l6ZT0iMTEuNDgiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjM8L3RleHQ+PHRleHQgeD0iMjcxLjIzNCIgeT0iMTUwLjkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPiA9IDcwIOC4geC4oS4v4LiK4LihLjwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งได้เร็ว 15 กิโลเมตรต่อชั่วโมง ถ้ากระแสน้ำไหลเร็ว 3 กิโลเมตรต่อชั่วโมง  เมื่อแล่นเรือ ‘ตามน้ำ’ เรือจะมีความเร็วเท่าใด",
+    "choices": [
+     "12",
+     "45",
+     "18",
+     "5"
+    ],
+    "answer": 2,
+    "explain": "📐 สูตรที่ใช้\n• ตามน้ำ: ความเร็วจริง = ความเร็วเรือ + ความเร็วกระแสน้ำ\n• เมื่อ แล่นตามน้ำ → กระแสน้ำช่วยดัน ความเร็วจึงบวกเพิ่ม\nขั้นที่ 1 ความเร็วเรือ = 15, กระแสน้ำ = 3\nขั้นที่ 2 ตามน้ำใช้เครื่องหมายบวก\n🟰 ความเร็วตามน้ำ = 15 + 3 = 18 กิโลเมตรต่อชั่วโมง\n✓ ตอบ 18 กม./ชม.",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5geC4peC5iOC4meC5gOC4o+C4t+C4reC4leC4suC4oeC4meC5ieC4szwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDAiIHdpZHRoPSI0NTIiIGhlaWdodD0iMTIyIiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNTAiIHk9Ijc3Ljk1IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJXguLLguKHguJnguYnguLMgPSDguYDguKPguLfguK0gKyDguIHguKPguLDguYHguKrguJnguYnguLM8L3RleHQ+PGxpbmUgeDE9IjYwIiB5MT0iOTYiIHgyPSI0NDAiIHkyPSI5NiIgc3Ryb2tlPSIjRDdFM0VFIiBzdHJva2Utd2lkdGg9IjEuNCIvPjx0ZXh0IHg9IjI1MCIgeT0iMTE4IiBmb250LXNpemU9IjEzLjUiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC5gOC4o+C4t+C4rSA9IDE1IMK3IOC4geC4o+C4sOC5geC4qiA9IDM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSIxMzAiIHdpZHRoPSIyODAiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjUwIiB5PSIxNTAuOSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PSAxNSArIDMgPSAxOCDguIHguKEuL+C4iuC4oS48L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งได้เร็ว 15 กิโลเมตรต่อชั่วโมง ถ้ากระแสน้ำไหลเร็ว 3 กิโลเมตรต่อชั่วโมง  เมื่อแล่นเรือ ‘ทวนน้ำ’ เรือจะมีความเร็วเท่าใด",
+    "choices": [
+     "18",
+     "45",
+     "5",
+     "12"
+    ],
+    "answer": 3,
+    "explain": "📐 สูตรที่ใช้\n• ทวนน้ำ: ความเร็วจริง = ความเร็วเรือ − ความเร็วกระแสน้ำ\n• เมื่อ แล่นทวนน้ำ → กระแสน้ำต้าน ความเร็วจึงลดลง\nขั้นที่ 1 ความเร็วเรือ = 15, กระแสน้ำ = 3\nขั้นที่ 2 ทวนน้ำใช้เครื่องหมายลบ\n🟰 ความเร็วทวนน้ำ = 15 − 3 = 12 กิโลเมตรต่อชั่วโมง\n✓ ตอบ 12 กม./ชม.",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC5geC4peC5iOC4meC5gOC4o+C4t+C4reC4l+C4p+C4meC4meC5ieC4szwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDAiIHdpZHRoPSI0NTIiIGhlaWdodD0iMTIyIiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNTAiIHk9Ijc3Ljk1IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJfguKfguJnguJnguYnguLMgPSDguYDguKPguLfguK0g4oiSIOC4geC4o+C4sOC5geC4quC4meC5ieC4szwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI5NiIgeDI9IjQ0MCIgeTI9Ijk2IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjUwIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTMuNSIgZmlsbD0iIzVBMzU4NSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4LmA4Lij4Li34LitID0gMTUgwrcg4LiB4Lij4Liw4LmB4LiqID0gMzwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjEzMCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNTAiIHk9IjE1MC45IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDE1IOKIkiAzID0gMTIg4LiB4LihLi/guIrguKEuPC90ZXh0Pjwvc3ZnPg=="
+   },
+   {
+    "q": "เรือลำหนึ่งแล่นตามน้ำได้เร็ว 20 กิโลเมตรต่อชั่วโมง และแล่นทวนน้ำได้เร็ว 12 กิโลเมตรต่อชั่วโมง  ความเร็วของเรือในน้ำนิ่งเป็นเท่าใด",
+    "choices": [
+     "16",
+     "8",
+     "4",
+     "32"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: ความเร็ว = ระยะ ÷ เวลา\n\nวิธีทำ\n→ 240 ÷ 4 = 60\n\n✓ ตอบ: 60 กม./ชม."
+    "explain": "📐 สูตรที่ใช้\n• ความเร็วเรือ = (ตามน้ำ + ทวนน้ำ)/(2)\n• เมื่อ ความเร็วเรือ = ค่าเฉลี่ยของตามน้ำกับทวนน้ำ (เพราะกระแสน้ำหักล้างกัน)\nขั้นที่ 1 ใส่ค่า: ตามน้ำ = 20, ทวนน้ำ = 12\nขั้นที่ 2 บวกกันแล้วหาร 2\n🟰 ความเร็วเรือ = (20 + 12)/(2) = (32)/(2) = 16 กิโลเมตรต่อชั่วโมง\n⚠️ อยากได้ความเร็วกระแสน้ำ ใช้ (20−12)/2 = 4 แทน\n✓ ตอบ 16 กม./ชม.",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC4hOC4p+C4suC4oeC5gOC4o+C5h+C4p+C5gOC4o+C4t+C4reC5g+C4meC4meC5ieC4s+C4meC4tOC5iOC4hzwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDAiIHdpZHRoPSI0NTIiIGhlaWdodD0iMTIyIiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIxOTAuNjM0IiB5PSI3Ny45NSIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4LmA4Lij4Li34LitID0gPC90ZXh0PjxsaW5lIHgxPSIyMjQuNTc0IiB5MT0iNzIiIHgyPSIzMzcuMzA2IiB5Mj0iNzIiIHN0cm9rZT0iIzIwNDA2RSIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48dGV4dCB4PSIyODAuOTQiIHk9IjY3LjUzOTIiIGZvbnQtc2l6ZT0iMTMuOTQiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4leC4suC4oeC4meC5ieC4syArIOC4l+C4p+C4meC4meC5ieC4szwvdGV4dD48dGV4dCB4PSIyODAuOTQiIHk9Ijg2LjIxODgiIGZvbnQtc2l6ZT0iMTMuOTQiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjI8L3RleHQ+PGxpbmUgeDE9IjYwIiB5MT0iOTYiIHgyPSI0NDAiIHkyPSI5NiIgc3Ryb2tlPSIjRDdFM0VFIiBzdHJva2Utd2lkdGg9IjEuNCIvPjx0ZXh0IHg9IjI1MCIgeT0iMTE4IiBmb250LXNpemU9IjEzLjUiIGZpbGw9IiM1QTM1ODUiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4leC4suC4oeC4meC5ieC4syA9IDIwIMK3IOC4l+C4p+C4meC4meC5ieC4syA9IDEyPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iMTMwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjE5MS43MSIgeT0iMTUwLjkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gPC90ZXh0PjxsaW5lIHgxPSIyMDEuOTkiIHkxPSIxNDYiIHgyPSIyMTcuOTMiIHkyPSIxNDYiIHN0cm9rZT0iIzBFNUEzMiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48dGV4dCB4PSIyMDkuOTYiIHk9IjE0Mi4zMjYiIGZvbnQtc2l6ZT0iMTEuNDgiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjMyPC90ZXh0Pjx0ZXh0IHg9IjIwOS45NiIgeT0iMTU3LjcxIiBmb250LXNpemU9IjExLjQ4IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yPC90ZXh0Pjx0ZXh0IHg9IjI2OC4yNSIgeT0iMTUwLjkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPiA9IDE2IOC4geC4oS4v4LiK4LihLjwvdGV4dD48L3N2Zz4="
    },
    {
-    "q": "นักท่องเที่ยวคนหนึ่งขับรถเดินทางเป็นระยะทาง 300 กิโลเมตร ด้วยความเร็ว 50 กิโลเมตรต่อชั่วโมง จะใช้เวลากี่ชั่วโมง",
+    "q": "รถ 2 คันอยู่ห่างกัน 300 กิโลเมตร ออกวิ่งเข้าหากันพร้อมกัน คันแรกเร็ว 60 กม./ชม. คันที่สองเร็ว 40 กม./ชม.  อีกกี่ชั่วโมงจึงจะพบกัน",
     "choices": [
-     "5 ชั่วโมง",
-     "6 ชั่วโมง",
-     "7 ชั่วโมง",
-     "8 ชั่วโมง"
+     "5",
+     "3",
+     "4",
+     "6"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: เวลา = ระยะ ÷ ความเร็ว\n\nวิธีทำ\n→ 300 ÷ 50 = 6 ชม.\n\n✓ ตอบ: 6 ชั่วโมง"
+    "explain": "📐 สูตรที่ใช้\n• เวลาพบกัน = (ระยะห่าง)/(ผลรวมความเร็ว)\n• เมื่อ วิ่งเข้าหากัน → ระยะห่างลดลงด้วยความเร็ว ‘รวมกัน’ ของทั้งสองคัน\nขั้นที่ 1 หาผลรวมความเร็ว: 60 + 40 = 100 กม./ชม.\nขั้นที่ 2 เอาระยะห่างหารด้วยผลรวม\n🟰 เวลา = (300)/(100) = 3 ชั่วโมง\n✓ ตอบ 3 ชั่วโมง",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4o+C4luC4p+C4tOC5iOC4h+C5gOC4guC5ieC4suC4q+C4suC4geC4seC4mTwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDAiIHdpZHRoPSI0NTIiIGhlaWdodD0iMTIyIiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIxOTcuODgzIiB5PSI3Ny45NSIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4LmA4Lin4Lil4LiyID0gPC90ZXh0PjxsaW5lIHgxPSIyMzEuODIzIiB5MT0iNzIiIHgyPSIzMzAuMDU3IiB5Mj0iNzIiIHN0cm9rZT0iIzIwNDA2RSIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48dGV4dCB4PSIyODAuOTQiIHk9IjY3LjUzOTIiIGZvbnQtc2l6ZT0iMTMuOTQiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4o+C4sOC4ouC4sOC4q+C5iOC4suC4hzwvdGV4dD48dGV4dCB4PSIyODAuOTQiIHk9Ijg2LjIxODgiIGZvbnQtc2l6ZT0iMTMuOTQiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4nOC4peC4o+C4p+C4oeC4hOC4p+C4suC4oeC5gOC4o+C5h+C4pzwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI5NiIgeDI9IjQ0MCIgeTI9Ijk2IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjUwIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTMuNSIgZmlsbD0iIzVBMzU4NSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4Lij4Liw4Lii4Liw4Lir4LmI4Liy4LiHID0gMzAwIMK3IOC4o+C4p+C4oSA9IDYwKzQwID0gMTAwPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iMTMwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjIwNi45MjYiIHk9IjE1MC45IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDwvdGV4dD48bGluZSB4MT0iMjE3LjIwNiIgeTE9IjE0NiIgeDI9IjIzOS4xMTQiIHkyPSIxNDYiIHN0cm9rZT0iIzBFNUEzMiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48dGV4dCB4PSIyMjguMTYiIHk9IjE0Mi4zMjYiIGZvbnQtc2l6ZT0iMTEuNDgiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjMwMDwvdGV4dD48dGV4dCB4PSIyMjguMTYiIHk9IjE1Ny43MSIgZm9udC1zaXplPSIxMS40OCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTAwPC90ZXh0Pjx0ZXh0IHg9IjI3MS4yMzQiIHk9IjE1MC45IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4gPSAzIOC4iuC4oS48L3RleHQ+PC9zdmc+"
    },
    {
-    "q": "รถยนต์คันหนึ่งวิ่งด้วยความเร็ว 80 กิโลเมตรต่อชั่วโมง เป็นเวลา 2 ชั่วโมง 30 นาที รถคันนี้วิ่งได้ระยะทางกี่กิโลเมตร",
+    "q": "รถ A วิ่งตามรถ B ไปในทิศเดียวกัน โดยตอนนี้รถ B นำอยู่ 40 กิโลเมตร รถ A เร็ว 80 กม./ชม. รถ B เร็ว 60 กม./ชม.  อีกกี่ชั่วโมงรถ A จะตามทันรถ B",
     "choices": [
-     "200 กม.",
-     "80 กม.",
-     "2 กม.",
-     "201 กม."
+     "1",
+     "3",
+     "2",
+     "4"
+    ],
+    "answer": 2,
+    "explain": "📐 สูตรที่ใช้\n• เวลาตามทัน = (ระยะที่นำอยู่)/(ผลต่างความเร็ว)\n• เมื่อ วิ่งทิศเดียวกัน → ระยะห่างลดลงด้วยความเร็ว ‘ต่างกัน’ (คนเร็วกว่าไล่ตาม)\nขั้นที่ 1 หาผลต่างความเร็ว: 80 − 60 = 20 กม./ชม.\nขั้นที่ 2 เอาระยะที่นำอยู่หารด้วยผลต่าง\n🟰 เวลา = (40)/(20) = 2 ชั่วโมง\n⚠️ ทิศเดียวกันใช้ ‘ผลต่าง’ ไม่ใช่ผลรวม\n✓ ตอบ 2 ชั่วโมง",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4o+C4luC5hOC4peC5iOC4leC4suC4oeC4l+C4tOC4qOC5gOC4lOC4teC4ouC4p+C4geC4seC4mTwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDAiIHdpZHRoPSI0NTIiIGhlaWdodD0iMTIyIiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIxOTQuMjU4IiB5PSI3Ny45NSIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4LmA4Lin4Lil4LiyID0gPC90ZXh0PjxsaW5lIHgxPSIyMjguMTk4IiB5MT0iNzIiIHgyPSIzMzMuNjgyIiB5Mj0iNzIiIHN0cm9rZT0iIzIwNDA2RSIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48dGV4dCB4PSIyODAuOTQiIHk9IjY3LjUzOTIiIGZvbnQtc2l6ZT0iMTMuOTQiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4o+C4sOC4ouC4sOC4l+C4teC5iOC4meC4szwvdGV4dD48dGV4dCB4PSIyODAuOTQiIHk9Ijg2LjIxODgiIGZvbnQtc2l6ZT0iMTMuOTQiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC4nOC4peC4leC5iOC4suC4h+C4hOC4p+C4suC4oeC5gOC4o+C5h+C4pzwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI5NiIgeDI9IjQ0MCIgeTI9Ijk2IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjUwIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTMuNSIgZmlsbD0iIzVBMzU4NSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4Lij4Liw4Lii4Liw4LiZ4LizID0gNDAgwrcg4LiV4LmI4Liy4LiHID0gODDiiJI2MCA9IDIwPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iMTMwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjIwOS45MSIgeT0iMTUwLjkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gPC90ZXh0PjxsaW5lIHgxPSIyMjAuMTkiIHkxPSIxNDYiIHgyPSIyMzYuMTMiIHkyPSIxNDYiIHN0cm9rZT0iIzBFNUEzMiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48dGV4dCB4PSIyMjguMTYiIHk9IjE0Mi4zMjYiIGZvbnQtc2l6ZT0iMTEuNDgiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjQwPC90ZXh0Pjx0ZXh0IHg9IjIyOC4xNiIgeT0iMTU3LjcxIiBmb250LXNpemU9IjExLjQ4IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yMDwvdGV4dD48dGV4dCB4PSIyNjguMjUiIHk9IjE1MC45IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4gPSAyIOC4iuC4oS48L3RleHQ+PC9zdmc+"
+   },
+   {
+    "q": "ชายคนหนึ่งขับรถจากบ้านไปทำงานด้วยความเร็ว 60 กม./ชม. แล้วขับกลับเส้นทางเดิมด้วยความเร็ว 40 กม./ชม.  ความเร็วเฉลี่ยตลอดการเดินทางไป-กลับเป็นเท่าใด",
+    "choices": [
+     "50",
+     "20",
+     "100",
+     "48"
+    ],
+    "answer": 3,
+    "explain": "📐 สูตรที่ใช้\n• ความเร็วเฉลี่ย = (2 × v₁ × v₂)/(v₁ + v₂)\n• เมื่อ v₁, v₂ = ความเร็วขาไปและขากลับ · ใช้ค่าเฉลี่ยฮาร์มอนิก (ไม่ใช่บวกหารสอง)\nขั้นที่ 1 ระยะไปกับกลับเท่ากัน แต่ใช้เวลาต่างกัน จึงเฉลี่ยแบบธรรมดาไม่ได้\nขั้นที่ 2 แทนในสูตร: v₁ = 60, v₂ = 40\n🟰 ความเร็วเฉลี่ย = (2 × 60 × 40)/(60 + 40) = (4,800)/(100) = 48 กม./ชม.\n⚠️ อย่าเฉลี่ยแบบ (60+40)/2 = 50 — ผิด เพราะเวลาไม่เท่ากัน\n✓ ตอบ 48 กม./ชม.",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4hOC4p+C4suC4oeC5gOC4o+C5h+C4p+C5gOC4ieC4peC4teC5iOC4ouC5hOC4my3guIHguKXguLHguJo8L3RleHQ+PHJlY3QgeD0iMjQiIHk9IjQwIiB3aWR0aD0iNDUyIiBoZWlnaHQ9IjEyMiIgcng9IjE0IiBmaWxsPSIjRjRGOEZDIiBzdHJva2U9IiNDOUQ2RTgiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjA1LjEzMiIgeT0iNzcuOTUiIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuC5gOC4ieC4peC4teC5iOC4oiA9IDwvdGV4dD48bGluZSB4MT0iMjQ3LjkxMiIgeTE9IjcyIiB4Mj0iMzMxLjY0OCIgeTI9IjcyIiBzdHJva2U9IiMyMDQwNkUiIHN0cm9rZS13aWR0aD0iMS44Ii8+PHRleHQgeD0iMjg5Ljc4IiB5PSI2Ny41MzkyIiBmb250LXNpemU9IjEzLjk0IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yIMOXIHbigoEgw5cgduKCgjwvdGV4dD48dGV4dCB4PSIyODkuNzgiIHk9Ijg2LjIxODgiIGZvbnQtc2l6ZT0iMTMuOTQiIGZpbGw9IiMyMDQwNkUiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPnbigoEgKyB24oKCPC90ZXh0PjxsaW5lIHgxPSI2MCIgeTE9Ijk2IiB4Mj0iNDQwIiB5Mj0iOTYiIHN0cm9rZT0iI0Q3RTNFRSIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48dGV4dCB4PSIyNTAiIHk9IjExOCIgZm9udC1zaXplPSIxMy41IiBmaWxsPSIjNUEzNTg1IiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj524oKBID0gNjAgwrcgduKCgiA9IDQwPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iMTMwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0VBRjdFRiIgc3Ryb2tlPSIjMUU5RTVBIiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjE4Mi43NTYiIHk9IjE1MC45IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDwvdGV4dD48bGluZSB4MT0iMTkzLjAzNiIgeTE9IjE0NiIgeDI9IjIyNi44ODQiIHkyPSIxNDYiIHN0cm9rZT0iIzBFNUEzMiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48dGV4dCB4PSIyMDkuOTYiIHk9IjE0Mi4zMjYiIGZvbnQtc2l6ZT0iMTEuNDgiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjQsODAwPC90ZXh0Pjx0ZXh0IHg9IjIwOS45NiIgeT0iMTU3LjcxIiBmb250LXNpemU9IjExLjQ4IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xMDA8L3RleHQ+PHRleHQgeD0iMjc3LjIwNCIgeT0iMTUwLjkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPiA9IDQ4IOC4geC4oS4v4LiK4LihLjwvdGV4dD48L3N2Zz4="
+   },
+   {
+    "q": "รถยนต์วิ่งได้ระยะทาง 240 กิโลเมตร ด้วยความเร็วคงที่ 80 กิโลเมตรต่อชั่วโมง  จะใช้เวลาเดินทางกี่ชั่วโมง",
+    "choices": [
+     "3",
+     "2",
+     "4",
+     "320"
     ],
     "answer": 0,
-    "explain": "หลักที่ใช้: ระยะ = ความเร็ว × เวลา (2.5 ชม.)\n\nวิธีทำ\n→ 80 × 2.5 = 200 กม.\n\n✓ ตอบ: 200 กม."
+    "explain": "📐 สูตรที่ใช้\n• เวลา t = (s)/(v)\n• เมื่อ t = เวลา · s = ระยะทาง · v = ความเร็ว\nขั้นที่ 1 ใส่ค่า: s = 240, v = 80\nขั้นที่ 2 แทนในสูตร (เอาระยะหารความเร็ว)\n🟰 เวลา = (240)/(80) = 3 ชั่วโมง\n✓ ตอบ 3 ชั่วโมง",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4q+C4suC5gOC4p+C4peC4suC5gOC4lOC4tOC4meC4l+C4suC4hzwvdGV4dD48cmVjdCB4PSIyNCIgeT0iNDAiIHdpZHRoPSI0NTIiIGhlaWdodD0iMTIyIiByeD0iMTQiIGZpbGw9IiNGNEY4RkMiIHN0cm9rZT0iI0M5RDZFOCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyNDEuMzc2IiB5PSI3Ny45NSIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+dCA9IDwvdGV4dD48bGluZSB4MT0iMjYyLjA1NiIgeTE9IjcyIiB4Mj0iMjczLjMwNCIgeTI9IjcyIiBzdHJva2U9IiMyMDQwNkUiIHN0cm9rZS13aWR0aD0iMS44Ii8+PHRleHQgeD0iMjY3LjY4IiB5PSI2Ny41MzkyIiBmb250LXNpemU9IjEzLjk0IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5zPC90ZXh0Pjx0ZXh0IHg9IjI2Ny42OCIgeT0iODYuMjE4OCIgZm9udC1zaXplPSIxMy45NCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+djwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI5NiIgeDI9IjQ0MCIgeTI9Ijk2IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjUwIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTMuNSIgZmlsbD0iIzVBMzU4NSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cyA9IDI0MCDCtyB2ID0gODA8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSIxMzAiIHdpZHRoPSIyODAiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRUFGN0VGIiBzdHJva2U9IiMxRTlFNUEiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHRleHQgeD0iMjA2LjkyNiIgeT0iMTUwLjkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMwRTVBMzIiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj0gPC90ZXh0PjxsaW5lIHgxPSIyMTcuMjA2IiB5MT0iMTQ2IiB4Mj0iMjM5LjExNCIgeTI9IjE0NiIgc3Ryb2tlPSIjMEU1QTMyIiBzdHJva2Utd2lkdGg9IjEuOCIvPjx0ZXh0IHg9IjIyOC4xNiIgeT0iMTQyLjMyNiIgZm9udC1zaXplPSIxMS40OCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjQwPC90ZXh0Pjx0ZXh0IHg9IjIyOC4xNiIgeT0iMTU3LjcxIiBmb250LXNpemU9IjExLjQ4IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj44MDwvdGV4dD48dGV4dCB4PSIyNzEuMjM0IiB5PSIxNTAuOSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ID0gMyDguIrguKEuPC90ZXh0Pjwvc3ZnPg=="
    },
    {
-    "q": "ชายคนหนึ่งเดินด้วยความเร็ว 5 กิโลเมตรต่อชั่วโมง เป็นเวลา 2 ชั่วโมง เขาเดินได้ระยะทางกี่กิโลเมตร",
+    "q": "เรือแล่นในน้ำนิ่งได้เร็ว 10 กิโลเมตรต่อชั่วโมง กระแสน้ำไหลเร็ว 2 กิโลเมตรต่อชั่วโมง  ถ้าแล่นเรือตามน้ำเป็นระยะ 24 กิโลเมตร จะใช้เวลากี่ชั่วโมง",
     "choices": [
-     "5 กม.",
-     "11 กม.",
-     "10 กม.",
-     "2 กม."
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ระยะ = ความเร็ว × เวลา\n\nวิธีทำ\n→ 5 × 2 = 10 กม.\n\n✓ ตอบ: 10 กม."
-   },
-   {
-    "q": "รถยนต์คันหนึ่งวิ่งได้ระยะทาง 150 กิโลเมตร โดยใช้เวลา 2 ชั่วโมง 30 นาที รถคันนี้วิ่งด้วยความเร็วเฉลี่ยกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "60 กม./ชม.",
-     "2 กม./ชม.",
-     "61 กม./ชม.",
-     "150 กม./ชม."
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ความเร็ว = ระยะ ÷ เวลา\n\nวิธีทำ\n→ 150 ÷ 2.5 = 60\n\n✓ ตอบ: 60 กม./ชม."
-   },
-   {
-    "q": "รถยนต์คันหนึ่งวิ่งด้วยความเร็ว 90 กิโลเมตรต่อชั่วโมง ถ้าต้องเดินทางเป็นระยะทาง 270 กิโลเมตร จะใช้เวลากี่ชั่วโมง",
-    "choices": [
-     "2 ชั่วโมง",
-     "5 ชั่วโมง",
-     "3 ชั่วโมง",
-     "4 ชั่วโมง"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: เวลา = ระยะ ÷ ความเร็ว\n\nวิธีทำ\n→ 270 ÷ 90 = 3 ชม.\n\n✓ ตอบ: 3 ชั่วโมง"
-   },
-   {
-    "q": "รถไฟขบวนหนึ่งวิ่งด้วยความเร็ว 120 กิโลเมตรต่อชั่วโมง เป็นเวลา 1 ชั่วโมง 30 นาที รถไฟขบวนนี้วิ่งได้ระยะทางกี่กิโลเมตร",
-    "choices": [
-     "120 กม.",
-     "2 กม.",
-     "180 กม.",
-     "181 กม."
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ระยะ = ความเร็ว × เวลา (1.5 ชม.)\n\nวิธีทำ\n→ 120 × 1.5 = 180 กม.\n\n✓ ตอบ: 180 กม."
-   },
-   {
-    "q": "ชายคนหนึ่งขับรถเดินทางเป็นระยะทาง 100 กิโลเมตร ด้วยความเร็ว 40 กิโลเมตรต่อชั่วโมง จะใช้เวลากี่ชั่วโมง",
-    "choices": [
-     "4.5 ชั่วโมง",
-     "2.5 ชั่วโมง",
-     "3.5 ชั่วโมง",
-     "1.5 ชั่วโมง"
+     "3",
+     "2",
+     "4",
+     "12"
     ],
     "answer": 1,
-    "explain": "หลักที่ใช้: เวลา = ระยะ ÷ ความเร็ว\n\nวิธีทำ\n→ 100 ÷ 40 = 2.5 ชม.\n\n✓ ตอบ: 2.5 ชั่วโมง"
-   },
-   {
-    "q": "เครื่องบินลำหนึ่งบินด้วยความเร็ว 600 กิโลเมตรต่อชั่วโมง เป็นเวลา 4 ชั่วโมง เครื่องบินลำนี้บินได้ระยะทางกี่กิโลเมตร",
-    "choices": [
-     "2,400 กม.",
-     "600 กม.",
-     "2,401 กม.",
-     "4 กม."
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ระยะ = ความเร็ว × เวลา\n\nวิธีทำ\n→ 600 × 4 = 2400 กม.\n\n✓ ตอบ: 2,400 กม."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งด้วยความเร็ว 12 กิโลเมตรต่อชั่วโมง ถ้ากระแสน้ำไหลด้วยความเร็ว 3 กิโลเมตรต่อชั่วโมง เมื่อเรือแล่นตามน้ำจะมีความเร็วกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "3 กม./ชม.",
-     "15 กม./ชม.",
-     "16 กม./ชม.",
-     "12 กม./ชม."
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ตามน้ำ = เรือ + กระแส\n\nวิธีทำ\n→ 12 + 3 = 15 กม./ชม.\n\n✓ ตอบ: 15 กม./ชม."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งด้วยความเร็ว 12 กิโลเมตรต่อชั่วโมง ถ้ากระแสน้ำไหลด้วยความเร็ว 3 กิโลเมตรต่อชั่วโมง เมื่อเรือแล่นทวนน้ำจะมีความเร็วกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "10 กม./ชม.",
-     "12 กม./ชม.",
-     "3 กม./ชม.",
-     "9 กม./ชม."
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ทวนน้ำ = เรือ − กระแส\n\nวิธีทำ\n→ 12 − 3 = 9 กม./ชม.\n\n✓ ตอบ: 9 กม./ชม."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นตามน้ำด้วยความเร็ว 20 กิโลเมตรต่อชั่วโมง และแล่นทวนน้ำด้วยความเร็ว 12 กิโลเมตรต่อชั่วโมง กระแสน้ำไหลด้วยความเร็วกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "2 กม./ชม.",
-     "5 กม./ชม.",
-     "12 กม./ชม.",
-     "4 กม./ชม."
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: กระแส = (ตามน้ำ − ทวนน้ำ) ÷ 2\n\nวิธีทำ\n→ (20 − 12) ÷ 2 = 4\n\n✓ ตอบ: 4 กม./ชม."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นตามน้ำด้วยความเร็ว 20 กิโลเมตรต่อชั่วโมง และแล่นทวนน้ำด้วยความเร็ว 12 กิโลเมตรต่อชั่วโมง ความเร็วของเรือในน้ำนิ่งเท่ากับกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "16 กม./ชม.",
-     "12 กม./ชม.",
-     "2 กม./ชม.",
-     "20 กม./ชม."
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ในน้ำนิ่ง = (ตามน้ำ + ทวนน้ำ) ÷ 2\n\nวิธีทำ\n→ (20 + 12) ÷ 2 = 16\n\n✓ ตอบ: 16 กม./ชม."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งด้วยความเร็ว 10 กิโลเมตรต่อชั่วโมง กระแสน้ำไหล 2 กิโลเมตรต่อชั่วโมง ถ้าเรือแล่นตามน้ำเป็นระยะทาง 36 กิโลเมตร จะใช้เวลากี่ชั่วโมง",
-    "choices": [
-     "12 ชั่วโมง",
-     "2 ชั่วโมง",
-     "3 ชั่วโมง",
-     "10 ชั่วโมง"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ตามน้ำ = 12 ; เวลา = ระยะ ÷ ความเร็ว\n\nวิธีทำ\n→ ตามน้ำ = 10 + 2 = 12\n→ 36 ÷ 12 = 3 ชม.\n\n✓ ตอบ: 3 ชั่วโมง"
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งด้วยความเร็ว 15 กิโลเมตรต่อชั่วโมง กระแสน้ำไหล 5 กิโลเมตรต่อชั่วโมง ถ้าเรือแล่นทวนน้ำเป็นระยะทาง 40 กิโลเมตร จะใช้เวลากี่ชั่วโมง",
-    "choices": [
-     "3 ชั่วโมง",
-     "10 ชั่วโมง",
-     "4 ชั่วโมง",
-     "5 ชั่วโมง"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ทวนน้ำ = 10\n\nวิธีทำ\n→ ทวนน้ำ = 15 − 5 = 10\n→ 40 ÷ 10 = 4 ชม.\n\n✓ ตอบ: 4 ชั่วโมง"
-   },
-   {
-    "q": "เครื่องบินลำหนึ่งบินในอากาศนิ่งด้วยความเร็ว 500 กิโลเมตรต่อชั่วโมง ถ้ามีลมส่งท้ายความเร็ว 50 กิโลเมตรต่อชั่วโมง เมื่อบินตามลมจะมีความเร็วกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "50 กม./ชม.",
-     "551 กม./ชม.",
-     "500 กม./ชม.",
-     "550 กม./ชม."
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ตามลม = ในอากาศนิ่ง + ลม\n\nวิธีทำ\n→ 500 + 50 = 550\n\n✓ ตอบ: 550 กม./ชม."
-   },
-   {
-    "q": "เครื่องบินลำหนึ่งบินในอากาศนิ่งด้วยความเร็ว 500 กิโลเมตรต่อชั่วโมง ถ้ามีลมความเร็ว 50 กิโลเมตรต่อชั่วโมง เมื่อบินทวนลมจะมีความเร็วกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "450 กม./ชม.",
-     "500 กม./ชม.",
-     "451 กม./ชม.",
-     "50 กม./ชม."
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ทวนลม = ในอากาศนิ่ง − ลม\n\nวิธีทำ\n→ 500 − 50 = 450\n\n✓ ตอบ: 450 กม./ชม."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นตามน้ำด้วยความเร็ว 18 กิโลเมตรต่อชั่วโมง และแล่นทวนน้ำด้วยความเร็ว 10 กิโลเมตรต่อชั่วโมง ความเร็วของเรือในน้ำนิ่งเท่ากับกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "10 กม./ชม.",
-     "2 กม./ชม.",
-     "14 กม./ชม.",
-     "18 กม./ชม."
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ในน้ำนิ่ง = (ตามน้ำ + ทวนน้ำ) ÷ 2\n\nวิธีทำ\n→ (18 + 10) ÷ 2 = 14\n\n✓ ตอบ: 14 กม./ชม."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งด้วยความเร็ว 8 กิโลเมตรต่อชั่วโมง กระแสน้ำไหล 2 กิโลเมตรต่อชั่วโมง ถ้าเรือแล่นตามน้ำเป็นระยะทาง 30 กิโลเมตร จะใช้เวลากี่ชั่วโมง",
-    "choices": [
-     "4 ชั่วโมง",
-     "3 ชั่วโมง",
-     "2 ชั่วโมง",
-     "10 ชั่วโมง"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ตามน้ำ = 10\n\nวิธีทำ\n→ 30 ÷ 10 = 3 ชม.\n\n✓ ตอบ: 3 ชั่วโมง"
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นทวนน้ำได้ระยะทาง 9 กิโลเมตร โดยใช้เวลา 3 ชั่วโมง ถ้ากระแสน้ำไหลด้วยความเร็ว 1 กิโลเมตรต่อชั่วโมง ความเร็วของเรือในน้ำนิ่งเท่ากับกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "3 กม./ชม.",
-     "9 กม./ชม.",
-     "4 กม./ชม.",
-     "1 กม./ชม."
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ทวนน้ำ = ระยะ ÷ เวลา ; เรือ = ทวนน้ำ + กระแส\n\nวิธีทำ\n→ ทวนน้ำ = 9 ÷ 3 = 3 กม./ชม.\n→ เรือในน้ำนิ่ง = 3 + 1 = 4\n\n✓ ตอบ: 4 กม./ชม."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งด้วยความเร็ว 20 กิโลเมตรต่อชั่วโมง กระแสน้ำไหล 4 กิโลเมตรต่อชั่วโมง ถ้าเรือแล่นตามน้ำเป็นระยะทาง 72 กิโลเมตร จะใช้เวลากี่ชั่วโมง",
-    "choices": [
-     "2 ชั่วโมง",
-     "4 ชั่วโมง",
-     "5 ชั่วโมง",
-     "3 ชั่วโมง"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ตามน้ำ = 24\n\nวิธีทำ\n→ 72 ÷ 24 = 3 ชม.\n\n✓ ตอบ: 3 ชั่วโมง"
-   },
-   {
-    "q": "รถยนต์ 2 คัน อยู่ห่างกัน 300 กิโลเมตร ขับเข้าหากันด้วยความเร็ว 40 และ 60 กิโลเมตรต่อชั่วโมง อีกกี่ชั่วโมงรถทั้งสองคันจะพบกัน",
-    "choices": [
-     "4 ชั่วโมง",
-     "3 ชั่วโมง",
-     "5 ชั่วโมง",
-     "2 ชั่วโมง"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: เข้าหากัน: ความเร็วรวม = v₁ + v₂\n\nวิธีทำ\n→ รวม = 100 กม./ชม.\n→ 300 ÷ 100 = 3 ชม.\n\n✓ ตอบ: 3 ชั่วโมง"
-   },
-   {
-    "q": "รถยนต์ 2 คัน อยู่ห่างกัน 100 กิโลเมตร ขับไปในทิศทางเดียวกัน โดยคันหลังขับด้วยความเร็ว 80 กิโลเมตรต่อชั่วโมง และคันหน้าขับด้วยความเร็ว 60 กิโลเมตรต่อชั่วโมง อีกกี่ชั่วโมงคันหลังจะตามทันคันหน้า",
-    "choices": [
-     "4 ชั่วโมง",
-     "6 ชั่วโมง",
-     "7 ชั่วโมง",
-     "5 ชั่วโมง"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ไล่ตาม: ความเร็วต่าง = v₁ − v₂\n\nวิธีทำ\n→ ต่าง = 80 − 60 = 20\n→ 100 ÷ 20 = 5 ชม.\n\n✓ ตอบ: 5 ชั่วโมง"
-   },
-   {
-    "q": "รถยนต์ 2 คัน อยู่ห่างกัน 240 กิโลเมตร ขับเข้าหากันด้วยความเร็ว 50 และ 70 กิโลเมตรต่อชั่วโมง อีกกี่ชั่วโมงรถทั้งสองคันจะพบกัน",
-    "choices": [
-     "1 ชั่วโมง",
-     "4 ชั่วโมง",
-     "2 ชั่วโมง",
-     "3 ชั่วโมง"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ความเร็วรวม\n\nวิธีทำ\n→ รวม = 120 ; 240 ÷ 120 = 2 ชม.\n\n✓ ตอบ: 2 ชั่วโมง"
-   },
-   {
-    "q": "รถยนต์ 2 คัน อยู่ห่างกัน 60 กิโลเมตร ขับไปในทิศทางเดียวกัน โดยคันหลังขับด้วยความเร็ว 50 กิโลเมตรต่อชั่วโมง และคันหน้าขับด้วยความเร็ว 40 กิโลเมตรต่อชั่วโมง อีกกี่ชั่วโมงคันหลังจะตามทันคันหน้า",
-    "choices": [
-     "6 ชั่วโมง",
-     "7 ชั่วโมง",
-     "10 ชั่วโมง",
-     "5 ชั่วโมง"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: ความเร็วต่าง\n\nวิธีทำ\n→ ต่าง = 10 ; 60 ÷ 10 = 6 ชม.\n\n✓ ตอบ: 6 ชั่วโมง"
-   },
-   {
-    "q": "รถยนต์ 2 คัน ออกจากจุดเดียวกันไปคนละทิศทาง ด้วยความเร็ว 45 และ 55 กิโลเมตรต่อชั่วโมง เมื่อเวลาผ่านไป 2 ชั่วโมง รถทั้งสองคันจะอยู่ห่างกันกี่กิโลเมตร",
-    "choices": [
-     "55 กม.",
-     "2 กม.",
-     "45 กม.",
-     "200 กม."
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ระยะห่าง = (v₁ + v₂) × เวลา\n\nวิธีทำ\n→ (45 + 55) × 2 = 200 กม.\n\n✓ ตอบ: 200 กม."
-   },
-   {
-    "q": "รถยนต์ 2 คัน อยู่ห่างกัน 180 กิโลเมตร ขับเข้าหากันด้วยความเร็ว 30 และ 60 กิโลเมตรต่อชั่วโมง อีกกี่ชั่วโมงรถทั้งสองคันจะพบกัน",
-    "choices": [
-     "4 ชั่วโมง",
-     "1 ชั่วโมง",
-     "2 ชั่วโมง",
-     "3 ชั่วโมง"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ความเร็วรวม\n\nวิธีทำ\n→ รวม = 90 ; 180 ÷ 90 = 2 ชม.\n\n✓ ตอบ: 2 ชั่วโมง"
-   },
-   {
-    "q": "รถยนต์ 2 คัน อยู่ห่างกัน 90 กิโลเมตร ขับไปในทิศทางเดียวกัน โดยคันหลังขับด้วยความเร็ว 70 กิโลเมตรต่อชั่วโมง และคันหน้าขับด้วยความเร็ว 55 กิโลเมตรต่อชั่วโมง อีกกี่ชั่วโมงคันหลังจะตามทันคันหน้า",
-    "choices": [
-     "5 ชั่วโมง",
-     "7 ชั่วโมง",
-     "15 ชั่วโมง",
-     "6 ชั่วโมง"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ความเร็วต่าง\n\nวิธีทำ\n→ ต่าง = 15 ; 90 ÷ 15 = 6 ชม.\n\n✓ ตอบ: 6 ชั่วโมง"
-   },
-   {
-    "q": "รถไฟขบวนหนึ่งยาว 200 เมตร วิ่งด้วยความเร็ว 20 เมตรต่อวินาที รถไฟขบวนนี้ใช้เวลากี่วินาทีจึงจะวิ่งผ่านเสาไฟฟ้าต้นหนึ่งไปจนหมดขบวน",
-    "choices": [
-     "20 วินาที",
-     "9 วินาที",
-     "11 วินาที",
-     "10 วินาที"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ผ่านเสา = ความยาวรถไฟ ÷ ความเร็ว\n\nวิธีทำ\n→ 200 ÷ 20 = 10 วินาที\n\n✓ ตอบ: 10 วินาที"
-   },
-   {
-    "q": "รถไฟขบวนหนึ่งยาว 150 เมตร วิ่งด้วยความเร็ว 25 เมตรต่อวินาที รถไฟขบวนนี้ใช้เวลากี่วินาทีจึงจะวิ่งผ่านสะพานยาว 100 เมตร ไปจนหมดขบวน",
-    "choices": [
-     "25 วินาที",
-     "11 วินาที",
-     "9 วินาที",
-     "10 วินาที"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ผ่านสะพาน = (ยาวรถไฟ + ยาวสะพาน) ÷ ความเร็ว\n\nวิธีทำ\n→ (150 + 100) ÷ 25 = 250 ÷ 25 = 10 วินาที\n\n✓ ตอบ: 10 วินาที"
-   },
-   {
-    "q": "คน 2 คน วิ่งสวนทางกันรอบสนามวงกลมที่มีความยาวรอบละ 400 เมตร โดยออกวิ่งจากจุดเดียวกันด้วยความเร็ว 5 และ 3 เมตรต่อวินาที อีกกี่วินาทีทั้งสองคนจะวิ่งมาพบกัน",
-    "choices": [
-     "50 วินาที",
-     "49 วินาที",
-     "8 วินาที",
-     "51 วินาที"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: เข้าหากัน: ความเร็วรวม\n\nวิธีทำ\n→ รวม = 8 ม./วินาที\n→ 400 ÷ 8 = 50 วินาที\n\n✓ ตอบ: 50 วินาที"
-   },
-   {
-    "q": "ความเร็ว 72 กิโลเมตรต่อชั่วโมง คิดเป็นกี่เมตรต่อวินาที",
-    "choices": [
-     "21 ม./วินาที",
-     "22 ม./วินาที",
-     "20 ม./วินาที",
-     "19 ม./วินาที"
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: กม./ชม. × 5/18\n\nวิธีทำ\n→ 72 × 5/18 = 20 ม./วินาที\n\n✓ ตอบ: 20 ม./วินาที"
-   },
-   {
-    "q": "ความเร็ว 90 กิโลเมตรต่อชั่วโมง คิดเป็นกี่เมตรต่อวินาที",
-    "choices": [
-     "27 ม./วินาที",
-     "24 ม./วินาที",
-     "26 ม./วินาที",
-     "25 ม./วินาที"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: × 5/18\n\nวิธีทำ\n→ 90 × 5/18 = 25\n\n✓ ตอบ: 25 ม./วินาที"
-   },
-   {
-    "q": "ความเร็ว 36 กิโลเมตรต่อชั่วโมง คิดเป็นกี่เมตรต่อวินาที",
-    "choices": [
-     "12 ม./วินาที",
-     "10 ม./วินาที",
-     "11 ม./วินาที",
-     "9 ม./วินาที"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: × 5/18\n\nวิธีทำ\n→ 36 × 5/18 = 10\n\n✓ ตอบ: 10 ม./วินาที"
-   },
-   {
-    "q": "ความเร็ว 15 เมตรต่อวินาที คิดเป็นกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "15 กม./ชม.",
-     "4 กม./ชม.",
-     "54 กม./ชม.",
-     "55 กม./ชม."
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: ม./วินาที × 18/5\n\nวิธีทำ\n→ 15 × 18/5 = 54\n\n✓ ตอบ: 54 กม./ชม."
-   },
-   {
-    "q": "ความเร็ว 20 เมตรต่อวินาที คิดเป็นกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "72 กม./ชม.",
-     "4 กม./ชม.",
-     "20 กม./ชม.",
-     "73 กม./ชม."
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: × 18/5\n\nวิธีทำ\n→ 20 × 18/5 = 72\n\n✓ ตอบ: 72 กม./ชม."
-   },
-   {
-    "q": "รถยนต์คันหนึ่งขับจากเมืองหนึ่งไปยังอีกเมืองหนึ่งด้วยความเร็ว 60 กิโลเมตรต่อชั่วโมง แล้วขับกลับตามเส้นทางเดิมด้วยความเร็ว 40 กิโลเมตรต่อชั่วโมง ความเร็วเฉลี่ยตลอดการเดินทางไป-กลับเท่ากับกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "5 กม./ชม.",
-     "48 กม./ชม.",
-     "2 กม./ชม.",
-     "3 กม./ชม."
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: เฉลี่ย = ระยะรวม ÷ เวลารวม (ไม่ใช่ (60+40)/2)\n\nวิธีทำ\n→ สมมติทางเดียว 120 กม.: ไป 2 ชม. กลับ 3 ชม.\n→ รวม 240 กม. ใน 5 ชม. → 48 กม./ชม.\n\n✓ ตอบ: 48 กม./ชม."
-   },
-   {
-    "q": "รถยนต์คันหนึ่งขับครึ่งทางแรกด้วยความเร็ว 30 กิโลเมตรต่อชั่วโมง และขับครึ่งทางหลังด้วยความเร็ว 60 กิโลเมตรต่อชั่วโมง ความเร็วเฉลี่ยตลอดการเดินทางเท่ากับกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "40 กม./ชม.",
-     "60 กม./ชม.",
-     "30 กม./ชม.",
-     "3 กม./ชม."
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: เฉลี่ย = ระยะรวม ÷ เวลารวม\n\nวิธีทำ\n→ สมมติทั้งทาง 120 กม.: 60÷30=2 ชม. + 60÷60=1 ชม.\n→ 120 ÷ 3 = 40 กม./ชม.\n\n✓ ตอบ: 40 กม./ชม."
-   },
-   {
-    "q": "รถยนต์คันหนึ่งขับเป็นเวลา 2 ชั่วโมง ด้วยความเร็ว 50 กิโลเมตรต่อชั่วโมง จากนั้นขับต่ออีก 3 ชั่วโมง ด้วยความเร็ว 60 กิโลเมตรต่อชั่วโมง ความเร็วเฉลี่ยตลอดการเดินทางเท่ากับกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "5 กม./ชม.",
-     "100 กม./ชม.",
-     "56 กม./ชม.",
-     "57 กม./ชม."
-    ],
-    "answer": 2,
-    "explain": "หลักที่ใช้: เฉลี่ย = ระยะรวม ÷ เวลารวม\n\nวิธีทำ\n→ ระยะ = 100 + 180 = 280 กม. ; เวลา = 5 ชม.\n→ 280 ÷ 5 = 56 กม./ชม.\n\n✓ ตอบ: 56 กม./ชม."
-   },
-   {
-    "q": "ความเร็ว 108 กิโลเมตรต่อชั่วโมง คิดเป็นกี่เมตรต่อวินาที",
-    "choices": [
-     "29 ม./วินาที",
-     "31 ม./วินาที",
-     "32 ม./วินาที",
-     "30 ม./วินาที"
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: × 5/18\n\nวิธีทำ\n→ 108 × 5/18 = 30\n\n✓ ตอบ: 30 ม./วินาที"
-   },
-   {
-    "q": "ความเร็ว 45 กิโลเมตรต่อชั่วโมง คิดเป็นกี่เมตรต่อวินาที",
-    "choices": [
-     "12.5 ม./วินาที",
-     "0.3 ม./วินาที",
-     "11.5 ม./วินาที",
-     "13.5 ม./วินาที"
-    ],
-    "answer": 0,
-    "explain": "หลักที่ใช้: × 5/18\n\nวิธีทำ\n→ 45 × 5/18 = 12.5\n\n✓ ตอบ: 12.5 ม./วินาที"
-   },
-   {
-    "q": "รถยนต์คันหนึ่งออกเดินทางเวลา 08:00 น. และถึงปลายทางเวลา 11:00 น. โดยวิ่งได้ระยะทาง 210 กิโลเมตร รถคันนี้วิ่งด้วยความเร็วเฉลี่ยกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "3 กม./ชม.",
-     "71 กม./ชม.",
-     "210 กม./ชม.",
-     "70 กม./ชม."
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: เวลา = 3 ชม. ; ความเร็ว = ระยะ ÷ เวลา\n\nวิธีทำ\n→ 210 ÷ 3 = 70 กม./ชม.\n\n✓ ตอบ: 70 กม./ชม."
-   },
-   {
-    "q": "รถบัสคันหนึ่งต้องเดินทางเป็นระยะทาง 480 กิโลเมตร ด้วยความเร็ว 80 กิโลเมตรต่อชั่วโมง ถ้าออกเดินทางเวลา 06:00 น. จะถึงปลายทางเวลาใด",
-    "choices": [
-     "12:30 น.",
-     "12:00 น.",
-     "11:00 น.",
-     "13:00 น."
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: เวลา = ระยะ ÷ ความเร็ว\n\nวิธีทำ\n→ 480 ÷ 80 = 6 ชม.\n→ 06:00 + 6 = 12:00 น.\n\n✓ ตอบ: 12:00 น."
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นในน้ำนิ่งด้วยความเร็ว 14 กิโลเมตรต่อชั่วโมง กระแสน้ำไหล 2 กิโลเมตรต่อชั่วโมง ถ้าเรือล่องตามน้ำไป 48 กิโลเมตร แล้วแล่นทวนน้ำกลับมาอีก 48 กิโลเมตร จะใช้เวลารวมกี่ชั่วโมง",
-    "choices": [
-     "3 ชั่วโมง",
-     "7 ชั่วโมง",
-     "12 ชั่วโมง",
-     "4 ชั่วโมง"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: คิดเวลาไปและกลับแยกกัน\n\nวิธีทำ\n→ ตามน้ำ = 16 → 48 ÷ 16 = 3 ชม.\n→ ทวนน้ำ = 12 → 48 ÷ 12 = 4 ชม.\n→ รวม = 7 ชั่วโมง\n\n✓ ตอบ: 7 ชั่วโมง"
-   },
-   {
-    "q": "คน 2 คน ออกเดินจากจุดเดียวกันไปคนละทิศทาง ด้วยความเร็ว 4 และ 6 กิโลเมตรต่อชั่วโมง อีกกี่ชั่วโมงทั้งสองคนจะอยู่ห่างกัน 30 กิโลเมตร",
-    "choices": [
-     "4 ชั่วโมง",
-     "3 ชั่วโมง",
-     "2 ชั่วโมง",
-     "10 ชั่วโมง"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ระยะห่าง = (v₁ + v₂) × เวลา\n\nวิธีทำ\n→ รวม = 10 ; 30 ÷ 10 = 3 ชม.\n\n✓ ตอบ: 3 ชั่วโมง"
-   },
-   {
-    "q": "รถยนต์คันหนึ่งขับด้วยความเร็ว 65 กิโลเมตรต่อชั่วโมง ถ้าต้องการถึงจุดหมายภายในเวลา 4 ชั่วโมง รถคันนี้จะไปได้ไกลที่สุดกี่กิโลเมตร",
-    "choices": [
-     "65 กม.",
-     "260 กม.",
-     "261 กม.",
-     "4 กม."
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: ระยะ = ความเร็ว × เวลา\n\nวิธีทำ\n→ 65 × 4 = 260 กม.\n\n✓ ตอบ: 260 กม."
-   },
-   {
-    "q": "รถไฟขบวนหนึ่งยาว 180 เมตร วิ่งด้วยความเร็ว 90 กิโลเมตรต่อชั่วโมง รถไฟขบวนนี้ใช้เวลากี่วินาทีจึงจะวิ่งผ่านชานชาลายาว 120 เมตร ไปจนหมดขบวน",
-    "choices": [
-     "13 วินาที",
-     "12 วินาที",
-     "25 วินาที",
-     "11 วินาที"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: แปลงเป็น ม./วินาที ก่อน\n\nวิธีทำ\n→ 90 กม./ชม. = 25 ม./วินาที\n→ (180 + 120) ÷ 25 = 12 วินาที\n\n✓ ตอบ: 12 วินาที"
-   },
-   {
-    "q": "เรือลำหนึ่งแล่นทวนน้ำได้ระยะทาง 24 กิโลเมตร โดยใช้เวลา 3 ชั่วโมง ถ้ากระแสน้ำไหลด้วยความเร็ว 2 กิโลเมตรต่อชั่วโมง ความเร็วของเรือในน้ำนิ่งเท่ากับกี่กิโลเมตรต่อชั่วโมง",
-    "choices": [
-     "2 กม./ชม.",
-     "3 กม./ชม.",
-     "8 กม./ชม.",
-     "10 กม./ชม."
-    ],
-    "answer": 3,
-    "explain": "หลักที่ใช้: ทวนน้ำ = ระยะ ÷ เวลา ; เรือ = ทวนน้ำ + กระแส\n\nวิธีทำ\n→ ทวนน้ำ = 24 ÷ 3 = 8\n→ เรือ = 8 + 2 = 10\n\n✓ ตอบ: 10 กม./ชม."
-   },
-   {
-    "q": "รถคันแรกออกเดินทางด้วยความเร็ว 60 กิโลเมตรต่อชั่วโมง หลังจากนั้น 1 ชั่วโมง รถคันที่สองจึงออกเดินทางตามไปจากจุดเดียวกันด้วยความเร็ว 80 กิโลเมตรต่อชั่วโมง อีกกี่ชั่วโมงรถคันที่สองจะตามทันรถคันแรก",
-    "choices": [
-     "1 ชั่วโมง",
-     "3 ชั่วโมง",
-     "2 ชั่วโมง",
-     "4 ชั่วโมง"
-    ],
-    "answer": 1,
-    "explain": "หลักที่ใช้: หาระยะนำก่อน แล้วหารด้วยความเร็วต่าง\n\nวิธีทำ\n→ รถคันแรก นำไปก่อน = 60 × 1 = 60 กม.\n→ ความเร็วต่าง = 80 − 60 = 20\n→ 60 ÷ 20 = 3 ชม.\n\n✓ ตอบ: 3 ชั่วโมง"
+    "explain": "📐 สูตรที่ใช้\n• ตามน้ำ = เรือ + กระแส ; แล้ว เวลา = (s)/(v)\n• เมื่อ หาความเร็วจริงตามน้ำก่อน แล้วค่อยเอาระยะหารความเร็ว\nขั้นที่ 1 ขั้นแรกหาความเร็วตามน้ำ: 10 + 2 = 12 กม./ชม.\nขั้นที่ 2 จากนั้นหาเวลา: เอาระยะ 24 หารความเร็ว 12\n🟰 เวลา = (24)/(12) = 2 ชั่วโมง\n⚠️ ต้องบวกกระแสน้ำก่อน (ได้ 12) แล้วค่อยหารระยะ\n✓ ตอบ 2 ชั่วโมง",
+    "ximg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgMTgwIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjE4MCIgZm9udC1mYW1pbHk9IlNhcmFidW4sc2Fucy1zZXJpZiI+PHRleHQgeD0iMjUwIiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzEyMyIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgcGFpbnQtb3JkZXI9InN0cm9rZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiPuC4leC4suC4oeC4meC5ieC4s+C5geC4peC5ieC4p+C4q+C4suC5gOC4p+C4peC4siAoMiDguKrguYDguJXguYfguJspPC90ZXh0PjxyZWN0IHg9IjI0IiB5PSI0MCIgd2lkdGg9IjQ1MiIgaGVpZ2h0PSIxMjIiIHJ4PSIxNCIgZmlsbD0iI0Y0RjhGQyIgc3Ryb2tlPSIjQzlENkU4IiBzdHJva2Utd2lkdGg9IjEuNiIvPjx0ZXh0IHg9IjI0MS4zNzYiIHk9Ijc3Ljk1IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjA0MDZFIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7guJXguLLguKHguJnguYnguLMgPSAxMCsyID0gMTIgOyB0ID0gPC90ZXh0PjxsaW5lIHgxPSIzNTQuODc2IiB5MT0iNzIiIHgyPSIzNjYuMTI0IiB5Mj0iNzIiIHN0cm9rZT0iIzIwNDA2RSIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48dGV4dCB4PSIzNjAuNSIgeT0iNjcuNTM5MiIgZm9udC1zaXplPSIxMy45NCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+czwvdGV4dD48dGV4dCB4PSIzNjAuNSIgeT0iODYuMjE4OCIgZm9udC1zaXplPSIxMy45NCIgZmlsbD0iIzIwNDA2RSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+djwvdGV4dD48bGluZSB4MT0iNjAiIHkxPSI5NiIgeDI9IjQ0MCIgeTI9Ijk2IiBzdHJva2U9IiNEN0UzRUUiIHN0cm9rZS13aWR0aD0iMS40Ii8+PHRleHQgeD0iMjUwIiB5PSIxMTgiIGZvbnQtc2l6ZT0iMTMuNSIgZmlsbD0iIzVBMzU4NSIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cyA9IDI0IMK3IHYgPSAxMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjEzMCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNFQUY3RUYiIHN0cm9rZT0iIzFFOUU1QSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48dGV4dCB4PSIyMDkuOTEiIHk9IjE1MC45IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj49IDwvdGV4dD48bGluZSB4MT0iMjIwLjE5IiB5MT0iMTQ2IiB4Mj0iMjM2LjEzIiB5Mj0iMTQ2IiBzdHJva2U9IiMwRTVBMzIiIHN0cm9rZS13aWR0aD0iMS44Ii8+PHRleHQgeD0iMjI4LjE2IiB5PSIxNDIuMzI2IiBmb250LXNpemU9IjExLjQ4IiBmaWxsPSIjMEU1QTMyIiBmb250LXdlaWdodD0iODAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yNDwvdGV4dD48dGV4dCB4PSIyMjguMTYiIHk9IjE1Ny43MSIgZm9udC1zaXplPSIxMS40OCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTI8L3RleHQ+PHRleHQgeD0iMjY4LjI1IiB5PSIxNTAuOSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzBFNUEzMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ID0gMiDguIrguKEuPC90ZXh0Pjwvc3ZnPg=="
    }
   ],
   "math_11": [
@@ -50153,7 +49723,8 @@
   "math_23": 1787906233903,
   "math_24": 1787980344139,
   "math_04": 1788010561034,
-  "math_08": 1788017301825
+  "math_08": 1788017301825,
+  "math_10": 1788058909240
  },
  "subjStatus": {
   "thai": {
