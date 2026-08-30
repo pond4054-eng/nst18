@@ -346,6 +346,9 @@
 #tb_root .zb{width:44px;height:38px;border:none;background:#f2f5f9;color:#3c4757;font-size:21px;font-weight:700;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 #tb_root .zb.wide{font-size:13px}
 #tb_root .zb:active{background:var(--tb-acc);color:#fff}
+#tb_body{position:absolute}
+#tb_body .rsz{position:absolute;right:1px;bottom:1px;width:26px;height:26px;display:flex;align-items:flex-end;justify-content:flex-end;padding:2px;color:var(--tb-acc);font-size:15px;cursor:nwse-resize;opacity:.55;touch-action:none;user-select:none}
+#tb_body .rsz:active{opacity:1}
 </style>
 <script>
   /* ใช้โหมด/ระดับหรี่แสงที่บันทึกไว้ ก่อนหน้าจอวาด กันจอกระพริบ */
@@ -573,7 +576,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v152";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v153";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4124,7 +4127,7 @@ var TB=(function(){
   function penDef(k){for(var pi=0;pi<PENDEF.length;pi++)if(PENDEF[pi].k===k)return PENDEF[pi];return PENDEF[0];}
   var STAB=[{b:0.34,s:0.30,d:'น้อย'},{b:0.48,s:0.33,d:'กลาง'},{b:0.64,s:0.32,d:'มาก'}];  // ระดับความนิ่งของเส้น (b=กรองพื้นฐาน s=ลดตอนเร็ว)
   var st={tool:'pen',color:PEN[0],hi:HI[0],si:1,bg:1,pen:'fountain',shape:false,stab:1};
-  var strokes=[],cur=null,drawing=false,lp=[],cx=18,cy=18,minimized=false;
+  var strokes=[],cur=null,drawing=false,lp=[],cx=18,cy=18,minimized=false,cardScale=1;  // cardScale=ขนาดกล่องโจทย์ (ย่อ-ขยาย)
   var activeId=null,activeType=null,lastPenTime=0,penSeen=false;   // แยก pointer กันฝ่ามือ (palm rejection); penSeen=เคยใช้ Apple Pencil แล้ว → รับปากกาอย่างเดียว
   var DPR=1,view={scale:1,tx:0,ty:0},touches={},gest=null;         // กระดาษไม่จำกัด: ซูม(scale) + เลื่อน(tx,ty) หน่วยพิกัดเก็บแบบ world
   function el(id){return document.getElementById(id);}
@@ -4147,7 +4150,7 @@ var TB=(function(){
     root.innerHTML='<canvas id="tb_bg"></canvas><canvas id="tb_draw"></canvas><canvas id="tb_laser"></canvas>'+
       '<div id="tb_ctl"><div class="cl" id="tb_clock">⏸ --:--</div><button id="tb_back">◀ กลับไปทำข้อสอบ</button></div>'+
       '<div id="tb_zoom"><button id="tb_zout" class="zb">−</button><button id="tb_zlbl" class="zb wide">100%</button><button id="tb_zin" class="zb">+</button></div>'+
-      '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div></div>'+
+      '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div><div class="rsz" id="tb_rsz">⤡</div></div>'+
       '<div id="tb_head"><div class="acc"></div><div id="tb_hrow"><span class="grip">⣿</span><span class="k" id="tb_label"></span>'+
         '<button class="hbtn" id="tb_rev">👁 เฉลย</button><button class="hbtn" id="tb_thbtn">🎨</button><button class="hbtn" id="tb_min">▁</button></div></div>'+
       '<div id="tb_theme"><span class="tl">ธีมสี:</span></div>'+
@@ -4190,6 +4193,10 @@ var TB=(function(){
     hrow.addEventListener('pointerdown',function(e){if(e.target.closest('.hbtn'))return;hrow.setPointerCapture(e.pointerId);dOff={x:e.clientX-cx,y:e.clientY-cy};});
     hrow.addEventListener('pointermove',function(e){if(!dOff)return;cx=e.clientX-dOff.x;cy=e.clientY-dOff.y;place();});
     hrow.addEventListener('pointerup',function(){dOff=null;});
+    var rsz=el('tb_rsz'),rz=null;                                             // มุมลากย่อ-ขยายกล่องโจทย์
+    rsz.addEventListener('pointerdown',function(e){e.stopPropagation();try{rsz.setPointerCapture(e.pointerId);}catch(_){}rz={x:e.clientX,y:e.clientY,s:cardScale};});
+    rsz.addEventListener('pointermove',function(e){if(!rz)return;var d=((e.clientX-rz.x)+(e.clientY-rz.y))/2;cardScale=Math.max(0.7,Math.min(2.4,rz.s+d/280));place();});
+    rsz.addEventListener('pointerup',function(){rz=null;});
     function penActive(){return performance.now()-lastPenTime<1600;}
     draw.addEventListener('pointerdown',function(e){
       if(e.pointerType==='touch'){touches[e.pointerId]=scr(e);gestStart();return;}  // นิ้ว/ฝ่ามือ = เลื่อน/ซูม (2 นิ้ว) ไม่วาด
@@ -4242,12 +4249,15 @@ var TB=(function(){
     [bg,draw,laser].forEach(function(c){c.width=W*DPR;c.height=H*DPR;});
     [bx,dx,lx].forEach(function(c){c.lineCap='round';c.lineJoin='round';});
     paintBg();redraw();place();}
-  function place(){var w=Math.min(560,window.innerWidth-36);var head=el('tb_head'),body=el('tb_body');
+  function place(){var w=Math.min(560,(window.innerWidth-36)/cardScale);var head=el('tb_head'),body=el('tb_body'),cs=cardScale;
     head.style.width=w+'px';body.style.width=w+'px';
-    cx=Math.max(6,Math.min(cx,window.innerWidth-w-6));cy=Math.max(6,Math.min(cy,window.innerHeight-70));
-    head.style.left=cx+'px';head.style.top=cy+'px';body.style.left=cx+'px';body.style.top=(cy+head.offsetHeight-1)+'px';
+    head.style.transformOrigin='top left';body.style.transformOrigin='top left';
+    head.style.transform='scale('+cs+')';body.style.transform='scale('+cs+')';
+    var vw=w*cs;cx=Math.max(6,Math.min(cx,window.innerWidth-vw-6));cy=Math.max(6,Math.min(cy,window.innerHeight-70));
+    var hh=head.offsetHeight*cs;
+    head.style.left=cx+'px';head.style.top=cy+'px';body.style.left=cx+'px';body.style.top=(cy+hh-1)+'px';
     body.style.display=minimized?'none':'block';head.classList.toggle('min',minimized);
-    var tr=el('tb_theme');tr.style.left=Math.min(cx+w-190,window.innerWidth-200)+'px';tr.style.top=(cy+head.offsetHeight+4)+'px';}
+    var tr=el('tb_theme');tr.style.left=Math.min(cx+vw-190,window.innerWidth-200)+'px';tr.style.top=(cy+hh+4)+'px';}
   function paintBg(){clearAll(bx);applyView(bx);
     var x0=(-view.tx)/view.scale,y0=(-view.ty)/view.scale,x1=(W-view.tx)/view.scale,y1=(H-view.ty)/view.scale;  // ขอบเขต world ที่มองเห็น
     bx.fillStyle='#fff';bx.fillRect(x0-20,y0-20,(x1-x0)+40,(y1-y0)+40);if(st.bg===0)return;
@@ -4358,7 +4368,7 @@ var TB=(function(){
       var a=el('tb_ans');a.innerHTML=data.ans;a.classList.add('hide');
       var rb=el('tb_rev');rb.classList.remove('on');rb.textContent='👁 เฉลย';
       el('tb_clock').textContent=(data.rem!=null?'⏸ '+fmtClock(data.rem):'⏸ ไม่จับเวลา');
-      strokes=[];lp=[];cx=18;cy=18;minimized=false;st.tool='pen';st.si=1;st.bg=1;st.pen='fountain';st.shape=false;activeId=null;activeType=null;
+      strokes=[];lp=[];cx=18;cy=18;minimized=false;cardScale=1;st.tool='pen';st.si=1;st.bg=1;st.pen='fountain';st.shape=false;activeId=null;activeType=null;
       Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.toggle('on',x.dataset.tool==='pen');});
       el('tb_shape').classList.remove('on');el('tb_stab').querySelector('small').textContent='นิ่ง:'+STAB[st.stab].d;
       view={scale:1,tx:0,ty:0};touches={};gest=null;el('tb_zlbl').textContent='100%';
