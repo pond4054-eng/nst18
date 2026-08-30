@@ -563,7 +563,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v138";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v139";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4107,6 +4107,7 @@ var TB=(function(){
   var THEMES=[['#2f6bd6','#eaf1fd'],['#7048e8','#efeafe'],['#0ca678','#e4f8f1'],['#f2792b','#fff1e7'],['#e64980','#fdeaf1'],['#41506a','#eef1f6']];
   var st={tool:'pen',color:PEN[0],hi:HI[0],si:1,bg:1};
   var strokes=[],cur=null,drawing=false,lp=[],cx=18,cy=18,minimized=false;
+  var activeId=null,activeType=null,lastPenTime=0;   // แยก pointer กันฝ่ามือ (palm rejection)
   function el(id){return document.getElementById(id);}
   function pos(e){var r=draw.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
   function build(){
@@ -4147,15 +4148,29 @@ var TB=(function(){
     hrow.addEventListener('pointerdown',function(e){if(e.target.closest('.hbtn'))return;hrow.setPointerCapture(e.pointerId);dOff={x:e.clientX-cx,y:e.clientY-cy};});
     hrow.addEventListener('pointermove',function(e){if(!dOff)return;cx=e.clientX-dOff.x;cy=e.clientY-dOff.y;place();});
     hrow.addEventListener('pointerup',function(){dOff=null;});
-    draw.addEventListener('pointerdown',function(e){draw.setPointerCapture(e.pointerId);var pt=pos(e);
-      if(st.tool==='laser'){lp.push({x:pt.x,y:pt.y,t:performance.now()});drawing=true;return;}
+    function penActive(){return performance.now()-lastPenTime<1600;}
+    draw.addEventListener('pointerdown',function(e){var pt=pos(e);
+      if(e.pointerType==='pen')lastPenTime=performance.now();
+      if(st.tool==='laser'){
+        if(activeId!=null&&e.pointerType==='touch'&&activeType==='pen')return;
+        activeId=e.pointerId;activeType=e.pointerType;lp.push({x:pt.x,y:pt.y,t:performance.now()});return;
+      }
+      if(activeId!=null){                                   // มี pointer อื่นเขียนอยู่แล้ว
+        if(e.pointerType==='pen'&&activeType==='touch'){     // ปากกามาแทน → ทิ้งเส้นฝ่ามือ
+          if(cur){var ix=strokes.indexOf(cur);if(ix>=0){strokes.splice(ix,1);redraw();}}
+        } else return;                                       // ปฏิเสธ pointer ซ้อน (ฝ่ามือ)
+      } else if(e.pointerType==='touch'&&penActive()){return;} // ใช้ปากกาอยู่ → ไม่รับฝ่ามือ/นิ้ว
+      try{draw.setPointerCapture(e.pointerId);}catch(_){}
+      activeId=e.pointerId;activeType=e.pointerType;
       var size=SZ[st.tool==='hi'?'hi':st.tool==='eraser'?'eraser':'pen'][st.si];
       cur={tool:st.tool,color:(st.tool==='hi'?st.hi:st.color),size:size,points:[pt]};strokes.push(cur);drawing=true;
       if(st.tool==='hi')redraw();else drawS(cur);});
     draw.addEventListener('pointermove',function(e){var pt=pos(e);
-      if(st.tool==='laser'){lp.push({x:pt.x,y:pt.y,t:performance.now()});return;}
-      if(!drawing)return;cur.points.push(pt);if(st.tool==='hi')redraw();else drawS(cur);});
-    function end(){drawing=false;cur=null;}
+      if(e.pointerType==='pen')lastPenTime=performance.now();
+      if(st.tool==='laser'){if(e.pointerType==='pen'||e.pointerId===activeId)lp.push({x:pt.x,y:pt.y,t:performance.now()});return;}
+      if(e.pointerId!==activeId||!drawing)return;            // วาดเฉพาะ pointer ที่เริ่มเส้น
+      cur.points.push(pt);if(st.tool==='hi')redraw();else drawS(cur);});
+    function end(e){if(e&&e.pointerId!==activeId)return;drawing=false;cur=null;activeId=null;activeType=null;}
     draw.addEventListener('pointerup',end);draw.addEventListener('pointercancel',end);
     window.addEventListener('resize',function(){if(root.classList.contains('on'))resize();});
     laserLoop();built=true;
@@ -4204,7 +4219,7 @@ var TB=(function(){
       var a=el('tb_ans');a.innerHTML=data.ans;a.classList.add('hide');
       var rb=el('tb_rev');rb.classList.remove('on');rb.textContent='👁 เฉลย';
       el('tb_clock').textContent=(data.rem!=null?'⏸ '+fmtClock(data.rem):'⏸ ไม่จับเวลา');
-      strokes=[];lp=[];cx=18;cy=18;minimized=false;st.tool='pen';st.si=1;st.bg=1;
+      strokes=[];lp=[];cx=18;cy=18;minimized=false;st.tool='pen';st.si=1;st.bg=1;activeId=null;activeType=null;
       Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.toggle('on',x.dataset.tool==='pen');});
       root.classList.add('on');cols();szs();
       setTimeout(function(){resize();},20);
