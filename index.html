@@ -309,7 +309,7 @@
 #tb_ctl .cl{font-weight:800;font-size:15px;color:#e8608a;font-variant-numeric:tabular-nums;background:#fff;padding:7px 12px;border-radius:12px;box-shadow:0 3px 12px #0000001f}
 #tb_back{border:none;background:#fff;color:#46536a;font-weight:800;font-size:13px;padding:9px 13px;border-radius:12px;cursor:pointer;box-shadow:0 3px 12px #0000001f}
 #tb_head{position:absolute;z-index:12;border-radius:16px 16px 0 0;overflow:hidden;background:#fff;border:1px solid #edf1f7;border-bottom:none}
-#tb_brand{display:flex;align-items:center;gap:8px;padding:7px 12px;background-color:var(--tb-acc);background-image:linear-gradient(135deg,rgba(10,12,25,.34),rgba(10,12,25,.66))}
+#tb_brand{display:flex;align-items:center;gap:8px;padding:7px 12px;background-color:var(--tb-acc);background-image:linear-gradient(135deg,rgba(10,12,25,.34),rgba(10,12,25,.66));cursor:grab;touch-action:none}
 #tb_brand .blg{width:26px;height:26px;flex:none;border-radius:8px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px}
 #tb_brand .bt{display:flex;flex-direction:column;line-height:1.08;min-width:0}
 #tb_brand .bth{color:#fff;font-weight:900;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -581,7 +581,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v165";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v166";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4212,10 +4212,11 @@ var TB=(function(){
     el('tb_thbtn').onclick=function(e){e.stopPropagation();el('tb_theme').classList.toggle('show');place();};
     el('tb_rev').onclick=function(e){e.stopPropagation();var a=el('tb_ans'),b=el('tb_rev');a.classList.toggle('hide');
       var sh=!a.classList.contains('hide');b.classList.toggle('on',sh);b.textContent=sh?'🙈 ซ่อน':'👁 เฉลย';};
-    var hrow=el('tb_hrow'),dOff=null;
-    hrow.addEventListener('pointerdown',function(e){if(e.target.closest('.hbtn'))return;hrow.setPointerCapture(e.pointerId);dOff={x:e.clientX-cx,y:e.clientY-cy};});
-    hrow.addEventListener('pointermove',function(e){if(!dOff)return;cx=e.clientX-dOff.x;cy=e.clientY-dOff.y;place();});
-    hrow.addEventListener('pointerup',function(){dOff=null;});
+    var head=el('tb_head'),dOff=null;                                          // ลากย้ายกล่องได้ทั้งหัว (แถบแบรนด์+แถวข้อ) · document listener กันปัญหา iPad
+    function dragMove(e){if(!dOff)return;e.preventDefault();cx=e.clientX-dOff.x;cy=e.clientY-dOff.y;place();}
+    function dragUp(){dOff=null;document.removeEventListener('pointermove',dragMove);document.removeEventListener('pointerup',dragUp);document.removeEventListener('pointercancel',dragUp);}
+    head.addEventListener('pointerdown',function(e){if(e.target.closest('.hbtn'))return;dOff={x:e.clientX-cx,y:e.clientY-cy};
+      document.addEventListener('pointermove',dragMove,{passive:false});document.addEventListener('pointerup',dragUp);document.addEventListener('pointercancel',dragUp);});
     function penActive(){return performance.now()-lastPenTime<1600;}
     draw.addEventListener('pointerdown',function(e){
       if(e.pointerType==='touch'){touches[e.pointerId]=scr(e);gestStart();return;}  // นิ้ว/ฝ่ามือ = เลื่อน/ซูม (2 นิ้ว) ไม่วาด
