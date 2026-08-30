@@ -569,7 +569,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v148";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v149";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4123,7 +4123,6 @@ var TB=(function(){
   var activeId=null,activeType=null,lastPenTime=0,penSeen=false;   // แยก pointer กันฝ่ามือ (palm rejection); penSeen=เคยใช้ Apple Pencil แล้ว → รับปากกาอย่างเดียว
   function el(id){return document.getElementById(id);}
   function pos(e){var r=draw.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
-  function oeAlpha(cut,dt){var tau=1/(6.283185*cut);return 1/(1+tau/dt);}      // One-Euro filter coefficient
   function build(){
     root=document.createElement('div');root.id='tb_root';
     root.innerHTML='<canvas id="tb_bg"></canvas><canvas id="tb_draw"></canvas><canvas id="tb_laser"></canvas>'+
@@ -4183,7 +4182,7 @@ var TB=(function(){
       var pd=(st.tool==='pen')?penDef(st.pen):null;
       if(pd)pt.w=size*pd.mul*pd.lo;                            // หัวเส้นเรียวตามสไตล์
       cur={tool:st.tool,color:(st.tool==='hi'?st.hi:st.color),size:size,points:[pt]};cur._lw=pd?pt.w:size*0.5;
-      if(pd){cur.lo=pd.lo;cur.gain=pd.gain;cur.mul=pd.mul;cur.grain=pd.grain;cur.style=pd.k;cur._oe={x:pt.x,y:pt.y,dx:0,dy:0,t:performance.now()};}
+      if(pd){cur.lo=pd.lo;cur.gain=pd.gain;cur.mul=pd.mul;cur.grain=pd.grain;cur.style=pd.k;cur._rx=pt.x;cur._ry=pt.y;cur._spd=0;}
       strokes.push(cur);drawing=true;
       if(st.tool==='hi')redraw();else if(st.tool==='pen')drawPen(cur);else drawS(cur);});
     draw.addEventListener('pointermove',function(e){var pt=pos(e);
@@ -4229,21 +4228,21 @@ var TB=(function(){
     if(p.length===1){dx.arc(p[0].x,p[0].y,s.size/2,0,7);dx.fillStyle=(s.tool==='hi'?s.color:s.tool==='eraser'?'#000':s.color);dx.fill();dx.globalAlpha=1;dx.globalCompositeOperation='source-over';return;}
     dx.moveTo(p[0].x,p[0].y);for(var i=1;i<p.length-1;i++){var mx=(p[i].x+p[i+1].x)/2,my=(p[i].y+p[i+1].y)/2;dx.quadraticCurveTo(p[i].x,p[i].y,mx,my);}
     dx.lineTo(p[p.length-1].x,p[p.length-1].y);dx.stroke();dx.globalAlpha=1;dx.globalCompositeOperation='source-over';}
-  function addPenPoint(e){                                                     // Vector-ink: One-Euro smoothing + pressure/velocity → variable width
-    var oe=cur._oe,raw=pos(e),t=(e.timeStamp||performance.now());
-    var dt=(t-oe.t)/1000;if(!(dt>0)||dt>0.2)dt=1/120;oe.t=t;
-    var vx=(raw.x-oe.x)/dt,vy=(raw.y-oe.y)/dt,aD=oeAlpha(1.0,dt);              // ประมาณความเร็ว (กรอง)
-    oe.dx+=aD*(vx-oe.dx);oe.dy+=aD*(vy-oe.dy);
-    var speed=Math.hypot(oe.dx,oe.dy),aC=oeAlpha(1.8+0.02*speed,dt);          // ยิ่งเร็วยิ่งกรองน้อย → ลื่น หน่วงต่ำ
-    oe.x+=aC*(raw.x-oe.x);oe.y+=aC*(raw.y-oe.y);
-    var pp=cur.points[cur.points.length-1],d=Math.hypot(oe.x-pp.x,oe.y-pp.y);
-    if(d<0.4&&cur.points.length>1)return;                                     // ข้ามจุดที่ถี่เกินไป
-    var pr;if(e.pointerType==='pen'&&e.pressure>0)pr=e.pressure;else pr=1-Math.min(speed,4200)/4200*0.82; // แรงกด หรือ ความเร็ว
+  function addPenPoint(e){                                                     // Vector-ink: adaptive smoothing (ไม่พึ่ง timestamp — กัน dt กระตุก) + pressure/velocity
+    var raw=pos(e),pp=cur.points[cur.points.length-1];
+    var dr=(cur._rx==null)?0:Math.hypot(raw.x-cur._rx,raw.y-cur._ry);         // ความเร็ว = ระยะต่อจุด (เสถียร ไม่หาร dt)
+    cur._rx=raw.x;cur._ry=raw.y;
+    cur._spd=(cur._spd==null)?dr:cur._spd*0.6+dr*0.4;                         // สมูทความเร็ว กันกระชาก
+    var spd=cur._spd,tt=Math.min(1,spd/10);                                   // 0=ช้า 1=เร็ว
+    var ow=0.48-tt*0.33;                                                       // น้ำหนักจุดเก่า: ช้า=0.48(เนียนมาก) เร็ว=0.15(ไว) — adaptive แบบ One-Euro
+    var x=pp.x*ow+raw.x*(1-ow),y=pp.y*ow+raw.y*(1-ow);
+    var d=Math.hypot(x-pp.x,y-pp.y);if(d<0.35&&cur.points.length>1)return;    // ข้ามจุดที่ถี่เกินไป
+    var pr=(e.pointerType==='pen'&&e.pressure>0)?e.pressure:(1-Math.min(spd,24)/24*0.82); // แรงกด หรือ ความเร็ว
     pr=pr*pr*(3-2*pr);                                                         // pressure curve (smoothstep) ตอบสนองธรรมชาติ
-    var vthin=1-Math.min(speed,5200)/5200*0.28;                               // เขียนเร็ว=เรียวขึ้นเล็กน้อย (หมึกซึม)
+    var vthin=1-Math.min(spd,30)/30*0.26;                                     // เขียนเร็ว=เรียวขึ้นเล็กน้อย (หมึกซึม)
     var tw=cur.size*cur.mul*(cur.lo+pr*vthin*cur.gain);
     cur._lw=(cur._lw==null?tw:cur._lw*0.5+tw*0.5);                            // สมูทความหนา ไม่กระตุก
-    cur.points.push({x:oe.x,y:oe.y,w:Math.max(0.35,cur._lw)});
+    cur.points.push({x:x,y:y,w:Math.max(0.35,cur._lw)});
   }
   function densify(p){var n=p.length;if(n<3)return p.slice();                 // แทรกจุดด้วย Catmull-Rom ให้โค้งเนียนละเอียด (~2px)
     var out=[{x:p[0].x,y:p[0].y,w:p[0].w}];
