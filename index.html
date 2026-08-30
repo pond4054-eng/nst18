@@ -564,7 +564,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v140";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v141";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4175,6 +4175,13 @@ var TB=(function(){
       cur.points.push(pt);if(st.tool==='hi')redraw();else drawS(cur);});
     function end(e){if(e&&e.pointerId!==activeId)return;drawing=false;cur=null;activeId=null;activeType=null;}
     draw.addEventListener('pointerup',end);draw.addEventListener('pointercancel',end);
+    // iOS: กัน selection/callout/magnifier/scroll บนพื้นที่วาดโดยตรง (pointer events ยังทำงาน)
+    var stopTouch=function(e){e.preventDefault();};
+    draw.addEventListener('touchstart',stopTouch,{passive:false});
+    draw.addEventListener('touchmove',stopTouch,{passive:false});
+    draw.addEventListener('touchend',stopTouch,{passive:false});
+    el('tb_body').addEventListener('touchstart',stopTouch,{passive:false});
+    el('tb_bg').addEventListener('touchstart',stopTouch,{passive:false});
     window.addEventListener('resize',function(){if(root.classList.contains('on'))resize();});
     laserLoop();built=true;
   }
