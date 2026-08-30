@@ -347,8 +347,8 @@
 #tb_root .zb.wide{font-size:13px}
 #tb_root .zb:active{background:var(--tb-acc);color:#fff}
 #tb_body{position:absolute}
-#tb_body .rsz{position:absolute;right:1px;bottom:1px;width:26px;height:26px;display:flex;align-items:flex-end;justify-content:flex-end;padding:2px;color:var(--tb-acc);font-size:15px;cursor:nwse-resize;opacity:.55;touch-action:none;user-select:none}
-#tb_body .rsz:active{opacity:1}
+#tb_body .rsz{position:absolute;right:5px;bottom:5px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--tb-acc);font-size:24px;cursor:nwse-resize;touch-action:none;user-select:none;background:var(--tb-soft);border:2px solid var(--tb-acc);border-radius:13px;box-shadow:0 2px 6px #1b2f5222}
+#tb_body .rsz:active{background:var(--tb-acc);color:#fff}
 </style>
 <script>
   /* ใช้โหมด/ระดับหรี่แสงที่บันทึกไว้ ก่อนหน้าจอวาด กันจอกระพริบ */
@@ -576,7 +576,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v153";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v154";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
