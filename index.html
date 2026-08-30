@@ -300,7 +300,8 @@
     .pq, .pq-t{ break-inside:avoid; page-break-inside:avoid; }
   }
 /* ===== กระดานสอน (Teach whiteboard) — โมดูลแยก ===== */
-#tb_root{position:fixed;inset:0;z-index:99990;background:#f5f7fb;display:none;--tb-acc:var(--pri);--tb-soft:color-mix(in srgb,var(--pri) 12%,#fff);}
+#tb_root{position:fixed;inset:0;z-index:99990;background:#f5f7fb;display:none;--tb-acc:var(--pri);--tb-soft:color-mix(in srgb,var(--pri) 12%,#fff);touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+#tb_root *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;}
 #tb_root.on{display:block}
 #tb_root canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
 #tb_bg{z-index:1}#tb_draw{z-index:5}#tb_laser{z-index:6;pointer-events:none}
@@ -563,7 +564,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v139";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v140";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4128,6 +4129,8 @@ var TB=(function(){
         '<button class="tool" id="tb_clr">🗑️<small>ล้าง</small></button>'+
         '<button class="tool" id="tb_bgbtn">▦<small>พื้น</small></button></div></div>';
     document.body.appendChild(root);
+    root.addEventListener('contextmenu',function(e){e.preventDefault();});   // กันเมนูตัด/คัดลอกของ iOS
+    root.addEventListener('selectstart',function(e){e.preventDefault();});    // กันการคลุมข้อความ
     bg=el('tb_bg');draw=el('tb_draw');laser=el('tb_laser');
     bx=bg.getContext('2d');dx=draw.getContext('2d');lx=laser.getContext('2d');
     var tr=el('tb_theme');
