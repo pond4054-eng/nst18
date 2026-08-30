@@ -569,7 +569,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v146";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v147";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4120,7 +4120,7 @@ var TB=(function(){
   function penDef(k){for(var pi=0;pi<PENDEF.length;pi++)if(PENDEF[pi].k===k)return PENDEF[pi];return PENDEF[0];}
   var st={tool:'pen',color:PEN[0],hi:HI[0],si:1,bg:1,pen:'fountain'};
   var strokes=[],cur=null,drawing=false,lp=[],cx=18,cy=18,minimized=false;
-  var activeId=null,activeType=null,lastPenTime=0;   // แยก pointer กันฝ่ามือ (palm rejection)
+  var activeId=null,activeType=null,lastPenTime=0,penSeen=false;   // แยก pointer กันฝ่ามือ (palm rejection); penSeen=เคยใช้ Apple Pencil แล้ว → รับปากกาอย่างเดียว
   function el(id){return document.getElementById(id);}
   function pos(e){var r=draw.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
   function build(){
@@ -4165,7 +4165,8 @@ var TB=(function(){
     hrow.addEventListener('pointerup',function(){dOff=null;});
     function penActive(){return performance.now()-lastPenTime<1600;}
     draw.addEventListener('pointerdown',function(e){var pt=pos(e);
-      if(e.pointerType==='pen')lastPenTime=performance.now();
+      if(e.pointerType==='pen'){lastPenTime=performance.now();penSeen=true;}
+      if(penSeen&&e.pointerType!=='pen')return;               // เคยใช้ Apple Pencil แล้ว → ไม่รับนิ้ว/ฝ่ามือ (วางมือได้ ไม่เกิดรอย/จุด)
       if(st.tool==='laser'){
         if(activeId!=null&&e.pointerType==='touch'&&activeType==='pen')return;
         activeId=e.pointerId;activeType=e.pointerType;lp.push({x:pt.x,y:pt.y,t:performance.now()});return;
@@ -4185,7 +4186,7 @@ var TB=(function(){
       strokes.push(cur);drawing=true;
       if(st.tool==='hi')redraw();else if(st.tool==='pen')drawPen(cur);else drawS(cur);});
     draw.addEventListener('pointermove',function(e){var pt=pos(e);
-      if(e.pointerType==='pen')lastPenTime=performance.now();
+      if(e.pointerType==='pen'){lastPenTime=performance.now();penSeen=true;}
       if(st.tool==='laser'){if(e.pointerType==='pen'||e.pointerId===activeId)lp.push({x:pt.x,y:pt.y,t:performance.now()});return;}
       if(e.pointerId!==activeId||!drawing)return;            // วาดเฉพาะ pointer ที่เริ่มเส้น
       if(st.tool==='pen'){
