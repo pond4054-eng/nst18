@@ -573,7 +573,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v161";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v162";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4363,6 +4363,7 @@ var TB=(function(){
       lx.lineTo(pts[pts.length-1].x,pts[pts.length-1].y);lx.stroke();}
     lx.shadowBlur=0;lx.globalAlpha=1;}
   function laserLoop(){clearAll(lx);lx.setTransform(DPR,0,0,DPR,0,0);var now=performance.now(),fade=1500;  // เลเซอร์อยู่ในพิกัดจอ (ไม่ซูมตาม)
+    if(lp.length)for(var j=0;j<laserFades.length;j++)laserFades[j].t0=now;      // ยังแตะปากกาอยู่ → เส้นก่อนหน้าไม่จาง (คงไว้ครบ)
     laserFades=laserFades.filter(function(f){return now-f.t0<fade;});
     for(var k=0;k<laserFades.length;k++){var f=laserFades[k];drawLaserLine(f.pts,1-(now-f.t0)/fade);}  // เส้นที่ยกแล้ว → จางช้าๆทั้งเส้น
     if(lp.length){drawLaserLine(lp,1);                                         // เส้นที่กำลังกด → สว่างเต็ม ไม่จาง
