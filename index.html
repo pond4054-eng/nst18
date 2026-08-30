@@ -299,6 +299,43 @@
     /* กันข้อสอบ/รูปถูกตัดข้ามหน้า ทำให้รูปหาย */
     .pq, .pq-t{ break-inside:avoid; page-break-inside:avoid; }
   }
+/* ===== กระดานสอน (Teach whiteboard) — โมดูลแยก ===== */
+#tb_root{position:fixed;inset:0;z-index:99990;background:#f5f7fb;display:none;--tb-acc:var(--pri);--tb-soft:color-mix(in srgb,var(--pri) 12%,#fff);}
+#tb_root.on{display:block}
+#tb_root canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#tb_bg{z-index:1}#tb_draw{z-index:5}#tb_laser{z-index:6;pointer-events:none}
+#tb_ctl{position:absolute;z-index:20;top:14px;right:14px;display:flex;gap:8px;align-items:center}
+#tb_ctl .cl{font-weight:800;font-size:15px;color:#e8608a;font-variant-numeric:tabular-nums;background:#fff;padding:7px 12px;border-radius:12px;box-shadow:0 3px 12px #0000001f}
+#tb_back{border:none;background:#fff;color:#46536a;font-weight:800;font-size:13px;padding:9px 13px;border-radius:12px;cursor:pointer;box-shadow:0 3px 12px #0000001f}
+#tb_head{position:absolute;z-index:12;border-radius:16px 16px 0 0;overflow:hidden;background:#fff;border:1px solid #edf1f7;border-bottom:none}
+#tb_head .acc{height:5px;background:linear-gradient(90deg,var(--tb-acc),color-mix(in srgb,var(--tb-acc) 55%,#fff))}
+#tb_hrow{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--tb-soft),#fff);padding:9px 12px;cursor:grab;touch-action:none}
+#tb_hrow .grip{color:#adbcd0;font-size:14px;letter-spacing:-3px}
+#tb_hrow .k{font-size:12.5px;font-weight:800;color:var(--tb-acc);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tb_root .hbtn{border:none;background:#fff;color:#66748a;height:28px;min-width:28px;padding:0 8px;border-radius:9px;cursor:pointer;font-size:12px;font-weight:800;box-shadow:0 1px 3px #0000000f;display:flex;align-items:center;justify-content:center;gap:3px}
+#tb_root .hbtn.on{background:var(--tb-acc);color:#fff}
+#tb_body{position:absolute;z-index:3;border-radius:0 0 16px 16px;background:#fff;border:1px solid #edf1f7;border-top:none;padding:14px 17px 15px;box-shadow:0 18px 40px #1b2f5220,0 3px 10px #00000014;max-height:60vh;overflow:auto}
+#tb_body .t{font-size:18px;font-weight:700;line-height:1.55;color:#232b39}
+#tb_body .ch{font-size:14.5px;font-weight:600;color:#3a4657;display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:11px}
+#tb_body .ans{font-size:12.5px;font-weight:800;color:#0e8a48;margin-top:11px;background:#e8faf0;display:inline-block;padding:4px 11px;border-radius:9px}
+#tb_body .ans.hide{display:none}
+#tb_head.min{border-radius:16px}
+#tb_theme{position:absolute;z-index:14;display:none;gap:7px;padding:9px 12px;background:#fff;border-radius:13px;box-shadow:0 10px 30px #00000026;align-items:center}
+#tb_theme.show{display:flex}
+#tb_theme .tl{font-size:11px;font-weight:800;color:#8794a6;margin-right:2px}
+#tb_root .tdot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 1px #dfe5ee}
+#tb_root .tdot.on{box-shadow:0 0 0 2px #fff,0 0 0 4px currentColor;transform:scale(1.12)}
+#tb_bar{position:absolute;z-index:20;left:50%;transform:translateX(-50%);bottom:16px;display:flex;gap:7px;align-items:center;background:#fff;padding:8px 11px;border-radius:18px;box-shadow:0 12px 32px #1b2f5226,0 0 0 1px #ebeff5;flex-wrap:wrap;justify-content:center;max-width:96vw}
+#tb_root .grp{display:flex;gap:5px;align-items:center;padding:0 6px;border-right:1px solid #edf1f6}
+#tb_root .grp:last-child{border-right:none}
+#tb_root .tool{width:42px;height:42px;border-radius:12px;border:none;background:#f2f5f9;color:#3c4757;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative}
+#tb_root .tool.on{background:var(--tb-acc);color:#fff}
+#tb_root .tool small{font-size:8.5px;position:absolute;bottom:2px;font-weight:700}
+#tb_root .sw{width:25px;height:25px;border-radius:50%;cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 1.5px #d8dfe9}
+#tb_root .sw.on{transform:scale(1.16);box-shadow:0 0 0 2px #fff,0 0 0 4px #3c4757}
+#tb_root .sz{width:34px;height:42px;border-radius:11px;background:#f2f5f9;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#tb_root .sz.on{background:var(--tb-acc)}#tb_root .sz i{display:block;border-radius:50%;background:#6b7686}#tb_root .sz.on i{background:#fff}
+#tb_root .lbl{color:#7e8b9d;font-size:10px;font-weight:700;padding:0 3px;max-width:100px;text-align:center;line-height:1.25}
 </style>
 <script>
   /* ใช้โหมด/ระดับหรี่แสงที่บันทึกไว้ ก่อนหน้าจอวาด กันจอกระพริบ */
@@ -526,7 +563,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v137";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v138";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2882,7 +2919,8 @@ function quizSheet(){
          '<button class="btn ghost" style="flex:1;'+(q.idx<=0?"opacity:.4;pointer-events:none;":"")+'" onclick="A.prevQ()">← ก่อนหน้า</button>'+
          '<button class="btn ghost" style="flex:1;'+(q.idx>=total-1?"opacity:.4;pointer-events:none;":"")+'" onclick="A.nextQ()">ถัดไป →</button>'+
        '</div>'+
-       '<button class="btn" style="width:100%;margin-top:10px;" onclick="A.submitQuiz()">ส่งคำตอบ'+(left>0?' · ยังเหลือ '+left+' ข้อ':'')+'</button>';
+       '<button class="btn" style="width:100%;margin-top:10px;" onclick="A.submitQuiz()">ส่งคำตอบ'+(left>0?' · ยังเหลือ '+left+' ข้อ':'')+'</button>'+
+       (S.adminMode?'<button class="btn ghost" style="width:100%;margin-top:9px;border-color:var(--pri);color:var(--pri);" onclick="A.teach()">🎓 สอนข้อนี้ (เปิดกระดาน · หยุดเวลา)</button>':"");
   } else if(q.status==="result"){
     h+='<div style="text-align:center;padding:14px 0;">'+
          ((q.isMock&&q.sectResult) ? mockResultHTML(q) :
@@ -3717,6 +3755,18 @@ var A={
   cancelSubmit:function(){ S.quizConfirm=false; render(); },   // กลับไปตรวจ
   confirmSubmit:function(){ S.quizConfirm=false; finishQuiz(false); },   // ยืนยันส่งจริง
   closeQuiz:function(){ clearQuizTimer(); releaseWakeLock(); S.quiz=null; S.quizConfirm=false; render(); },
+  teach:function(){
+    var q=S.quiz; if(!q||q.status!=="active") return;
+    if(q.deadline){ q._pauseRem=quizRemainMs(); clearQuizTimer(); }
+    var cur=q.questions[q.idx], letter=isLetterCh(cur.choices);
+    var label='ข้อ '+(q.idx+1)+' / '+q.questions.length+(cur._subj?' · '+cur._subj:'');
+    var qhtml=mfrac(cur.q).replace(/\n/g,'<br>')+(cur.img?imgHTML(cur.img,280):'');
+    var chs=cur.choices.map(function(ch,i){ return (letter?'':(THL[i]||'')+'. ')+(letter?esc(ch):mfrac(ch)); });
+    var ai=cur.answer;
+    var ans='เฉลย: '+(letter?'':(THL[ai]||'')+'. ')+(letter?esc(cur.choices[ai]):mfrac(cur.choices[ai]));
+    TB.open({label:label,q:qhtml,choices:chs,ans:ans,rem:(q.deadline?q._pauseRem:null)});
+  },
+  teachClose:function(){ var q=S.quiz; if(q&&q.deadline&&q._pauseRem!=null){ q.deadline=Date.now()+q._pauseRem; startQuizTimer(); } TB.hide(); render(); },
   // ── ฟีดวิดีโอเต็มจอ ──
   openFeed:function(sk,id){ if(!studyOpen()) return; if(!feedClips(sk).length){ toast("ยังไม่มีคลิปในวิชานี้"); return; } S.feed=sk; render(); var t=id&&document.getElementById("feedpage-"+id); if(t) t.scrollIntoView(); },
   closeFeed:function(){ destroyFeedObs(); destroyPlayer(); S.feed=null; render(); },
@@ -4048,6 +4098,121 @@ function startQuizTimer(){
     }
   },500);
 }
+/* ===== TB : กระดานสอน (whiteboard overlay) — โมดูลแยก ===== */
+var TB=(function(){
+  var built=false,root,bg,draw,laser,bx,dx,lx,W=0,H=0;
+  var PEN=['#2b2d42','#ff6b6b','#4dabf7','#20c997','#ffa94d','#b197fc','#f06595'];
+  var HI=['#ffe066','#8ce99a','#ffa8c5','#74c0fc','#ffc078','#d0bfff'];
+  var SZ={pen:[3,6,11],hi:[18,28,40],eraser:[24,44,70]};
+  var THEMES=[['#2f6bd6','#eaf1fd'],['#7048e8','#efeafe'],['#0ca678','#e4f8f1'],['#f2792b','#fff1e7'],['#e64980','#fdeaf1'],['#41506a','#eef1f6']];
+  var st={tool:'pen',color:PEN[0],hi:HI[0],si:1,bg:1};
+  var strokes=[],cur=null,drawing=false,lp=[],cx=18,cy=18,minimized=false;
+  function el(id){return document.getElementById(id);}
+  function pos(e){var r=draw.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+  function build(){
+    root=document.createElement('div');root.id='tb_root';
+    root.innerHTML='<canvas id="tb_bg"></canvas><canvas id="tb_draw"></canvas><canvas id="tb_laser"></canvas>'+
+      '<div id="tb_ctl"><div class="cl" id="tb_clock">⏸ --:--</div><button id="tb_back">◀ กลับไปทำข้อสอบ</button></div>'+
+      '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div></div>'+
+      '<div id="tb_head"><div class="acc"></div><div id="tb_hrow"><span class="grip">⣿</span><span class="k" id="tb_label"></span>'+
+        '<button class="hbtn" id="tb_rev">👁 เฉลย</button><button class="hbtn" id="tb_thbtn">🎨</button><button class="hbtn" id="tb_min">▁</button></div></div>'+
+      '<div id="tb_theme"><span class="tl">ธีมสี:</span></div>'+
+      '<div id="tb_bar"><div class="grp" id="tb_tools">'+
+        '<button class="tool on" data-tool="pen">✏️<small>ปากกา</small></button>'+
+        '<button class="tool" data-tool="hi">🖍️<small>ไฮไลต์</small></button>'+
+        '<button class="tool" data-tool="eraser">🧽<small>ลบ</small></button>'+
+        '<button class="tool" data-tool="laser">🔴<small>เลเซอร์</small></button></div>'+
+        '<div class="grp" id="tb_colors"></div><div class="grp" id="tb_sizes"></div>'+
+        '<div class="grp"><button class="tool" id="tb_undo">↩️<small>ย้อน</small></button>'+
+        '<button class="tool" id="tb_clr">🗑️<small>ล้าง</small></button>'+
+        '<button class="tool" id="tb_bgbtn">▦<small>พื้น</small></button></div></div>';
+    document.body.appendChild(root);
+    bg=el('tb_bg');draw=el('tb_draw');laser=el('tb_laser');
+    bx=bg.getContext('2d');dx=draw.getContext('2d');lx=laser.getContext('2d');
+    var tr=el('tb_theme');
+    THEMES.forEach(function(t){var d=document.createElement('div');d.className='tdot';d.style.background=t[0];d.style.color=t[0];
+      d.onclick=function(){root.style.setProperty('--tb-acc',t[0]);root.style.setProperty('--tb-soft',t[1]);
+        Array.prototype.forEach.call(tr.querySelectorAll('.tdot'),function(x){x.classList.toggle('on',x===d);});};tr.appendChild(d);});
+    Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(b){b.onclick=function(){st.tool=b.dataset.tool;
+      Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.remove('on');});b.classList.add('on');cols();szs();};});
+    el('tb_undo').onclick=function(){strokes.pop();redraw();};
+    el('tb_clr').onclick=function(){if(strokes.length&&!confirm('ล้างกระดาน?'))return;strokes=[];redraw();};
+    el('tb_bgbtn').onclick=function(){st.bg=(st.bg+1)%3;paintBg();};
+    el('tb_back').onclick=function(){A.teachClose();};
+    el('tb_min').onclick=function(e){e.stopPropagation();minimized=!minimized;el('tb_theme').classList.remove('show');place();};
+    el('tb_thbtn').onclick=function(e){e.stopPropagation();el('tb_theme').classList.toggle('show');place();};
+    el('tb_rev').onclick=function(e){e.stopPropagation();var a=el('tb_ans'),b=el('tb_rev');a.classList.toggle('hide');
+      var sh=!a.classList.contains('hide');b.classList.toggle('on',sh);b.textContent=sh?'🙈 ซ่อน':'👁 เฉลย';};
+    var hrow=el('tb_hrow'),dOff=null;
+    hrow.addEventListener('pointerdown',function(e){if(e.target.closest('.hbtn'))return;hrow.setPointerCapture(e.pointerId);dOff={x:e.clientX-cx,y:e.clientY-cy};});
+    hrow.addEventListener('pointermove',function(e){if(!dOff)return;cx=e.clientX-dOff.x;cy=e.clientY-dOff.y;place();});
+    hrow.addEventListener('pointerup',function(){dOff=null;});
+    draw.addEventListener('pointerdown',function(e){draw.setPointerCapture(e.pointerId);var pt=pos(e);
+      if(st.tool==='laser'){lp.push({x:pt.x,y:pt.y,t:performance.now()});drawing=true;return;}
+      var size=SZ[st.tool==='hi'?'hi':st.tool==='eraser'?'eraser':'pen'][st.si];
+      cur={tool:st.tool,color:(st.tool==='hi'?st.hi:st.color),size:size,points:[pt]};strokes.push(cur);drawing=true;
+      if(st.tool==='hi')redraw();else drawS(cur);});
+    draw.addEventListener('pointermove',function(e){var pt=pos(e);
+      if(st.tool==='laser'){lp.push({x:pt.x,y:pt.y,t:performance.now()});return;}
+      if(!drawing)return;cur.points.push(pt);if(st.tool==='hi')redraw();else drawS(cur);});
+    function end(){drawing=false;cur=null;}
+    draw.addEventListener('pointerup',end);draw.addEventListener('pointercancel',end);
+    window.addEventListener('resize',function(){if(root.classList.contains('on'))resize();});
+    laserLoop();built=true;
+  }
+  function resize(){W=window.innerWidth;H=window.innerHeight;if(!W||!H)return;var DPR=Math.min(window.devicePixelRatio||1,2.5);
+    [bg,draw,laser].forEach(function(c){c.width=W*DPR;c.height=H*DPR;});
+    [bx,dx,lx].forEach(function(c){c.setTransform(DPR,0,0,DPR,0,0);c.lineCap='round';c.lineJoin='round';});
+    paintBg();redraw();place();}
+  function place(){var w=Math.min(560,window.innerWidth-36);var head=el('tb_head'),body=el('tb_body');
+    head.style.width=w+'px';body.style.width=w+'px';
+    cx=Math.max(6,Math.min(cx,window.innerWidth-w-6));cy=Math.max(6,Math.min(cy,window.innerHeight-70));
+    head.style.left=cx+'px';head.style.top=cy+'px';body.style.left=cx+'px';body.style.top=(cy+head.offsetHeight-1)+'px';
+    body.style.display=minimized?'none':'block';head.classList.toggle('min',minimized);
+    var tr=el('tb_theme');tr.style.left=Math.min(cx+w-190,window.innerWidth-200)+'px';tr.style.top=(cy+head.offsetHeight+4)+'px';}
+  function paintBg(){bx.clearRect(0,0,W,H);bx.fillStyle='#fff';bx.fillRect(0,0,W,H);if(st.bg===0)return;
+    bx.strokeStyle='#e4ebf3';bx.lineWidth=1;var g=32;bx.beginPath();
+    if(st.bg===1){for(var x=g;x<W;x+=g){bx.moveTo(x,0);bx.lineTo(x,H);}for(var y=g;y<H;y+=g){bx.moveTo(0,y);bx.lineTo(W,y);}}
+    else{for(var y2=g*1.4;y2<H;y2+=g*1.4){bx.moveTo(0,y2);bx.lineTo(W,y2);}}bx.stroke();}
+  function styl(s){if(s.tool==='eraser'){dx.globalCompositeOperation='destination-out';dx.globalAlpha=1;}
+    else if(s.tool==='hi'){dx.globalCompositeOperation='source-over';dx.strokeStyle=s.color;dx.globalAlpha=.45;}
+    else{dx.globalCompositeOperation='source-over';dx.strokeStyle=s.color;dx.globalAlpha=1;}dx.lineWidth=s.size;}
+  function drawS(s){var p=s.points;if(!p.length)return;styl(s);dx.beginPath();
+    if(p.length===1){dx.arc(p[0].x,p[0].y,s.size/2,0,7);dx.fillStyle=(s.tool==='hi'?s.color:s.tool==='eraser'?'#000':s.color);dx.fill();dx.globalAlpha=1;dx.globalCompositeOperation='source-over';return;}
+    dx.moveTo(p[0].x,p[0].y);for(var i=1;i<p.length-1;i++){var mx=(p[i].x+p[i+1].x)/2,my=(p[i].y+p[i+1].y)/2;dx.quadraticCurveTo(p[i].x,p[i].y,mx,my);}
+    dx.lineTo(p[p.length-1].x,p[p.length-1].y);dx.stroke();dx.globalAlpha=1;dx.globalCompositeOperation='source-over';}
+  function redraw(){dx.clearRect(0,0,W,H);var i;for(i=0;i<strokes.length;i++)if(strokes[i].tool==='hi')drawS(strokes[i]);for(i=0;i<strokes.length;i++)if(strokes[i].tool!=='hi')drawS(strokes[i]);}
+  function laserLoop(){lx.clearRect(0,0,W,H);var now=performance.now();lp=lp.filter(function(p){return now-p.t<260;});
+    for(var i=0;i<lp.length-1;i++){var p=lp[i],a=1-(now-p.t)/260;lx.beginPath();lx.arc(p.x,p.y,2.2*a+.5,0,7);lx.fillStyle='rgba(255,55,55,'+(a*.2)+')';lx.fill();}
+    if(lp.length){var q=lp[lp.length-1];var g=lx.createRadialGradient(q.x,q.y,0,q.x,q.y,13);
+      g.addColorStop(0,'rgba(255,120,120,.9)');g.addColorStop(.35,'rgba(255,30,30,.68)');g.addColorStop(1,'rgba(255,0,0,0)');
+      lx.beginPath();lx.arc(q.x,q.y,13,0,7);lx.fillStyle=g;lx.fill();lx.beginPath();lx.arc(q.x,q.y,4,0,7);lx.fillStyle='#fff';lx.fill();lx.beginPath();lx.arc(q.x,q.y,2.1,0,7);lx.fillStyle='#ff2b2b';lx.fill();}
+    requestAnimationFrame(laserLoop);}
+  function cols(){var box=el('tb_colors');box.innerHTML='';
+    if(st.tool==='eraser'||st.tool==='laser'){box.innerHTML='<span class="lbl">'+(st.tool==='laser'?'ชี้ตำแหน่ง ไม่ทิ้งรอย':'ลากเพื่อลบ')+'</span>';return;}
+    var list=st.tool==='hi'?HI:PEN,act=st.tool==='hi'?st.hi:st.color;
+    list.forEach(function(c){var s=document.createElement('div');s.className='sw'+(c===act?' on':'');s.style.background=c;
+      s.onclick=function(){if(st.tool==='hi')st.hi=c;else st.color=c;cols();};box.appendChild(s);});}
+  function szs(){var box=el('tb_sizes');box.innerHTML='';
+    SZ[st.tool==='hi'?'hi':st.tool==='eraser'?'eraser':'pen'].forEach(function(sz,i){var b=document.createElement('div');b.className='sz'+(i===st.si?' on':'');
+      var d=document.createElement('i');var dd=Math.min(sz,20);d.style.width=dd+'px';d.style.height=dd+'px';b.appendChild(d);b.onclick=function(){st.si=i;szs();};box.appendChild(b);});}
+  return {
+    open:function(data){ if(!built)build();
+      el('tb_label').textContent='📌 '+data.label;
+      el('tb_q').innerHTML=data.q;
+      el('tb_ch').innerHTML=data.choices.map(function(c){return '<span>'+c+'</span>';}).join('');
+      var a=el('tb_ans');a.innerHTML=data.ans;a.classList.add('hide');
+      var rb=el('tb_rev');rb.classList.remove('on');rb.textContent='👁 เฉลย';
+      el('tb_clock').textContent=(data.rem!=null?'⏸ '+fmtClock(data.rem):'⏸ ไม่จับเวลา');
+      strokes=[];lp=[];cx=18;cy=18;minimized=false;st.tool='pen';st.si=1;st.bg=1;
+      Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.toggle('on',x.dataset.tool==='pen');});
+      root.classList.add('on');cols();szs();
+      setTimeout(function(){resize();},20);
+    },
+    hide:function(){ if(root)root.classList.remove('on'); }
+  };
+})();
+
 function gradeQuiz(){                       // นับข้อถูกจากคำตอบที่เลือกไว้ (ข้อที่ไม่ตอบ = ผิด)
   var q=S.quiz, c=0;
   for(var i=0;i<q.questions.length;i++){ if(q.picked[i]===q.questions[i].answer) c++; }
