@@ -576,7 +576,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v154";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v155";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4342,11 +4342,13 @@ var TB=(function(){
   function redraw(){clearAll(dx);applyView(dx);var i;
     for(i=0;i<strokes.length;i++)if(strokes[i].tool==='hi')drawS(strokes[i]);
     for(i=0;i<strokes.length;i++)if(strokes[i].tool!=='hi'){if(strokes[i].tool==='pen')drawPen(strokes[i]);else drawS(strokes[i]);}}
-  function laserLoop(){clearAll(lx);lx.setTransform(DPR,0,0,DPR,0,0);var now=performance.now();lp=lp.filter(function(p){return now-p.t<260;});  // เลเซอร์อยู่ในพิกัดจอ (ไม่ซูมตาม)
-    for(var i=0;i<lp.length-1;i++){var p=lp[i],a=1-(now-p.t)/260;lx.beginPath();lx.arc(p.x,p.y,2.2*a+.5,0,7);lx.fillStyle='rgba(255,55,55,'+(a*.2)+')';lx.fill();}
-    if(lp.length){var q=lp[lp.length-1];var g=lx.createRadialGradient(q.x,q.y,0,q.x,q.y,13);
-      g.addColorStop(0,'rgba(255,120,120,.9)');g.addColorStop(.35,'rgba(255,30,30,.68)');g.addColorStop(1,'rgba(255,0,0,0)');
-      lx.beginPath();lx.arc(q.x,q.y,13,0,7);lx.fillStyle=g;lx.fill();lx.beginPath();lx.arc(q.x,q.y,4,0,7);lx.fillStyle='#fff';lx.fill();lx.beginPath();lx.arc(q.x,q.y,2.1,0,7);lx.fillStyle='#ff2b2b';lx.fill();}
+  function laserLoop(){clearAll(lx);lx.setTransform(DPR,0,0,DPR,0,0);var now=performance.now();var life=750;lp=lp.filter(function(p){return now-p.t<life;});  // เลเซอร์อยู่ในพิกัดจอ (ไม่ซูมตาม)
+    if(lp.length>1){lx.lineCap='round';lx.lineJoin='round';lx.strokeStyle='#ff2f2f';lx.shadowColor='rgba(255,45,45,.85)';lx.shadowBlur=9;  // เส้นแดงเรืองแสง จางที่หาง
+      for(var i=1;i<lp.length;i++){var a=1-(now-lp[i].t)/life;lx.globalAlpha=Math.max(0,a);lx.lineWidth=4.5*a+1.2;
+        lx.beginPath();lx.moveTo(lp[i-1].x,lp[i-1].y);lx.lineTo(lp[i].x,lp[i].y);lx.stroke();}
+      lx.globalAlpha=1;lx.shadowBlur=0;}
+    if(lp.length){var q=lp[lp.length-1];lx.shadowColor='rgba(255,60,60,.9)';lx.shadowBlur=12;  // หัวเลเซอร์สว่าง
+      lx.beginPath();lx.arc(q.x,q.y,4.6,0,7);lx.fillStyle='#ff3b3b';lx.fill();lx.beginPath();lx.arc(q.x,q.y,2,0,7);lx.fillStyle='#fff';lx.fill();lx.shadowBlur=0;}
     requestAnimationFrame(laserLoop);}
   function cols(){var box=el('tb_colors');box.innerHTML='';
     if(st.tool==='eraser'||st.tool==='laser'){box.innerHTML='<span class="lbl">'+(st.tool==='laser'?'ชี้ตำแหน่ง ไม่ทิ้งรอย':'ลากเพื่อลบ')+'</span>';return;}
