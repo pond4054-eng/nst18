@@ -346,9 +346,6 @@
 #tb_root .zb{width:44px;height:38px;border:none;background:#f2f5f9;color:#3c4757;font-size:21px;font-weight:700;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 #tb_root .zb.wide{font-size:13px}
 #tb_root .zb:active{background:var(--tb-acc);color:#fff}
-#tb_body{position:absolute}
-#tb_body .rsz{position:absolute;right:5px;bottom:5px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--tb-acc);font-size:24px;cursor:nwse-resize;touch-action:none;user-select:none;background:var(--tb-soft);border:2px solid var(--tb-acc);border-radius:13px;box-shadow:0 2px 6px #1b2f5222}
-#tb_body .rsz:active{background:var(--tb-acc);color:#fff}
 </style>
 <script>
   /* ใช้โหมด/ระดับหรี่แสงที่บันทึกไว้ ก่อนหน้าจอวาด กันจอกระพริบ */
@@ -576,7 +573,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v157";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v158";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4150,7 +4147,7 @@ var TB=(function(){
     root.innerHTML='<canvas id="tb_bg"></canvas><canvas id="tb_draw"></canvas><canvas id="tb_laser"></canvas>'+
       '<div id="tb_ctl"><div class="cl" id="tb_clock">⏸ --:--</div><button id="tb_back">◀ กลับไปทำข้อสอบ</button></div>'+
       '<div id="tb_zoom"><button id="tb_zout" class="zb">−</button><button id="tb_zlbl" class="zb wide">100%</button><button id="tb_zin" class="zb">+</button></div>'+
-      '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div><div class="rsz" id="tb_rsz">⤡</div></div>'+
+      '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div></div>'+
       '<div id="tb_head"><div class="acc"></div><div id="tb_hrow"><span class="grip">⣿</span><span class="k" id="tb_label"></span>'+
         '<button class="hbtn" id="tb_rev">👁 เฉลย</button><button class="hbtn" id="tb_thbtn">🎨</button>'+
         '<button class="hbtn" id="tb_small">－</button><button class="hbtn" id="tb_big">＋</button><button class="hbtn" id="tb_min">▁</button></div></div>'+
@@ -4196,11 +4193,6 @@ var TB=(function(){
     hrow.addEventListener('pointerdown',function(e){if(e.target.closest('.hbtn'))return;hrow.setPointerCapture(e.pointerId);dOff={x:e.clientX-cx,y:e.clientY-cy};});
     hrow.addEventListener('pointermove',function(e){if(!dOff)return;cx=e.clientX-dOff.x;cy=e.clientY-dOff.y;place();});
     hrow.addEventListener('pointerup',function(){dOff=null;});
-    var rsz=el('tb_rsz'),rz=null;                                             // มุมลากย่อ-ขยายกล่องโจทย์ — ฟังที่ document กันนิ้วหลุดปุ่มบน iOS
-    function rszMove(e){if(!rz)return;e.preventDefault();var d=((e.clientX-rz.x)+(e.clientY-rz.y))/2;cardScale=Math.max(0.7,Math.min(2.4,rz.s+d/280));place();}
-    function rszUp(){rz=null;document.removeEventListener('pointermove',rszMove);document.removeEventListener('pointerup',rszUp);document.removeEventListener('pointercancel',rszUp);}
-    rsz.addEventListener('pointerdown',function(e){e.stopPropagation();e.preventDefault();rz={x:e.clientX,y:e.clientY,s:cardScale};
-      document.addEventListener('pointermove',rszMove,{passive:false});document.addEventListener('pointerup',rszUp);document.addEventListener('pointercancel',rszUp);});
     function penActive(){return performance.now()-lastPenTime<1600;}
     draw.addEventListener('pointerdown',function(e){
       if(e.pointerType==='touch'){touches[e.pointerId]=scr(e);gestStart();return;}  // นิ้ว/ฝ่ามือ = เลื่อน/ซูม (2 นิ้ว) ไม่วาด
@@ -4244,7 +4236,7 @@ var TB=(function(){
     draw.addEventListener('touchstart',stopTouch,{passive:false});
     draw.addEventListener('touchmove',stopTouch,{passive:false});
     draw.addEventListener('touchend',stopTouch,{passive:false});
-    el('tb_body').addEventListener('touchstart',function(e){if(e.target.closest('.rsz'))return;stopTouch(e);},{passive:false});  // ยกเว้นปุ่มลากย่อ-ขยาย
+    el('tb_body').addEventListener('touchstart',stopTouch,{passive:false});
     el('tb_bg').addEventListener('touchstart',stopTouch,{passive:false});
     window.addEventListener('resize',function(){if(root.classList.contains('on'))resize();});
     laserLoop();built=true;
