@@ -576,7 +576,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v156";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v157";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4152,7 +4152,8 @@ var TB=(function(){
       '<div id="tb_zoom"><button id="tb_zout" class="zb">−</button><button id="tb_zlbl" class="zb wide">100%</button><button id="tb_zin" class="zb">+</button></div>'+
       '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div><div class="rsz" id="tb_rsz">⤡</div></div>'+
       '<div id="tb_head"><div class="acc"></div><div id="tb_hrow"><span class="grip">⣿</span><span class="k" id="tb_label"></span>'+
-        '<button class="hbtn" id="tb_rev">👁 เฉลย</button><button class="hbtn" id="tb_thbtn">🎨</button><button class="hbtn" id="tb_min">▁</button></div></div>'+
+        '<button class="hbtn" id="tb_rev">👁 เฉลย</button><button class="hbtn" id="tb_thbtn">🎨</button>'+
+        '<button class="hbtn" id="tb_small">－</button><button class="hbtn" id="tb_big">＋</button><button class="hbtn" id="tb_min">▁</button></div></div>'+
       '<div id="tb_theme"><span class="tl">ธีมสี:</span></div>'+
       '<div id="tb_bar"><div class="grp" id="tb_tools">'+
         '<button class="tool on" data-tool="pen">✏️<small>ปากกา</small></button>'+
@@ -4186,6 +4187,8 @@ var TB=(function(){
     el('tb_zlbl').onclick=function(){view={scale:1,tx:0,ty:0};afterView();};  // กด % = รีเซ็ตซูม/ตำแหน่ง
     el('tb_back').onclick=function(){A.teachClose();};
     el('tb_min').onclick=function(e){e.stopPropagation();minimized=!minimized;el('tb_theme').classList.remove('show');place();};
+    el('tb_small').onclick=function(e){e.stopPropagation();cardScale=Math.max(0.7,cardScale-0.15);place();};   // ย่อกล่องโจทย์
+    el('tb_big').onclick=function(e){e.stopPropagation();cardScale=Math.min(2.4,cardScale+0.15);place();};      // ขยายกล่องโจทย์
     el('tb_thbtn').onclick=function(e){e.stopPropagation();el('tb_theme').classList.toggle('show');place();};
     el('tb_rev').onclick=function(e){e.stopPropagation();var a=el('tb_ans'),b=el('tb_rev');a.classList.toggle('hide');
       var sh=!a.classList.contains('hide');b.classList.toggle('on',sh);b.textContent=sh?'🙈 ซ่อน':'👁 เฉลย';};
@@ -4241,7 +4244,7 @@ var TB=(function(){
     draw.addEventListener('touchstart',stopTouch,{passive:false});
     draw.addEventListener('touchmove',stopTouch,{passive:false});
     draw.addEventListener('touchend',stopTouch,{passive:false});
-    el('tb_body').addEventListener('touchstart',stopTouch,{passive:false});
+    el('tb_body').addEventListener('touchstart',function(e){if(e.target.closest('.rsz'))return;stopTouch(e);},{passive:false});  // ยกเว้นปุ่มลากย่อ-ขยาย
     el('tb_bg').addEventListener('touchstart',stopTouch,{passive:false});
     window.addEventListener('resize',function(){if(root.classList.contains('on'))resize();});
     laserLoop();built=true;
