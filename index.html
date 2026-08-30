@@ -573,7 +573,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v160";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v161";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4132,9 +4132,15 @@ var TB=(function(){
   function pos(e){var s=scr(e);return{x:(s.x-view.tx)/view.scale,y:(s.y-view.ty)/view.scale};}       // แปลงเป็น world (ตามซูม/เลื่อน)
   function applyView(c){c.setTransform(DPR*view.scale,0,0,DPR*view.scale,DPR*view.tx,DPR*view.ty);}
   function clearAll(c){c.save();c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,c.canvas.width,c.canvas.height);c.restore();}
-  function zoomBy(f,ax,ay){var s=Math.max(0.35,Math.min(5,view.scale*f));var wx=(ax-view.tx)/view.scale,wy=(ay-view.ty)/view.scale;
-    view.scale=s;view.tx=ax-wx*s;view.ty=ay-wy*s;afterView();}
-  function afterView(){paintBg();redraw();var z=el('tb_zlbl');if(z)z.textContent=Math.round(view.scale*100)+'%';}
+  var _vraf=0;
+  function afterView(){var z=el('tb_zlbl');if(z)z.textContent=Math.round(view.scale*100)+'%';
+    if(!_vraf)_vraf=requestAnimationFrame(function(){_vraf=0;paintBg();redraw();});}  // รวมการวาดเป็นเฟรมเดียว → pinch ลื่น ไม่กระตุก
+  function animateTo(s1,tx1,ty1){s1=Math.max(0.35,Math.min(5,s1));var s0=view.scale,x0=view.tx,y0=view.ty,t0=performance.now(),dur=220;  // ซูมแบบ animate นุ่มๆ (ease-out)
+    function step(){var k=Math.min(1,(performance.now()-t0)/dur),e=1-Math.pow(1-k,3);
+      view.scale=s0+(s1-s0)*e;view.tx=x0+(tx1-x0)*e;view.ty=y0+(ty1-y0)*e;paintBg();redraw();
+      var z=el('tb_zlbl');if(z)z.textContent=Math.round(view.scale*100)+'%';if(k<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);}
+  function zoomAnim(f,ax,ay){var s1=Math.max(0.35,Math.min(5,view.scale*f));var wx=(ax-view.tx)/view.scale,wy=(ay-view.ty)/view.scale;animateTo(s1,ax-wx*s1,ay-wy*s1);}
   function tkeys(){return Object.keys(touches);}
   function gestStart(){var k=tkeys();if(k.length===2){var a=touches[k[0]],b=touches[k[1]];
     gest={cx:(a.x+b.x)/2,cy:(a.y+b.y)/2,d:Math.max(1,Math.hypot(a.x-b.x,a.y-b.y)),sc:view.scale,tx:view.tx,ty:view.ty};}else gest=null;}
@@ -4186,9 +4192,9 @@ var TB=(function(){
       Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.toggle('on',x.dataset.tool==='pen');});
       paintBg();pens();cols();szs();
       var b=this;b.classList.add('on');setTimeout(function(){b.classList.remove('on');},700);};
-    el('tb_zin').onclick=function(){zoomBy(1.25,W/2,H/2);};
-    el('tb_zout').onclick=function(){zoomBy(0.8,W/2,H/2);};
-    el('tb_zlbl').onclick=function(){view={scale:1,tx:0,ty:0};afterView();};  // กด % = รีเซ็ตซูม/ตำแหน่ง
+    el('tb_zin').onclick=function(){zoomAnim(1.35,W/2,H/2);};
+    el('tb_zout').onclick=function(){zoomAnim(1/1.35,W/2,H/2);};
+    el('tb_zlbl').onclick=function(){animateTo(1,0,0);};  // กด % = รีเซ็ตซูม/ตำแหน่ง (นุ่มๆ)
     el('tb_back').onclick=function(){A.teachClose();};
     el('tb_min').onclick=function(e){e.stopPropagation();minimized=!minimized;el('tb_theme').classList.remove('show');place();};
     el('tb_small').onclick=function(e){e.stopPropagation();cardScale=Math.max(0.7,cardScale-0.15);place();};   // ย่อกล่องโจทย์
