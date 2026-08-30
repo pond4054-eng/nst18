@@ -576,7 +576,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v155";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v156";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4193,10 +4193,11 @@ var TB=(function(){
     hrow.addEventListener('pointerdown',function(e){if(e.target.closest('.hbtn'))return;hrow.setPointerCapture(e.pointerId);dOff={x:e.clientX-cx,y:e.clientY-cy};});
     hrow.addEventListener('pointermove',function(e){if(!dOff)return;cx=e.clientX-dOff.x;cy=e.clientY-dOff.y;place();});
     hrow.addEventListener('pointerup',function(){dOff=null;});
-    var rsz=el('tb_rsz'),rz=null;                                             // มุมลากย่อ-ขยายกล่องโจทย์
-    rsz.addEventListener('pointerdown',function(e){e.stopPropagation();try{rsz.setPointerCapture(e.pointerId);}catch(_){}rz={x:e.clientX,y:e.clientY,s:cardScale};});
-    rsz.addEventListener('pointermove',function(e){if(!rz)return;var d=((e.clientX-rz.x)+(e.clientY-rz.y))/2;cardScale=Math.max(0.7,Math.min(2.4,rz.s+d/280));place();});
-    rsz.addEventListener('pointerup',function(){rz=null;});
+    var rsz=el('tb_rsz'),rz=null;                                             // มุมลากย่อ-ขยายกล่องโจทย์ — ฟังที่ document กันนิ้วหลุดปุ่มบน iOS
+    function rszMove(e){if(!rz)return;e.preventDefault();var d=((e.clientX-rz.x)+(e.clientY-rz.y))/2;cardScale=Math.max(0.7,Math.min(2.4,rz.s+d/280));place();}
+    function rszUp(){rz=null;document.removeEventListener('pointermove',rszMove);document.removeEventListener('pointerup',rszUp);document.removeEventListener('pointercancel',rszUp);}
+    rsz.addEventListener('pointerdown',function(e){e.stopPropagation();e.preventDefault();rz={x:e.clientX,y:e.clientY,s:cardScale};
+      document.addEventListener('pointermove',rszMove,{passive:false});document.addEventListener('pointerup',rszUp);document.addEventListener('pointercancel',rszUp);});
     function penActive(){return performance.now()-lastPenTime<1600;}
     draw.addEventListener('pointerdown',function(e){
       if(e.pointerType==='touch'){touches[e.pointerId]=scr(e);gestStart();return;}  // นิ้ว/ฝ่ามือ = เลื่อน/ซูม (2 นิ้ว) ไม่วาด
