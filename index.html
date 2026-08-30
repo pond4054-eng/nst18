@@ -573,7 +573,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v158";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v159";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4124,7 +4124,7 @@ var TB=(function(){
   function penDef(k){for(var pi=0;pi<PENDEF.length;pi++)if(PENDEF[pi].k===k)return PENDEF[pi];return PENDEF[0];}
   var STAB=[{b:0.34,s:0.30,d:'น้อย'},{b:0.48,s:0.33,d:'กลาง'},{b:0.64,s:0.32,d:'มาก'}];  // ระดับความนิ่งของเส้น (b=กรองพื้นฐาน s=ลดตอนเร็ว)
   var st={tool:'pen',color:PEN[0],hi:HI[0],si:1,bg:1,pen:'fountain',shape:false,stab:1};
-  var strokes=[],cur=null,drawing=false,lp=[],cx=18,cy=18,minimized=false,cardScale=1;  // cardScale=ขนาดกล่องโจทย์ (ย่อ-ขยาย)
+  var strokes=[],cur=null,drawing=false,lp=[],laserFades=[],cx=18,cy=18,minimized=false,cardScale=1;  // lp=เส้นเลเซอร์ที่กำลังกด · laserFades=เส้นที่ยกแล้วกำลังจาง · cardScale=ขนาดกล่องโจทย์
   var activeId=null,activeType=null,lastPenTime=0,penSeen=false;   // แยก pointer กันฝ่ามือ (palm rejection); penSeen=เคยใช้ Apple Pencil แล้ว → รับปากกาอย่างเดียว
   var DPR=1,view={scale:1,tx:0,ty:0},touches={},gest=null;         // กระดาษไม่จำกัด: ซูม(scale) + เลื่อน(tx,ty) หน่วยพิกัดเก็บแบบ world
   function el(id){return document.getElementById(id);}
@@ -4198,7 +4198,7 @@ var TB=(function(){
       if(e.pointerType==='touch'){touches[e.pointerId]=scr(e);gestStart();return;}  // นิ้ว/ฝ่ามือ = เลื่อน/ซูม (2 นิ้ว) ไม่วาด
       var pt=pos(e);
       if(e.pointerType==='pen'){lastPenTime=performance.now();penSeen=true;}
-      if(st.tool==='laser'){var sp=scr(e);activeId=e.pointerId;activeType=e.pointerType;lp.push({x:sp.x,y:sp.y,t:performance.now()});return;}
+      if(st.tool==='laser'){var sp=scr(e);activeId=e.pointerId;activeType=e.pointerType;lp=[{x:sp.x,y:sp.y}];return;}  // เริ่มเส้นเลเซอร์ใหม่
       if(activeId!=null){                                   // มี pointer อื่นเขียนอยู่แล้ว
         if(e.pointerType==='pen'&&activeType==='touch'){     // ปากกามาแทน → ทิ้งเส้นฝ่ามือ
           if(cur){var ix=strokes.indexOf(cur);if(ix>=0){strokes.splice(ix,1);redraw();}}
@@ -4217,7 +4217,7 @@ var TB=(function(){
       if(e.pointerType==='touch'){if(touches[e.pointerId]){touches[e.pointerId]=scr(e);gestMove();}return;}  // เลื่อน/ซูม
       var pt=pos(e);
       if(e.pointerType==='pen'){lastPenTime=performance.now();penSeen=true;}
-      if(st.tool==='laser'){if(e.pointerType==='pen'||e.pointerId===activeId){var sp=scr(e);lp.push({x:sp.x,y:sp.y,t:performance.now()});}return;}
+      if(st.tool==='laser'){if(e.pointerType==='pen'||e.pointerId===activeId){var sp=scr(e);lp.push({x:sp.x,y:sp.y});}return;}
       if(e.pointerId!==activeId||!drawing)return;            // วาดเฉพาะ pointer ที่เริ่มเส้น
       if(st.tool==='pen'){
         var evs=(e.getCoalescedEvents&&e.getCoalescedEvents().length)?e.getCoalescedEvents():[e];  // ดึงจุดที่ซ่อนอยู่มาครบ (Apple Pencil ~240Hz)
@@ -4228,6 +4228,7 @@ var TB=(function(){
     function end(e){
       if(e&&e.pointerType==='touch'){delete touches[e.pointerId];gestStart();return;}  // ยกนิ้ว → รีเซ็ตท่าทาง
       if(e&&e.pointerId!==activeId)return;
+      if(st.tool==='laser'){if(lp.length)laserFades.push({pts:lp,t0:performance.now()});lp=[];activeId=null;activeType=null;return;}  // ยกปากกา → เริ่มจาง
       if(st.shape&&cur&&cur.tool==='pen'&&cur.points.length>4){if(snapShape(cur))redraw();}  // จัดรูป/เส้นตรงตอนปล่อย
       drawing=false;cur=null;activeId=null;activeType=null;}
     draw.addEventListener('pointerup',end);draw.addEventListener('pointercancel',end);
@@ -4338,12 +4339,19 @@ var TB=(function(){
   function redraw(){clearAll(dx);applyView(dx);var i;
     for(i=0;i<strokes.length;i++)if(strokes[i].tool==='hi')drawS(strokes[i]);
     for(i=0;i<strokes.length;i++)if(strokes[i].tool!=='hi'){if(strokes[i].tool==='pen')drawPen(strokes[i]);else drawS(strokes[i]);}}
-  function laserLoop(){clearAll(lx);lx.setTransform(DPR,0,0,DPR,0,0);var now=performance.now();var life=750;lp=lp.filter(function(p){return now-p.t<life;});  // เลเซอร์อยู่ในพิกัดจอ (ไม่ซูมตาม)
-    if(lp.length>1){lx.lineCap='round';lx.lineJoin='round';lx.strokeStyle='#ff2f2f';lx.shadowColor='rgba(255,45,45,.85)';lx.shadowBlur=9;  // เส้นแดงเรืองแสง จางที่หาง
-      for(var i=1;i<lp.length;i++){var a=1-(now-lp[i].t)/life;lx.globalAlpha=Math.max(0,a);lx.lineWidth=4.5*a+1.2;
-        lx.beginPath();lx.moveTo(lp[i-1].x,lp[i-1].y);lx.lineTo(lp[i].x,lp[i].y);lx.stroke();}
-      lx.globalAlpha=1;lx.shadowBlur=0;}
-    if(lp.length){var q=lp[lp.length-1];lx.shadowColor='rgba(255,60,60,.9)';lx.shadowBlur=12;  // หัวเลเซอร์สว่าง
+  function drawLaserLine(pts,alpha){if(!pts.length)return;var a=Math.max(0,Math.min(1,alpha));  // เส้นแดงเรืองแสงทั้งเส้น (ความจางเท่ากันหมด)
+    lx.globalAlpha=a;lx.lineCap='round';lx.lineJoin='round';lx.strokeStyle='#ff2f2f';lx.lineWidth=4.5;
+    lx.shadowColor='rgba(255,45,45,'+(0.85*a)+')';lx.shadowBlur=9;
+    if(pts.length===1){lx.beginPath();lx.arc(pts[0].x,pts[0].y,2.6,0,7);lx.fillStyle='#ff2f2f';lx.fill();}
+    else{lx.beginPath();lx.moveTo(pts[0].x,pts[0].y);
+      for(var i=1;i<pts.length-1;i++){var mx=(pts[i].x+pts[i+1].x)/2,my=(pts[i].y+pts[i+1].y)/2;lx.quadraticCurveTo(pts[i].x,pts[i].y,mx,my);}
+      lx.lineTo(pts[pts.length-1].x,pts[pts.length-1].y);lx.stroke();}
+    lx.shadowBlur=0;lx.globalAlpha=1;}
+  function laserLoop(){clearAll(lx);lx.setTransform(DPR,0,0,DPR,0,0);var now=performance.now(),fade=1500;  // เลเซอร์อยู่ในพิกัดจอ (ไม่ซูมตาม)
+    laserFades=laserFades.filter(function(f){return now-f.t0<fade;});
+    for(var k=0;k<laserFades.length;k++){var f=laserFades[k];drawLaserLine(f.pts,1-(now-f.t0)/fade);}  // เส้นที่ยกแล้ว → จางช้าๆทั้งเส้น
+    if(lp.length){drawLaserLine(lp,1);                                         // เส้นที่กำลังกด → สว่างเต็ม ไม่จาง
+      var q=lp[lp.length-1];lx.shadowColor='rgba(255,60,60,.9)';lx.shadowBlur=12;  // หัวเลเซอร์สว่าง
       lx.beginPath();lx.arc(q.x,q.y,4.6,0,7);lx.fillStyle='#ff3b3b';lx.fill();lx.beginPath();lx.arc(q.x,q.y,2,0,7);lx.fillStyle='#fff';lx.fill();lx.shadowBlur=0;}
     requestAnimationFrame(laserLoop);}
   function cols(){var box=el('tb_colors');box.innerHTML='';
@@ -4366,7 +4374,7 @@ var TB=(function(){
       var a=el('tb_ans');a.innerHTML=data.ans;a.classList.add('hide');
       var rb=el('tb_rev');rb.classList.remove('on');rb.textContent='👁 เฉลย';
       el('tb_clock').textContent=(data.rem!=null?'⏸ '+fmtClock(data.rem):'⏸ ไม่จับเวลา');
-      strokes=[];lp=[];cx=18;cy=18;minimized=false;cardScale=1;st.tool='pen';st.si=1;st.bg=1;st.pen='fountain';st.shape=false;activeId=null;activeType=null;
+      strokes=[];lp=[];laserFades=[];cx=18;cy=18;minimized=false;cardScale=1;st.tool='pen';st.si=1;st.bg=1;st.pen='fountain';st.shape=false;activeId=null;activeType=null;
       Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.toggle('on',x.dataset.tool==='pen');});
       el('tb_shape').classList.remove('on');el('tb_stab').querySelector('small').textContent='นิ่ง:'+STAB[st.stab].d;
       view={scale:1,tx:0,ty:0};touches={};gest=null;el('tb_zlbl').textContent='100%';
