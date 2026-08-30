@@ -327,6 +327,10 @@
 #tb_root .tdot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 1px #dfe5ee}
 #tb_root .tdot.on{box-shadow:0 0 0 2px #fff,0 0 0 4px currentColor;transform:scale(1.12)}
 #tb_bar{position:absolute;z-index:20;left:50%;transform:translateX(-50%);bottom:16px;display:flex;gap:7px;align-items:center;background:#fff;padding:8px 11px;border-radius:18px;box-shadow:0 12px 32px #1b2f5226,0 0 0 1px #ebeff5;flex-wrap:wrap;justify-content:center;max-width:96vw}
+#tb_opts{position:absolute;z-index:20;left:50%;transform:translateX(-50%);bottom:80px;display:flex;gap:7px;align-items:center;background:#fff;padding:8px 11px;border-radius:18px;box-shadow:0 12px 30px #1b2f5222,0 0 0 1px #ebeff5;flex-wrap:wrap;justify-content:center;max-width:94vw}
+#tb_more{position:absolute;z-index:21;right:12px;bottom:80px;display:flex;gap:7px;align-items:center;background:#fff;padding:8px 11px;border-radius:18px;box-shadow:0 12px 30px #1b2f5226,0 0 0 1px #ebeff5;flex-wrap:wrap;justify-content:center;max-width:94vw}
+#tb_more.hidden{display:none}
+#tb_opts:empty,#tb_opts .grp:empty{display:none}
 #tb_root .grp{display:flex;gap:5px;align-items:center;padding:0 6px;border-right:1px solid #edf1f6}
 #tb_root .grp:last-child{border-right:none}
 #tb_root .tool{width:42px;height:42px;border-radius:12px;border:none;background:#f2f5f9;color:#3c4757;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative}
@@ -573,7 +577,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v163";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v164";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4158,18 +4162,19 @@ var TB=(function(){
         '<button class="hbtn" id="tb_rev">👁 เฉลย</button><button class="hbtn" id="tb_thbtn">🎨</button>'+
         '<button class="hbtn" id="tb_small">－</button><button class="hbtn" id="tb_big">＋</button><button class="hbtn" id="tb_min">▁</button></div></div>'+
       '<div id="tb_theme"><span class="tl">ธีมสี:</span></div>'+
+      '<div id="tb_opts"><div class="grp" id="tb_pens"></div><div class="grp" id="tb_colors"></div><div class="grp" id="tb_sizes"></div></div>'+  // แผงตัวเลือกตามเครื่องมือ (เด้งขึ้น)
+      '<div id="tb_more" class="hidden"><div class="grp"><button class="tool" id="tb_pretty">🌸<small>โหมดสวย</small></button>'+
+        '<button class="tool" id="tb_shape">✨<small>จัดรูป</small></button>'+
+        '<button class="tool" id="tb_stab">🎚️<small>นิ่ง:กลาง</small></button>'+
+        '<button class="tool" id="tb_bgbtn">▦<small>พื้น</small></button></div></div>'+
       '<div id="tb_bar"><div class="grp" id="tb_tools">'+
         '<button class="tool on" data-tool="pen">✏️<small>ปากกา</small></button>'+
         '<button class="tool" data-tool="hi">🖍️<small>ไฮไลต์</small></button>'+
         '<button class="tool" data-tool="eraser">🧽<small>ลบ</small></button>'+
         '<button class="tool" data-tool="laser">🔴<small>เลเซอร์</small></button></div>'+
-        '<div class="grp" id="tb_pens"></div><div class="grp" id="tb_colors"></div><div class="grp" id="tb_sizes"></div>'+
-        '<div class="grp"><button class="tool" id="tb_pretty">🌸<small>โหมดสวย</small></button>'+
-        '<button class="tool" id="tb_shape">✨<small>จัดรูป</small></button>'+
-        '<button class="tool" id="tb_stab">🎚️<small>นิ่ง:กลาง</small></button></div>'+
         '<div class="grp"><button class="tool" id="tb_undo">↩️<small>ย้อน</small></button>'+
-        '<button class="tool" id="tb_clr">🗑️<small>ล้าง</small></button>'+
-        '<button class="tool" id="tb_bgbtn">▦<small>พื้น</small></button></div></div>';
+        '<button class="tool" id="tb_clr">🗑️<small>ล้าง</small></button></div>'+
+        '<div class="grp"><button class="tool" id="tb_moreb">⚙️<small>เพิ่มเติม</small></button></div></div>';
     document.body.appendChild(root);
     root.addEventListener('contextmenu',function(e){e.preventDefault();});   // กันเมนูตัด/คัดลอกของ iOS
     root.addEventListener('selectstart',function(e){e.preventDefault();});    // กันการคลุมข้อความ
@@ -4180,12 +4185,13 @@ var TB=(function(){
       d.onclick=function(){root.style.setProperty('--tb-acc',t[0]);root.style.setProperty('--tb-soft',t[1]);
         Array.prototype.forEach.call(tr.querySelectorAll('.tdot'),function(x){x.classList.toggle('on',x===d);});};tr.appendChild(d);});
     Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(b){b.onclick=function(){st.tool=b.dataset.tool;
-      Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.remove('on');});b.classList.add('on');pens();cols();szs();};});
+      Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.remove('on');});b.classList.add('on');pens();cols();szs();syncOpts();};});
     el('tb_undo').onclick=function(){strokes.pop();redraw();};
     el('tb_clr').onclick=function(){if(strokes.length&&!confirm('ล้างกระดาน?'))return;strokes=[];redraw();};
     el('tb_bgbtn').onclick=function(){st.bg=(st.bg+1)%3;paintBg();};
     el('tb_shape').onclick=function(){st.shape=!st.shape;this.classList.toggle('on',st.shape);};  // โหมดจัดรูป/เส้นตรง
     el('tb_stab').onclick=function(){st.stab=(st.stab+1)%3;this.querySelector('small').textContent='นิ่ง:'+STAB[st.stab].d;};  // ระดับความนิ่ง
+    el('tb_moreb').onclick=function(e){e.stopPropagation();var m=el('tb_more');m.classList.toggle('hidden');this.classList.toggle('on',!m.classList.contains('hidden'));};  // ปุ่มเพิ่มเติม เปิด/ปิดแผง
     el('tb_pretty').onclick=function(){                                       // โหมดสวย: ตั้งค่าลายมือสวยให้ครบในปุ่มเดียว
       st.stab=2;st.bg=2;st.pen='fountain';st.si=1;st.tool='pen';
       el('tb_stab').querySelector('small').textContent='นิ่ง:'+STAB[2].d;
@@ -4382,6 +4388,7 @@ var TB=(function(){
     if(st.tool!=='pen'){box.style.display='none';return;}box.style.display='';
     PENDEF.forEach(function(d){var b=document.createElement('button');b.className='pnst'+(d.k===st.pen?' on':'');
       b.innerHTML=d.ic+'<small>'+d.nm+'</small>';b.onclick=function(){st.pen=d.k;pens();};box.appendChild(b);});}
+  function syncOpts(){var o=el('tb_opts');if(o)o.style.display=(st.tool==='laser')?'none':'flex';}  // เลเซอร์ไม่มีตัวเลือก → ซ่อนแผง
   return {
     open:function(data){ if(!built)build();
       el('tb_label').textContent='📌 '+data.label;
@@ -4393,8 +4400,9 @@ var TB=(function(){
       strokes=[];lp=[];laserFades=[];cx=18;cy=18;minimized=false;cardScale=1;st.tool='pen';st.si=1;st.bg=1;st.pen='fountain';st.shape=false;activeId=null;activeType=null;
       Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.toggle('on',x.dataset.tool==='pen');});
       el('tb_shape').classList.remove('on');el('tb_stab').querySelector('small').textContent='นิ่ง:'+STAB[st.stab].d;
+      el('tb_more').classList.add('hidden');el('tb_moreb').classList.remove('on');
       view={scale:1,tx:0,ty:0};touches={};gest=null;el('tb_zlbl').textContent='100%';
-      root.classList.add('on');pens();cols();szs();
+      root.classList.add('on');pens();cols();szs();syncOpts();
       setTimeout(function(){resize();},20);
     },
     hide:function(){ if(root)root.classList.remove('on'); }
