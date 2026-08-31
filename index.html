@@ -581,7 +581,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v169";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v170";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4236,8 +4236,8 @@ var TB=(function(){
       if(pd)pt.w=size*pd.mul*pd.lo;                            // หัวเส้นเรียวตามสไตล์
       cur={tool:st.tool,color:(st.tool==='hi'?st.hi:st.color),size:size,points:[pt]};cur._lw=pd?pt.w:size*0.5;
       if(pd){cur.lo=pd.lo;cur.gain=pd.gain;cur.mul=pd.mul;cur.grain=pd.grain;cur.style=pd.k;cur._rx=pt.x;cur._ry=pt.y;cur._spd=0;cur._f1x=pt.x;cur._f1y=pt.y;cur._f2x=pt.x;cur._f2y=pt.y;}
-      if(st.tool==='pen'){bakeSnap();strokes.push(cur);drawing=true;blitSnap();applyView(dx);drawPen(cur);}  // อบเส้นเก่าเป็นแคช แล้ววาดสดเฉพาะเส้นนี้
-      else{strokes.push(cur);drawing=true;if(st.tool==='hi')redraw();else drawS(cur);}});
+      bakeSnap();strokes.push(cur);drawing=true;blitSnap();applyView(dx);         // อบเส้นเก่าเป็นแคช แล้ววาดสดเฉพาะเส้นนี้ (ปากกา/ไฮไลต์/ลบ)
+      if(st.tool==='pen')drawPen(cur);else drawS(cur);});
     draw.addEventListener('pointermove',function(e){
       if(e.pointerType==='touch'){if(touches[e.pointerId]){touches[e.pointerId]=scr(e);gestMove();}return;}  // เลื่อน/ซูม
       var pt=pos(e);
@@ -4249,12 +4249,12 @@ var TB=(function(){
         var from=cur.points.length;
         for(var ei=0;ei<evs.length;ei++)addPenPoint(evs[ei]);
         if(cur.points.length>from){blitSnap();applyView(dx);drawPen(cur);}   // วางแคช + วาดสดเฉพาะเส้นนี้ → ลื่นไม่ว่ากี่เส้น
-      } else {var pt=pos(e);cur.points.push(pt);if(st.tool==='hi')redraw();else drawS(cur);}});
+      } else {cur.points.push(pt);blitSnap();applyView(dx);drawS(cur);}});   // ไฮไลต์/ลบ: วางแคช + วาดสดเฉพาะเส้นนี้
     function end(e){
       if(e&&e.pointerType==='touch'){delete touches[e.pointerId];gestStart();return;}  // ยกนิ้ว → รีเซ็ตท่าทาง
       if(e&&e.pointerId!==activeId)return;
       if(st.tool==='laser'){if(lp.length)laserFades.push({pts:lp,t0:performance.now()});lp=[];activeId=null;activeType=null;return;}  // ยกปากกา → เริ่มจาง
-      if(cur&&cur.tool==='pen'){if(st.shape&&cur.points.length>4)snapShape(cur);redraw();}  // จบเส้นปากกา → อบลงแคช (พร้อมจัดรูปถ้าเปิด)
+      if(cur){if(cur.tool==='pen'&&st.shape&&cur.points.length>4)snapShape(cur);redraw();}  // จบเส้น → อบลงแคช (ไฮไลต์กลับไปอยู่หลังปากกา)
       drawing=false;cur=null;activeId=null;activeType=null;}
     draw.addEventListener('pointerup',end);draw.addEventListener('pointercancel',end);
     // iOS: กัน selection/callout/magnifier/scroll บนพื้นที่วาดโดยตรง (pointer events ยังทำงาน)
