@@ -581,7 +581,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v168";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v169";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4118,7 +4118,7 @@ function startQuizTimer(){
 }
 /* ===== TB : กระดานสอน (whiteboard overlay) — โมดูลแยก ===== */
 var TB=(function(){
-  var built=false,root,bg,draw,laser,bx,dx,lx,W=0,H=0;
+  var built=false,root,bg,draw,laser,bx,dx,lx,snap,sx,W=0,H=0;   // snap=แคชเส้นที่วาดเสร็จ (offscreen) เพื่อไม่ต้องวาดเส้นเก่าใหม่ทุกเฟรม
   var PEN=['#2b2d42','#ff6b6b','#4dabf7','#20c997','#ffa94d','#b197fc','#f06595'];
   var HI=['#ffe066','#8ce99a','#ffa8c5','#74c0fc','#ffc078','#d0bfff'];
   var SZ={pen:[3,6,11],hi:[18,28,40],eraser:[24,44,70]};
@@ -4184,6 +4184,7 @@ var TB=(function(){
     root.addEventListener('selectstart',function(e){e.preventDefault();});    // กันการคลุมข้อความ
     bg=el('tb_bg');draw=el('tb_draw');laser=el('tb_laser');
     bx=bg.getContext('2d');dx=draw.getContext('2d');lx=laser.getContext('2d');
+    snap=document.createElement('canvas');sx=snap.getContext('2d');   // แคชเส้นเก่า (offscreen)
     var tr=el('tb_theme');
     THEMES.forEach(function(t){var d=document.createElement('div');d.className='tdot';d.style.background=t[0];d.style.color=t[0];
       d.onclick=function(){root.style.setProperty('--tb-acc',t[0]);root.style.setProperty('--tb-soft',t[1]);
@@ -4235,8 +4236,8 @@ var TB=(function(){
       if(pd)pt.w=size*pd.mul*pd.lo;                            // หัวเส้นเรียวตามสไตล์
       cur={tool:st.tool,color:(st.tool==='hi'?st.hi:st.color),size:size,points:[pt]};cur._lw=pd?pt.w:size*0.5;
       if(pd){cur.lo=pd.lo;cur.gain=pd.gain;cur.mul=pd.mul;cur.grain=pd.grain;cur.style=pd.k;cur._rx=pt.x;cur._ry=pt.y;cur._spd=0;cur._f1x=pt.x;cur._f1y=pt.y;cur._f2x=pt.x;cur._f2y=pt.y;}
-      strokes.push(cur);drawing=true;
-      if(st.tool==='hi')redraw();else if(st.tool==='pen')drawPen(cur);else drawS(cur);});
+      if(st.tool==='pen'){bakeSnap();strokes.push(cur);drawing=true;blitSnap();applyView(dx);drawPen(cur);}  // อบเส้นเก่าเป็นแคช แล้ววาดสดเฉพาะเส้นนี้
+      else{strokes.push(cur);drawing=true;if(st.tool==='hi')redraw();else drawS(cur);}});
     draw.addEventListener('pointermove',function(e){
       if(e.pointerType==='touch'){if(touches[e.pointerId]){touches[e.pointerId]=scr(e);gestMove();}return;}  // เลื่อน/ซูม
       var pt=pos(e);
@@ -4247,13 +4248,13 @@ var TB=(function(){
         var evs=(e.getCoalescedEvents&&e.getCoalescedEvents().length)?e.getCoalescedEvents():[e];  // ดึงจุดที่ซ่อนอยู่มาครบ (Apple Pencil ~240Hz)
         var from=cur.points.length;
         for(var ei=0;ei<evs.length;ei++)addPenPoint(evs[ei]);
-        if(cur.points.length>from)redraw();
+        if(cur.points.length>from){blitSnap();applyView(dx);drawPen(cur);}   // วางแคช + วาดสดเฉพาะเส้นนี้ → ลื่นไม่ว่ากี่เส้น
       } else {var pt=pos(e);cur.points.push(pt);if(st.tool==='hi')redraw();else drawS(cur);}});
     function end(e){
       if(e&&e.pointerType==='touch'){delete touches[e.pointerId];gestStart();return;}  // ยกนิ้ว → รีเซ็ตท่าทาง
       if(e&&e.pointerId!==activeId)return;
       if(st.tool==='laser'){if(lp.length)laserFades.push({pts:lp,t0:performance.now()});lp=[];activeId=null;activeType=null;return;}  // ยกปากกา → เริ่มจาง
-      if(st.shape&&cur&&cur.tool==='pen'&&cur.points.length>4){if(snapShape(cur))redraw();}  // จัดรูป/เส้นตรงตอนปล่อย
+      if(cur&&cur.tool==='pen'){if(st.shape&&cur.points.length>4)snapShape(cur);redraw();}  // จบเส้นปากกา → อบลงแคช (พร้อมจัดรูปถ้าเปิด)
       drawing=false;cur=null;activeId=null;activeType=null;}
     draw.addEventListener('pointerup',end);draw.addEventListener('pointercancel',end);
     // iOS: กัน selection/callout/magnifier/scroll บนพื้นที่วาดโดยตรง (pointer events ยังทำงาน)
@@ -4268,7 +4269,8 @@ var TB=(function(){
   }
   function resize(){W=window.innerWidth;H=window.innerHeight;if(!W||!H)return;DPR=Math.min((window.devicePixelRatio||1)*1.5,3);  // supersampling → เส้น/พื้นหลังคมขึ้น (คมกว่าจอจริง แล้วย่อลง)
     [bg,draw,laser].forEach(function(c){c.width=W*DPR;c.height=H*DPR;});
-    [bx,dx,lx].forEach(function(c){c.lineCap='round';c.lineJoin='round';});
+    snap.width=W*DPR;snap.height=H*DPR;
+    [bx,dx,lx,sx].forEach(function(c){c.lineCap='round';c.lineJoin='round';});
     paintBg();redraw();place();}
   function place(){var w=Math.min(560,(window.innerWidth-36)/cardScale);var head=el('tb_head'),body=el('tb_body'),cs=cardScale;
     head.style.width=w+'px';body.style.width=w+'px';
@@ -4285,13 +4287,13 @@ var TB=(function(){
     bx.strokeStyle='#e4ebf3';bx.lineWidth=1/view.scale;var g=32;bx.beginPath();
     if(st.bg===1){for(var x=Math.floor(x0/g)*g;x<x1;x+=g){bx.moveTo(x,y0);bx.lineTo(x,y1);}for(var y=Math.floor(y0/g)*g;y<y1;y+=g){bx.moveTo(x0,y);bx.lineTo(x1,y);}}
     else{var g2=g*1.4;for(var y2=Math.floor(y0/g2)*g2;y2<y1;y2+=g2){bx.moveTo(x0,y2);bx.lineTo(x1,y2);}}bx.stroke();}
-  function styl(s){if(s.tool==='eraser'){dx.globalCompositeOperation='destination-out';dx.globalAlpha=1;}
-    else if(s.tool==='hi'){dx.globalCompositeOperation='source-over';dx.strokeStyle=s.color;dx.globalAlpha=.45;}
-    else{dx.globalCompositeOperation='source-over';dx.strokeStyle=s.color;dx.globalAlpha=1;}dx.lineWidth=s.size;}
-  function drawS(s){var p=s.points;if(!p.length)return;styl(s);dx.beginPath();
-    if(p.length===1){dx.arc(p[0].x,p[0].y,s.size/2,0,7);dx.fillStyle=(s.tool==='hi'?s.color:s.tool==='eraser'?'#000':s.color);dx.fill();dx.globalAlpha=1;dx.globalCompositeOperation='source-over';return;}
-    dx.moveTo(p[0].x,p[0].y);for(var i=1;i<p.length-1;i++){var mx=(p[i].x+p[i+1].x)/2,my=(p[i].y+p[i+1].y)/2;dx.quadraticCurveTo(p[i].x,p[i].y,mx,my);}
-    dx.lineTo(p[p.length-1].x,p[p.length-1].y);dx.stroke();dx.globalAlpha=1;dx.globalCompositeOperation='source-over';}
+  function styl(s,c){if(s.tool==='eraser'){c.globalCompositeOperation='destination-out';c.globalAlpha=1;}
+    else if(s.tool==='hi'){c.globalCompositeOperation='source-over';c.strokeStyle=s.color;c.globalAlpha=.45;}
+    else{c.globalCompositeOperation='source-over';c.strokeStyle=s.color;c.globalAlpha=1;}c.lineWidth=s.size;}
+  function drawS(s,c){c=c||dx;var p=s.points;if(!p.length)return;styl(s,c);c.beginPath();
+    if(p.length===1){c.arc(p[0].x,p[0].y,s.size/2,0,7);c.fillStyle=(s.tool==='hi'?s.color:s.tool==='eraser'?'#000':s.color);c.fill();c.globalAlpha=1;c.globalCompositeOperation='source-over';return;}
+    c.moveTo(p[0].x,p[0].y);for(var i=1;i<p.length-1;i++){var mx=(p[i].x+p[i+1].x)/2,my=(p[i].y+p[i+1].y)/2;c.quadraticCurveTo(p[i].x,p[i].y,mx,my);}
+    c.lineTo(p[p.length-1].x,p[p.length-1].y);c.stroke();c.globalAlpha=1;c.globalCompositeOperation='source-over';}
   function addPenPoint(e){                                                     // Vector-ink: adaptive smoothing (ไม่พึ่ง timestamp — กัน dt กระตุก) + pressure/velocity
     var raw=pos(e),pp=cur.points[cur.points.length-1];
     var dr=(cur._rx==null)?0:Math.hypot(raw.x-cur._rx,raw.y-cur._ry);         // ความเร็ว = ระยะต่อจุด (เสถียร ไม่หาร dt)
@@ -4349,20 +4351,25 @@ var TB=(function(){
     var cerr=0;for(i=0;i<n;i++){var vx=(p[i].x-cx)/rx,vy=(p[i].y-cy)/ry;cerr+=Math.abs(Math.sqrt(vx*vx+vy*vy)-1);}cerr/=n;
     if(cerr<0.24)return ellipse();                                            // — วงกลม/วงรี —
     return false;}
-  function drawPen(s){var p=s.points;if(!p.length)return;                      // ปากกา: ลากเส้นเดียว (single stroke) ความหนาสม่ำเสมอ หัวท้ายมน — ขอบเรียบไม่มีทางแตก/ขาด
-    dx.globalCompositeOperation='source-over';dx.strokeStyle=s.color;dx.fillStyle=s.color;dx.globalAlpha=1;
-    dx.lineCap='round';dx.lineJoin='round';
+  function drawPen(s,c){c=c||dx;var p=s.points;if(!p.length)return;            // ปากกา: ลากเส้นเดียว (single stroke) ความหนาสม่ำเสมอ หัวท้ายมน — ขอบเรียบไม่มีทางแตก/ขาด
+    c.globalCompositeOperation='source-over';c.strokeStyle=s.color;c.fillStyle=s.color;c.globalAlpha=1;
+    c.lineCap='round';c.lineJoin='round';
     var n=p.length,i,wsum=0;for(i=0;i<n;i++)wsum+=(p[i].w||s.size);
     var lw=Math.max(0.6,wsum/n);                                              // ความหนาสม่ำเสมอทั้งเส้น (แรงกดคุมความหนารวม)
-    if(n===1){dx.beginPath();dx.arc(p[0].x,p[0].y,lw/2,0,7);dx.fill();return;}
-    dx.lineWidth=lw;dx.beginPath();dx.moveTo(p[0].x,p[0].y);
-    if(s.snapped){for(i=1;i<n;i++)dx.lineTo(p[i].x,p[i].y);}                   // รูป/เส้นที่จับแล้ว: เส้นตรงคมชัด
-    else{for(i=1;i<n-1;i++)dx.quadraticCurveTo(p[i].x,p[i].y,(p[i].x+p[i+1].x)/2,(p[i].y+p[i+1].y)/2);dx.lineTo(p[n-1].x,p[n-1].y);} // ลายมือ: เส้นโค้งสมูท
-    dx.stroke();
-    if(s.grain){dx.globalAlpha=0.12;for(i=0;i<n;i+=2){var q=p[i];                // ผิวสากดินสอ
+    if(n===1){c.beginPath();c.arc(p[0].x,p[0].y,lw/2,0,7);c.fill();return;}
+    c.lineWidth=lw;c.beginPath();c.moveTo(p[0].x,p[0].y);
+    if(s.snapped){for(i=1;i<n;i++)c.lineTo(p[i].x,p[i].y);}                    // รูป/เส้นที่จับแล้ว: เส้นตรงคมชัด
+    else{for(i=1;i<n-1;i++)c.quadraticCurveTo(p[i].x,p[i].y,(p[i].x+p[i+1].x)/2,(p[i].y+p[i+1].y)/2);c.lineTo(p[n-1].x,p[n-1].y);} // ลายมือ: เส้นโค้งสมูท
+    c.stroke();
+    if(s.grain){c.globalAlpha=0.12;for(i=0;i<n;i+=2){var q=p[i];                // ผิวสากดินสอ
       for(var gk=0;gk<2;gk++){var an=(i*2.3+gk*3.1)%6.283,rr=((i*7+gk*13)%10)/10*lw*0.6;
-        dx.beginPath();dx.arc(q.x+Math.cos(an)*rr,q.y+Math.sin(an)*rr,0.5,0,7);dx.fill();}}dx.globalAlpha=1;}}
-  function redraw(){clearAll(dx);applyView(dx);var i;
+        c.beginPath();c.arc(q.x+Math.cos(an)*rr,q.y+Math.sin(an)*rr,0.5,0,7);c.fill();}}c.globalAlpha=1;}}
+  function bakeSnap(){clearAll(sx);applyView(sx);var i;                        // อบเส้นทั้งหมดลงแคช (offscreen)
+    for(i=0;i<strokes.length;i++)if(strokes[i].tool==='hi')drawS(strokes[i],sx);
+    for(i=0;i<strokes.length;i++)if(strokes[i].tool!=='hi'){if(strokes[i].tool==='pen')drawPen(strokes[i],sx);else drawS(strokes[i],sx);}}
+  function blitSnap(){clearAll(dx);dx.setTransform(1,0,0,1,0,0);dx.drawImage(snap,0,0);}  // วางแคชลงจอจริง (1:1)
+  function redraw(){bakeSnap();blitSnap();}
+  function _redrawOld(){clearAll(dx);applyView(dx);var i;
     for(i=0;i<strokes.length;i++)if(strokes[i].tool==='hi')drawS(strokes[i]);
     for(i=0;i<strokes.length;i++)if(strokes[i].tool!=='hi'){if(strokes[i].tool==='pen')drawPen(strokes[i]);else drawS(strokes[i]);}}
   function drawLaserLine(pts,alpha){if(!pts.length)return;var a=Math.max(0,Math.min(1,alpha));  // เส้นแดงเรืองแสงทั้งเส้น (ความจางเท่ากันหมด)
