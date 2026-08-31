@@ -101,7 +101,7 @@
   [data-theme="night"] .shell{ background:var(--c-bg); }
   .statusbar{ flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 22px;
     height:46px; padding-top:env(safe-area-inset-top); box-sizing:content-box; }
-  /* โลโก้ + ชื่อสถาบัน มุมซ้ายบน = ปุ่มเข้าแผงแอดมิน */
+  /* โลโก้ + ชื่อสถาบัน มุมซ้ายบน = ปุ่มเข้าระบบซัพพอร์ตติวเตอร์ */
   .brandtap{ display:flex; align-items:center; gap:9px; cursor:pointer; border:none; background:none;
     padding:0; border-radius:11px; transition:transform .12s ease; }
   .brandtap img{ width:34px; height:34px; border-radius:10px; display:block; box-shadow:0 3px 10px rgba(164,0,1,.28); }
@@ -236,7 +236,7 @@
   .ex-li::before{ content:"•"; position:absolute; left:2px; color:var(--pri); font-weight:800; }
   .ex-hl{ background:#FFF1B8; color:#5A4200; border-radius:3px; padding:0 3px; font-weight:600; }
   .ex-warn{ background:#FEECEC; border-left:3px solid #E4111F; border-radius:0 8px 8px 0; padding:8px 11px; margin:9px 0; font-size:11.5px; color:#7A1219; line-height:1.6; }
-  /* ── ฟอนต์ TH Sarabun PSK เฉพาะหน้าทำข้อสอบ + เฉลย + ไฟล์ที่แอดมินดึง (size-adjust ทำให้ใหญ่ขึ้น ~18% เท่า Sarabun เดิม) ── */
+  /* ── ฟอนต์ TH Sarabun PSK เฉพาะหน้าทำข้อสอบ + เฉลย + ไฟล์ที่ติวเตอร์ดึง (size-adjust ทำให้ใหญ่ขึ้น ~18% เท่า Sarabun เดิม) ── */
   /* unicode-range จำกัด PSK ไว้เฉพาะ ไทย+ละติน+ตัวเลข+เครื่องหมายวรรคตอน — สัญลักษณ์ตรรกะ/คณิต (↔ → ∧ ∨ ~ ∀ ∃ ≡ ≠ ≤ ≥ − ×÷ ฯลฯ) จะตกไปใช้ Sarabun ที่มี glyph ครบ กันเครื่องหมายกลายเป็นกล่อง ▯ บนมือถือ */
   @font-face{ font-family:'THSarabunPSK'; src:url('fonts/THSarabunPSK.ttf') format('truetype'); font-weight:400; font-style:normal; font-display:swap; size-adjust:140%; unicode-range:U+0020-007E, U+00A0-00BF, U+0E00-0E7F, U+2013-2014, U+2018-201F, U+2022, U+2026; }
   @font-face{ font-family:'THSarabunPSK'; src:url('fonts/THSarabunPSK-Bold.ttf') format('truetype'); font-weight:700; font-style:normal; font-display:swap; size-adjust:140%; unicode-range:U+0020-007E, U+00A0-00BF, U+0E00-0E7F, U+2013-2014, U+2018-201F, U+2022, U+2026; }
@@ -286,7 +286,7 @@
     /* พิมพ์ออกมาเป็นภาพสีเหมือนที่เห็นบนจอ */
     html, body{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
     body{ background:var(--c-surface) !important; }
-    /* ซ่อนทุกอย่าง แล้วค่อยเปิดเฉพาะกระดาษข้อสอบ — กันแผงแอดมินติดไปด้วย */
+    /* ซ่อนทุกอย่าง แล้วค่อยเปิดเฉพาะกระดาษข้อสอบ — กันระบบซัพพอร์ตติวเตอร์ติดไปด้วย */
     .shell, .gate, .noprint, .sheethead, .sheet{ display:none !important; }
     .sheet.mockwrap{ position:static !important; background:none !important; display:block !important;
             inset:auto !important; padding:0 !important; }
@@ -390,7 +390,7 @@
 <!-- ══════════ ตัวแอป ══════════ -->
 <div class="shell" id="app" hidden>
   <div class="statusbar">
-    <button class="brandtap" id="brandtap" type="button" aria-label="แผงแอดมิน">
+    <button class="brandtap" id="brandtap" type="button" aria-label="ระบบซัพพอร์ตติวเตอร์">
       <img src="icons/icon-192.png" alt="นสต. รุ่น 18">
       <span class="brandname">LION KING ACADEMY</span>
     </button>
@@ -581,7 +581,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v172";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v173";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -639,7 +639,7 @@ function save(){
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
        ยกเว้นเครื่องติวเตอร์ที่มีข้อสอบแก้ค้างไว้ ยังไม่ได้ส่งออก → ต้องเก็บกันหาย */
     delete c.bank; delete c.pool;   // ไม่เก็บคลังข้อสอบทั้งก้อนใน localStorage — มาจาก questions.json (SW แคช) ทุกครั้ง กันเขียนก้อนใหญ่ (~5MB) จนมือถือค้าง/เต็มโควตา
-    if(!S.knowledgeDirty){ delete c.knowledge; }   // คลังความรู้มาจาก questions.json (มีรูปฝัง) ไม่ยัดลง localStorage นอกจากแอดมินแก้ค้าง
+    if(!S.knowledgeDirty){ delete c.knowledge; }   // คลังความรู้มาจาก questions.json (มีรูปฝัง) ไม่ยัดลง localStorage นอกจากติวเตอร์แก้ค้าง
     localStorage.setItem(LS, JSON.stringify(c));
   }catch(e){
     toast("บันทึกไม่สำเร็จ — พื้นที่เครื่องเต็ม");
@@ -1334,7 +1334,7 @@ function ytId(url){
   return m?m[1]:"";
 }
 function studyVids(tid){ return (S.videos||{})[tid]||[]; }
-function studyOpen(){ return !STUDY_LOCKED || !!S.adminMode; }   // แอดมินดูติวหนังสือได้แม้ยังล็อก (นักเรียนเห็นหน้า "อยู่ระหว่างดำเนินการ")
+function studyOpen(){ return !STUDY_LOCKED || !!S.adminMode; }   // ติวเตอร์ดูติวหนังสือได้แม้ยังล็อก (นักเรียนเห็นหน้า "อยู่ระหว่างดำเนินการ")
 function videoIndex(){                       // id → {v, tid, sk} สำหรับสร้างประวัติ/เปิดเล่น
   var idx={};
   subjects().forEach(function(su){
@@ -1415,7 +1415,7 @@ function studyLockedHTML(){
 }
 function viewStudy(c){
   if(!studyOpen()) return studyLockedHTML();
-  var adminNote=(STUDY_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;margin-bottom:10px;">👁️ <b>โหมดแอดมิน — ดูตัวอย่างวิดีโอ</b> · นักเรียนยังเห็นหน้า “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดใช้จริง)</div>':'';
+  var adminNote=(STUDY_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;margin-bottom:10px;">👁️ <b>โหมดซัพพอร์ตติวเตอร์ — ดูตัวอย่างวิดีโอ</b> · นักเรียนยังเห็นหน้า “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดใช้จริง)</div>':'';
   // ทำเฉพาะคลิปติวแนวตั้ง (ฟีด) — ตัดจอเล่นแนวนอน + คลังความรู้ออก
   return '<div class="stack">'+adminNote+'<div id="studyBrowse">'+studyBrowseHTML()+'</div></div>';
 }
@@ -1442,7 +1442,7 @@ function knowledgeHTML(){
        '<img src="'+subjImg(sk)+'" alt="" style="width:44px;height:44px;flex:none;border-radius:12px;object-fit:cover;box-shadow:0 3px 9px rgba(0,0,0,.16);">'+
        '<div style="flex:1;min-width:0;"><div style="font-size:15px;font-weight:800;">'+esc(short(sk))+'</div><div style="font-size:11.5px;color:var(--c-text-muted);">คลังความรู้ · '+items.length+' รายการ</div></div>'+
      '</div>';
-  if(!items.length) return h+'<div class="card" style="text-align:center;color:var(--c-text-subtle);font-size:13px;padding:26px 16px;">ยังไม่มีเนื้อหาในวิชานี้<br><span style="font-size:11.5px;">(แอดมินเพิ่มได้: แตะโลโก้มุมซ้ายบน → รหัสแอดมิน → คลังความรู้)</span></div>';
+  if(!items.length) return h+'<div class="card" style="text-align:center;color:var(--c-text-subtle);font-size:13px;padding:26px 16px;">ยังไม่มีเนื้อหาในวิชานี้<br><span style="font-size:11.5px;">(ติวเตอร์เพิ่มได้: แตะโลโก้มุมซ้ายบน → รหัสติวเตอร์ → คลังความรู้)</span></div>';
   var vocab=items.filter(function(x){return x.type==="vocab";}),
       imgs=items.filter(function(x){return x.type==="image";}),
       pdfs=items.filter(function(x){return x.type==="pdf";});
@@ -1537,7 +1537,7 @@ function studyTopScreen(){
     return '<div class="card" style="text-align:center;padding:34px 16px;color:var(--c-text-muted);">'+
         '<div style="font-size:34px;margin-bottom:10px;">🎬</div>'+
         '<div style="font-size:15px;font-weight:700;color:var(--c-text);">ยังไม่มีวิดีโอในระบบ</div>'+
-        '<div style="font-size:12.5px;margin-top:6px;line-height:1.7;">ให้ติวเตอร์เพิ่มวิดีโอในระบบแอดมิน<br>แล้วเลือกวิชา/หัวข้อด้านล่างเพื่อเล่นบนจอนี้</div>'+
+        '<div style="font-size:12.5px;margin-top:6px;line-height:1.7;">ให้ติวเตอร์เพิ่มวิดีโอในระบบซัพพอร์ตติวเตอร์<br>แล้วเลือกวิชา/หัวข้อด้านล่างเพื่อเล่นบนจอนี้</div>'+
       '</div>';
   }
   var fpr=prog(feat.id), thumb="https://i.ytimg.com/vi/"+encodeURIComponent(feat.v.yt||"")+"/hqdefault.jpg";
@@ -2000,7 +2000,7 @@ function mockCardsHTML(){
   var anyOpen=false;
   var cards=ids.map(function(id){
     var tr=m[id];
-    var locked = tr.locked && !S.adminMode;      // ยังไม่เปิดให้นักเรียนใช้ — ยกเว้นแอดมิน
+    var locked = tr.locked && !S.adminMode;      // ยังไม่เปิดให้นักเรียนใช้ — ยกเว้นติวเตอร์
     if(!locked) anyOpen=true;
     var overlay="";
     if(locked){
@@ -2008,7 +2008,7 @@ function mockCardsHTML(){
                 '<span style="background:#F2B01E;color:#0E0F12;font-size:13px;font-weight:800;padding:7px 16px;border-radius:999px;box-shadow:0 3px 10px rgba(0,0,0,.3);">🔒 เร็ว ๆ นี้ · ยังไม่เปิดให้ใช้</span>'+
               '</div>';
     } else if(tr.locked && S.adminMode){
-      overlay='<span style="position:absolute;top:10px;left:10px;background:var(--pri);color:#fff;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,.3);">แอดมิน · พรีวิว</span>';
+      overlay='<span style="position:absolute;top:10px;left:10px;background:var(--pri);color:#fff;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,.3);">ติวเตอร์ · พรีวิว</span>';
     }
     return '<div onclick="A.openTrack(\''+id+'\')" style="position:relative;min-width:0;cursor:pointer;border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.14);border:1px solid var(--c-border);background:#0E0F12;">'+
       '<img src="'+esc(tr.img||"")+'" alt="'+esc((tr.name||"")+" 150 ข้อ")+'" loading="lazy" style="display:block;width:100%;height:auto;">'+
@@ -2079,7 +2079,7 @@ function trackDetailSheet(){
       passNote+
       (st.gaps.length?'<div style="margin-top:10px;padding:10px 12px;background:#FEF4F4;border-left:3px solid var(--pri);border-radius:0 8px 8px 0;font-size:12px;color:#7A1219;line-height:1.6;">⚠️ บางวิชายังไม่มีข้อสอบครบ ระบบจะข้ามส่วนที่ขาดไปก่อน แล้วเต็มเองเมื่อครูลงข้อสอบเพิ่ม</div>':"")+
       (S.adminMode
-        ? '<button class="btn ghost" style="width:100%;margin-top:9px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.exportTrackPDF(\''+S.trackDetail+'\')">📄 ออกไฟล์ PDF ข้อสอบ + เฉลย (แอดมิน)</button>'+
+        ? '<button class="btn ghost" style="width:100%;margin-top:9px;'+(canStart?"":"opacity:.5;pointer-events:none;")+'" onclick="A.exportTrackPDF(\''+S.trackDetail+'\')">📄 ออกไฟล์ PDF ข้อสอบ + เฉลย (ติวเตอร์)</button>'+
           '<div class="muted" style="font-size:11px;margin-top:6px;text-align:center;line-height:1.55;">สุ่มชุด '+st.need+' ข้อตามสัดส่วนจริง → กด “🖨️ พิมพ์ / บันทึก PDF” · สลับแท็บ “ตัวข้อสอบ/เฉลย” เพื่อพิมพ์แยกไฟล์</div>'
         : "")+
     '</div>'+
@@ -2113,7 +2113,7 @@ function buildPick(){
   });
   return { items:items, gaps:gaps, at:new Date(), label:"ไฟล์ข้อสอบ"+(labels.length?" — "+labels.join(" · "):"") };
 }
-function pickApply(){ save(); var el=document.getElementById("pickbuilder"); if(el){ el.outerHTML=pickFormHTML(); } else { renderOverlays(); } }   // อัปเดตหลังคลิก: วาดใหม่เฉพาะกล่องตัวสร้างไฟล์ (ไม่วาดแผงแอดมินทั้งแผง/หน้าหลัก) — เบาสุด กันค้างบนมือถือ
+function pickApply(){ save(); var el=document.getElementById("pickbuilder"); if(el){ el.outerHTML=pickFormHTML(); } else { renderOverlays(); } }   // อัปเดตหลังคลิก: วาดใหม่เฉพาะกล่องตัวสร้างไฟล์ (ไม่วาดระบบซัพพอร์ตติวเตอร์ทั้งแผง/หน้าหลัก) — เบาสุด กันค้างบนมือถือ
 function pickFormHTML(){
   var cards="";
   subjects().forEach(function(su){
@@ -2317,7 +2317,7 @@ function planSheet(){
    สินค้า 1 ชิ้น: { id, name, price, old?, ic?, grad?, type?, physical?, badge?(hot/new/rec), subj?, inc?[], samples?[] }
    เปิดใช้จริง: ตั้ง SHOP_LOCKED=false เมื่อมี shopProducts + shopFB แล้ว */
 function shopProducts(){ return (S.shopProducts||[]).filter(function(p){ return p && p.name; }); }
-function shopOpen(){ return !SHOP_LOCKED || !!S.adminMode; }   // แอดมินดูร้านจริงได้แม้ยังล็อก (นักเรียนเห็นหน้าประกาศ)
+function shopOpen(){ return !SHOP_LOCKED || !!S.adminMode; }   // ติวเตอร์ดูร้านจริงได้แม้ยังล็อก (นักเรียนเห็นหน้าประกาศ)
 function shopFindProduct(id){ return shopProducts().filter(function(p){ return p.id===id; })[0]; }
 function shopTypeLabel(p){ return p.type || (p.physical ? "📦 เล่มจริง" : "📄 ไฟล์ PDF"); }
 function shopGrad(p){ return p.grad || "linear-gradient(120deg,#7a1015,#c4161c)"; }
@@ -2375,7 +2375,7 @@ function viewShop(){
   var present=catDefs.filter(function(c){ return prods.some(function(p){ return shopCat(p)===c[0]; }); });
   var shown=prods.filter(function(p){ return cat==="all" || shopCat(p)===cat; });
   var h='<div class="stack">'+
-    ((SHOP_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;">👁️ <b>โหมดแอดมิน — ดูตัวอย่างร้าน</b> · ตอนนี้นักเรียนยังเห็นหน้าประกาศ “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดขายจริง)</div>':'')+
+    ((SHOP_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;">👁️ <b>โหมดซัพพอร์ตติวเตอร์ — ดูตัวอย่างร้าน</b> · ตอนนี้นักเรียนยังเห็นหน้าประกาศ “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดขายจริง)</div>':'')+
     '<div style="font-size:11.5px;color:#2C6E49;background:#F1F7F3;border-radius:11px;padding:10px 12px;line-height:1.55;">✅ เนื้อหาในแอปครบสำหรับสอบแล้ว — เอกสารเหล่านี้เป็น<b>ตัวช่วยเสริม</b> เลือกได้ตามต้องการ</div>';
   var freeHTML=shopFreebiesHTML();
   if(freeHTML) h+='<div style="height:6px;"></div>'+freeHTML;
@@ -2577,7 +2577,7 @@ function quizConfirmSheet(){
 function renderOverlays(){
   var o=document.getElementById("overlays");
   /* จำตำแหน่งที่เลื่อนอยู่ของแต่ละแผง ไม่ให้เด้งกลับไปบนสุดทุกครั้งที่วาดใหม่
-     (เช่น ตอนเลือกวิชา/หัวข้อในแอดมิน ซึ่งสั่ง render ใหม่ทั้งแผง) */
+     (เช่น ตอนเลือกวิชา/หัวข้อในติวเตอร์ ซึ่งสั่ง render ใหม่ทั้งแผง) */
   var keep=[].map.call(o.querySelectorAll(".sheetbody"), function(el){ return el.scrollTop; });
   var h="";
   if(S.quiz) h+=quizSheet();
@@ -2857,7 +2857,7 @@ function quizSheet(){
          '<div style="font-size:34px;margin-bottom:12px;">📭</div>'+
          '<div style="font-size:15px;font-weight:700;">ยังไม่มีข้อสอบในหัวข้อนี้</div>'+
          '<div style="font-size:12.5px;color:var(--c-text-muted);margin:8px 0 20px;line-height:1.6;">'+
-           'ให้ติวเตอร์เพิ่มข้อสอบเข้าคลังก่อน<br>(แตะโลโก้มุมซ้ายบน → ใส่รหัสแอดมิน → คลังข้อสอบรายหัวข้อ)</div>'+
+           'ให้ติวเตอร์เพิ่มข้อสอบเข้าคลังก่อน<br>(แตะโลโก้มุมซ้ายบน → ใส่รหัสติวเตอร์ → คลังข้อสอบรายหัวข้อ)</div>'+
          '<button class="btn ghost" onclick="A.closeQuiz()">ปิด</button>'+
        '</div>';
   } else if(q.status==="error"){
@@ -3028,8 +3028,8 @@ function quizPickerSheet(){
     '</div></div></div>';
 }
 
-/* ═══════════ แผงแอดมิน ═══════════ */
-/* รหัสแอดมินเก็บเป็นแฮช (SHA-256 + salt) — รหัสจริงไม่โผล่ในโค้ด ป้องกันนักเรียนเปิดดูซอร์สแล้วเจอ
+/* ═══════════ ระบบซัพพอร์ตติวเตอร์ ═══════════ */
+/* รหัสติวเตอร์เก็บเป็นแฮช (SHA-256 + salt) — รหัสจริงไม่โผล่ในโค้ด ป้องกันนักเรียนเปิดดูซอร์สแล้วเจอ
    ตั้ง/เปลี่ยนรหัส: รันฟังก์ชัน sha256("nst18-admin|"+รหัสใหม่) แล้วเอาค่าที่ได้มาวางแทน */
 var ADMIN_HASH="616637f39212b03a413e1c7b5afd4a23b75bfeb377125da11109a0ed65e3f271";
 var RESET_PW="theerapol";   // รหัสยืนยันการสั่งรีเซ็ตความคืบหน้านักเรียนทุกคน
@@ -3097,7 +3097,7 @@ function imgHTML(src, max){
   return '<img src="'+esc(src)+'" alt="รูปประกอบโจทย์" loading="eager" decoding="sync" '+
     'style="display:block;max-width:100%;max-height:'+(max||260)+'px;margin:8px 0;border-radius:10px;border:1px solid var(--c-border);background:var(--c-surface);break-inside:avoid;page-break-inside:avoid;">';
 }
-/* ปุ่มเลือก/ลบรูป ในแผงแอดมิน */
+/* ปุ่มเลือก/ลบรูป ในระบบซัพพอร์ตติวเตอร์ */
 function imgBtn(label, t, i, cur){
   if(cur){
     return '<div style="display:flex;align-items:center;gap:8px;margin:6px 0;">'+
@@ -3156,14 +3156,14 @@ function adminSheet(){
   if(S.adminView==="login"){
     h+='<div style="padding:26px 22px 30px;background:var(--c-bg);">'+
          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">'+
-           '<div style="font-size:18px;font-weight:700;">🔒 เข้าสู่ระบบแอดมิน</div>'+
+           '<div style="font-size:18px;font-weight:700;">🔒 เข้าสู่ระบบซัพพอร์ตติวเตอร์</div>'+
            '<button class="x" onclick="A.closeAdmin()">✕</button>'+
          '</div>'+
-         '<label style="font-size:12px;color:var(--c-text-muted);">รหัสแอดมิน</label>'+
+         '<label style="font-size:12px;color:var(--c-text-muted);">รหัสติวเตอร์</label>'+
          '<input type="password" id="adpin" value="'+esc(S.adminCode)+'" oninput="A.adminCode(this.value)" placeholder="กรอกรหัส" '+
            'style="width:100%;margin-top:6px;border:1px solid var(--c-border);border-radius:11px;padding:12px 14px;font-size:16px;background:var(--c-surface);">'+
          '<div style="margin-top:14px;padding:14px 15px;background:#FEECEC;border:2px solid var(--pri);border-radius:12px;text-align:center;">'+
-           '<div style="font-size:19px;font-weight:800;color:var(--pri);line-height:1.55;">⚠️ ห้ามเข้าระบบแอดมินโดยเด็ดขาด</div>'+
+           '<div style="font-size:19px;font-weight:800;color:var(--pri);line-height:1.55;">⚠️ ห้ามเข้าระบบซัพพอร์ตติวเตอร์โดยเด็ดขาด</div>'+
            '<div style="font-size:15px;font-weight:700;color:var(--pri);line-height:1.6;margin-top:6px;">บุคคลใดที่ฝ่าฝืน จะตรวจสอบตัวตนและดำเนินการตามกฎหมายถึงที่สุด</div>'+
          '</div>'+
          (S.adminErr?'<div style="font-size:12.5px;color:var(--pri);margin-top:8px;">รหัสไม่ถูกต้อง ลองอีกครั้ง</div>':"")+
@@ -3171,7 +3171,7 @@ function adminSheet(){
        '</div>';
   } else if(S.adminView==="panel"){
     h+='<div class="sheethead">'+
-         '<div style="font-size:17px;font-weight:700;">🔓 แผงแอดมิน</div>'+
+         '<div style="font-size:17px;font-weight:700;">🔓 ระบบซัพพอร์ตติวเตอร์</div>'+
          '<div style="display:flex;gap:8px;">'+
            '<button class="btn sm ghost" onclick="A.logoutAdmin()">ออกจากระบบ</button>'+
            '<button class="x" onclick="A.closeAdmin()">✕</button>'+
@@ -3489,7 +3489,7 @@ var A={
   studyMode:function(m){ S.studyMode=m; if(m==="know"){ S.player=null; } render(); window.scrollTo(0,0); },
   openKnowSubj:function(sk){ S.knowSubj=sk; render(); window.scrollTo(0,0); },
   backKnow:function(){ S.knowSubj=null; render(); },
-  // ── คลังความรู้ (แอดมิน) ──
+  // ── คลังความรู้ (ติวเตอร์) ──
   adminKnowSubj:function(v){ S.adminKnowSubj=v||null; render(); },
   adminTab:function(k){ S.adminTab=k; renderOverlays(); var sb=document.querySelector('#overlays .sheetbody'); if(sb) sb.scrollTop=0; },
   addVocab:function(){
@@ -3853,19 +3853,19 @@ var A={
     S.trackDetail=null;
     startQuiz("mock_"+id, items);
   },
-  // แอดมิน
+  // ติวเตอร์
   openAdmin:function(){ S.adminOpen=true; S.adminView=S.adminMode?"panel":"login"; S.adminCode=""; S.adminErr=false; render(); },
   closeAdmin:function(){ S.adminOpen=false; S.adminDraft=null; render(); },
   adminCode:function(v){ S.adminCode=v; S.adminErr=false; },
   submitAdmin:function(){
-    if(sha256("nst18-admin|"+S.adminCode)===ADMIN_HASH){ S.adminMode=true; S.adminView="panel"; S.adminErr=false; S.adminCode=""; if(!S.everAdmin){ S.everAdmin=true; save(); } }   // จำถาวรว่าเครื่องนี้เคยเป็นแอดมิน — ตัวกันทับข้อสอบทำงานเฉพาะเครื่องแอดมินจริง
+    if(sha256("nst18-admin|"+S.adminCode)===ADMIN_HASH){ S.adminMode=true; S.adminView="panel"; S.adminErr=false; S.adminCode=""; if(!S.everAdmin){ S.everAdmin=true; save(); } }   // จำถาวรว่าเครื่องนี้เคยเป็นติวเตอร์ — ตัวกันทับข้อสอบทำงานเฉพาะเครื่องติวเตอร์จริง
     else S.adminErr=true;
     render();
   },
   logoutAdmin:function(){ S.adminMode=false; S.adminOpen=false; S.adminView="login"; S.adminDraft=null; render(); },
   openBank:function(sk,tid){ S.adminView="bank"; S.adminSubj=sk; S.adminTopic=tid; S.adminDraft=null; render(); },
   backPanel:function(){ S.adminView="panel"; S.adminDraft=null; S.vidDraft=null; render(); },
-  // ── จัดการวิดีโอติวหนังสือ (แอดมิน) ──
+  // ── จัดการวิดีโอติวหนังสือ (ติวเตอร์) ──
   openVideos:function(sk,tid){ S.adminView="videos"; S.adminSubj=sk; S.adminTopic=tid; S.vidDraft=null; render(); },
   newVideo:function(){ S.vidDraft={ index:null, title:"", url:"", dur:"", desc:"" }; render(); },
   editVideo:function(i){ var v=studyVids(S.adminTopic)[i]; if(!v) return; S.vidDraft={ index:i, title:v.title||"", url:v.url||"", dur:v.dur||"", desc:v.desc||"" }; render(); },
@@ -3978,7 +3978,7 @@ var A={
     alert("ตั้งคำสั่งรีเซ็ตเรียบร้อย (รอบที่ "+rt+")\n\nขั้นสุดท้าย: อัปโหลดไฟล์ questions.json ที่เพิ่งดาวน์โหลด ทับของเดิมบนเว็บ\nนักเรียนทุกคนจะถูกรีเซ็ตอัตโนมัติเมื่อเปิดแอปครั้งถัดไปที่มีเน็ต");
   },
   /* ปลดสถานะ "แก้ค้าง" แล้วดึงคลังล่าสุดจากเว็บมาทับ
-     ใช้เมื่อเครื่องนี้ติดค้างที่ข้อสอบชุดเก่า เพราะเคยแตะแก้ในแอดมินแล้วไม่ได้ส่งออก */
+     ใช้เมื่อเครื่องนี้ติดค้างที่ข้อสอบชุดเก่า เพราะเคยแตะแก้ในติวเตอร์แล้วไม่ได้ส่งออก */
   pullLatest:function(){
     var msg = S.bankDirty
       ? "เครื่องนี้มีข้อสอบที่แก้ไว้แต่ยังไม่ได้ส่งออก\n\nถ้าดึงของใหม่จากเว็บ ที่แก้ไว้ในเครื่องนี้จะหายทั้งหมด\n\nยืนยันดึงข้อสอบล่าสุดจากเว็บ?"
@@ -4018,7 +4018,7 @@ var A={
     render();
     var b=document.getElementById("printarea"); if(b) b.scrollTop=0;
   },
-  exportTrackPDF:function(id){                 // แอดมิน: ออกไฟล์ PDF ข้อสอบรายสาย (อำนวยการ/ปราบปราม)
+  exportTrackPDF:function(id){                 // ติวเตอร์: ออกไฟล์ PDF ข้อสอบรายสาย (อำนวยการ/ปราบปราม)
     var m=buildTrackMock(id);
     if(!m.items.length){ toast("ยังไม่มีข้อสอบในคลังสำหรับชุดนี้"); return; }
     S.mock=m; S.mockView="paper"; S.trackDetail=null;
@@ -4505,7 +4505,7 @@ function applyContent(d){
     toast("ครูรีเซ็ตความคืบหน้าใหม่ทั้งหมดแล้ว — เริ่มต้นใหม่ได้เลย");
   }
   var v=d.version||0, newer = v!==(S.contentVersion||0);
-  if(S.everAdmin && S.bankDirty){              // เฉพาะเครื่องแอดมินจริงที่มีข้อสอบแก้ค้าง ห้ามทับ (เครื่องนักเรียนไม่โดนแช่แข็ง)
+  if(S.everAdmin && S.bankDirty){              // เฉพาะเครื่องติวเตอร์จริงที่มีข้อสอบแก้ค้าง ห้ามทับ (เครื่องนักเรียนไม่โดนแช่แข็ง)
     if(newer) toast("มีเนื้อหาใหม่บนเว็บ — แต่ยังไม่ดึงมา เพราะมีข้อสอบที่ยังไม่ได้ส่งออก");
     return;
   }
@@ -4567,7 +4567,7 @@ function abortQuizOnSwitch(){
 var lastSyncAt = 0;
 function maybeSync(){
   if(!isActivated()) return;                    // ยังไม่ได้เปิดใช้งาน
-  if(S.quiz || S.adminOpen || S.mock || S.player || S.planOpen || S.trackDetail) return;   // ทำข้อสอบ/แอดมิน/ดูชุดข้อสอบ/ดูวิดีโอ/วางแผน/ดูรายละเอียดชุดเสมือนจริง อย่ารบกวน
+  if(S.quiz || S.adminOpen || S.mock || S.player || S.planOpen || S.trackDetail) return;   // ทำข้อสอบ/ติวเตอร์/ดูชุดข้อสอบ/ดูวิดีโอ/วางแผน/ดูรายละเอียดชุดเสมือนจริง อย่ารบกวน
   if(Date.now()-lastSyncAt < 30000) return;     // เพิ่งเช็คไปไม่ถึงครึ่งนาที
   lastSyncAt = Date.now();
   syncContent();
