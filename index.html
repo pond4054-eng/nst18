@@ -581,7 +581,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v171";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v172";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4267,7 +4267,7 @@ var TB=(function(){
     window.addEventListener('resize',function(){if(root.classList.contains('on'))resize();});
     laserLoop();built=true;
   }
-  function resize(){W=window.innerWidth;H=window.innerHeight;if(!W||!H)return;DPR=Math.min((window.devicePixelRatio||1)*1.5,3);  // supersampling → เส้น/พื้นหลังคมขึ้น (คมกว่าจอจริง แล้วย่อลง)
+  function resize(){W=window.innerWidth;H=window.innerHeight;if(!W||!H)return;DPR=Math.min(window.devicePixelRatio||1,2.5);  // retina เต็มของจอ (คม + ลื่น) — supersampling ทำให้หน่วงตอนเขียน จึงเอาออก
     [bg,draw,laser].forEach(function(c){c.width=W*DPR;c.height=H*DPR;});
     snap.width=W*DPR;snap.height=H*DPR;
     [bx,dx,lx,sx].forEach(function(c){c.lineCap='round';c.lineJoin='round';});
