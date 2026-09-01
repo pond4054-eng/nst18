@@ -62,6 +62,9 @@
   .ec-switch::after{ content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%;
     background:var(--c-surface); box-shadow:0 1px 3px rgba(0,0,0,.3); transition:left .18s ease; }
   .ec-switch[aria-checked="true"]::after{ left:21px; }
+  .ec-reset{ flex:none; width:46px; height:28px; border-radius:999px; border:none; cursor:pointer;
+    background:var(--pri); color:#fff; font-size:14px; line-height:1; display:flex; align-items:center; justify-content:center; }
+  .ec-reset:active{ transform:scale(.92); }
   .ec-dimrow{ flex-direction:column; align-items:stretch; }
   .ec-dimhead{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
   .ec-dimval{ font-size:12px; font-weight:600; color:var(--c-text-subtle); font-variant-numeric:tabular-nums; }
@@ -417,6 +420,13 @@
       </div>
       <input class="ec-range" id="ecDim" type="range" min="0" max="0.55" step="0.01" value="0" aria-label="ระดับการหรี่แสง">
     </div>
+    <div class="ec-row">
+      <div>
+        <div class="lbl2">เริ่มใหม่ทั้งหมด</div>
+        <div class="sub2">ล้างข้อมูล · เก็บการเปิดใช้งานไว้</div>
+      </div>
+      <button class="ec-reset" id="ecReset" type="button" onclick="A.resetMe()" aria-label="เริ่มใหม่ทั้งหมด">🔄</button>
+    </div>
   </div>
   <div class="ec-dimlayer" id="ecDimLayer" aria-hidden="true"></div>
   <div class="tabhead">
@@ -581,7 +591,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v177";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v178";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1250,13 +1260,6 @@ function viewHome(c){
            return '<div onclick="A.theme('+i+')" style="width:28px;height:28px;border-radius:50%;cursor:pointer;background:'+t.pri+';'+
                   (on?"box-shadow:0 0 0 2px #fff,0 0 0 4px "+t.pri+";":"border:2px solid var(--c-border);")+'"></div>';
          }).join("")+'</div>')+
-     '</div>';
-
-  // เริ่มใหม่ทั้งหมด (นักเรียนกดเอง — ล้างข้อมูลของตัวเอง แต่ล็อกอินอยู่ครบ)
-  h+='<div class="card" style="border-radius:16px;padding:14px 16px;border:1px solid #F5C6C8;background:#FEF4F4;">'+
-       '<div style="font-size:13.5px;font-weight:800;color:#7A1219;margin-bottom:4px;">🔄 เริ่มใหม่ทั้งหมด</div>'+
-       '<div style="font-size:12px;color:#7A1219;line-height:1.65;margin-bottom:11px;">ล้างข้อมูลของคุณในเครื่องนี้กลับเป็นค่าเริ่มต้น — คะแนนสอบ · เช็กลิสต์ · งานประจำวัน · วันสอบ · ตั้งค่า/ธีม<br><b>ยังเปิดใช้งานแอปได้เหมือนเดิม ไม่ต้องกรอกรหัสใหม่</b> · <b>ย้อนกลับไม่ได้</b></div>'+
-       '<button class="btn sm" style="background:var(--pri);border-color:var(--pri);color:#fff;" onclick="A.resetMe()">🔄 เริ่มใหม่ทั้งหมด…</button>'+
      '</div>';
 
   return '<div class="stack">'+h+'</div>';
@@ -3999,8 +4002,7 @@ var A={
   },
   /* นักเรียนกดเอง (หน้าตั้งค่า) — เริ่มใหม่ทั้งหมดในเครื่องนี้ แต่เก็บการเปิดใช้งานไว้ (ไม่ต้องกรอกรหัสใหม่) */
   resetMe:function(){
-    if(!confirm("🔄 เริ่มใหม่ทั้งหมด\n\nจะล้างข้อมูลของคุณในเครื่องนี้:\n• คะแนน/ความคืบหน้าการสอบ\n• เช็กลิสต์\n• งานประจำวัน\n• วันสอบ · ตั้งค่า/ธีม\n\nยังเปิดใช้งานแอปได้เหมือนเดิม (ไม่ต้องกรอกรหัสใหม่)\nการนี้ย้อนกลับไม่ได้ — ดำเนินการต่อ?")) return;
-    if(!confirm("ยืนยันอีกครั้ง — ข้อมูลทั้งหมดของคุณจะหายและย้อนกลับไม่ได้\n\nเริ่มใหม่เลยใช่ไหม?")) return;
+    if(!confirm("🔄 เริ่มใหม่ทั้งหมด\n\nจะล้างข้อมูลของคุณในเครื่องนี้:\n• คะแนน/ความคืบหน้าการสอบ\n• เช็กลิสต์\n• งานประจำวัน\n• วันสอบ · ตั้งค่า/ธีม\n\nยังเปิดใช้งานแอปได้เหมือนเดิม (ไม่ต้องกรอกรหัสใหม่)\nการนี้ย้อนกลับไม่ได้ — ยืนยันเริ่มใหม่?")) return;
     try{
       var lic=localStorage.getItem(LIC_KEY), dev=localStorage.getItem(DEV_KEY);
       localStorage.clear();
