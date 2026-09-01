@@ -581,7 +581,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v176";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v177";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1250,6 +1250,13 @@ function viewHome(c){
            return '<div onclick="A.theme('+i+')" style="width:28px;height:28px;border-radius:50%;cursor:pointer;background:'+t.pri+';'+
                   (on?"box-shadow:0 0 0 2px #fff,0 0 0 4px "+t.pri+";":"border:2px solid var(--c-border);")+'"></div>';
          }).join("")+'</div>')+
+     '</div>';
+
+  // เริ่มใหม่ทั้งหมด (นักเรียนกดเอง — ล้างข้อมูลของตัวเอง แต่ล็อกอินอยู่ครบ)
+  h+='<div class="card" style="border-radius:16px;padding:14px 16px;border:1px solid #F5C6C8;background:#FEF4F4;">'+
+       '<div style="font-size:13.5px;font-weight:800;color:#7A1219;margin-bottom:4px;">🔄 เริ่มใหม่ทั้งหมด</div>'+
+       '<div style="font-size:12px;color:#7A1219;line-height:1.65;margin-bottom:11px;">ล้างข้อมูลของคุณในเครื่องนี้กลับเป็นค่าเริ่มต้น — คะแนนสอบ · เช็กลิสต์ · งานประจำวัน · วันสอบ · ตั้งค่า/ธีม<br><b>ยังเปิดใช้งานแอปได้เหมือนเดิม ไม่ต้องกรอกรหัสใหม่</b> · <b>ย้อนกลับไม่ได้</b></div>'+
+       '<button class="btn sm" style="background:var(--pri);border-color:var(--pri);color:#fff;" onclick="A.resetMe()">🔄 เริ่มใหม่ทั้งหมด…</button>'+
      '</div>';
 
   return '<div class="stack">'+h+'</div>';
@@ -3989,6 +3996,18 @@ var A={
     set({resetToken:rt, resetAppliedToken:rt});
     A.exportQuestions();                               // ได้ไฟล์ questions.json (มี resetToken) ไปอัปโหลด
     alert("ตั้งคำสั่งรีเซ็ตเรียบร้อย (รอบที่ "+rt+")\n\nขั้นสุดท้าย: อัปโหลดไฟล์ questions.json ที่เพิ่งดาวน์โหลด ทับของเดิมบนเว็บ\nนักเรียนทุกคนจะถูกรีเซ็ตอัตโนมัติเมื่อเปิดแอปครั้งถัดไปที่มีเน็ต");
+  },
+  /* นักเรียนกดเอง (หน้าตั้งค่า) — เริ่มใหม่ทั้งหมดในเครื่องนี้ แต่เก็บการเปิดใช้งานไว้ (ไม่ต้องกรอกรหัสใหม่) */
+  resetMe:function(){
+    if(!confirm("🔄 เริ่มใหม่ทั้งหมด\n\nจะล้างข้อมูลของคุณในเครื่องนี้:\n• คะแนน/ความคืบหน้าการสอบ\n• เช็กลิสต์\n• งานประจำวัน\n• วันสอบ · ตั้งค่า/ธีม\n\nยังเปิดใช้งานแอปได้เหมือนเดิม (ไม่ต้องกรอกรหัสใหม่)\nการนี้ย้อนกลับไม่ได้ — ดำเนินการต่อ?")) return;
+    if(!confirm("ยืนยันอีกครั้ง — ข้อมูลทั้งหมดของคุณจะหายและย้อนกลับไม่ได้\n\nเริ่มใหม่เลยใช่ไหม?")) return;
+    try{
+      var lic=localStorage.getItem(LIC_KEY), dev=localStorage.getItem(DEV_KEY);
+      localStorage.clear();
+      if(lic!=null) localStorage.setItem(LIC_KEY,lic);
+      if(dev!=null) localStorage.setItem(DEV_KEY,dev);
+    }catch(e){}
+    location.reload();
   },
   /* ปลดสถานะ "แก้ค้าง" แล้วดึงคลังล่าสุดจากเว็บมาทับ
      ใช้เมื่อเครื่องนี้ติดค้างที่ข้อสอบชุดเก่า เพราะเคยแตะแก้ในติวเตอร์แล้วไม่ได้ส่งออก */
