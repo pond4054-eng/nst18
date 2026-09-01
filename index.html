@@ -591,7 +591,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v178";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v179";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4863,8 +4863,17 @@ if("serviceWorker" in navigator && location.protocol!=="file:"){
   }
   setInterval(function(){ if(_pendingReload) _safeReload(); }, 3000);
   navigator.serviceWorker.addEventListener("controllerchange",function(){ if(_hadCtrl) _safeReload(); });
+  var _swReg=null;
+  // iOS PWA มักปลุกจอที่ค้างไว้แทนการโหลดใหม่ → พอแอปกลับมาโผล่หน้าจอ ให้เช็คเวอร์ชันใหม่ทันที
+  document.addEventListener("visibilitychange",function(){
+    if(document.visibilityState==="visible" && _swReg){ try{ _swReg.update(); }catch(e){} }
+  });
+  window.addEventListener("pageshow",function(e){
+    if(e.persisted && _swReg){ try{ _swReg.update(); }catch(e2){} }   // กลับจาก bfcache
+  });
   window.addEventListener("load",function(){
     navigator.serviceWorker.register("sw.js").then(function(reg){
+      _swReg=reg;
       try{ reg.update(); }catch(e){}                                   // เช็คเวอร์ชันใหม่ทุกครั้งที่เปิดแอป
       reg.addEventListener("updatefound",function(){
         var nw=reg.installing;
