@@ -593,7 +593,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v190";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v191";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1461,7 +1461,7 @@ function knowledgeHTML(){
   if(vocab.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📖 คำศัพท์</div><div style="display:flex;flex-direction:column;gap:10px;">'+
       vocab.map(function(v){ return '<div style="border-left:3px solid var(--pri);padding-left:10px;"><div style="font-size:14px;font-weight:700;">'+esc(v.term)+newBadge('know:'+v.ts,v.ts)+'</div><div style="font-size:13px;color:var(--c-text-muted);line-height:1.5;margin-top:2px;">'+esc(v.def)+'</div></div>'; }).join("")+'</div></div>';
   if(imgs.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">🖼️ ภาพ</div><div style="display:flex;flex-direction:column;gap:14px;">'+
-      imgs.map(function(im){ return '<div style="position:relative;">'+(isNew('know:'+im.ts,im.ts)?'<span style="position:absolute;top:7px;left:7px;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:2px 8px;border-radius:20px;z-index:1;">ใหม่</span>':"")+'<img src="'+esc(im.data)+'" alt="'+esc(im.cap||"")+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);">'+(im.cap?'<div style="font-size:12px;color:var(--c-text-muted);margin-top:5px;">'+esc(im.cap)+'</div>':"")+'</div>'; }).join("")+'</div></div>';
+      imgs.map(function(im){ return '<div style="position:relative;">'+(isNew('know:'+im.ts,im.ts)?'<span style="position:absolute;top:7px;left:7px;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:2px 8px;border-radius:20px;z-index:1;">ใหม่</span>':"")+'<img src="'+esc(im.data)+'" alt="'+esc(im.cap||"")+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);">'+(im.cap?'<div style="font-size:12px;color:var(--c-text-muted);margin-top:5px;">'+esc(im.cap)+'</div>':"")+(S.adminMode?'<button class="btn sm ghost" style="margin-top:8px;border-color:var(--pri);color:var(--pri);" onclick="A.teachImg('+im.ts+')">🎓 สอนด้วยกระดาน</button>':"")+'</div>'; }).join("")+'</div></div>';
   if(pdfs.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📄 ไฟล์ PDF</div><div style="display:flex;flex-direction:column;gap:9px;">'+
       pdfs.map(function(p){ return '<a href="'+esc(p.url)+'" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;text-decoration:none;background:var(--c-bg);border-radius:10px;padding:11px 13px;"><span style="font-size:24px;flex:none;">📄</span><div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:600;color:var(--c-text);">'+esc(p.title||"เอกสาร PDF")+newBadge('know:'+p.ts,p.ts)+'</div><div style="font-size:11px;color:var(--c-text-muted);">แตะเพื่อเปิด</div></div><span style="color:var(--pri);font-size:16px;flex:none;">↗</span></a>'; }).join("")+'</div></div>';
   return h;
@@ -3811,6 +3811,7 @@ var A={
     TB.open({label:label,q:qhtml,choices:chs,ans:ans,rem:(q.deadline?q._pauseRem:null)});
   },
   teachClose:function(){ var q=S.quiz; if(q&&q.deadline&&q._pauseRem!=null){ q.deadline=Date.now()+q._pauseRem; startQuizTimer(); } TB.hide(); render(); },
+  teachImg:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return; TB.open({label:(it.cap||'เนื้อหา'),q:'<img src="'+it.data+'" style="width:100%;display:block;border-radius:10px">',choices:[],ans:'',rem:null}); },
   // ── ฟีดวิดีโอเต็มจอ ──
   openFeed:function(sk,id){ if(!studyOpen()) return; if(!feedClips(sk).length){ toast("ยังไม่มีคลิปในวิชานี้"); return; } S.feed=sk; render(); var t=id&&document.getElementById("feedpage-"+id); if(t) t.scrollIntoView(); },
   closeFeed:function(){ destroyFeedObs(); destroyPlayer(); S.feed=null; render(); },
