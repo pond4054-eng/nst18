@@ -593,7 +593,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v191";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v192";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1429,7 +1429,9 @@ function viewStudy(c){
   if(!studyOpen()) return studyLockedHTML();
   var adminNote=(STUDY_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;margin-bottom:10px;">👁️ <b>โหมดซัพพอร์ตติวเตอร์ — ดูตัวอย่างวิดีโอ</b> · นักเรียนยังเห็นหน้า “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดใช้จริง)</div>':'';
   // ทำเฉพาะคลิปติวแนวตั้ง (ฟีด) — ตัดจอเล่นแนวนอน + คลังความรู้ออก
-  return '<div class="stack">'+adminNote+'<div id="studyBrowse">'+studyBrowseHTML()+'</div></div>';
+  var kw = S.adminMode ? ('<div class="card noprint" style="display:flex;gap:8px;padding:8px;margin-bottom:12px;">'+'<button class="btn sm '+(S.studyMode==="know"?"ghost":"")+'" style="flex:1;" onclick="A.studyMode(\'video\')">🎬 คลิปติว</button>'+'<button class="btn sm '+(S.studyMode==="know"?"":"ghost")+'" style="flex:1;" onclick="A.studyMode(\'know\')">📚 คลังความรู้</button></div>') : "";
+  var body = (S.adminMode && S.studyMode==="know") ? knowledgeHTML() : ('<div id="studyBrowse">'+studyBrowseHTML()+'</div>');
+  return '<div class="stack">'+adminNote+kw+body+'</div>';
 }
 /* ───── คลังความรู้ (ในติวหนังสือ) ───── */
 function knowledgeHTML(){
