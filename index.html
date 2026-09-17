@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v201";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v202";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4504,7 +4504,22 @@ var TB=(function(){
         if(st.bg!==0){ex.strokeStyle='#e4ebf3';ex.lineWidth=1;var g=32,x,y;ex.beginPath();
           if(st.bg===1){for(x=Math.floor(r.x/g)*g;x<r.x+r.w;x+=g){ex.moveTo(x,r.y);ex.lineTo(x,r.y+r.h);}for(y=Math.floor(r.y/g)*g;y<r.y+r.h;y+=g){ex.moveTo(r.x,y);ex.lineTo(r.x+r.w,y);}}
           else{var g2=g*1.4,y2;for(y2=Math.floor(r.y/g2)*g2;y2<r.y+r.h;y2+=g2){ex.moveTo(r.x,y2);ex.lineTo(r.x+r.w,y2);}}ex.stroke();}
-        for(k=0;k<tcards.length;k++){el2=tcards[k].el;var img=el2.querySelector('img');if(!img)continue;var L=el2.offsetLeft+img.offsetLeft,T=el2.offsetTop+img.offsetTop;try{ex.drawImage(img,L,T,img.offsetWidth,img.offsetHeight);}catch(e){}}
+        (function(){var rr=function(c,X,Y,Wd,Hd,R){c.beginPath();c.moveTo(X+R,Y);c.arcTo(X+Wd,Y,X+Wd,Y+Hd,R);c.arcTo(X+Wd,Y+Hd,X,Y+Hd,R);c.arcTo(X,Y+Hd,X,Y,R);c.arcTo(X,Y,X+Wd,Y,R);c.closePath();};
+          ex.save();ex.setTransform(1,0,0,1,0,0);                                   // วาดการ์ดใน device space (เงาคม ไม่เพี้ยนตามสเกล)
+          for(k=0;k<tcards.length;k++){el2=tcards[k].el;var img=el2.querySelector('img');if(!img)continue;
+            var X=(el2.offsetLeft-r.x)*ES,Y=(el2.offsetTop-r.y)*ES,Wd=el2.offsetWidth*ES,Hd=el2.offsetHeight*ES,R=14*ES;
+            ex.save();ex.shadowColor='rgba(0,0,0,.24)';ex.shadowBlur=12*ES;ex.shadowOffsetY=6*ES;ex.fillStyle='#fff';rr(ex,X,Y,Wd,Hd,R);ex.fill();ex.restore(); // เงา + พื้นขาว
+            ex.save();rr(ex,X,Y,Wd,Hd,R);ex.clip();                                 // คลิปมุมโค้ง
+            var hEl=el2.querySelector('.tbc-h'),hh=hEl?hEl.offsetHeight*ES:0;
+            if(hh){ex.fillStyle='#f4f6fb';ex.fillRect(X,Y,Wd,hh);ex.strokeStyle='#edf1f7';ex.lineWidth=1*ES;ex.beginPath();ex.moveTo(X,Y+hh);ex.lineTo(X+Wd,Y+hh);ex.stroke(); // หัวการ์ด
+              var tt=hEl.querySelector('.tt'),title=tt?tt.textContent:'';
+              ex.fillStyle='#37506e';ex.font='800 '+(12.5*ES)+'px "Sarabun","Thonburi",sans-serif';ex.textBaseline='middle';
+              ex.save();ex.beginPath();ex.rect(X+9*ES,Y,Wd-27*ES,hh);ex.clip();ex.fillText(title,X+9*ES,Y+hh/2+ES);ex.restore();}
+            try{ex.drawImage(img,X+img.offsetLeft*ES,Y+img.offsetTop*ES,img.offsetWidth*ES,img.offsetHeight*ES);}catch(e){} // รูปในการ์ด
+            ex.restore();
+            ex.save();ex.strokeStyle='#e3e8ef';ex.lineWidth=1*ES;rr(ex,X+0.5*ES,Y+0.5*ES,Wd-ES,Hd-ES,R);ex.stroke();ex.restore(); // เส้นขอบ
+          }
+          ex.restore();})();
         for(k=0;k<strokes.length;k++)if(strokes[k].tool==='hi')drawS(strokes[k],ex);
         for(k=0;k<strokes.length;k++)if(strokes[k].tool!=='hi'){if(strokes[k].tool==='pen')drawPen(strokes[k],ex);else drawS(strokes[k],ex);}
         ex.restore();var url=ec.toDataURL('image/png');if(i>0)doc.addPage();doc.addImage(url,'PNG',0,0,PW,PH);}
