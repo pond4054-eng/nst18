@@ -330,6 +330,16 @@
 #tb_body .ans{font-size:12.5px;font-weight:800;color:#0e8a48;margin-top:11px;background:#e8faf0;display:inline-block;padding:4px 11px;border-radius:9px}
 #tb_body .ans.hide{display:none}
 #tb_head.min{border-radius:16px}
+  #tb_tray{position:absolute;left:8px;right:8px;top:52px;z-index:20;display:flex;gap:7px;overflow-x:auto;padding:8px 10px;background:rgba(255,255,255,.92);border:1px solid #e3e8ef;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.12);-webkit-overflow-scrolling:touch}
+  .tbc-chip{flex:none;background:#eef1f6;border:1px solid #dbe1ea;border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:700;white-space:nowrap;color:#37506e;cursor:pointer}
+  .tbc-chip.used{background:#e7f6ee;border-color:#b7e0c7;color:#0a5c33}
+  #tb_cardlayer{position:absolute;inset:0;z-index:4;pointer-events:none}
+  #tb_cardlayer.act{pointer-events:auto}
+  .tbc{position:absolute;width:360px;max-width:86vw;background:#fff;border-radius:14px;box-shadow:0 12px 34px rgba(0,0,0,.28);border:1px solid #e3e8ef;overflow:hidden;pointer-events:auto}
+  .tbc-h{display:flex;align-items:center;gap:7px;background:#f4f6fb;padding:7px 9px;cursor:move;font-size:12.5px;font-weight:800;color:#37506e;border-bottom:1px solid #edf1f7;touch-action:none}
+  .tbc-h .tt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tbc-x{flex:none;width:26px;height:26px;border:none;background:#ffe3e3;color:#c92a2a;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;line-height:1}
+  .tbc-b img{width:100%;display:block;pointer-events:none}
 #tb_theme{position:absolute;z-index:14;display:none;gap:7px;padding:9px 12px;background:#fff;border-radius:13px;box-shadow:0 10px 30px #00000026;align-items:center}
 #tb_theme.show{display:flex}
 #tb_theme .tl{font-size:11px;font-weight:800;color:#8794a6;margin-right:2px}
@@ -593,7 +603,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v192";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v193";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -3813,7 +3823,7 @@ var A={
     TB.open({label:label,q:qhtml,choices:chs,ans:ans,rem:(q.deadline?q._pauseRem:null)});
   },
   teachClose:function(){ var q=S.quiz; if(q&&q.deadline&&q._pauseRem!=null){ q.deadline=Date.now()+q._pauseRem; startQuizTimer(); } TB.hide(); render(); },
-  teachImg:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return; TB.open({label:(it.cap||'เนื้อหา'),q:'<img src="'+it.data+'" style="width:100%;display:block;border-radius:10px">',choices:[],ans:'',rem:null}); },
+  teachImg:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return; if(it.cards&&it.cards.length){ TB.openCards({label:(it.cap||'สอน'),cards:it.cards}); } else { TB.open({label:(it.cap||'เนื้อหา'),q:'<img src="'+it.data+'" style="width:100%;display:block;border-radius:10px">',choices:[],ans:'',rem:null}); } },
   // ── ฟีดวิดีโอเต็มจอ ──
   openFeed:function(sk,id){ if(!studyOpen()) return; if(!feedClips(sk).length){ toast("ยังไม่มีคลิปในวิชานี้"); return; } S.feed=sk; render(); var t=id&&document.getElementById("feedpage-"+id); if(t) t.scrollIntoView(); },
   closeFeed:function(){ destroyFeedObs(); destroyPlayer(); S.feed=null; render(); },
@@ -4199,7 +4209,7 @@ var TB=(function(){
     view.scale=s;view.tx=ncx-wx*s;view.ty=ncy-wy*s;afterView();}
   function build(){
     root=document.createElement('div');root.id='tb_root';
-    root.innerHTML='<canvas id="tb_bg"></canvas><canvas id="tb_draw"></canvas><canvas id="tb_laser"></canvas>'+
+    root.innerHTML='<canvas id="tb_bg"></canvas><canvas id="tb_draw"></canvas><canvas id="tb_laser"></canvas>'+'<div id="tb_tray" style="display:none"></div><div id="tb_cardlayer"></div>'+
       '<div id="tb_ctl"><div class="cl" id="tb_clock">⏸ --:--</div><button id="tb_back">◀ กลับไปทำข้อสอบ</button></div>'+
       '<div id="tb_zoom"><button id="tb_zout" class="zb">−</button><button id="tb_zlbl" class="zb wide">100%</button><button id="tb_zin" class="zb">+</button></div>'+
       '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div></div>'+
@@ -4218,7 +4228,7 @@ var TB=(function(){
         '<button class="tool" data-tool="eraser">🧽<small>ลบ</small></button>'+
         '<button class="tool" data-tool="laser">🔴<small>เลเซอร์</small></button></div>'+
         '<div class="grp"><button class="tool" id="tb_undo">↩️<small>ย้อน</small></button>'+
-        '<button class="tool" id="tb_clr">🗑️<small>ล้าง</small></button></div>'+
+        '<button class="tool" id="tb_clr">🗑️<small>ล้าง</small></button><button class="tool" id="tb_movecards" style="display:none">✋<small>ย้ายการ์ด</small></button></div>'+
         '<div class="grp"><button class="tool" id="tb_moreb">⚙️<small>เพิ่มเติม</small></button></div></div>';
     document.body.appendChild(root);
     root.addEventListener('contextmenu',function(e){e.preventDefault();});   // กันเมนูตัด/คัดลอกของ iOS
@@ -4231,9 +4241,10 @@ var TB=(function(){
       d.onclick=function(){root.style.setProperty('--tb-acc',t[0]);root.style.setProperty('--tb-soft',t[1]);
         Array.prototype.forEach.call(tr.querySelectorAll('.tdot'),function(x){x.classList.toggle('on',x===d);});};tr.appendChild(d);});
     Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(b){b.onclick=function(){st.tool=b.dataset.tool;
-      Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.remove('on');});b.classList.add('on');pens();cols();szs();syncOpts();};});
+      Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.remove('on');});b.classList.add('on');pens();cols();szs();syncOpts();tbSetMove(false);};});
     el('tb_undo').onclick=function(){strokes.pop();redraw();};
     el('tb_clr').onclick=function(){if(strokes.length&&!confirm('ล้างกระดาน?'))return;strokes=[];redraw();};
+    (function(){var _mc=el('tb_movecards');if(_mc)_mc.onclick=function(){tbSetMove(!el('tb_cardlayer').classList.contains('act'));};})();
     el('tb_bgbtn').onclick=function(){st.bg=(st.bg+1)%3;paintBg();};
     el('tb_shape').onclick=function(){st.shape=!st.shape;this.classList.toggle('on',st.shape);};  // โหมดจัดรูป/เส้นตรง
     el('tb_stab').onclick=function(){st.stab=(st.stab+1)%3;this.querySelector('small').textContent='นิ่ง:'+STAB[st.stab].d;};  // ระดับความนิ่ง
@@ -4445,8 +4456,24 @@ var TB=(function(){
     PENDEF.forEach(function(d){var b=document.createElement('button');b.className='pnst'+(d.k===st.pen?' on':'');
       b.innerHTML=d.ic+'<small>'+d.nm+'</small>';b.onclick=function(){st.pen=d.k;pens();};box.appendChild(b);});}
   function syncOpts(){var o=el('tb_opts');if(o)o.style.display=(st.tool==='laser')?'none':'flex';}  // เลเซอร์ไม่มีตัวเลือก → ซ่อนแผง
+  // ===== หลายการ์ด (multi-card teaching) =====
+  var tcards=[],tcSeq=0,curCardSet=[];
+  function tbSetMove(on){var cl=el('tb_cardlayer');if(!cl)return;cl.classList.toggle('act',!!on);var d=el('tb_draw');if(d)d.style.pointerEvents=on?'none':'auto';var mb=el('tb_movecards');if(mb)mb.classList.toggle('on',!!on);}
+  function tbClearCards(){tcards.forEach(function(c){if(c.el&&c.el.parentNode)c.el.parentNode.removeChild(c.el);});tcards=[];}
+  function tbRenderTray(){var tr=el('tb_tray');if(!tr)return;tr.innerHTML='';curCardSet.forEach(function(it,i){var used=tcards.some(function(c){return c.idx===i;});var b=document.createElement('button');b.className='tbc-chip'+(used?' used':'');b.textContent=(used?'✓ ':'')+(it.t||('การ์ด '+(i+1)));b.onclick=function(){var rc=tcards.filter(function(c){return c.idx===i;})[0];if(rc)tbRemoveCard(rc.id);else tbAddCard(i);};tr.appendChild(b);});}
+  function tbRemoveCard(id){for(var i=0;i<tcards.length;i++){if(tcards[i].id===id){if(tcards[i].el&&tcards[i].el.parentNode)tcards[i].el.parentNode.removeChild(tcards[i].el);tcards.splice(i,1);break;}}tbRenderTray();}
+  function tbAddCard(idx){var it=curCardSet[idx];if(!it)return;if(tcards.some(function(c){return c.idx===idx;}))return;var id=++tcSeq;var d=document.createElement('div');d.className='tbc';var stag=tcards.length;d.style.left=(54+stag*28)+'px';d.style.top=(96+stag*24)+'px';
+    d.innerHTML='<div class="tbc-h"><span class="tt">'+(it.t||'')+'</span><button class="tbc-x">✕</button></div><div class="tbc-b"><img src="'+it.data+'" draggable="false"></div>';
+    el('tb_cardlayer').appendChild(d);var rec={id:id,idx:idx,el:d};tcards.push(rec);
+    var h=d.querySelector('.tbc-h'),off=null;
+    function mv(e){if(!off)return;e.preventDefault();d.style.left=(e.clientX-off.x)+'px';d.style.top=(e.clientY-off.y)+'px';}
+    function up(){off=null;document.removeEventListener('pointermove',mv);document.removeEventListener('pointerup',up);document.removeEventListener('pointercancel',up);}
+    h.addEventListener('pointerdown',function(e){if(e.target.closest('.tbc-x'))return;el('tb_cardlayer').appendChild(d);off={x:e.clientX-d.offsetLeft,y:e.clientY-d.offsetTop};document.addEventListener('pointermove',mv,{passive:false});document.addEventListener('pointerup',up);document.addEventListener('pointercancel',up);});
+    d.querySelector('.tbc-x').onclick=function(e){e.stopPropagation();tbRemoveCard(id);};
+    tbRenderTray();}
   return {
     open:function(data){ if(!built)build();
+      curCardSet=[];tbClearCards();tbSetMove(false);var _tr=el('tb_tray');if(_tr)_tr.style.display='none';var _mc=el('tb_movecards');if(_mc)_mc.style.display='none';el('tb_body').style.display='';el('tb_head').style.display='';var _bk=el('tb_back');if(_bk)_bk.textContent='◀ กลับไปทำข้อสอบ';
       el('tb_label').textContent='📌 '+data.label;
       el('tb_q').innerHTML=data.q;
       el('tb_ch').innerHTML=data.choices.map(function(c){return '<span>'+c+'</span>';}).join('');
@@ -4461,7 +4488,23 @@ var TB=(function(){
       root.classList.add('on');pens();cols();szs();syncOpts();
       setTimeout(function(){resize();},20);
     },
-    hide:function(){ if(root)root.classList.remove('on'); }
+    hide:function(){ if(root)root.classList.remove('on'); },
+    openCards:function(data){ if(!built)build();
+      curCardSet=data.cards||[];
+      el('tb_body').style.display='none';el('tb_head').style.display='none';
+      var _tr=el('tb_tray');if(_tr)_tr.style.display='flex';
+      var _mc=el('tb_movecards');if(_mc)_mc.style.display='';
+      tbClearCards();
+      strokes=[];lp=[];laserFades=[];st.tool='pen';st.si=1;st.bg=1;st.pen='fountain';st.shape=false;activeId=null;activeType=null;
+      Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.toggle('on',x.dataset.tool==='pen');});
+      view={scale:1,tx:0,ty:0};el('tb_zlbl').textContent='100%';
+      el('tb_clock').textContent='⏸ กระดานสอน';var _bk2=el('tb_back');if(_bk2)_bk2.textContent='◀ ปิดกระดาน';
+      tbRenderTray();
+      if(curCardSet.length)tbAddCard(0);
+      tbSetMove(true);
+      root.classList.add('on');pens();cols();szs();syncOpts();
+      setTimeout(function(){resize();},20);
+    }
   };
 })();
 
