@@ -367,6 +367,9 @@
 #tb_root .pnst.on small{color:var(--tb-acc)}
 #tb_zoom{position:absolute;z-index:20;right:14px;bottom:128px;display:flex;flex-direction:column;gap:4px;background:#fff;padding:5px;border-radius:14px;box-shadow:0 6px 20px #1b2f5222,0 0 0 1px #ebeff5}
 #tb_root .zb{width:44px;height:38px;border:none;background:#f2f5f9;color:#3c4757;font-size:21px;font-weight:700;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+  #tb_toolbtn{position:absolute;z-index:22;right:14px;bottom:74px;width:56px;height:56px;border:none;border-radius:16px;background:#E4111F;color:#fff;font-size:25px;box-shadow:0 8px 22px rgba(27,47,82,.28);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s}
+  #tb_toolbtn:active{transform:scale(.92)}
+  #tb_root.tbcol #tb_bar,#tb_root.tbcol #tb_opts,#tb_root.tbcol #tb_more,#tb_root.tbcol #tb_theme{display:none !important}
 #tb_root .zb.wide{font-size:13px}
 #tb_root .zb:active{background:var(--tb-acc);color:#fff}
 </style>
@@ -603,7 +606,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v193";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v194";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4211,7 +4214,7 @@ var TB=(function(){
     root=document.createElement('div');root.id='tb_root';
     root.innerHTML='<canvas id="tb_bg"></canvas><canvas id="tb_draw"></canvas><canvas id="tb_laser"></canvas>'+'<div id="tb_tray" style="display:none"></div><div id="tb_cardlayer"></div>'+
       '<div id="tb_ctl"><div class="cl" id="tb_clock">⏸ --:--</div><button id="tb_back">◀ กลับไปทำข้อสอบ</button></div>'+
-      '<div id="tb_zoom"><button id="tb_zout" class="zb">−</button><button id="tb_zlbl" class="zb wide">100%</button><button id="tb_zin" class="zb">+</button></div>'+
+      '<div id="tb_zoom"><button id="tb_zout" class="zb">−</button><button id="tb_zlbl" class="zb wide">100%</button><button id="tb_zin" class="zb">+</button></div>'+'<button id="tb_toolbtn" title="เครื่องมือ">🧰</button>'+
       '<div id="tb_body"><div class="t" id="tb_q"></div><div class="ch" id="tb_ch"></div><div class="ans hide" id="tb_ans"></div></div>'+
       '<div id="tb_head"><div id="tb_brand"><span class="blg">🦁</span><span class="bt"><span class="bth">ติวนายสิบตำรวจนครพนม</span><span class="ben">LION KING ACADEMY</span></span></div><div id="tb_hrow"><span class="grip">⣿</span><span class="k" id="tb_label"></span>'+
         '<button class="hbtn" id="tb_rev">👁 เฉลย</button><button class="hbtn" id="tb_thbtn">🎨</button>'+
@@ -4256,6 +4259,7 @@ var TB=(function(){
       paintBg();pens();cols();szs();
       var b=this;b.classList.add('on');setTimeout(function(){b.classList.remove('on');},700);};
     el('tb_zin').onclick=function(){zoomAnim(1.35,W/2,H/2);};
+    (function(){var _tb=el('tb_toolbtn');if(_tb)_tb.onclick=function(){root.classList.toggle('tbcol');this.textContent=root.classList.contains('tbcol')?'🧰':'✕';};})();
     el('tb_zout').onclick=function(){zoomAnim(1/1.35,W/2,H/2);};
     el('tb_zlbl').onclick=function(){animateTo(1,0,0);};  // กด % = รีเซ็ตซูม/ตำแหน่ง (นุ่มๆ)
     el('tb_back').onclick=function(){A.teachClose();};
@@ -4473,7 +4477,7 @@ var TB=(function(){
     tbRenderTray();}
   return {
     open:function(data){ if(!built)build();
-      curCardSet=[];tbClearCards();tbSetMove(false);var _tr=el('tb_tray');if(_tr)_tr.style.display='none';var _mc=el('tb_movecards');if(_mc)_mc.style.display='none';el('tb_body').style.display='';el('tb_head').style.display='';var _bk=el('tb_back');if(_bk)_bk.textContent='◀ กลับไปทำข้อสอบ';
+      curCardSet=[];tbClearCards();tbSetMove(false);var _tr=el('tb_tray');if(_tr)_tr.style.display='none';var _mc=el('tb_movecards');if(_mc)_mc.style.display='none';el('tb_body').style.display='';el('tb_head').style.display='';var _bk=el('tb_back');if(_bk)_bk.textContent='◀ กลับไปทำข้อสอบ';root.classList.add('tbcol');var _tb=el('tb_toolbtn');if(_tb)_tb.textContent='🧰';
       el('tb_label').textContent='📌 '+data.label;
       el('tb_q').innerHTML=data.q;
       el('tb_ch').innerHTML=data.choices.map(function(c){return '<span>'+c+'</span>';}).join('');
@@ -4498,7 +4502,7 @@ var TB=(function(){
       strokes=[];lp=[];laserFades=[];st.tool='pen';st.si=1;st.bg=1;st.pen='fountain';st.shape=false;activeId=null;activeType=null;
       Array.prototype.forEach.call(el('tb_tools').querySelectorAll('.tool'),function(x){x.classList.toggle('on',x.dataset.tool==='pen');});
       view={scale:1,tx:0,ty:0};el('tb_zlbl').textContent='100%';
-      el('tb_clock').textContent='⏸ กระดานสอน';var _bk2=el('tb_back');if(_bk2)_bk2.textContent='◀ ปิดกระดาน';
+      el('tb_clock').textContent='⏸ กระดานสอน';var _bk2=el('tb_back');if(_bk2)_bk2.textContent='◀ ปิดกระดาน';root.classList.add('tbcol');var _tb2=el('tb_toolbtn');if(_tb2)_tb2.textContent='🧰';
       tbRenderTray();
       if(curCardSet.length)tbAddCard(0);
       tbSetMove(true);
