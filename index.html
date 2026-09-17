@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v200";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v201";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4498,7 +4498,7 @@ var TB=(function(){
       var doc=new window.jspdf.jsPDF({orientation:'portrait',unit:'pt',format:'a4'});
       var PW=doc.internal.pageSize.getWidth(),PH=doc.internal.pageSize.getHeight(),ES=4;
       for(i=0;i<=last;i++){var r=pageRect(i),cw=Math.round(r.w*ES),ch=Math.round(r.h*ES);
-        var ec=document.createElement('canvas');ec.width=cw;ec.height=ch;var ex=ec.getContext('2d');ex.imageSmoothingEnabled=true;ex.imageSmoothingQuality='high';
+        var ec=document.createElement('canvas');ec.width=cw;ec.height=ch;var ex=ec.getContext('2d');ex.imageSmoothingEnabled=true;ex.imageSmoothingQuality='high';ex.lineCap='round';ex.lineJoin='round';
         ex.fillStyle='#fff';ex.fillRect(0,0,cw,ch);ex.setTransform(ES,0,0,ES,-r.x*ES,-r.y*ES);
         ex.save();ex.beginPath();ex.rect(r.x,r.y,r.w,r.h);ex.clip();
         if(st.bg!==0){ex.strokeStyle='#e4ebf3';ex.lineWidth=1;var g=32,x,y;ex.beginPath();
