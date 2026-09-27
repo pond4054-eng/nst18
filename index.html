@@ -657,7 +657,7 @@ function load(){
   S.adminCode=""; S.adminErr=false; S.adminSubj=null; S.adminTopic=null; S.adminDraft=null;
   S.player=null; S.studySubj=null; S.vidDraft=null; S.feed=null;
   S.planOpen=false; S.planDraft=null; S.focus=null; S.alarm=null; S.trackDetail=null;
-  S.studyMode="video"; S.knowSubj=null; S.adminKnowSubj=null;
+  S.studyMode="video"; S.studyPick=null; S.knowSubj=null; S.adminKnowSubj=null;
   S.shopDetail=null; S.shopSampleIdx=null; S.shopCat="all"; S.physOpen=null;
   if(_hadBankBloat){ try{ save(); }catch(e){} }   // ล้างคลัง 5MB ที่ค้างออกจาก localStorage ทันที (save จะไม่เก็บ bank เพราะ bankDirty=false แล้ว)
 }
@@ -665,7 +665,7 @@ function save(){
   try{
     var c=Object.assign({},S);
     ["quiz","quizConfirm","adminOpen","adminMode","adminView","adminCode","adminErr","adminSubj","adminTopic","adminDraft",
-     "mock","mockView","player","studySubj","vidDraft","feed","planOpen","planDraft","focus","alarm","studyMode","knowSubj","adminKnowSubj","trackDetail",
+     "mock","mockView","player","studySubj","vidDraft","feed","planOpen","planDraft","focus","alarm","studyMode","studyPick","knowSubj","adminKnowSubj","trackDetail",
      "histTrack","reviewAtt","reviewMode","reviewFilter","reviewExpand","shopDetail","shopSampleIdx","shopCat","physOpen"].forEach(function(k){ delete c[k]; });   // ชุดข้อสอบ 150 ข้อ + หน้าประวัติ/ทบทวน ไม่ต้องเก็บลงเครื่อง (แต่ mockHist/starred เก็บ)
     /* คลังข้อสอบ+รูป มาจาก questions.json ซึ่ง service worker แคชไว้ให้อยู่แล้ว
        ไม่ต้องเก็บซ้ำใน localStorage (iPhone จำกัดแค่ ~5MB จะเต็มทันทีถ้าข้อสอบเยอะ)
@@ -1446,12 +1446,29 @@ function studyLockedHTML(){
     '</div></div>';
 }
 function viewStudy(c){
-  if(!studyOpen()) return studyLockedHTML();
+  // ── หน้าเลือกวิธีติว (2 การ์ด) — ส่วนอื่นของแอปไม่เปลี่ยน ──
+  if(!S.studyPick){
+    return '<div class="stack">'+
+      '<div style="display:flex;align-items:center;justify-content:center;gap:11px;margin:4px 0 2px;">'+
+        '<span style="flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--c-border));"></span>'+
+        '<span style="font-size:16px;font-weight:800;color:var(--c-text);white-space:nowrap;">📖 เลือกวิธีติวที่ต้องการ</span>'+
+        '<span style="flex:1;height:2px;background:linear-gradient(90deg,var(--c-border),transparent);"></span>'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">'+
+        '<div onclick="A.studyPick(\'video\')" style="cursor:pointer;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15);"><img src="icons/btn-clip.jpg" alt="คลิปติวหนังสือ" loading="lazy" style="width:100%;display:block;"></div>'+
+        '<div onclick="A.studyPick(\'know\')" style="cursor:pointer;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15);"><img src="icons/btn-sheet.jpg" alt="ชีทสรุปเนื้อหา" loading="lazy" style="width:100%;display:block;"></div>'+
+      '</div>'+
+    '</div>';
+  }
+  var back='<div class="card noprint" style="display:flex;align-items:center;gap:10px;padding:9px 11px;margin-bottom:6px;"><button class="btn sm ghost" style="flex:none;" onclick="A.studyPickBack()">◀ เลือกวิธีติว</button><div style="font-size:13.5px;font-weight:800;color:var(--c-text);">'+(S.studyPick==="know"?"📄 ชีทสรุปเนื้อหา":"🎬 คลิปติวหนังสือ")+'</div></div>';
+  // ── ชีทสรุปเนื้อหา = คลังความรู้ (เปิดให้ทุกคน) ──
+  if(S.studyPick==="know"){
+    return '<div class="stack">'+back+knowledgeHTML()+'</div>';
+  }
+  // ── คลิปติวหนังสือ ──
+  if(!studyOpen()) return '<div class="stack">'+back+'</div>'+studyLockedHTML();
   var adminNote=(STUDY_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;margin-bottom:10px;">👁️ <b>โหมดซัพพอร์ตติวเตอร์ — ดูตัวอย่างวิดีโอ</b> · นักเรียนยังเห็นหน้า “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดใช้จริง)</div>':'';
-  // ทำเฉพาะคลิปติวแนวตั้ง (ฟีด) — ตัดจอเล่นแนวนอน + คลังความรู้ออก
-  var kw = S.adminMode ? ('<div class="card noprint" style="display:flex;gap:8px;padding:8px;margin-bottom:12px;">'+'<button class="btn sm '+(S.studyMode==="know"?"ghost":"")+'" style="flex:1;" onclick="A.studyMode(\'video\')">🎬 คลิปติว</button>'+'<button class="btn sm '+(S.studyMode==="know"?"":"ghost")+'" style="flex:1;" onclick="A.studyMode(\'know\')">📚 คลังความรู้</button></div>') : "";
-  var body = (S.adminMode && S.studyMode==="know") ? knowledgeHTML() : ('<div id="studyBrowse">'+studyBrowseHTML()+'</div>');
-  return '<div class="stack">'+adminNote+kw+body+'</div>';
+  return '<div class="stack">'+back+adminNote+'<div id="studyBrowse">'+studyBrowseHTML()+'</div></div>';
 }
 /* ───── คลังความรู้ (ในติวหนังสือ) ───── */
 function knowledgeHTML(){
@@ -3551,6 +3568,8 @@ var A={
   backStudy:function(){ S.studySubj=null; studyNav(); },
   // ── คลังความรู้ (นักเรียน) ──
   studyMode:function(m){ S.studyMode=m; if(m==="know"){ S.player=null; } render(); window.scrollTo(0,0); },
+  studyPick:function(m){ S.studyPick=m; S.knowSubj=null; if(m==="know"){ S.player=null; S.studyMode="know"; } else { S.studyMode="video"; } render(); window.scrollTo(0,0); },
+  studyPickBack:function(){ S.studyPick=null; S.knowSubj=null; S.player=null; render(); window.scrollTo(0,0); },
   openKnowSubj:function(sk){ S.knowSubj=sk; render(); window.scrollTo(0,0); },
   backKnow:function(){ S.knowSubj=null; render(); },
   loadKnowExt:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it||!it.ext){return;} if(it.data){render();return;} if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.data=j.data; it.cards=j.cards||[]; it._loading=false; render(); }).catch(function(){ it._loading=false; render(); alert('โหลดสรุปไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); },
