@@ -1457,15 +1457,29 @@ function viewStudy(c){
 function knowledgeHTML(){
   var h="";
   if(!S.knowSubj){
-    h+='<div class="card">'+
-         '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">คลังความรู้ — เลือกวิชา</div>'+
-         '<div class="muted" style="margin-bottom:12px;">คำศัพท์ · ภาพ · ไฟล์ PDF ของแต่ละวิชา</div>'+
-         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+    var KCOL={math:"#2563EB",eng:"#DC2626",thai:"#7C3AED",com:"#2563EB",law:"#DC2626",social:"#15803D",saraban:"#92400E"};
+    var KTNT={math:"rgba(37,99,235,.12)",eng:"rgba(220,38,38,.12)",thai:"rgba(124,58,237,.12)",com:"rgba(37,99,235,.12)",law:"rgba(220,38,38,.12)",social:"rgba(21,128,61,.12)",saraban:"rgba(146,64,14,.12)"};
+    h+='<img src="icons/lib-header.jpg" alt="นสต.18" loading="lazy" style="width:100%;display:block;border-radius:16px 16px 0 0;box-shadow:0 3px 10px rgba(0,0,0,.10);">'+
+       '<div class="card" style="border-radius:0 0 16px 16px;margin-top:-3px;">'+
+         '<div style="display:flex;align-items:center;gap:9px;">'+
+           '<div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,#E4111F,#B00812);display:flex;align-items:center;justify-content:center;font-size:20px;flex:none;box-shadow:0 3px 8px rgba(196,17,31,.3);">📖</div>'+
+           '<div><div style="font-size:17px;font-weight:800;color:var(--c-text);line-height:1.1;">คลังความรู้ — <span style="color:#E4111F;">เลือกวิชา</span></div>'+
+           '<div style="font-size:10.5px;color:var(--c-text-muted);font-weight:600;margin-top:2px;">สรุปเนื้อหา · แนวข้อสอบ · ไฟล์ PDF ครบทุกวิชา</div></div>'+
+         '</div>'+
+         '<div style="height:5px;width:78px;border-radius:4px;background:linear-gradient(90deg,#c9ced6 55%,#E4111F 55%);margin:11px 0 13px auto;"></div>'+
+         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;">';
     subjects().forEach(function(su){
       var n=((S.knowledge||{})[su.k]||[]).length;
-      h+='<div onclick="A.openKnowSubj(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:16px;overflow:hidden;background:var(--c-surface);box-shadow:0 3px 10px rgba(0,0,0,.07);">'+
-           '<img src="'+subjImg(su.k)+'" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">'+
-           '<div style="padding:8px 10px 9px;text-align:center;font-size:11px;color:var(--c-text-muted);">'+(n?(n+" รายการ"):"ยังไม่มี")+'</div>'+
+      var c=KCOL[su.k]||"#E4111F", t=KTNT[su.k]||"rgba(228,17,31,.12)";
+      h+='<div onclick="A.openKnowSubj(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:15px;overflow:hidden;background:var(--c-surface);box-shadow:0 4px 11px rgba(0,0,0,.08);">'+
+           '<div style="width:100%;height:96px;overflow:hidden;background:#f2f4f7;"><img src="icons/art-'+su.k+'.jpg" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;"></div>'+
+           '<div style="padding:8px 10px 10px;">'+
+             '<div style="font-size:13px;font-weight:800;color:var(--c-text);line-height:1.18;min-height:2.36em;">'+esc(short(su.k))+'</div>'+
+             '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px;">'+
+               '<span style="background:'+c+';color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:20px;white-space:nowrap;">'+(n?(n+" รายการ"):"เร็วๆนี้")+'</span>'+
+               '<div style="width:28px;height:28px;border-radius:50%;background:'+t+';display:flex;align-items:center;justify-content:center;flex:none;color:'+c+';font-size:18px;font-weight:800;line-height:1;">›</div>'+
+             '</div>'+
+           '</div>'+
          '</div>';
     });
     return h+'</div></div>';
