@@ -1446,6 +1446,7 @@ function studyLockedHTML(){
     '</div></div>';
 }
 function viewStudy(c){
+  if(!studyOpen()) return studyLockedHTML();   // 🔒 ยังไม่เปิดให้นักเรียน (STUDY_LOCKED) — ติวเตอร์เท่านั้นที่เข้าทดสอบได้
   // ── หน้าเลือกวิธีติว (2 การ์ด) — ส่วนอื่นของแอปไม่เปลี่ยน ──
   if(!S.studyPick){
     return '<div class="stack">'+
