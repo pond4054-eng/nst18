@@ -1509,6 +1509,14 @@ function knowledgeHTML(){
        '<div style="flex:1;min-width:0;"><div style="font-size:15px;font-weight:800;">'+esc(short(sk))+'</div><div style="font-size:11.5px;color:var(--c-text-muted);">คลังความรู้ · '+items.length+' รายการ</div></div>'+
      '</div>';
   if(!items.length) return h+'<div class="card" style="text-align:center;color:var(--c-text-subtle);font-size:13px;padding:26px 16px;">ยังไม่มีเนื้อหาในวิชานี้<br><span style="font-size:11.5px;">(ติวเตอร์เพิ่มได้: แตะโลโก้มุมซ้ายบน → รหัสติวเตอร์ → คลังความรู้)</span></div>';
+  var books=items.filter(function(x){return x.type==="book";});
+  if(books.length) h+=books.map(function(b){ return '<div class="card" style="padding:0;overflow:hidden;" onclick="A.openBook('+b.ts+')">'+
+      '<div style="cursor:pointer;padding:15px 16px;display:flex;align-items:center;gap:13px;">'+
+        '<div style="width:52px;height:52px;border-radius:13px;background:linear-gradient(150deg,#E4111F,#B00812);display:flex;align-items:center;justify-content:center;font-size:27px;flex:none;box-shadow:0 4px 11px rgba(228,17,31,.3);">📕</div>'+
+        '<div style="flex:1;min-width:0;"><div style="font-size:15px;font-weight:800;color:var(--c-text);">'+esc(b.cap||"หนังสือสรุป")+'</div>'+
+        '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">'+(b._loading?"⏳ กำลังเปิด…":"แตะเพื่อเปิดอ่าน + จด/ไฮไลต์ได้ (บันทึกที่จดอัตโนมัติ)")+'</div></div>'+
+        '<div style="flex:none;background:#E4111F;color:#fff;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:20px;">เปิดอ่าน</div>'+
+      '</div></div>'; }).join("");
   var vocab=items.filter(function(x){return x.type==="vocab";}),
       imgs=items.filter(function(x){return x.type==="image";}),
       pdfs=items.filter(function(x){return x.type==="pdf";});
@@ -3574,6 +3582,9 @@ var A={
   openKnowSubj:function(sk){ S.knowSubj=sk; render(); window.scrollTo(0,0); },
   backKnow:function(){ S.knowSubj=null; render(); },
   loadKnowExt:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it||!it.ext){return;} if(it.data){render();return;} if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.data=j.data; it.cards=j.cards||[]; it._loading=false; render(); }).catch(function(){ it._loading=false; render(); alert('โหลดสรุปไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); },
+  openBook:function(ts){ var sk=S.knowSubj, arr=(S.knowledge||{})[sk]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='book'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return;
+    function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[]}); }
+    if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._loading=false; render(); go(); }).catch(function(){ it._loading=false; render(); alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   // ── คลังความรู้ (ติวเตอร์) ──
   adminKnowSubj:function(v){ S.adminKnowSubj=v||null; render(); },
   adminTab:function(k){ S.adminTab=k; renderOverlays(); var sb=document.querySelector('#overlays .sheetbody'); if(sb) sb.scrollTop=0; },
@@ -4613,6 +4624,90 @@ var TB=(function(){
       setTimeout(function(){resize();},20);
     }
   };
+})();
+
+/* ===== BK : ตัวอ่านหนังสือสรุป + วาดเขียน (เก็บลายเส้นถาวรต่อเครื่อง) — โมดูลแยก ไม่ยุ่งกับกระดานสอน ===== */
+var BK=(function(){
+  var built=false, root, bid="", _cur=0;
+  var T={mode:'pan', tool:'pen', color:'#E4111F'};
+  var COLORS=['#E4111F','#1E9E5A','#1D6FD0','#F2792B','#7048E8','#0E0F12'];
+  var drawing=false, curCv=null, curStroke=null, raf=0;
+  function el(id){return document.getElementById(id);}
+  var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#3a3f4a;display:none;flex-direction:column}#bkroot.on{display:flex}'+
+    '#bktop{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;background:#1B1E27;color:#fff;flex:none}'+
+    '#bktitle{flex:1;font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#bkpageno{font-size:12px;opacity:.85;font-family:monospace}'+
+    '#bkclose{background:#E4111F;color:#fff;border:none;border-radius:9px;padding:7px 12px;font-weight:800;font-size:13px}'+
+    '#bkscroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;background:#3a3f4a}#bkpages{max-width:900px;margin:0 auto;padding:12px 8px 30px}'+
+    '.bkpage{position:relative;margin-bottom:12px;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.35)}.bkimg{width:100%;display:block}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}'+
+    '#bkbar{display:flex;align-items:center;gap:6px;padding:8px 10px calc(env(safe-area-inset-bottom,0px) + 8px);background:#1B1E27;flex:none;overflow-x:auto}'+
+    '.bktool{background:#2b2f3a;color:#fff;border:none;border-radius:10px;padding:6px 10px;display:flex;flex-direction:column;align-items:center;font-size:18px;flex:none;line-height:1}.bktool small{font-size:9px;margin-top:2px}.bktool.on{background:#E4111F}'+
+    '#bkcolors{display:flex;gap:5px;padding:0 4px;flex:none}.bkcol{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.4);flex:none;padding:0}.bkcol.on{border-color:#fff;box-shadow:0 0 0 2px #E4111F}'+
+    '.bkbtn{background:#2b2f3a;color:#fff;border:none;border-radius:10px;padding:8px 11px;font-size:12.5px;font-weight:700;flex:none}';
+  function build(){
+    var s=document.createElement('style'); s.textContent=CSS; document.head.appendChild(s);
+    root=document.createElement('div'); root.id='bkroot';
+    root.innerHTML='<div id="bktop"><button id="bkclose">✕ ปิด</button><div id="bktitle"></div><div id="bkpageno"></div></div>'+
+      '<div id="bkscroll"><div id="bkpages"></div></div>'+
+      '<div id="bkbar"><button class="bktool on" data-m="pan">✋<small>เลื่อน</small></button><button class="bktool" data-m="pen">✏️<small>ปากกา</small></button><button class="bktool" data-m="hi">🖍️<small>ไฮไลต์</small></button><button class="bktool" data-m="eraser">🧽<small>ยางลบ</small></button><div id="bkcolors"></div><button class="bkbtn" id="bkclear">🗑️ ล้างหน้านี้</button></div>';
+    document.body.appendChild(root);
+    el('bkclose').onclick=close; el('bkclear').onclick=clearPage;
+    root.querySelectorAll('.bktool').forEach(function(b){ b.onclick=function(){ setMode(b.dataset.m); }; });
+    var cc=el('bkcolors');
+    COLORS.forEach(function(col){ var d=document.createElement('button'); d.className='bkcol'; d.style.background=col; d.dataset.col=col; d.onclick=function(){ T.color=col; setMode('pen'); syncCols(); }; cc.appendChild(d); });
+    el('bkscroll').addEventListener('scroll',updatePageNo,{passive:true});
+    built=true;
+  }
+  function syncCols(){ root.querySelectorAll('.bkcol').forEach(function(d){ d.classList.toggle('on', d.dataset.col===T.color); }); }
+  function setMode(m){
+    if(m==='pen'||m==='hi'||m==='eraser'){ T.mode='draw'; T.tool=m; } else { T.mode='pan'; }
+    root.querySelectorAll('.bktool').forEach(function(b){ b.classList.toggle('on', (T.mode==='pan'&&b.dataset.m==='pan')||(T.mode==='draw'&&b.dataset.m===T.tool)); });
+    root.querySelectorAll('.bkcanvas').forEach(function(cv){ cv.style.pointerEvents=(T.mode==='draw')?'auto':'none'; });
+  }
+  function key(i){ return 'bk:'+bid+':'+i; }
+  function load(i){ try{ return JSON.parse(localStorage.getItem(key(i))||'[]'); }catch(e){ return []; } }
+  function saveP(i,st){ try{ localStorage.setItem(key(i), JSON.stringify(st)); }catch(e){} }
+  function draw1(ctx,s){
+    ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
+    if(s.tool==='eraser'){ ctx.globalCompositeOperation='destination-out'; ctx.lineWidth=s.size; ctx.strokeStyle='rgba(0,0,0,1)'; }
+    else if(s.tool==='hi'){ ctx.globalAlpha=0.30; ctx.lineWidth=s.size; ctx.strokeStyle=s.color; }
+    else { ctx.lineWidth=s.size; ctx.strokeStyle=s.color; }
+    var p=s.pts; if(!p||!p.length){ ctx.restore(); return; }
+    if(p.length===1){ ctx.beginPath(); if(s.tool==='eraser')ctx.globalCompositeOperation='destination-out'; ctx.arc(p[0][0],p[0][1],Math.max(0.6,s.size/2),0,7); ctx.fillStyle=(s.tool==='eraser'?'#000':s.color); ctx.fill(); ctx.restore(); return; }
+    ctx.beginPath(); ctx.moveTo(p[0][0],p[0][1]);
+    for(var i=1;i<p.length-1;i++){ var mx=(p[i][0]+p[i+1][0])/2, my=(p[i][1]+p[i+1][1])/2; ctx.quadraticCurveTo(p[i][0],p[i][1],mx,my); }
+    ctx.lineTo(p[p.length-1][0],p[p.length-1][1]); ctx.stroke(); ctx.restore();
+  }
+  function redraw(cv){ var ctx=cv.getContext('2d'); ctx.clearRect(0,0,cv.width,cv.height); (cv._st||[]).forEach(function(s){ draw1(ctx,s); }); }
+  function ptOf(cv,e){ var r=cv.getBoundingClientRect(); return [ (e.clientX-r.left)*(cv.width/r.width), (e.clientY-r.top)*(cv.height/r.height) ]; }
+  function sizeFor(cv){ var b=cv.width/1000; if(T.tool==='hi') return Math.max(16,26*b); if(T.tool==='eraser') return Math.max(22,38*b); return Math.max(2,3.2*b); }
+  function attach(cv,i){
+    cv.addEventListener('pointerdown',function(e){ if(T.mode!=='draw')return; e.preventDefault(); try{cv.setPointerCapture(e.pointerId);}catch(_){}
+      drawing=true; curCv=cv; curStroke={tool:T.tool,color:T.color,size:sizeFor(cv),pts:[ptOf(cv,e)]}; redraw(cv); draw1(cv.getContext('2d'),curStroke); });
+    cv.addEventListener('pointermove',function(e){ if(!drawing||curCv!==cv)return; e.preventDefault(); curStroke.pts.push(ptOf(cv,e));
+      if(!raf) raf=requestAnimationFrame(function(){ raf=0; redraw(cv); draw1(cv.getContext('2d'),curStroke); }); });
+    function end(){ if(!drawing||curCv!==cv)return; drawing=false; cv._st=cv._st||[]; cv._st.push(curStroke); saveP(i,cv._st); curStroke=null; curCv=null; redraw(cv); }
+    cv.addEventListener('pointerup',end); cv.addEventListener('pointercancel',function(){ drawing=false;curStroke=null;curCv=null; });
+  }
+  function open(data){
+    if(!built) build();
+    bid=data.id; el('bktitle').textContent=data.title||'หนังสือ';
+    var pgs=el('bkpages'); pgs.innerHTML='';
+    (data.cards||[]).forEach(function(c,i){
+      var w=document.createElement('div'); w.className='bkpage';
+      var img=new Image(); img.className='bkimg'; img.draggable=false;
+      var cv=document.createElement('canvas'); cv.className='bkcanvas';
+      w.appendChild(img); w.appendChild(cv); pgs.appendChild(w);
+      img.onload=function(){ cv.width=img.naturalWidth; cv.height=img.naturalHeight; cv._st=load(i); redraw(cv); };
+      img.src=c.data; attach(cv,i);
+    });
+    setMode('pan'); syncCols(); el('bkscroll').scrollTop=0;
+    root.classList.add('on'); document.documentElement.style.overflow='hidden';
+    setTimeout(updatePageNo,80);
+  }
+  function updatePageNo(){ var sc=el('bkscroll'); if(!sc)return; var pages=root.querySelectorAll('.bkpage'); var top=sc.scrollTop+sc.clientHeight*0.4, idx=0; for(var i=0;i<pages.length;i++){ if(pages[i].offsetTop<=top) idx=i; } _cur=idx; el('bkpageno').textContent='หน้า '+(idx+1)+'/'+pages.length; }
+  function clearPage(){ var i=_cur; var cv=root.querySelectorAll('.bkcanvas')[i]; if(!cv)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'?'))return; cv._st=[]; saveP(i,[]); redraw(cv); }
+  function close(){ root.classList.remove('on'); document.documentElement.style.overflow=''; }
+  return { open:open, close:close };
 })();
 
 function gradeQuiz(){                       // นับข้อถูกจากคำตอบที่เลือกไว้ (ข้อที่ไม่ตอบ = ผิด)
