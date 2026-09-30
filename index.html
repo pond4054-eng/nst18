@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v241";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v242";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4727,7 +4727,7 @@ var BK=(function(){
   function measure(){ var scE=el('bkscroll'); if(!scE)return; pageW=scE.clientWidth; pageH=scE.clientHeight; var ps=pagesEls(); for(var i=0;i<ps.length;i++){ ps[i].style.width=pageW+'px'; fitPage(ps[i]); }
     sizeInk();
     var dpr=window.devicePixelRatio||2, fitW=Math.min(pageW, pageH/1.4142); MAXZ=Math.max(2.5, Math.min(4.5, 3300/(fitW*dpr)*1.15)); scheduleInk(); }   // เส้นเป็นเวกเตอร์คมทุกซูมแล้ว จำกัดซูมแค่ไม่ให้ภาพหนังสือ (raster 3300px) แตกมากเกินไป
-  function setTrack(anim){ var p=el('bkpages'); if(!p)return; p.style.transition=anim?'transform .3s cubic-bezier(.22,.61,.36,1)':'none'; p.style.transform='translateX('+(-_cur*pageW+track.dx)+'px)'; scheduleInk(); }
+  function setTrack(anim){ var p=el('bkpages'); if(!p)return; p.style.transition=anim?'transform .3s cubic-bezier(.22,.61,.36,1)':'none'; p.style.transform='translateX('+(-_cur*pageW+track.dx)+'px)'; if(anim) animInk(360); else scheduleInk(); }
   function scheduleTrack(){ if(_tvraf)return; _tvraf=requestAnimationFrame(function(){ _tvraf=0; setTrack(false); }); }
   function setZoom(){ var inner=curInner(); if(inner) inner.style.transform='translate('+z.tx+'px,'+z.ty+'px) scale('+z.scale+')'; scheduleInk(); }
   function scheduleZoom(){ if(_vraf)return; _vraf=requestAnimationFrame(function(){ _vraf=0; setZoom(); }); }
@@ -4838,6 +4838,8 @@ var BK=(function(){
   function sizeInk(){ var cv=el('bkink'),scE=el('bkscroll'); if(!cv||!scE)return; var dpr=Math.min(window.devicePixelRatio||1,3); cv._dpr=dpr; var w=Math.round(scE.clientWidth*dpr),h=Math.round(scE.clientHeight*dpr); if(cv.width!==w||cv.height!==h){ cv.width=w; cv.height=h; } }
   function inkOf(w){ if(!w)return[]; if(!w._ink) w._ink=load(w.dataset.sk); return w._ink; }
   function scheduleInk(){ if(inkraf)return; inkraf=requestAnimationFrame(function(){ inkraf=0; paintInk(); }); }
+  var _inkAnim=0,_inkEnd=0;   // ระหว่างพลิกหน้า (CSS transition .3s) วาดหมึกทุกเฟรมให้เลื่อนตามหน้า ไม่งั้นเส้นหน้าเดิมค้างติดจอ
+  function animInk(dur){ _inkEnd=Date.now()+(dur||340); if(_inkAnim)return; var loop=function(){ paintInk(); if(Date.now()<_inkEnd){ _inkAnim=requestAnimationFrame(loop); } else { _inkAnim=0; paintInk(); } }; _inkAnim=requestAnimationFrame(loop); }
   function smoothPath(pts,passes){ if(!pts||pts.length<3) return pts; var p=pts;   // GoodNotes-style: เฉลี่ยถ่วงน้ำหนัก (1-2-1) ลบมือสั่น แต่เส้น "อยู่ตรงที่ลากจริง" ไม่เบี่ยงเข้าใน (ต่างจาก Chaikin)
     for(var it=0;it<passes;it++){ var out=[p[0]],i;
       for(i=1;i<p.length-1;i++){ out.push([(p[i-1][0]+p[i][0]*2+p[i+1][0])*0.25, (p[i-1][1]+p[i][1]*2+p[i+1][1])*0.25]); }
