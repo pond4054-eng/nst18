@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v216";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v217";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4639,6 +4639,7 @@ var BK=(function(){
   var COLORS=['#E4111F','#1E9E5A','#1D6FD0','#F2792B','#7048E8','#0E0F12'];
   var ptrs={}, draw=null, pan0=null, pinch=null, raf=0, _vraf=0, _tvraf=0;
   var pageW=0, pageH=0, N=0, z={scale:1,tx:0,ty:0}, track={x0:0,dx:0,on:false};
+  var CARDS=[], seq=[];   // CARDS=หน้าหนังสือเดิม, seq=ลำดับหน้าจริง (รวมหน้ากระดาษที่เพิ่ม)
   function el(id){return document.getElementById(id);}
   var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#fff;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}#bkroot.on{display:flex}'+
     '#bkpageno{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;letter-spacing:.06em;color:#3a3f4a;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.05);border-radius:999px;padding:4px 13px;box-shadow:0 4px 14px rgba(17,24,39,.10);z-index:3}'+
@@ -4650,18 +4651,32 @@ var BK=(function(){
     '#bkswatch{width:32px;height:32px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.16),0 2px 5px rgba(0,0,0,.22);flex:none;padding:0;background:#E4111F;transition:transform .1s}#bkswatch:active{transform:scale(.9)}'+
     '#bkpalette{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 74px);transform:translateX(-50%) translateY(6px);transform-origin:bottom center;display:flex;gap:9px;padding:10px 13px;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(0,0,0,.05);border-radius:20px;box-shadow:0 14px 40px rgba(17,24,39,.22);z-index:4;opacity:0;pointer-events:none;transition:opacity .16s,transform .16s}#bkpalette.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}'+
     '#bkcolors{display:flex;gap:9px}.bkcol{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.14);flex:none;padding:0;transition:transform .12s}.bkcol.on{box-shadow:0 0 0 2px #1B1E27;transform:scale(1.14)}'+
-    '.bkfab{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);width:46px;height:46px;border-radius:50%;border:1px solid rgba(0,0,0,.05);background:rgba(255,255,255,.80);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 12px 32px rgba(17,24,39,.20),0 2px 6px rgba(17,24,39,.10);display:flex;align-items:center;justify-content:center;font-size:17px;color:#20242e;font-weight:800;z-index:3;padding:0;transition:transform .1s}.bkfab:active{transform:scale(.93)}#bkclose{left:12px}#bkclear{right:12px;font-size:19px;font-weight:400}';
+    '.bkfab{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);width:46px;height:46px;border-radius:50%;border:1px solid rgba(0,0,0,.05);background:rgba(255,255,255,.80);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 12px 32px rgba(17,24,39,.20),0 2px 6px rgba(17,24,39,.10);display:flex;align-items:center;justify-content:center;font-size:17px;color:#20242e;font-weight:800;z-index:3;padding:0;transition:transform .1s}.bkfab:active{transform:scale(.93)}#bkclose{left:12px}#bkclear{right:12px;font-size:19px;font-weight:400}'+
+    '#bkpageno{cursor:pointer}#bkpageno .bkgi{display:inline-grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;width:14px;height:14px;vertical-align:-2px;margin-right:5px}#bkpageno .bkgi i{background:#20242e;border-radius:2px}'+
+    '#bkadd{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:14px;z-index:3;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#fff;background:#1B1E27;border:none;border-radius:999px;padding:8px 13px;box-shadow:0 6px 18px rgba(27,30,39,.28);transition:transform .1s}#bkadd:active{transform:scale(.94)}#bkadd b{font-size:16px;font-weight:400;line-height:1}'+
+    '.bkgrid{background-color:#fffdf8;background-image:linear-gradient(rgba(70,110,160,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(70,110,160,.16) 1px,transparent 1px),linear-gradient(rgba(70,110,160,.30) 1.4px,transparent 1.4px),linear-gradient(90deg,rgba(70,110,160,.30) 1.4px,transparent 1.4px);background-size:6.66% 4.71%,6.66% 4.71%,33.3% 23.5%,33.3% 23.5%}'+
+    '.bkgridtag{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;color:#5b6b86;background:rgba(255,255,255,.85);border:1px solid rgba(70,110,160,.25);border-radius:7px;padding:3px 9px;pointer-events:none;z-index:1}'+
+    '#bkpick{position:absolute;inset:0;z-index:9;display:none}#bkpick.on{display:block}.bkpickdim{position:absolute;inset:0;background:rgba(15,18,24,.45)}'+
+    '.bkpicksheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:12px 14px calc(env(safe-area-inset-bottom,0px) + 16px);max-height:76%;box-shadow:0 -10px 40px rgba(0,0,0,.3);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .24s cubic-bezier(.22,.61,.36,1)}#bkpick.on .bkpicksheet{transform:translateY(0)}'+
+    '.bkpickgrip{width:40px;height:5px;border-radius:3px;background:#d5d9e0;margin:2px auto 12px}.bkpickhd{font-size:16px;font-weight:700;color:#1B1E27;margin-bottom:12px;display:flex;align-items:center;gap:8px}.bkpickhd span{font-weight:500;color:#8a93a2;font-size:13px}'+
+    '.bkpickgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;overflow:auto;padding-bottom:4px}'+
+    '.bkthumb{position:relative;width:100%;padding-top:133.33%;height:0;border-radius:9px;overflow:hidden;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.12);background:#fff;cursor:pointer}.bkthumb.on{border-color:#E4111F}.bkmini{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}.bkthumb .bknum{position:absolute;bottom:5px;right:6px;font-size:11px;font-weight:700;color:#1B1E27;background:rgba(255,255,255,.9);border-radius:6px;padding:1px 6px;box-shadow:0 1px 3px rgba(0,0,0,.2)}.bkthumb .bkbadge{position:absolute;top:5px;left:5px;font-size:9.5px;font-weight:700;color:#fff;background:#1f7a44;border-radius:5px;padding:1px 6px}.bkthumb .bkdel{position:absolute;top:4px;right:4px;width:22px;height:22px;border:none;border-radius:50%;background:rgba(228,17,31,.95);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.3)}'+
+    '.bkaddtile{background:#f3f5f8;border:2px dashed #b9c0cc;box-shadow:none}.bkaddin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;color:#4b5563;font-size:11.5px;font-weight:700;text-align:center;line-height:1.2;padding:6px}.bkaddin .bkpl{font-size:26px;font-weight:300;line-height:.8;color:#1B1E27}';
   function build(){
     var s=document.createElement('style'); s.textContent=CSS; document.head.appendChild(s);
     root=document.createElement('div'); root.id='bkroot';
-    root.innerHTML='<div id="bkpageno"></div>'+
+    root.innerHTML='<button id="bkpageno" aria-label="เลือกหน้า"></button>'+
+      '<button id="bkadd" aria-label="เพิ่มหน้ากระดาษ"><b>＋</b> หน้ากระดาษ</button>'+
       '<div id="bkscroll"><div id="bkpages"></div></div>'+
       '<button id="bkclose" class="bkfab" aria-label="ปิด">✕</button>'+
       '<button id="bkclear" class="bkfab" aria-label="ล้างหน้านี้">🗑️</button>'+
+      '<div id="bkpick"><div class="bkpickdim"></div><div class="bkpicksheet"><div class="bkpickgrip"></div><div class="bkpickhd"><span class="bkgi" style="display:inline-grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;width:20px;height:20px"><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i></span> เลือกหน้า <span id="bkpicknum"></span></div><div id="bkpickgrid" class="bkpickgrid"></div></div></div>'+
       '<div id="bkpalette"><div id="bkcolors"></div></div>'+
       '<div id="bkbar"><button class="bktool on" data-m="pan" aria-label="เลื่อน">✋<small>เลื่อน</small></button><button class="bktool" data-m="pen" aria-label="ปากกา">✏️<small>ปากกา</small></button><button class="bktool" data-m="hi" aria-label="ไฮไลต์">🖍️<small>ไฮไลต์</small></button><button class="bktool" data-m="eraser" aria-label="ยางลบ">🧽<small>ยางลบ</small></button><span class="bkdiv"></span><button id="bkswatch" aria-label="เลือกสี"></button></div>';
     document.body.appendChild(root);
     el('bkclose').onclick=close; el('bkclear').onclick=clearPage;
+    el('bkadd').onclick=function(){ addGridPage(); }; el('bkpageno').onclick=openPicker;
+    el('bkpick').querySelector('.bkpickdim').onclick=closePicker;
     el('bkswatch').onclick=function(e){ e.stopPropagation(); el('bkpalette').classList.toggle('on'); };
     root.querySelectorAll('.bktool').forEach(function(b){ b.onclick=function(){ el('bkpalette').classList.remove('on'); setMode(b.dataset.m); }; });
     var cc=el('bkcolors');
@@ -4685,7 +4700,7 @@ var BK=(function(){
   function pagesEls(){ return root.querySelectorAll('.bkpage'); }
   function curPage(){ return pagesEls()[_cur]||null; }
   function curInner(){ var w=curPage(); return w? w.querySelector('.bkpageinner'):null; }
-  function fitPage(w){ if(!w||!pageW||!pageH)return; var img=w.querySelector('.bkimg'); if(!img||!img.naturalWidth)return; var ar=img.naturalHeight/img.naturalWidth; var fw=pageW, fh=fw*ar; if(fh>pageH){ fh=pageH; fw=fh/ar; } var inner=w.querySelector('.bkpageinner'); if(inner){ inner.style.width=fw+'px'; inner.style.height=fh+'px'; } }
+  function fitPage(w){ if(!w||!pageW||!pageH)return; var img=w.querySelector('.bkimg'); var ar; if(img&&img.naturalWidth) ar=img.naturalHeight/img.naturalWidth; else if(w.dataset.kind==='grid') ar=1.4142; else return; var fw=pageW, fh=fw*ar; if(fh>pageH){ fh=pageH; fw=fh/ar; } var inner=w.querySelector('.bkpageinner'); if(inner){ inner.style.width=fw+'px'; inner.style.height=fh+'px'; } }
   function measure(){ var scE=el('bkscroll'); if(!scE)return; pageW=scE.clientWidth; pageH=scE.clientHeight; var ps=pagesEls(); for(var i=0;i<ps.length;i++){ ps[i].style.width=pageW+'px'; fitPage(ps[i]); } }
   function setTrack(anim){ var p=el('bkpages'); if(!p)return; p.style.transition=anim?'transform .3s cubic-bezier(.22,.61,.36,1)':'none'; p.style.transform='translateX('+(-_cur*pageW+track.dx)+'px)'; }
   function scheduleTrack(){ if(_tvraf)return; _tvraf=requestAnimationFrame(function(){ _tvraf=0; setTrack(false); }); }
@@ -4694,8 +4709,9 @@ var BK=(function(){
   function clampZoom(){ if(z.scale<=1){ z.scale=1; z.tx=0; z.ty=0; return; } var inner=curInner(); var ih=inner?inner.offsetHeight:pageH; var mx=pageW*(z.scale-1)/2, my=Math.max(0,(ih*z.scale-pageH)/2); z.tx=clamp(z.tx,-mx,mx); z.ty=clamp(z.ty,-my,my); }
   function resetZoom(){ z={scale:1,tx:0,ty:0}; root.querySelectorAll('.bkpageinner').forEach(function(n){ n.style.transform=''; }); }
   function gotoPage(i,anim){ i=clamp(i,0,N-1); _cur=i; track.dx=0; resetZoom(); setTrack(anim); updatePageNo(); }
-  function ensureCv(w){ if(!w) return null; var inner=w.querySelector('.bkpageinner')||w; var cv=inner.querySelector('.bkcanvas'); if(cv) return cv; var img=inner.querySelector('.bkimg'); if(!img||!img.naturalWidth) return null;
-    cv=document.createElement('canvas'); cv.className='bkcanvas'; cv.width=img.naturalWidth; cv.height=img.naturalHeight; cv.dataset.i=w.dataset.i; inner.appendChild(cv); cv._st=load(+w.dataset.i); redraw(cv); return cv; }
+  function ensureCv(w){ if(!w) return null; var inner=w.querySelector('.bkpageinner')||w; var cv=inner.querySelector('.bkcanvas'); if(cv) return cv; var img=inner.querySelector('.bkimg'); var cw,ch;
+    if(img&&img.naturalWidth){ cw=img.naturalWidth; ch=img.naturalHeight; } else if(w.dataset.kind==='grid'){ cw=1000; ch=1414; } else return null;
+    cv=document.createElement('canvas'); cv.className='bkcanvas'; cv.width=cw; cv.height=ch; cv.dataset.sk=w.dataset.sk; inner.appendChild(cv); cv._st=load(w.dataset.sk); redraw(cv); return cv; }
   function pdown(e){
     ptrs[e.pointerId]={x:e.clientX,y:e.clientY}; var ids=Object.keys(ptrs), n=ids.length; if(n===1){ measure(); var _pal=el('bkpalette'); if(_pal) _pal.classList.remove('on'); }
     if(n>=2){ if(draw){ redraw(draw.cv); draw=null; } pan0=null; if(track.on){ track.on=false; track.dx=0; setTrack(true); }
@@ -4720,14 +4736,48 @@ var BK=(function(){
   function pend(e){
     if(!ptrs[e.pointerId]) return; delete ptrs[e.pointerId]; var n=Object.keys(ptrs).length;
     if(pinch && n<2){ pinch=null; if(z.scale<1.02){ resetZoom(); } else { clampZoom(); setZoom(); } }
-    if(draw && n===0){ var cv=draw.cv,i=+cv.dataset.i; cv._st=cv._st||[]; cv._st.push(draw.s); saveP(i,cv._st); redraw(cv); draw=null; }
+    if(draw && n===0){ var cv=draw.cv; cv._st=cv._st||[]; cv._st.push(draw.s); saveP(cv.dataset.sk,cv._st); redraw(cv); draw=null; }
     if(n===0){ pan0=null;
       if(track.on){ track.on=false; var th=Math.max(40,pageW*0.16);
         if(track.dx<=-th) gotoPage(_cur+1,true); else if(track.dx>=th) gotoPage(_cur-1,true); else gotoPage(_cur,true); } }
   }
-  function key(i){ return 'bk:'+bid+':'+i; }
-  function load(i){ try{ return JSON.parse(localStorage.getItem(key(i))||'[]'); }catch(e){ return []; } }
-  function saveP(i,st){ try{ localStorage.setItem(key(i), JSON.stringify(st)); }catch(e){} }
+  function load(sk){ try{ return JSON.parse(localStorage.getItem('bk:'+bid+':'+sk)||'[]'); }catch(e){ return []; } }
+  function saveP(sk,st){ try{ localStorage.setItem('bk:'+bid+':'+sk, JSON.stringify(st)); }catch(e){} }
+  function loadSeq(){ try{ var a=JSON.parse(localStorage.getItem('bk:'+bid+':seq')||'null'); return (a&&a.length)?a:null; }catch(e){ return null; } }
+  function saveSeq(){ try{ localStorage.setItem('bk:'+bid+':seq', JSON.stringify(seq)); }catch(e){} }
+  function newGid(){ return Date.now().toString(36)+Math.floor(Math.random()*46656).toString(36); }
+  function buildPageDiv(it){
+    var w=document.createElement('div'); w.className='bkpage';
+    var inner=document.createElement('div'); inner.className='bkpageinner';
+    if(it.kind==='grid'){ inner.classList.add('bkgrid'); w.dataset.kind='grid'; w.dataset.gid=it.gid; w.dataset.sk='g'+it.gid;
+      var tag=document.createElement('div'); tag.className='bkgridtag'; tag.textContent='▦ หน้าจด'; inner.appendChild(tag); w.appendChild(inner);
+    } else { w.dataset.kind='book'; w.dataset.sk='b'+it.bi;
+      var img=new Image(); img.className='bkimg'; img.draggable=false; inner.appendChild(img); w.appendChild(inner);
+      img.onload=function(){ fitPage(w); if(load(w.dataset.sk).length) ensureCv(w); };
+      img.src=(CARDS[it.bi]||{}).data||''; }
+    return w;
+  }
+  function renderPages(){ var pgs=el('bkpages'); pgs.innerHTML=''; seq.forEach(function(it){ pgs.appendChild(buildPageDiv(it)); }); N=seq.length; }
+  function hydrateGrids(){ pagesEls().forEach(function(w){ if(w.dataset.kind==='grid'){ fitPage(w); if(load(w.dataset.sk).length) ensureCv(w); } }); }
+  function addGridPage(){ closePicker(); var it={kind:'grid',gid:newGid()}; var at=clamp(_cur+1,0,seq.length); seq.splice(at,0,it); saveSeq();
+    var w=buildPageDiv(it); var ref=pagesEls()[at]||null; el('bkpages').insertBefore(w,ref); N=seq.length; measure(); gotoPage(at,true); }
+  function deletePage(at){ var it=seq[at]; if(!it||it.kind!=='grid') return; if(!confirm('ลบหน้ากระดาษนี้? รอยจดในหน้านี้จะหายไปด้วย')) return;
+    try{ localStorage.removeItem('bk:'+bid+':g'+it.gid); }catch(e){} seq.splice(at,1); saveSeq(); var w=pagesEls()[at]; if(w) w.remove(); N=seq.length;
+    if(_cur>=N) _cur=Math.max(0,N-1); measure(); gotoPage(_cur,false); }
+  function openPicker(){ var g=el('bkpickgrid'); if(!g) return; g.innerHTML='';
+    var pn=el('bkpicknum'); if(pn) pn.textContent='· '+N+' หน้า';
+    seq.forEach(function(it,i){ var t=document.createElement('div'); t.className='bkthumb'+(i===_cur?' on':'');
+      if(it.kind==='grid'){ var m=document.createElement('div'); m.className='bkmini bkgrid'; t.appendChild(m);
+        var bd=document.createElement('span'); bd.className='bkbadge'; bd.textContent='จด'; t.appendChild(bd);
+        var x=document.createElement('button'); x.className='bkdel'; x.textContent='✕'; x.onclick=function(ev){ ev.stopPropagation(); deletePage(i); openPicker(); }; t.appendChild(x);
+      } else { var im=new Image(); im.className='bkmini'; im.src=(CARDS[it.bi]||{}).data||''; t.appendChild(im); }
+      var num=document.createElement('span'); num.className='bknum'; num.textContent=(i+1); t.appendChild(num);
+      t.onclick=function(){ closePicker(); gotoPage(i,false); }; g.appendChild(t);
+    });
+    var add=document.createElement('div'); add.className='bkthumb bkaddtile'; add.innerHTML='<div class="bkaddin"><span class="bkpl">＋</span>เพิ่มหน้า<br>กระดาษ</div>'; add.onclick=function(){ addGridPage(); }; g.appendChild(add);
+    el('bkpick').classList.add('on');
+  }
+  function closePicker(){ var p=el('bkpick'); if(p) p.classList.remove('on'); }
   function draw1(ctx,s){
     ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
     if(s.tool==='eraser'){ ctx.globalCompositeOperation='destination-out'; ctx.lineWidth=s.size; ctx.strokeStyle='rgba(0,0,0,1)'; }
@@ -4745,25 +4795,19 @@ var BK=(function(){
   function open(data){
     if(!built) build();
     bid=data.id; var _tt=el('bktitle'); if(_tt) _tt.textContent=data.title||'หนังสือ';
-    var pgs=el('bkpages'); pgs.innerHTML='';
-    var cards=data.cards||[]; N=cards.length;
-    cards.forEach(function(c,i){
-      var w=document.createElement('div'); w.className='bkpage'; w.dataset.i=i;
-      var inner=document.createElement('div'); inner.className='bkpageinner';
-      var img=new Image(); img.className='bkimg'; img.draggable=false;
-      inner.appendChild(img); w.appendChild(inner); pgs.appendChild(w);
-      img.onload=function(){ fitPage(w); if((load(i)||[]).length) ensureCv(w); };
-      img.src=c.data;
-    });
+    CARDS=data.cards||[];
+    seq=loadSeq();
+    if(!seq){ seq=CARDS.map(function(c,i){ return {kind:'book',bi:i}; }); }
+    else { seq=seq.filter(function(it){ return it && (it.kind==='grid' ? !!it.gid : (it.bi>=0 && it.bi<CARDS.length)); }); if(!seq.length) seq=CARDS.map(function(c,i){ return {kind:'book',bi:i}; }); }
     ptrs={}; draw=null; pan0=null; pinch=null; track={x0:0,dx:0,on:false}; z={scale:1,tx:0,ty:0}; _cur=0;
-    measure(); setTrack(false); updatePageNo();
-    setMode('pan'); syncCols(); updateSwatch();
+    renderPages(); measure(); hydrateGrids(); setTrack(false); updatePageNo();
+    setMode('pan'); syncCols(); updateSwatch(); closePicker();
     root.classList.add('on'); document.documentElement.style.overflow='hidden';
     setTimeout(function(){ measure(); setTrack(false); },160);
   }
-  function updatePageNo(){ var lbl=el('bkpageno'); if(lbl) lbl.textContent=(_cur+1)+' / '+(N||root.querySelectorAll('.bkpage').length); }
-  function clearPage(){ var i=_cur; var w=root.querySelectorAll('.bkpage')[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'?'))return; var cv=w.querySelector('.bkcanvas'); saveP(i,[]); if(cv){ cv._st=[]; redraw(cv); } }
-  function close(){ root.classList.remove('on'); document.documentElement.style.overflow=''; }
+  function updatePageNo(){ var lbl=el('bkpageno'); if(lbl) lbl.innerHTML='<span class="bkgi"><i></i><i></i><i></i><i></i></span>'+(_cur+1)+' / '+(N||root.querySelectorAll('.bkpage').length); }
+  function clearPage(){ var i=_cur; var w=pagesEls()[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'?'))return; var cv=w.querySelector('.bkcanvas'); saveP(w.dataset.sk,[]); if(cv){ cv._st=[]; redraw(cv); } }
+  function close(){ closePicker(); root.classList.remove('on'); document.documentElement.style.overflow=''; }
   return { open:open, close:close };
 })();
 
