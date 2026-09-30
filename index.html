@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v231";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v232";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4719,7 +4719,7 @@ var BK=(function(){
   function curInner(){ var w=curPage(); return w? w.querySelector('.bkpageinner'):null; }
   function fitPage(w){ if(!w||!pageW||!pageH)return; var img=w.querySelector('.bkimg'); var ar=(img&&img.naturalWidth)? img.naturalHeight/img.naturalWidth : 1.4142; var fw=pageW, fh=fw*ar; if(fh>pageH){ fh=pageH; fw=fh/ar; } var inner=w.querySelector('.bkpageinner'); if(inner){ inner.style.width=fw+'px'; inner.style.height=fh+'px'; } }
   function measure(){ var scE=el('bkscroll'); if(!scE)return; pageW=scE.clientWidth; pageH=scE.clientHeight; var ps=pagesEls(); for(var i=0;i<ps.length;i++){ ps[i].style.width=pageW+'px'; fitPage(ps[i]); }
-    var dpr=window.devicePixelRatio||2; MAXZ=Math.max(2.5, Math.min(4, 2650/(pageW*dpr))); }   // จำกัดซูมสูงสุดตามความละเอียดจอ ไม่ให้ซูมเกินจนภาพ/เส้นแตก
+    var dpr=window.devicePixelRatio||2, fitW=Math.min(pageW, pageH/1.4142); MAXZ=Math.max(1.5, Math.min(4, 2820/(fitW*dpr))); }   // จำกัดซูมสูงสุดตาม "ความกว้างหน้าที่แสดงจริง"×DPR ไม่ให้ซูมเกินจนเส้น/ภาพมัว (แก้เคส iPad/แนวนอน)
   function setTrack(anim){ var p=el('bkpages'); if(!p)return; p.style.transition=anim?'transform .3s cubic-bezier(.22,.61,.36,1)':'none'; p.style.transform='translateX('+(-_cur*pageW+track.dx)+'px)'; }
   function scheduleTrack(){ if(_tvraf)return; _tvraf=requestAnimationFrame(function(){ _tvraf=0; setTrack(false); }); }
   function setZoom(){ var inner=curInner(); if(inner) inner.style.transform='translate('+z.tx+'px,'+z.ty+'px) scale('+z.scale+')'; }
@@ -4732,7 +4732,7 @@ var BK=(function(){
     else if(img.getAttribute('src')){ img.removeAttribute('src'); var cv=w.querySelector('.bkcanvas'); if(cv) cv.remove(); } } }
   function ensureCv(w){ if(!w) return null; var inner=w.querySelector('.bkpageinner')||w; var cv=inner.querySelector('.bkcanvas'); if(cv) return cv; var img=inner.querySelector('.bkimg'); var lw,lh;
     if(img&&img.naturalWidth){ lw=img.naturalWidth; lh=img.naturalHeight; } else if(w.dataset.kind==='grid'){ lw=1000; lh=1414; } else return null;
-    var CAP=3800;   // จำกัดด้านผืนวาดไม่ให้เกิน (iOS จำกัด ~4096px ต่อด้าน) กันเขียนแล้วค้าง/พัง
+    var CAP=4000;   // จำกัดด้านผืนวาดไม่ให้เกิน (iOS จำกัด ~4096px ต่อด้าน) กันเขียนแล้วค้าง/พัง
     var ss=Math.max(1, Math.min(3.2, 2800/lw));           // เป้าหมายความละเอียด ~2800px
     ss=Math.min(ss, CAP/lw, CAP/lh);                       // แต่ห้ามเกินขนาดที่มือถือรองรับ
     cv=document.createElement('canvas'); cv.className='bkcanvas'; cv._lw=lw; cv._lh=lh; cv._ss=ss; cv.width=Math.round(lw*ss); cv.height=Math.round(lh*ss); cv.dataset.sk=w.dataset.sk; inner.appendChild(cv); cv._st=load(w.dataset.sk); redraw(cv); return cv; }
