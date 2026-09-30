@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v244";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v245";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4648,6 +4648,8 @@ var BK=(function(){
   var CHAPTERS={ law:['ความรู้ทั่วไปเกี่ยวกับกฎหมาย','บุคคล','ทรัพย์และทรัพย์สิน','นิติกรรมและสัญญา','เอกเทศสัญญา','ครอบครัว','มรดก','กฎหมายอาญา — ภาคทั่วไป','กฎหมายอาญา — ภาคความผิด','ศาลและกระบวนการยุติธรรม','รัฐธรรมนูญและการปกครอง','กฎหมายในชีวิตประจำวัน'] };
   function thaiNum(n){ var t='๐๑๒๓๔๕๖๗๘๙'; return String(n).replace(/[0-9]/g,function(d){return t.charAt(+d);}); }
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  // หน้าเริ่มบทของหนังสือ (บทละ 2 หน้า → เริ่มที่ index 2,4,6,…) → คืนเลขบท+ชื่อไว้แปะหัวข้อ
+  function chapterOf(bi){ var list=CHAPTERS[bid]; if(!list) return null; if(bi>=2 && bi%2===0){ var ci=bi/2-1; if(ci>=0 && ci<list.length) return {n:ci+1, title:list[ci]}; } return null; }
   function el(id){return document.getElementById(id);}
   var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#fff;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}#bkroot.on{display:flex}'+
     '#bkroot *{-webkit-touch-callout:none!important;-webkit-user-select:none!important;user-select:none!important;-webkit-user-drag:none}'+
@@ -4666,6 +4668,8 @@ var BK=(function(){
     /* หน้ากระดาษขาว (paper) + หน้าบท (chap) — พื้นขาว เส้นขอบข้าง หัวชื่อบทฟอนต์ลายมือ */
     '.bkpaper{background:#fff}.bkpmargin{position:absolute;top:0;bottom:0;left:11%;width:2px;background:#F0A9AE;pointer-events:none;z-index:1}'+
     '.bkchaphead{position:absolute;left:11%;right:7%;top:5%;padding-left:3.6%;pointer-events:none;z-index:1;font-size:20px}.bkchapkick{font-family:\'Sriracha\',cursive;color:#C81E28;line-height:1;font-size:.62em}.bkchaptitle{font-family:\'Sriracha\',cursive;color:#1f2430;line-height:1.16;font-size:1.05em;margin-top:.16em}.bkchaprule{height:2px;background:#eceff4;margin-top:.5em}'+
+    /* หัวข้อบท "แปะ" บนหน้าเริ่มบทของหนังสือ (ฟอนต์ลายมือ) — แถบขาวจางกันชนเนื้อหา */
+    '.bkbookhead{position:absolute;left:0;right:0;top:0;padding:1.7% 6% 1%;pointer-events:none;z-index:1;font-size:20px;background:linear-gradient(180deg,#fff 58%,rgba(255,255,255,.6) 82%,rgba(255,255,255,0))}.bkbhline{font-family:\'Sriracha\',cursive;line-height:1.12;white-space:nowrap;overflow:hidden}.bkbhkick{color:#C81E28;font-size:.72em}.bkbhtitle{color:#1f2430;font-size:1em}.bkbhrule{height:2px;background:#e6b9bc;margin-top:.28em;width:56%}'+
     '#bkpick{position:absolute;inset:0;z-index:9;display:none}#bkpick.on{display:block}.bkpickdim{position:absolute;inset:0;background:rgba(15,18,24,.45)}'+
     '.bkpicksheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:12px 14px calc(env(safe-area-inset-bottom,0px) + 16px);max-height:76%;box-shadow:0 -10px 40px rgba(0,0,0,.3);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .24s cubic-bezier(.22,.61,.36,1)}#bkpick.on .bkpicksheet{transform:translateY(0)}'+
     '.bkpickgrip{width:40px;height:5px;border-radius:3px;background:#d5d9e0;margin:2px auto 12px}.bkpickhd{font-size:16px;font-weight:700;color:#1B1E27;margin-bottom:12px;display:flex;align-items:center;gap:8px}.bkpickhd span{font-weight:500;color:#8a93a2;font-size:13px}'+
@@ -4699,7 +4703,7 @@ var BK=(function(){
       '<div id="bknpal"></div>';
     document.body.appendChild(root);
     el('bkclose').onclick=close; el('bkclear').onclick=clearPage;
-    el('bkadd').onclick=function(){ addPaperPage(); }; el('bkpageno').onclick=openPicker; el('bkundo').onclick=undo;
+    el('bkadd').onclick=function(){ addGridPage(); }; el('bkpageno').onclick=openPicker; el('bkundo').onclick=undo;
     el('bknote').onclick=function(){ addNote(); };
     el('bkpick').querySelector('.bkpickdim').onclick=closePicker;
     root.querySelectorAll('.bktool').forEach(function(b){ b.onclick=function(){ setMode(b.dataset.m); }; });
@@ -4740,7 +4744,7 @@ var BK=(function(){
   function pagesEls(){ return root.querySelectorAll('.bkpage'); }
   function curPage(){ return pagesEls()[_cur]||null; }
   function curInner(){ var w=curPage(); return w? w.querySelector('.bkpageinner'):null; }
-  function fitPage(w){ if(!w||!pageW||!pageH)return; var img=w.querySelector('.bkimg'); var ar=(img&&img.naturalWidth)? img.naturalHeight/img.naturalWidth : 1.4142; var fw=pageW, fh=fw*ar; if(fh>pageH){ fh=pageH; fw=fh/ar; } var inner=w.querySelector('.bkpageinner'); if(inner){ inner.style.width=fw+'px'; inner.style.height=fh+'px'; var hd=inner.querySelector('.bkchaphead'); if(hd) hd.style.fontSize=Math.max(12,fw*0.05)+'px'; } }
+  function fitPage(w){ if(!w||!pageW||!pageH)return; var img=w.querySelector('.bkimg'); var ar=(img&&img.naturalWidth)? img.naturalHeight/img.naturalWidth : 1.4142; var fw=pageW, fh=fw*ar; if(fh>pageH){ fh=pageH; fw=fh/ar; } var inner=w.querySelector('.bkpageinner'); if(inner){ inner.style.width=fw+'px'; inner.style.height=fh+'px'; var hd=inner.querySelector('.bkchaphead'); if(hd) hd.style.fontSize=Math.max(12,fw*0.05)+'px'; var bh=inner.querySelector('.bkbookhead'); if(bh) bh.style.fontSize=Math.max(11,fw*0.03)+'px'; } }
   function measure(){ var scE=el('bkscroll'); if(!scE)return; pageW=scE.clientWidth; pageH=scE.clientHeight; var ps=pagesEls(); for(var i=0;i<ps.length;i++){ ps[i].style.width=pageW+'px'; fitPage(ps[i]); }
     sizeInk();
     var dpr=window.devicePixelRatio||2, fitW=Math.min(pageW, pageH/1.4142); MAXZ=Math.max(2.5, Math.min(4.5, 3300/(fitW*dpr)*1.15)); scheduleInk(); }   // เส้นเป็นเวกเตอร์คมทุกซูมแล้ว จำกัดซูมแค่ไม่ให้ภาพหนังสือ (raster 3300px) แตกมากเกินไป
@@ -4818,7 +4822,10 @@ var BK=(function(){
         hd.innerHTML='<div class="bkchapkick">บทที่ '+thaiNum(it.ci+1)+'</div><div class="bkchaptitle">'+esc(it.title)+'</div><div class="bkchaprule"></div>'; inner.appendChild(hd); }
       w.appendChild(inner);
     } else { w.dataset.kind='book'; w.dataset.sk='b'+it.bi; w._lw=3300; w._lh=4668;
-      var img=new Image(); img.className='bkimg'; img.draggable=false; inner.appendChild(img); w.appendChild(inner);
+      var img=new Image(); img.className='bkimg'; img.draggable=false; inner.appendChild(img);
+      var ch=chapterOf(it.bi); if(ch){ var bh=document.createElement('div'); bh.className='bkbookhead';   // แปะหัวข้อบทบนหน้าเริ่มบท
+        bh.innerHTML='<div class="bkbhline"><span class="bkbhkick">บทที่ '+thaiNum(ch.n)+'</span>  <span class="bkbhtitle">'+esc(ch.title)+'</span></div><div class="bkbhrule"></div>'; inner.appendChild(bh); }
+      w.appendChild(inner);
       img.onload=function(){ w._lw=img.naturalWidth; w._lh=img.naturalHeight; fitPage(w); scheduleInk(); };
       w._data=(CARDS[it.bi]||{}).data||''; }   // ยังไม่โหลดรูป (virtualize) — mountWindow จะตั้ง src เฉพาะหน้าที่ใกล้หน้าปัจจุบัน
     renderNotesFor(w);   // สร้างกล่องโพสต์อิทที่บันทึกไว้ของหน้านี้
@@ -4826,9 +4833,7 @@ var BK=(function(){
   }
   function renderPages(){ var pgs=el('bkpages'); pgs.innerHTML=''; seq.forEach(function(it){ pgs.appendChild(buildPageDiv(it)); }); N=seq.length; }
   function hydrateGrids(){ pagesEls().forEach(function(w){ if(w.dataset.kind==='grid'){ fitPage(w); } }); }
-  function ensureChapters(){ var list=CHAPTERS[bid]; if(!list||!list.length) return; if(seq.some(function(it){return it.kind==='chap';})) return;
-    list.forEach(function(t,i){ seq.push({kind:'chap',ci:i,title:t}); }); saveSeq(); }
-  function addPaperPage(){ closePicker(); var it={kind:'paper',gid:newGid()}; var at=clamp(_cur+1,0,seq.length); seq.splice(at,0,it); saveSeq();
+  function addGridPage(){ closePicker(); var it={kind:'grid',gid:newGid()}; var at=clamp(_cur+1,0,seq.length); seq.splice(at,0,it); saveSeq();   // ＋เพิ่มหน้า = หน้ากระดาษลายตาราง
     var w=buildPageDiv(it); var ref=pagesEls()[at]||null; el('bkpages').insertBefore(w,ref); N=seq.length; measure(); gotoPage(at,true); }
   function skOf(it){ return (it.kind==='chap')?('c'+it.ci):((it.kind==='grid'?'g':'p')+it.gid); }
   function deletePage(at){ var it=seq[at]; if(!it||it.kind==='book') return; if(!confirm('ลบหน้านี้? รอยจด/โพสต์อิทในหน้านี้จะหายไปด้วย')) return;
@@ -4844,7 +4849,7 @@ var BK=(function(){
       var num=document.createElement('span'); num.className='bknum'; num.textContent=(i+1); t.appendChild(num);
       t.onclick=function(){ closePicker(); gotoPage(i,false); }; g.appendChild(t);
     });
-    var add=document.createElement('div'); add.className='bkthumb bkaddtile'; add.innerHTML='<div class="bkaddin"><span class="bkpl">＋</span>เพิ่มหน้า<br>กระดาษ</div>'; add.onclick=function(){ addPaperPage(); }; g.appendChild(add);
+    var add=document.createElement('div'); add.className='bkthumb bkaddtile'; add.innerHTML='<div class="bkaddin"><span class="bkpl">＋</span>เพิ่มหน้า<br>กระดาษ</div>'; add.onclick=function(){ addGridPage(); }; g.appendChild(add);
     el('bkpick').classList.add('on');
   }
   function closePicker(){ var p=el('bkpick'); if(p) p.classList.remove('on'); }
@@ -4970,8 +4975,8 @@ var BK=(function(){
     CARDS=data.cards||[];
     seq=loadSeq();
     if(!seq){ seq=CARDS.map(function(c,i){ return {kind:'book',bi:i}; }); }
-    else { seq=seq.filter(function(it){ if(!it)return false; if(it.kind==='grid'||it.kind==='paper') return !!it.gid; if(it.kind==='chap') return it.ci!=null; return (it.bi>=0 && it.bi<CARDS.length); }); if(!seq.length) seq=CARDS.map(function(c,i){ return {kind:'book',bi:i}; }); }
-    ensureChapters();   // เพิ่มสมุดจด (หน้ากระดาษขาว บทละ 1 หน้า) ถ้ายังไม่มี
+    else { seq=seq.filter(function(it){ if(!it)return false; if(it.kind==='grid'||it.kind==='paper') return !!it.gid; if(it.kind==='chap') return false; return (it.bi>=0 && it.bi<CARDS.length); }); if(!seq.length) seq=CARDS.map(function(c,i){ return {kind:'book',bi:i}; }); }
+    if(loadSeq() && loadSeq().some(function(it){return it&&it.kind==='chap';})) saveSeq();   // ตัดสมุดจดเดิม (v244) ออกจากลำดับหน้าที่บันทึกไว้
     ptrs={}; draw=null; pan0=null; pinch=null; track={x0:0,dx:0,on:false}; z={scale:1,tx:0,ty:0}; _cur=0;
     root.classList.add('on'); document.documentElement.style.overflow='hidden';
     renderPages(); measure(); hydrateGrids(); mountWindow(); setTrack(false); updatePageNo();
