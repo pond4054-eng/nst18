@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v214";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v215";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4637,12 +4637,13 @@ var BK=(function(){
   var built=false, root, bid="", _cur=0;
   var T={mode:'pan', tool:'pen', color:'#E4111F'};
   var COLORS=['#E4111F','#1E9E5A','#1D6FD0','#F2792B','#7048E8','#0E0F12'];
-  var view={scale:1,tx:0,ty:0}, baseW=900, ptrs={}, draw=null, pan0=null, pinch=null, raf=0, _dims=null, _vraf=0;
+  var ptrs={}, draw=null, pan0=null, pinch=null, raf=0, _vraf=0, _tvraf=0;
+  var pageW=0, pageH=0, N=0, z={scale:1,tx:0,ty:0}, track={x0:0,dx:0,on:false};
   function el(id){return document.getElementById(id);}
   var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#fff;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}#bkroot.on{display:flex}'+
     '#bkpageno{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;letter-spacing:.06em;color:#3a3f4a;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.05);border-radius:999px;padding:4px 13px;box-shadow:0 4px 14px rgba(17,24,39,.10);z-index:3}'+
-    '#bkscroll{flex:1;overflow:hidden;position:relative;background:#fff;touch-action:none}#bkpages{position:absolute;top:0;left:0;transform-origin:0 0;padding:12px 8px 112px;will-change:transform}'+
-    '.bkpage{position:relative;margin-bottom:12px;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 4px 16px rgba(17,24,39,.13);border:1px solid rgba(0,0,0,.05);content-visibility:auto;contain-intrinsic-size:auto 1180px}.bkimg{width:100%;display:block}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}'+
+    '#bkscroll{flex:1;overflow:hidden;position:relative;background:#eef0f3;touch-action:none}#bkpages{position:absolute;top:0;left:0;bottom:0;display:flex;height:100%;will-change:transform}'+
+    '.bkpage{position:relative;flex:none;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}.bkpageinner{position:relative;width:100%;transform-origin:center center;will-change:transform;background:#fff;box-shadow:0 4px 18px rgba(17,24,39,.16)}.bkimg{width:100%;display:block}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}'+
     '#bkbar{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:7px 8px;max-width:calc(100vw - 116px);overflow-x:auto;background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(0,0,0,.05);border-radius:22px;box-shadow:0 14px 40px rgba(17,24,39,.22),0 3px 10px rgba(17,24,39,.10);z-index:2}'+
     '.bktool{background:transparent;color:#20242e;border:none;border-radius:13px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none;line-height:1;transition:background .15s,color .15s,transform .1s}.bktool small{display:none}.bktool:active{transform:scale(.92)}.bktool.on{background:#1B1E27;color:#fff;box-shadow:0 4px 12px rgba(27,30,39,.32)}'+
     '.bkdiv{width:1px;height:28px;background:rgba(0,0,0,.10);flex:none;margin:0 4px}'+
@@ -4678,40 +4679,49 @@ var BK=(function(){
     root.querySelectorAll('.bktool').forEach(function(b){ b.classList.toggle('on', (T.mode==='pan'&&b.dataset.m==='pan')||(T.mode==='draw'&&b.dataset.m===T.tool)); });
   }
   /* ── pan/zoom (สองนิ้ว) + วาด (นิ้วเดียว/ปากกา) พร้อมกันได้ ไม่ต้องสลับปุ่ม ── */
-  function measure(){ var scE=el('bkscroll'),p=el('bkpages'); if(!scE||!p)return; _dims={vw:scE.clientWidth,vh:scE.clientHeight,cw:p.offsetWidth,ch:p.offsetHeight}; }
-  function setTransform(){ var p=el('bkpages'); if(p) p.style.transform='translate('+view.tx+'px,'+view.ty+'px) scale('+view.scale+')'; }
-  function scheduleView(){ if(_vraf) return; _vraf=requestAnimationFrame(function(){ _vraf=0; setTransform(); }); }
-  function applyView(){ setTransform(); updatePageNo(); }
-  function clampView(){ if(!_dims) measure(); if(!_dims) return; var vw=_dims.vw,vh=_dims.vh,cw=_dims.cw*view.scale,ch=_dims.ch*view.scale;
-    if(cw<=vw) view.tx=(vw-cw)/2; else view.tx=Math.max(vw-cw,Math.min(0,view.tx));
-    if(ch<=vh) view.ty=Math.max(0,Math.min(12,view.ty)); else view.ty=Math.max(vh-ch,Math.min(0,view.ty)); }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
   function dist(a,b){ return Math.hypot(a.x-b.x,a.y-b.y); }
-  function pageAt(x,y){ var ps=root.querySelectorAll('.bkpage'); for(var i=0;i<ps.length;i++){ var r=ps[i].getBoundingClientRect(); if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom) return ps[i]; } return null; }
-  function ensureCv(w){ if(!w) return null; var cv=w.querySelector('.bkcanvas'); if(cv) return cv; var img=w.querySelector('.bkimg'); if(!img||!img.naturalWidth) return null;
-    cv=document.createElement('canvas'); cv.className='bkcanvas'; cv.width=img.naturalWidth; cv.height=img.naturalHeight; cv.dataset.i=w.dataset.i; w.appendChild(cv); cv._st=load(+w.dataset.i); redraw(cv); return cv; }
+  function pagesEls(){ return root.querySelectorAll('.bkpage'); }
+  function curPage(){ return pagesEls()[_cur]||null; }
+  function curInner(){ var w=curPage(); return w? w.querySelector('.bkpageinner'):null; }
+  function measure(){ var scE=el('bkscroll'); if(!scE)return; pageW=scE.clientWidth; pageH=scE.clientHeight; var ps=pagesEls(); for(var i=0;i<ps.length;i++) ps[i].style.width=pageW+'px'; }
+  function setTrack(anim){ var p=el('bkpages'); if(!p)return; p.style.transition=anim?'transform .3s cubic-bezier(.22,.61,.36,1)':'none'; p.style.transform='translateX('+(-_cur*pageW+track.dx)+'px)'; }
+  function scheduleTrack(){ if(_tvraf)return; _tvraf=requestAnimationFrame(function(){ _tvraf=0; setTrack(false); }); }
+  function setZoom(){ var inner=curInner(); if(inner) inner.style.transform='translate('+z.tx+'px,'+z.ty+'px) scale('+z.scale+')'; }
+  function scheduleZoom(){ if(_vraf)return; _vraf=requestAnimationFrame(function(){ _vraf=0; setZoom(); }); }
+  function clampZoom(){ if(z.scale<=1){ z.scale=1; z.tx=0; z.ty=0; return; } var inner=curInner(); var ih=inner?inner.offsetHeight:pageH; var mx=pageW*(z.scale-1)/2, my=Math.max(0,(ih*z.scale-pageH)/2); z.tx=clamp(z.tx,-mx,mx); z.ty=clamp(z.ty,-my,my); }
+  function resetZoom(){ z={scale:1,tx:0,ty:0}; root.querySelectorAll('.bkpageinner').forEach(function(n){ n.style.transform=''; }); }
+  function gotoPage(i,anim){ i=clamp(i,0,N-1); _cur=i; track.dx=0; resetZoom(); setTrack(anim); updatePageNo(); }
+  function ensureCv(w){ if(!w) return null; var inner=w.querySelector('.bkpageinner')||w; var cv=inner.querySelector('.bkcanvas'); if(cv) return cv; var img=inner.querySelector('.bkimg'); if(!img||!img.naturalWidth) return null;
+    cv=document.createElement('canvas'); cv.className='bkcanvas'; cv.width=img.naturalWidth; cv.height=img.naturalHeight; cv.dataset.i=w.dataset.i; inner.appendChild(cv); cv._st=load(+w.dataset.i); redraw(cv); return cv; }
   function pdown(e){
     ptrs[e.pointerId]={x:e.clientX,y:e.clientY}; var ids=Object.keys(ptrs), n=ids.length; if(n===1){ measure(); var _pal=el('bkpalette'); if(_pal) _pal.classList.remove('on'); }
-    if(n>=2){ if(draw){ redraw(draw.cv); draw=null; } pan0=null; var a=ptrs[ids[0]],b=ptrs[ids[1]];
-      pinch={d0:Math.max(1,dist(a,b)),mx:(a.x+b.x)/2,my:(a.y+b.y)/2,s0:view.scale,tx0:view.tx,ty0:view.ty}; e.preventDefault(); return; }
+    if(n>=2){ if(draw){ redraw(draw.cv); draw=null; } pan0=null; if(track.on){ track.on=false; track.dx=0; setTrack(true); }
+      var a=ptrs[ids[0]],b=ptrs[ids[1]],mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2},inr=curInner(),rc=inr?inr.getBoundingClientRect():{left:0,right:pageW,top:0,bottom:pageH};
+      var cxpt=(rc.left+rc.right)/2, cypt=(rc.top+rc.bottom)/2;
+      pinch={d0:Math.max(1,dist(a,b)),s0:z.scale,baseCx:cxpt-z.tx,baseCy:cypt-z.ty,offX:(mid.x-cxpt)/z.scale,offY:(mid.y-cypt)/z.scale}; e.preventDefault(); return; }
     var isPen=(e.pointerType==='pen');
-    if(T.mode==='draw'||isPen){ var cv=ensureCv(pageAt(e.clientX,e.clientY));
+    if(T.mode==='draw'||isPen){ var cv=ensureCv(curPage());
       if(cv){ draw={cv:cv,s:{tool:(T.mode==='draw'?T.tool:'pen'),color:T.color,size:sizeFor(cv),pts:[ptOf(cv,e)]}}; redraw(cv); draw1(cv.getContext('2d'),draw.s); } }
-    else { pan0={x:e.clientX,y:e.clientY,tx:view.tx,ty:view.ty}; }
+    else if(z.scale>1){ pan0={x:e.clientX,y:e.clientY,tx:z.tx,ty:z.ty}; }
+    else { track.on=true; track.x0=e.clientX; track.dx=0; setTrack(false); }
     e.preventDefault();
   }
   function pmove(e){
     if(ptrs[e.pointerId]) ptrs[e.pointerId]={x:e.clientX,y:e.clientY}; var ids=Object.keys(ptrs);
     if(pinch && ids.length>=2){ var a=ptrs[ids[0]],b=ptrs[ids[1]],d=Math.max(1,dist(a,b)),mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
-      var s=Math.max(0.5,Math.min(4,pinch.s0*d/pinch.d0)), cx=(pinch.mx-pinch.tx0)/pinch.s0, cy=(pinch.my-pinch.ty0)/pinch.s0;
-      view.scale=s; view.tx=mid.x-cx*s; view.ty=mid.y-cy*s; clampView(); scheduleView(); e.preventDefault(); return; }
+      var s=clamp(pinch.s0*d/pinch.d0,1,4); z.scale=s; z.tx=mid.x-pinch.baseCx-pinch.offX*s; z.ty=mid.y-pinch.baseCy-pinch.offY*s; clampZoom(); scheduleZoom(); e.preventDefault(); return; }
     if(draw){ draw.s.pts.push(ptOf(draw.cv,e)); if(!raf) raf=requestAnimationFrame(function(){ raf=0; if(draw){ redraw(draw.cv); draw1(draw.cv.getContext('2d'),draw.s); } }); e.preventDefault(); return; }
-    if(pan0){ view.tx=pan0.tx+(e.clientX-pan0.x); view.ty=pan0.ty+(e.clientY-pan0.y); clampView(); scheduleView(); e.preventDefault(); }
+    if(pan0){ z.tx=pan0.tx+(e.clientX-pan0.x); z.ty=pan0.ty+(e.clientY-pan0.y); clampZoom(); scheduleZoom(); e.preventDefault(); return; }
+    if(track.on){ var dx=e.clientX-track.x0; if((_cur===0&&dx>0)||(_cur===N-1&&dx<0)) dx*=0.35; track.dx=dx; scheduleTrack(); e.preventDefault(); }
   }
   function pend(e){
     if(!ptrs[e.pointerId]) return; delete ptrs[e.pointerId]; var n=Object.keys(ptrs).length;
-    if(pinch && n<2){ pinch=null; }
+    if(pinch && n<2){ pinch=null; if(z.scale<1.02){ resetZoom(); } else { clampZoom(); setZoom(); } }
     if(draw && n===0){ var cv=draw.cv,i=+cv.dataset.i; cv._st=cv._st||[]; cv._st.push(draw.s); saveP(i,cv._st); redraw(cv); draw=null; }
-    if(n===0){ pan0=null; updatePageNo(); }
+    if(n===0){ pan0=null;
+      if(track.on){ track.on=false; var th=Math.max(40,pageW*0.16);
+        if(track.dx<=-th) gotoPage(_cur+1,true); else if(track.dx>=th) gotoPage(_cur-1,true); else gotoPage(_cur,true); } }
   }
   function key(i){ return 'bk:'+bid+':'+i; }
   function load(i){ try{ return JSON.parse(localStorage.getItem(key(i))||'[]'); }catch(e){ return []; } }
@@ -4734,20 +4744,22 @@ var BK=(function(){
     if(!built) build();
     bid=data.id; var _tt=el('bktitle'); if(_tt) _tt.textContent=data.title||'หนังสือ';
     var pgs=el('bkpages'); pgs.innerHTML='';
-    (data.cards||[]).forEach(function(c,i){
+    var cards=data.cards||[]; N=cards.length;
+    cards.forEach(function(c,i){
       var w=document.createElement('div'); w.className='bkpage'; w.dataset.i=i;
+      var inner=document.createElement('div'); inner.className='bkpageinner';
       var img=new Image(); img.className='bkimg'; img.draggable=false;
-      w.appendChild(img); pgs.appendChild(w);
-      img.onload=function(){ _dims=null; clampView(); setTransform(); if((load(i)||[]).length) ensureCv(w); };
+      inner.appendChild(img); w.appendChild(inner); pgs.appendChild(w);
+      img.onload=function(){ if((load(i)||[]).length) ensureCv(w); };
       img.src=c.data;
     });
-    var vw=(el('bkscroll').clientWidth||window.innerWidth||900); baseW=Math.min(900,vw-14); pgs.style.width=baseW+'px';
-    view={scale:1,tx:Math.max(0,(vw-baseW)/2),ty:12}; ptrs={}; draw=null; pan0=null; pinch=null; _dims=null; setTransform();
-    setMode('pan'); syncCols();
+    ptrs={}; draw=null; pan0=null; pinch=null; track={x0:0,dx:0,on:false}; z={scale:1,tx:0,ty:0}; _cur=0;
+    measure(); setTrack(false); updatePageNo();
+    setMode('pan'); syncCols(); updateSwatch();
     root.classList.add('on'); document.documentElement.style.overflow='hidden';
-    setTimeout(function(){ _dims=null; clampView(); applyView(); },160);
+    setTimeout(function(){ measure(); setTrack(false); },160);
   }
-  function updatePageNo(){ var scE=el('bkscroll'); if(!scE)return; var pages=root.querySelectorAll('.bkpage'); var yc=((scE.clientHeight*0.4)-view.ty)/view.scale, idx=0; for(var i=0;i<pages.length;i++){ if(pages[i].offsetTop<=yc) idx=i; } _cur=idx; var lbl=el('bkpageno'); if(lbl) lbl.textContent=(idx+1)+' / '+pages.length; }
+  function updatePageNo(){ var lbl=el('bkpageno'); if(lbl) lbl.textContent=(_cur+1)+' / '+(N||root.querySelectorAll('.bkpage').length); }
   function clearPage(){ var i=_cur; var w=root.querySelectorAll('.bkpage')[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'?'))return; var cv=w.querySelector('.bkcanvas'); saveP(i,[]); if(cv){ cv._st=[]; redraw(cv); } }
   function close(){ root.classList.remove('on'); document.documentElement.style.overflow=''; }
   return { open:open, close:close };
