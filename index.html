@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v239";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v240";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4776,7 +4776,8 @@ var BK=(function(){
   function pend(e){
     if(!ptrs[e.pointerId]) return; delete ptrs[e.pointerId]; var n=Object.keys(ptrs).length;
     if(pinch && n<2){ pinch=null; if(z.scale<1.02){ resetZoom(); } else { clampZoom(); setZoom(); } }
-    if(draw && n===0){ var w=draw.w; var arr=inkOf(w); arr.push(draw.s); saveP(w.dataset.sk,arr); draw=null; scheduleInk(); }
+    if(draw && n===0){ var w=draw.w; var ept=ptOfPage(w,e); if(ept){ var lp=draw.s.pts[draw.s.pts.length-1]; if(!lp||lp[0]!==ept[0]||lp[1]!==ept[1]){ draw.s.pts.push(ept); } draw.s._sm=null; }   // เพิ่มจุดตอนยกปากกา → เส้นจบตรงที่ยกจริง ปลายไม่ขาด
+      var arr=inkOf(w); arr.push(draw.s); saveP(w.dataset.sk,arr); draw=null; scheduleInk(); }
     if(n===0){ pan0=null;
       if(track.on){ track.on=false; var th=Math.max(40,pageW*0.16);
         if(track.dx<=-th) gotoPage(_cur+1,true); else if(track.dx>=th) gotoPage(_cur-1,true); else gotoPage(_cur,true); } }
