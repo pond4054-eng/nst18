@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v240";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v241";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4769,7 +4769,8 @@ var BK=(function(){
     if(ptrs[e.pointerId]) ptrs[e.pointerId]={x:e.clientX,y:e.clientY}; var ids=Object.keys(ptrs);
     if(pinch && ids.length>=2){ var a=ptrs[ids[0]],b=ptrs[ids[1]],d=Math.max(1,dist(a,b)),mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
       var s=clamp(pinch.s0*d/pinch.d0,1,MAXZ); z.scale=s; z.tx=mid.x-pinch.baseCx-pinch.offX*s; z.ty=mid.y-pinch.baseCy-pinch.offY*s; clampZoom(); scheduleZoom(); e.preventDefault(); return; }
-    if(draw){ var pt=ptOfPage(draw.w,e); if(pt){ draw.s.pts.push(pt); draw.s._sm=null; } scheduleInk(); e.preventDefault(); return; }
+    if(draw){ var pt=ptOfPage(draw.w,e); if(pt){ var pp=draw.s.pts[draw.s.pts.length-1], md=(draw.w._lw||1000)*0.0016/(z.scale||1);   // กรองจุดที่ขยับนิดเดียว (มือสั่น) — ซูมมากยิ่งเก็บละเอียด
+        if(!pp||Math.abs(pt[0]-pp[0])>md||Math.abs(pt[1]-pp[1])>md){ draw.s.pts.push(pt); draw.s._sm=null; } } scheduleInk(); e.preventDefault(); return; }
     if(pan0){ z.tx=pan0.tx+(e.clientX-pan0.x); z.ty=pan0.ty+(e.clientY-pan0.y); clampZoom(); scheduleZoom(); e.preventDefault(); return; }
     if(track.on){ var dx=e.clientX-track.x0; if((_cur===0&&dx>0)||(_cur===N-1&&dx<0)) dx*=0.35; track.dx=dx; scheduleTrack(); e.preventDefault(); }
   }
@@ -4837,9 +4838,9 @@ var BK=(function(){
   function sizeInk(){ var cv=el('bkink'),scE=el('bkscroll'); if(!cv||!scE)return; var dpr=Math.min(window.devicePixelRatio||1,3); cv._dpr=dpr; var w=Math.round(scE.clientWidth*dpr),h=Math.round(scE.clientHeight*dpr); if(cv.width!==w||cv.height!==h){ cv.width=w; cv.height=h; } }
   function inkOf(w){ if(!w)return[]; if(!w._ink) w._ink=load(w.dataset.sk); return w._ink; }
   function scheduleInk(){ if(inkraf)return; inkraf=requestAnimationFrame(function(){ inkraf=0; paintInk(); }); }
-  function smoothPath(pts,iters){ if(!pts||pts.length<3) return pts; var p=pts;   // Chaikin corner-cutting → ลบความสั่น/เหลี่ยม เส้นโค้งเนียน
-    for(var it=0;it<iters;it++){ var out=[p[0]]; for(var i=0;i<p.length-1;i++){ var a=p[i],b=p[i+1];
-      out.push([a[0]*0.75+b[0]*0.25, a[1]*0.75+b[1]*0.25]); out.push([a[0]*0.25+b[0]*0.75, a[1]*0.25+b[1]*0.75]); }
+  function smoothPath(pts,passes){ if(!pts||pts.length<3) return pts; var p=pts;   // GoodNotes-style: เฉลี่ยถ่วงน้ำหนัก (1-2-1) ลบมือสั่น แต่เส้น "อยู่ตรงที่ลากจริง" ไม่เบี่ยงเข้าใน (ต่างจาก Chaikin)
+    for(var it=0;it<passes;it++){ var out=[p[0]],i;
+      for(i=1;i<p.length-1;i++){ out.push([(p[i-1][0]+p[i][0]*2+p[i+1][0])*0.25, (p[i-1][1]+p[i][1]*2+p[i+1][1])*0.25]); }
       out.push(p[p.length-1]); p=out; } return p; }
   function penRibbon(ctx,cp,hw){ var n=cp.length; if(n<2)return; var tap=Math.min(6,Math.floor(n/3));   // เส้นปากกา: ริบบิ้นเรียวปลาย
     function wf(i){ if(tap<1)return 1; var f=1; if(i<tap) f=(i+0.6)/tap; else if(i>=n-tap) f=(n-i-0.4)/tap; return Math.max(0.45,Math.min(1,f)); }
@@ -4849,7 +4850,7 @@ var BK=(function(){
     ctx.beginPath(); ctx.arc(cp[0][0],cp[0][1],Math.max(0.4,hw*wf(0)),0,7); ctx.fill(); ctx.beginPath(); ctx.arc(cp[n-1][0],cp[n-1][1],Math.max(0.4,hw*wf(n-1)),0,7); ctx.fill(); }
   function drawStroke(ctx,s,ox,oy,sx,sy,dpr){
     var raw=s.pts; if(!raw||!raw.length) return;
-    var sm=s._sm||(s._sm=smoothPath(raw, raw.length>2?3:0));   // สมูทในพิกัดหน้า แล้วแคชไว้ (คำนวณครั้งเดียวต่อเส้น) — ลบความสั่น/เหลี่ยม
+    var sm=s._sm||(s._sm=smoothPath(raw, raw.length>3?2:0));   // สมูทในพิกัดหน้า แล้วแคชไว้ (คำนวณครั้งเดียวต่อเส้น) — ลบมือสั่น เส้นตรงที่ลากจริง
     var lwid=Math.max(0.6, s.size*sx*dpr), cp=[],i; for(i=0;i<sm.length;i++) cp.push([(ox+sm[i][0]*sx)*dpr,(oy+sm[i][1]*sy)*dpr]);
     ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';   // ปากกาลูกลื่น: เส้นหนาสม่ำเสมอ ปลายมน ไม่เรียว
     if(s.tool==='eraser') ctx.globalCompositeOperation='destination-out';
