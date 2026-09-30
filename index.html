@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v226";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v227";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4726,9 +4726,10 @@ var BK=(function(){
   function clampZoom(){ if(z.scale<=1){ z.scale=1; z.tx=0; z.ty=0; return; } var inner=curInner(); var ih=inner?inner.offsetHeight:pageH; var mx=pageW*(z.scale-1)/2, my=Math.max(0,(ih*z.scale-pageH)/2); z.tx=clamp(z.tx,-mx,mx); z.ty=clamp(z.ty,-my,my); }
   function resetZoom(){ z={scale:1,tx:0,ty:0}; root.querySelectorAll('.bkpageinner').forEach(function(n){ n.style.transform=''; }); }
   function gotoPage(i,anim){ i=clamp(i,0,N-1); _cur=i; track.dx=0; resetZoom(); setTrack(anim); updatePageNo(); }
-  function ensureCv(w){ if(!w) return null; var inner=w.querySelector('.bkpageinner')||w; var cv=inner.querySelector('.bkcanvas'); if(cv) return cv; var img=inner.querySelector('.bkimg'); var cw,ch;
-    if(img&&img.naturalWidth){ cw=img.naturalWidth; ch=img.naturalHeight; } else if(w.dataset.kind==='grid'){ cw=1000; ch=1414; } else return null;
-    cv=document.createElement('canvas'); cv.className='bkcanvas'; cv.width=cw; cv.height=ch; cv.dataset.sk=w.dataset.sk; inner.appendChild(cv); cv._st=load(w.dataset.sk); redraw(cv); return cv; }
+  function ensureCv(w){ if(!w) return null; var inner=w.querySelector('.bkpageinner')||w; var cv=inner.querySelector('.bkcanvas'); if(cv) return cv; var img=inner.querySelector('.bkimg'); var lw,lh;
+    if(img&&img.naturalWidth){ lw=img.naturalWidth; lh=img.naturalHeight; } else if(w.dataset.kind==='grid'){ lw=1000; lh=1414; } else return null;
+    var ss=Math.max(2, Math.min(3, 2600/lw));   // ขยายความละเอียดผืนวาด (supersample) ให้เส้นคมตอนซูม โดยพิกัดวาดยังเป็นสเกลเดิม (lw×lh)
+    cv=document.createElement('canvas'); cv.className='bkcanvas'; cv._lw=lw; cv._lh=lh; cv._ss=ss; cv.width=Math.round(lw*ss); cv.height=Math.round(lh*ss); cv.dataset.sk=w.dataset.sk; inner.appendChild(cv); cv._st=load(w.dataset.sk); redraw(cv); return cv; }
   /* ── iOS pinch (Safari ยิง gesture events เอง เมื่อ pointer-pinch ใช้ไม่ได้) ── */
   function gStart(e){ e.preventDefault(); if(draw){ redraw(draw.cv); draw=null; } pan0=null; if(track.on){ track.on=false; track.dx=0; setTrack(true); } ptrs={}; measure();
     var inr=curInner(), rc=inr?inr.getBoundingClientRect():{left:0,right:pageW,top:0,bottom:pageH};
@@ -4815,9 +4816,9 @@ var BK=(function(){
     for(var i=1;i<p.length-1;i++){ var mx=(p[i][0]+p[i+1][0])/2, my=(p[i][1]+p[i+1][1])/2; ctx.quadraticCurveTo(p[i][0],p[i][1],mx,my); }
     ctx.lineTo(p[p.length-1][0],p[p.length-1][1]); ctx.stroke(); ctx.restore();
   }
-  function redraw(cv){ var ctx=cv.getContext('2d'); ctx.clearRect(0,0,cv.width,cv.height); (cv._st||[]).forEach(function(s){ draw1(ctx,s); }); }
-  function ptOf(cv,e){ var r=cv.getBoundingClientRect(); return [ (e.clientX-r.left)*(cv.width/r.width), (e.clientY-r.top)*(cv.height/r.height) ]; }
-  function sizeFor(cv){ var b=cv.width/1000; var arr=SIZES[T.tool]||SIZES.pen; var lv=(T.sizes&&T.sizes[T.tool]!=null)?T.sizes[T.tool]:1; return Math.max(1, arr[lv]*b); }
+  function redraw(cv){ var ctx=cv.getContext('2d'); var ss=cv._ss||1; ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height); ctx.setTransform(ss,0,0,ss,0,0); (cv._st||[]).forEach(function(s){ draw1(ctx,s); }); }
+  function ptOf(cv,e){ var r=cv.getBoundingClientRect(); var lw=cv._lw||cv.width, lh=cv._lh||cv.height; return [ (e.clientX-r.left)*(lw/r.width), (e.clientY-r.top)*(lh/r.height) ]; }
+  function sizeFor(cv){ var b=(cv._lw||cv.width)/1000; var arr=SIZES[T.tool]||SIZES.pen; var lv=(T.sizes&&T.sizes[T.tool]!=null)?T.sizes[T.tool]:1; return Math.max(1, arr[lv]*b); }
   function open(data){
     if(!built) build();
     bid=data.id; var _tt=el('bktitle'); if(_tt) _tt.textContent=data.title||'หนังสือ';
