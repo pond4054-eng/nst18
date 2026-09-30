@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v242";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v243";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4642,6 +4642,8 @@ var BK=(function(){
   var ptrs={}, draw=null, pan0=null, pinch=null, raf=0, _vraf=0, _tvraf=0;
   var pageW=0, pageH=0, N=0, z={scale:1,tx:0,ty:0}, track={x0:0,dx:0,on:false}, gs=null, MAXZ=3;
   var CARDS=[], seq=[];   // CARDS=หน้าหนังสือเดิม, seq=ลำดับหน้าจริง (รวมหน้ากระดาษที่เพิ่ม)
+  var ndraw=null, selNote=null, selPage=null;   // โพสต์อิท: เส้นที่กำลังเขียนในโน้ต, โน้ตที่เลือกอยู่ + หน้าของมัน
+  var NOTE_COLORS=['#FFE9A8','#FFD1DC','#C6EFCB','#CBE4FF','#FFD9B0','#E7D5FF'];
   function el(id){return document.getElementById(id);}
   var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#fff;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}#bkroot.on{display:flex}'+
     '#bkroot *{-webkit-touch-callout:none!important;-webkit-user-select:none!important;user-select:none!important;-webkit-user-drag:none}'+
@@ -4662,7 +4664,12 @@ var BK=(function(){
     '.bkpickgrip{width:40px;height:5px;border-radius:3px;background:#d5d9e0;margin:2px auto 12px}.bkpickhd{font-size:16px;font-weight:700;color:#1B1E27;margin-bottom:12px;display:flex;align-items:center;gap:8px}.bkpickhd span{font-weight:500;color:#8a93a2;font-size:13px}'+
     '.bkpickgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;overflow:auto;padding-bottom:4px}'+
     '.bkthumb{position:relative;width:100%;padding-top:133.33%;height:0;border-radius:9px;overflow:hidden;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.12);background:#fff;cursor:pointer}.bkthumb.on{border-color:#E4111F}.bkmini{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}.bkthumb .bknum{position:absolute;bottom:5px;right:6px;font-size:11px;font-weight:700;color:#1B1E27;background:rgba(255,255,255,.9);border-radius:6px;padding:1px 6px;box-shadow:0 1px 3px rgba(0,0,0,.2)}.bkthumb .bkbadge{position:absolute;top:5px;left:5px;font-size:9.5px;font-weight:700;color:#fff;background:#1f7a44;border-radius:5px;padding:1px 6px}.bkthumb .bkdel{position:absolute;top:4px;right:4px;width:22px;height:22px;border:none;border-radius:50%;background:rgba(228,17,31,.95);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.3)}'+
-    '.bkaddtile{background:#f3f5f8;border:2px dashed #b9c0cc;box-shadow:none}.bkaddin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;color:#4b5563;font-size:11.5px;font-weight:700;text-align:center;line-height:1.2;padding:6px}.bkaddin .bkpl{font-size:26px;font-weight:300;line-height:.8;color:#1B1E27}';
+    '.bkaddtile{background:#f3f5f8;border:2px dashed #b9c0cc;box-shadow:none}.bkaddin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;color:#4b5563;font-size:11.5px;font-weight:700;text-align:center;line-height:1.2;padding:6px}.bkaddin .bkpl{font-size:26px;font-weight:300;line-height:.8;color:#1B1E27}'+
+    /* โพสต์อิท (Post-it) — กล่องโน้ตแปะบนหน้า ลาก/ปรับขนาด/เขียนได้ */
+    '.bknote{position:absolute;border-radius:8px;box-shadow:0 8px 20px rgba(17,24,39,.18),0 2px 5px rgba(17,24,39,.10);display:flex;flex-direction:column;overflow:visible;z-index:3;touch-action:none}.bknbar{height:16px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;flex:none;opacity:.5;cursor:grab;touch-action:none}.bknbar i{width:26px;height:3px;border-radius:3px;background:rgba(0,0,0,.34)}.bknbody{flex:1;border-radius:0 0 8px 8px;touch-action:none}'+
+    '.bkndel{position:absolute;top:-12px;right:-12px;width:26px;height:26px;border-radius:50%;background:#fff;border:none;box-shadow:0 3px 9px rgba(0,0,0,.22);color:#e0242f;font-size:15px;font-weight:800;display:none;align-items:center;justify-content:center;z-index:4;padding:0;touch-action:none}.bknrz{position:absolute;right:-7px;bottom:-7px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 3px 9px rgba(0,0,0,.22);z-index:4;display:none;align-items:center;justify-content:center;touch-action:none}.bknrz::after{content:"";width:9px;height:9px;border-right:2.4px solid #7a828f;border-bottom:2.4px solid #7a828f}'+
+    '.bknote.sel{outline:2px solid rgba(40,44,55,.4);outline-offset:2px}.bknote.sel .bkndel,.bknote.sel .bknrz{display:flex}'+
+    '#bknpal{position:absolute;display:none;gap:7px;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:7px 9px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.22);z-index:6}#bknpal.on{display:flex}.bknsw{width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.12);padding:0}.bknsw.on{box-shadow:0 0 0 2px #1B1E27}';
   function build(){
     var s=document.createElement('style'); s.textContent=CSS; document.head.appendChild(s);
     root=document.createElement('div'); root.id='bkroot';
@@ -4678,12 +4685,15 @@ var BK=(function(){
         '<span class="bkdiv"></span>'+
         '<button id="bkpageno" class="bkact" aria-label="เลือกหน้า"></button>'+
         '<button id="bkadd" class="bkact" aria-label="เพิ่มหน้ากระดาษ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></button>'+
+        '<button id="bknote" class="bkact" aria-label="เพิ่มโพสต์อิท"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9l7-7V5a2 2 0 0 0-2-2z"/><path d="M15 21v-5a1 1 0 0 1 1-1h5"/></svg></button>'+
         '<button id="bkundo" class="bkact" aria-label="ย้อนกลับ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-4"/></svg></button>'+
         '<button id="bkclear" class="bkact" aria-label="ล้างหน้านี้"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>'+
-      '</div>';
+      '</div>'+
+      '<div id="bknpal"></div>';
     document.body.appendChild(root);
     el('bkclose').onclick=close; el('bkclear').onclick=clearPage;
     el('bkadd').onclick=function(){ addGridPage(); }; el('bkpageno').onclick=openPicker; el('bkundo').onclick=undo;
+    el('bknote').onclick=function(){ addNote(); };
     el('bkpick').querySelector('.bkpickdim').onclick=closePicker;
     root.querySelectorAll('.bktool').forEach(function(b){ b.onclick=function(){ setMode(b.dataset.m); }; });
     var cc=el('bkcolors');
@@ -4733,7 +4743,7 @@ var BK=(function(){
   function scheduleZoom(){ if(_vraf)return; _vraf=requestAnimationFrame(function(){ _vraf=0; setZoom(); }); }
   function clampZoom(){ if(z.scale<=1){ z.scale=1; z.tx=0; z.ty=0; return; } var inner=curInner(); var ih=inner?inner.offsetHeight:pageH; var mx=pageW*(z.scale-1)/2, my=Math.max(0,(ih*z.scale-pageH)/2); z.tx=clamp(z.tx,-mx,mx); z.ty=clamp(z.ty,-my,my); }
   function resetZoom(){ z={scale:1,tx:0,ty:0}; root.querySelectorAll('.bkpageinner').forEach(function(n){ n.style.transform=''; }); scheduleInk(); }
-  function gotoPage(i,anim){ i=clamp(i,0,N-1); _cur=i; track.dx=0; resetZoom(); setTrack(anim); updatePageNo(); mountWindow(); }
+  function gotoPage(i,anim){ if(selNote) deselectNote(); i=clamp(i,0,N-1); _cur=i; track.dx=0; resetZoom(); setTrack(anim); updatePageNo(); mountWindow(); }
   function mountWindow(){ var ps=pagesEls(); for(var i=0;i<ps.length;i++){ var w=ps[i]; if(w.dataset.kind!=='book') continue; var img=w.querySelector('.bkimg'); if(!img) continue; var near=Math.abs(i-_cur)<=1;
     if(near){ if(!img.getAttribute('src') && w._data){ img.src=w._data; } }
     else if(img.getAttribute('src')){ img.removeAttribute('src'); var cv=w.querySelector('.bkcanvas'); if(cv) cv.remove(); } } }
@@ -4758,6 +4768,7 @@ var BK=(function(){
       var cxpt=(rc.left+rc.right)/2, cypt=(rc.top+rc.bottom)/2;
       pinch={d0:Math.max(1,dist(a,b)),s0:z.scale,baseCx:cxpt-z.tx,baseCy:cypt-z.ty,offX:(mid.x-cxpt)/z.scale,offY:(mid.y-cypt)/z.scale}; e.preventDefault(); return; }
     var isPen=(e.pointerType==='pen');
+    if(selNote){ deselectNote(); if(T.mode==='draw'||isPen){ e.preventDefault(); return; } }   // แตะที่ว่าง = เลิกเลือกโน้ต (ตอนโหมดปากกาให้แค่ยกเลิก ไม่แต้มจุด); แตะบนโน้ตถูก stopPropagation ไว้แล้ว
     if(T.mode==='draw'||isPen){ var w=curPage(); var pt=w?ptOfPage(w,e):null;
       if(pt){ draw={w:w,s:{tool:(T.mode==='draw'?T.tool:'pen'),color:T.color,size:sizeForPage(w),pts:[pt]}}; scheduleInk(); } }
     else if(z.scale>1){ pan0={x:e.clientX,y:e.clientY,tx:z.tx,ty:z.ty}; }
@@ -4797,6 +4808,7 @@ var BK=(function(){
       var img=new Image(); img.className='bkimg'; img.draggable=false; inner.appendChild(img); w.appendChild(inner);
       img.onload=function(){ w._lw=img.naturalWidth; w._lh=img.naturalHeight; fitPage(w); scheduleInk(); };
       w._data=(CARDS[it.bi]||{}).data||''; }   // ยังไม่โหลดรูป (virtualize) — mountWindow จะตั้ง src เฉพาะหน้าที่ใกล้หน้าปัจจุบัน
+    renderNotesFor(w);   // สร้างกล่องโพสต์อิทที่บันทึกไว้ของหน้านี้
     return w;
   }
   function renderPages(){ var pgs=el('bkpages'); pgs.innerHTML=''; seq.forEach(function(it){ pgs.appendChild(buildPageDiv(it)); }); N=seq.length; }
@@ -4820,6 +4832,56 @@ var BK=(function(){
     el('bkpick').classList.add('on');
   }
   function closePicker(){ var p=el('bkpick'); if(p) p.classList.remove('on'); }
+  /* ── โพสต์อิท (Post-it): กล่องโน้ตติดกับหน้า เขียนด้วยปากกาได้ ลาก/ปรับขนาด/เปลี่ยนสี/ลบได้ ──
+     พิกัด x,y,w,h = สัดส่วน 0..1 ของกรอบหน้า (จึงเลื่อน/ซูม/พลิกตามหน้าเอง) ; เส้นในโน้ต = สัดส่วน 0..1 ของตัวโน้ต */
+  function loadNotes(sk){ try{ return JSON.parse(localStorage.getItem('bk:'+bid+':n:'+sk)||'[]'); }catch(e){ return []; } }
+  function saveNotes(w){ if(!w||!w._notes)return; try{ localStorage.setItem('bk:'+bid+':n:'+w.dataset.sk, JSON.stringify(w._notes, function(k,v){ return (k==='el'||k==='_sm')?undefined:v; })); }catch(e){} }
+  function notesOf(w){ if(!w)return[]; if(!w._notes) w._notes=loadNotes(w.dataset.sk); return w._notes; }
+  function renderNotesFor(w){ notesOf(w).forEach(function(n){ makeNoteEl(w,n); }); }
+  function noteSize(){ var lv=(T.sizes&&T.sizes[T.tool]!=null)?T.sizes[T.tool]:1; return (T.tool==='hi'?0.05:0.008)*(1+lv*0.5); }
+  function layoutNote(n){ if(!n.el)return; n.el.style.left=(n.x*100)+'%'; n.el.style.top=(n.y*100)+'%'; n.el.style.width=(n.w*100)+'%'; n.el.style.height=(n.h*100)+'%'; n.el.style.background=n.color; }
+  function makeNoteEl(w,n){ var inner=w.querySelector('.bkpageinner'); if(!inner)return null;
+    var ne=document.createElement('div'); ne.className='bknote'; ne._note=n; n.el=ne;
+    ne.innerHTML='<div class="bknbar"><i></i></div><div class="bknbody"></div><button class="bkndel" aria-label="ลบโน้ต">✕</button><div class="bknrz"></div>';
+    inner.appendChild(ne); layoutNote(n);
+    var bar=ne.querySelector('.bknbar'), body=ne.querySelector('.bknbody'), rz=ne.querySelector('.bknrz'), del=ne.querySelector('.bkndel');
+    del.addEventListener('pointerdown',function(e){ e.stopPropagation(); });
+    del.addEventListener('click',function(e){ e.stopPropagation(); delNote(n,w); });
+    function startMove(e,elC){ selectNote(n,w); var ir=inner.getBoundingClientRect(); var st={sx:e.clientX,sy:e.clientY,x0:n.x,y0:n.y,iw:ir.width,ih:ir.height};
+      try{ elC.setPointerCapture(e.pointerId); }catch(_){}
+      function mv(ev){ n.x=clamp(st.x0+(ev.clientX-st.sx)/st.iw,0,1-n.w); n.y=clamp(st.y0+(ev.clientY-st.sy)/st.ih,0,1-n.h); layoutNote(n); positionNotePalette(); scheduleInk(); ev.preventDefault(); }
+      function up(){ elC.removeEventListener('pointermove',mv); elC.removeEventListener('pointerup',up); elC.removeEventListener('pointercancel',up); saveNotes(w); }
+      elC.addEventListener('pointermove',mv); elC.addEventListener('pointerup',up); elC.addEventListener('pointercancel',up); }
+    bar.addEventListener('pointerdown',function(e){ e.stopPropagation(); e.preventDefault(); startMove(e,bar); });
+    rz.addEventListener('pointerdown',function(e){ e.stopPropagation(); e.preventDefault(); selectNote(n,w); var ir=inner.getBoundingClientRect(); var st={sx:e.clientX,sy:e.clientY,w0:n.w,h0:n.h,iw:ir.width,ih:ir.height};
+      try{ rz.setPointerCapture(e.pointerId); }catch(_){}
+      function mv(ev){ n.w=clamp(st.w0+(ev.clientX-st.sx)/st.iw,0.14,1-n.x); n.h=clamp(st.h0+(ev.clientY-st.sy)/st.ih,0.07,1-n.y); layoutNote(n); positionNotePalette(); scheduleInk(); ev.preventDefault(); }
+      function up(){ rz.removeEventListener('pointermove',mv); rz.removeEventListener('pointerup',up); rz.removeEventListener('pointercancel',up); saveNotes(w); }
+      rz.addEventListener('pointermove',mv); rz.addEventListener('pointerup',up); rz.addEventListener('pointercancel',up); });
+    body.addEventListener('pointerdown',function(e){ e.stopPropagation(); selectNote(n,w);
+      if(T.mode==='draw' && T.tool!=='eraser'){ e.preventDefault(); var br=body.getBoundingClientRect();
+        var p0=[clamp((e.clientX-br.left)/br.width,0,1),clamp((e.clientY-br.top)/br.height,0,1)];
+        ndraw={note:n,w:w,s:{tool:T.tool,color:T.color,size:noteSize(),pts:[p0]}};
+        try{ body.setPointerCapture(e.pointerId); }catch(_){}
+        function mv(ev){ if(!ndraw)return; var b=body.getBoundingClientRect(); var q=[clamp((ev.clientX-b.left)/b.width,0,1),clamp((ev.clientY-b.top)/b.height,0,1)]; var pp=ndraw.s.pts[ndraw.s.pts.length-1]; if(!pp||Math.abs(q[0]-pp[0])>0.004||Math.abs(q[1]-pp[1])>0.004){ ndraw.s.pts.push(q); ndraw.s._sm=null; } scheduleInk(); ev.preventDefault(); }
+        function up(ev){ body.removeEventListener('pointermove',mv); body.removeEventListener('pointerup',up); body.removeEventListener('pointercancel',up); if(!ndraw)return; var b=body.getBoundingClientRect(); var q=[clamp((ev.clientX-b.left)/b.width,0,1),clamp((ev.clientY-b.top)/b.height,0,1)]; var lp=ndraw.s.pts[ndraw.s.pts.length-1]; if(!lp||lp[0]!==q[0]||lp[1]!==q[1]) ndraw.s.pts.push(q); ndraw.s._sm=null; n.ink.push(ndraw.s); ndraw=null; saveNotes(w); scheduleInk(); }
+        body.addEventListener('pointermove',mv); body.addEventListener('pointerup',up); body.addEventListener('pointercancel',up);
+      } else { e.preventDefault(); startMove(e,body); } });
+    return ne; }
+  function addNote(){ closePicker(); var w=curPage(); if(!w)return; var arr=notesOf(w);
+    var nw=0.42, nh=0.2, n={id:newGid(), w:nw, h:nh, color:NOTE_COLORS[arr.length%NOTE_COLORS.length], ink:[]};
+    n.x=clamp((1-nw)/2+(Math.random()*0.08-0.04),0,1-nw); n.y=clamp(0.3+(Math.random()*0.08-0.04),0,1-nh);
+    arr.push(n); makeNoteEl(w,n); saveNotes(w); if(T.mode!=='draw') setMode('pen'); selectNote(n,w); scheduleInk(); }
+  function delNote(n,w){ if(n.el) n.el.remove(); w._notes=(w._notes||[]).filter(function(m){return m!==n;}); saveNotes(w); if(selNote===n) deselectNote(); scheduleInk(); }
+  function selectNote(n,w){ selNote=n; selPage=w; root.querySelectorAll('.bknote').forEach(function(e){ e.classList.toggle('sel', e._note===n); }); showNotePalette(n); }
+  function deselectNote(){ selNote=null; selPage=null; root.querySelectorAll('.bknote.sel').forEach(function(e){ e.classList.remove('sel'); }); var pal=el('bknpal'); if(pal) pal.classList.remove('on'); }
+  function showNotePalette(n){ var pal=el('bknpal'); if(!pal)return; pal.innerHTML='';
+    NOTE_COLORS.forEach(function(col){ var b=document.createElement('button'); b.className='bknsw'+(col===n.color?' on':''); b.style.background=col;
+      b.onclick=function(e){ e.stopPropagation(); n.color=col; if(n.el)n.el.style.background=col; pal.querySelectorAll('.bknsw').forEach(function(s){s.classList.remove('on');}); b.classList.add('on'); if(selPage)saveNotes(selPage); scheduleInk(); }; pal.appendChild(b); });
+    pal.classList.add('on'); positionNotePalette(); }
+  function positionNotePalette(){ var pal=el('bknpal'); if(!pal||!selNote||!selNote.el)return; var r=selNote.el.getBoundingClientRect();
+    pal.style.left=Math.max(8,Math.min(window.innerWidth-168, r.left+r.width/2-72))+'px'; pal.style.top=Math.max(8,r.top-52)+'px'; }
+  function rrect(ctx,x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
   function draw1(ctx,s){
     ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
     if(s.tool==='eraser'){ ctx.globalCompositeOperation='destination-out'; ctx.lineWidth=s.size; ctx.strokeStyle='rgba(0,0,0,1)'; }
@@ -4872,7 +4934,17 @@ var BK=(function(){
       var lw=w._lw||1000, lh=w._lh||1414, ox=r.left-scr.left, oy=r.top-scr.top, sx=r.width/lw, sy=r.height/lh;
       var strokes=inkOf(w); for(var i=0;i<strokes.length;i++) drawStroke(ctx,strokes[i],ox,oy,sx,sy,dpr);
       if(draw&&draw.w===w) drawStroke(ctx,draw.s,ox,oy,sx,sy,dpr);
-    } }
+      // โพสต์อิทของหน้านี้: วาดพื้นสีทับ (กันเส้นหน้าหลักทะลุ) แล้ววาดเส้นในโน้ต — ตัดขอบมนตามกล่อง
+      var nEls=inner.querySelectorAll('.bknote');
+      for(var ni=0;ni<nEls.length;ni++){ var ne=nEls[ni], nd=ne._note; if(!nd)continue; var body=ne.querySelector('.bknbody'); if(!body)continue; var br=body.getBoundingClientRect();
+        if(br.right<scr.left-2||br.left>scr.right+2||br.bottom<scr.top-2||br.top>scr.bottom+2) continue;
+        var nx=br.left-scr.left, ny=br.top-scr.top, nsx=br.width, nsy=br.height;
+        ctx.save(); rrect(ctx,nx*dpr,ny*dpr,nsx*dpr,nsy*dpr,7*dpr); ctx.fillStyle=nd.color; ctx.fill(); ctx.clip();
+        var nk=nd.ink||[]; for(var nj=0;nj<nk.length;nj++) drawStroke(ctx,nk[nj],nx,ny,nsx,nsy,dpr);
+        if(ndraw&&ndraw.note===nd) drawStroke(ctx,ndraw.s,nx,ny,nsx,nsy,dpr);
+        ctx.restore(); }
+    }
+    if(selNote) positionNotePalette(); }
   function ptOfPage(w,e){ var inner=w.querySelector('.bkpageinner'); if(!inner)return null; var r=inner.getBoundingClientRect(); var lw=w._lw||1000, lh=w._lh||1414; return [ (e.clientX-r.left)/r.width*lw, (e.clientY-r.top)/r.height*lh ]; }
   function sizeForPage(w){ var b=(w._lw||1000)/1000; var arr=SIZES[T.tool]||SIZES.pen; var lv=(T.sizes&&T.sizes[T.tool]!=null)?T.sizes[T.tool]:1; return Math.max(0.5, arr[lv]*b); }
   function sizeFor(cv){ var b=(cv._lw||cv.width)/1000; var arr=SIZES[T.tool]||SIZES.pen; var lv=(T.sizes&&T.sizes[T.tool]!=null)?T.sizes[T.tool]:1; return Math.max(1, arr[lv]*b); }
@@ -4890,9 +4962,11 @@ var BK=(function(){
     setTimeout(function(){ measure(); setTrack(false); scheduleInk(); },160);
   }
   function updatePageNo(){ var lbl=el('bkpageno'); if(lbl) lbl.innerHTML='<span class="bkgi"><i></i><i></i><i></i><i></i></span><span>'+(_cur+1)+'/'+(N||root.querySelectorAll('.bkpage').length)+'</span>'; }
-  function undo(){ var w=curPage(); if(!w)return; var arr=inkOf(w); if(!arr.length)return; arr.pop(); saveP(w.dataset.sk,arr); scheduleInk(); }
-  function clearPage(){ var i=_cur; var w=pagesEls()[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'?'))return; w._ink=[]; saveP(w.dataset.sk,[]); scheduleInk(); }
-  function close(){ closePicker(); root.classList.remove('on'); document.documentElement.style.overflow=''; }
+  function undo(){ if(selNote && selNote.ink && selNote.ink.length){ selNote.ink.pop(); if(selPage)saveNotes(selPage); scheduleInk(); return; }   // ถ้าเลือกโน้ตอยู่ = ย้อนเส้นในโน้ตก่อน
+    var w=curPage(); if(!w)return; var arr=inkOf(w); if(!arr.length)return; arr.pop(); saveP(w.dataset.sk,arr); scheduleInk(); }
+  function clearPage(){ var i=_cur; var w=pagesEls()[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'? (รวมโพสต์อิทด้วย)'))return; w._ink=[]; saveP(w.dataset.sk,[]);
+    if(w._notes&&w._notes.length){ w._notes.forEach(function(n){ if(n.el)n.el.remove(); }); w._notes=[]; saveNotes(w); } deselectNote(); scheduleInk(); }
+  function close(){ closePicker(); deselectNote(); root.classList.remove('on'); document.documentElement.style.overflow=''; }
   return { open:open, close:close };
 })();
 
