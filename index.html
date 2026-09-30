@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v232";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v233";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4644,6 +4644,7 @@ var BK=(function(){
   var CARDS=[], seq=[];   // CARDS=หน้าหนังสือเดิม, seq=ลำดับหน้าจริง (รวมหน้ากระดาษที่เพิ่ม)
   function el(id){return document.getElementById(id);}
   var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#fff;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}#bkroot.on{display:flex}'+
+    '#bkroot *{-webkit-touch-callout:none!important;-webkit-user-select:none!important;user-select:none!important;-webkit-user-drag:none}'+
     '#bkroot img{-webkit-user-drag:none;-webkit-touch-callout:none;pointer-events:none}'+
     '#bkscroll{flex:1;overflow:hidden;position:relative;background:#eef0f3;touch-action:none}#bkpages{position:absolute;top:0;left:0;bottom:0;display:flex;height:100%;will-change:transform}'+
     '.bkpage{position:relative;flex:none;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}.bkpageinner{position:relative;width:100%;transform-origin:center center;will-change:transform;background:#fff;box-shadow:0 4px 18px rgba(17,24,39,.16);touch-action:none}.bkimg{width:100%;display:block;touch-action:none}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;touch-action:none}#bkpages{touch-action:none}'+
@@ -4693,6 +4694,8 @@ var BK=(function(){
     scE.addEventListener('pointerdown',pdown); scE.addEventListener('pointermove',pmove);
     scE.addEventListener('pointerup',pend); scE.addEventListener('pointercancel',pend); scE.addEventListener('pointerleave',pend);
     scE.addEventListener('gesturestart',gStart,{passive:false}); scE.addEventListener('gesturechange',gMove,{passive:false}); scE.addEventListener('gestureend',gEnd,{passive:false});
+    root.addEventListener('contextmenu',function(e){ e.preventDefault(); });   // กันเมนูคลิกขวา/กดค้าง (คัดลอก) บน iOS
+    root.addEventListener('selectstart',function(e){ e.preventDefault(); });   // กันการเลือกข้อความตอนเขียน
     window.addEventListener('resize',function(){ if(!root.classList.contains('on'))return; measure(); resetZoom(); setTrack(false); });
     built=true;
   }
