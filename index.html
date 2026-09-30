@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v210";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v211";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -3580,7 +3580,12 @@ var A={
   studyMode:function(m){ S.studyMode=m; if(m==="know"){ S.player=null; } render(); window.scrollTo(0,0); },
   studyPick:function(m){ S.studyPick=m; S.knowSubj=null; if(m==="know"){ S.player=null; S.studyMode="know"; } else { S.studyMode="video"; } render(); window.scrollTo(0,0); },
   studyPickBack:function(){ S.studyPick=null; S.knowSubj=null; S.player=null; render(); window.scrollTo(0,0); },
-  openKnowSubj:function(sk){ S.knowSubj=sk; render(); window.scrollTo(0,0); },
+  openKnowSubj:function(sk){ var arr=(S.knowledge||{})[sk]||[];
+    if(arr.length===1 && arr[0].type==='book'){ this.openBookItem(sk,arr[0]); return; }   // วิชาที่เป็นหนังสือเล่มเดียว → เปิดเอกสารเลย ไม่เข้าหน้ารายการซ้อน
+    S.knowSubj=sk; render(); window.scrollTo(0,0); },
+  openBookItem:function(sk,it){
+    function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[]}); }
+    if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; toast('⏳ กำลังเปิดหนังสือ…'); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._loading=false; go(); }).catch(function(){ it._loading=false; alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   backKnow:function(){ S.knowSubj=null; render(); },
   loadKnowExt:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it||!it.ext){return;} if(it.data){render();return;} if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.data=j.data; it.cards=j.cards||[]; it._loading=false; render(); }).catch(function(){ it._loading=false; render(); alert('โหลดสรุปไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); },
   openBook:function(ts){ var sk=S.knowSubj, arr=(S.knowledge||{})[sk]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='book'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return;
