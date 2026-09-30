@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v238";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v239";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4856,7 +4856,9 @@ var BK=(function(){
     if(cp.length===1){ ctx.beginPath(); ctx.arc(cp[0][0],cp[0][1],Math.max(0.5,lwid/2),0,7); ctx.fillStyle=(s.tool==='eraser'?'#000':s.color); ctx.fill(); ctx.restore(); return; }
     ctx.beginPath(); ctx.moveTo(cp[0][0],cp[0][1]);
     if(cp.length===2){ ctx.lineTo(cp[1][0],cp[1][1]); }
-    else { for(i=1;i<cp.length-1;i++){ ctx.quadraticCurveTo(cp[i][0],cp[i][1],(cp[i][0]+cp[i+1][0])/2,(cp[i][1]+cp[i+1][1])/2); } ctx.lineTo(cp[cp.length-1][0],cp[cp.length-1][1]); }
+    else { for(i=0;i<cp.length-1;i++){   // Catmull-Rom spline → เส้นโค้งผ่านทุกจุด สัมผัสต่อเนื่อง ไม่มีเหลี่ยม
+        var p0=cp[i>0?i-1:0], p1=cp[i], p2=cp[i+1], p3=cp[i+2<cp.length?i+2:i+1];
+        ctx.bezierCurveTo(p1[0]+(p2[0]-p0[0])/6, p1[1]+(p2[1]-p0[1])/6, p2[0]-(p3[0]-p1[0])/6, p2[1]-(p3[1]-p1[1])/6, p2[0], p2[1]); } }
     ctx.stroke();
     ctx.restore(); }
   function paintInk(){ var cv=el('bkink'); if(!cv)return; var ctx=cv.getContext('2d'); ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height);
