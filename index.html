@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v234";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v235";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4696,6 +4696,9 @@ var BK=(function(){
     scE.addEventListener('gesturestart',gStart,{passive:false}); scE.addEventListener('gesturechange',gMove,{passive:false}); scE.addEventListener('gestureend',gEnd,{passive:false});
     root.addEventListener('contextmenu',function(e){ e.preventDefault(); });   // กันเมนูคลิกขวา/กดค้าง (คัดลอก) บน iOS
     root.addEventListener('selectstart',function(e){ e.preventDefault(); });   // กันการเลือกข้อความตอนเขียน
+    // iPad/iOS: ดัก touch นิ้วเดียวไม่ให้เด้งเมนูคัดลอก/เลือกข้อความ (สองนิ้วปล่อยผ่านเพื่อให้ซูมได้)
+    scE.addEventListener('touchstart',function(e){ if(e.touches.length<2 && e.cancelable) e.preventDefault(); },{passive:false});
+    scE.addEventListener('touchmove',function(e){ if(e.touches.length<2 && e.cancelable) e.preventDefault(); },{passive:false});
     window.addEventListener('resize',function(){ if(!root.classList.contains('on'))return; measure(); resetZoom(); setTrack(false); });
     built=true;
   }
