@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v233";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v234";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4647,7 +4647,7 @@ var BK=(function(){
     '#bkroot *{-webkit-touch-callout:none!important;-webkit-user-select:none!important;user-select:none!important;-webkit-user-drag:none}'+
     '#bkroot img{-webkit-user-drag:none;-webkit-touch-callout:none;pointer-events:none}'+
     '#bkscroll{flex:1;overflow:hidden;position:relative;background:#eef0f3;touch-action:none}#bkpages{position:absolute;top:0;left:0;bottom:0;display:flex;height:100%;will-change:transform}'+
-    '.bkpage{position:relative;flex:none;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}.bkpageinner{position:relative;width:100%;transform-origin:center center;will-change:transform;background:#fff;box-shadow:0 4px 18px rgba(17,24,39,.16);touch-action:none}.bkimg{width:100%;display:block;touch-action:none}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;touch-action:none}#bkpages{touch-action:none}'+
+    '.bkpage{position:relative;flex:none;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}.bkpageinner{position:relative;width:100%;transform-origin:center center;will-change:transform;background:#fff;box-shadow:0 4px 18px rgba(17,24,39,.16);touch-action:none}.bkimg{width:100%;display:block;touch-action:none}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;touch-action:none}#bkpages{touch-action:none}#bkink{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;touch-action:none}'+
     '#bkbar{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:translateX(-50%);display:flex;align-items:center;gap:3px;padding:6px 8px;max-width:calc(100vw - 14px);overflow-x:auto;scrollbar-width:none;background:rgba(255,255,255,.80);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(0,0,0,.05);border-radius:22px;box-shadow:0 14px 40px rgba(17,24,39,.22),0 3px 10px rgba(17,24,39,.10);z-index:3}#bkbar::-webkit-scrollbar{display:none}'+
     '.bktool{background:transparent;color:#20242e;border:none;border-radius:11px;width:37px;height:37px;display:flex;align-items:center;justify-content:center;flex:none;line-height:1;transition:background .15s,color .15s,transform .1s}.bktool small{display:none}.bktool svg{width:20px;height:20px;pointer-events:none}.bktool:active{transform:scale(.92)}.bktool.on{background:#1B1E27;color:#fff;box-shadow:0 4px 12px rgba(27,30,39,.32)}'+
     '.bkdiv{width:1px;height:28px;background:rgba(0,0,0,.10);flex:none;margin:0 4px}'+
@@ -4666,7 +4666,7 @@ var BK=(function(){
   function build(){
     var s=document.createElement('style'); s.textContent=CSS; document.head.appendChild(s);
     root=document.createElement('div'); root.id='bkroot';
-    root.innerHTML='<div id="bkscroll"><div id="bkpages"></div></div>'+
+    root.innerHTML='<div id="bkscroll"><div id="bkpages"></div><canvas id="bkink"></canvas></div>'+
       '<button id="bkclose" class="bkfab" aria-label="ปิด"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>'+
       '<div id="bkpick"><div class="bkpickdim"></div><div class="bkpicksheet"><div class="bkpickgrip"></div><div class="bkpickhd"><span class="bkgi" style="display:inline-grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;width:20px;height:20px"><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i></span> เลือกหน้า <span id="bkpicknum"></span></div><div id="bkpickgrid" class="bkpickgrid"></div></div></div>'+
       '<div id="bkbar">'+
@@ -4722,13 +4722,14 @@ var BK=(function(){
   function curInner(){ var w=curPage(); return w? w.querySelector('.bkpageinner'):null; }
   function fitPage(w){ if(!w||!pageW||!pageH)return; var img=w.querySelector('.bkimg'); var ar=(img&&img.naturalWidth)? img.naturalHeight/img.naturalWidth : 1.4142; var fw=pageW, fh=fw*ar; if(fh>pageH){ fh=pageH; fw=fh/ar; } var inner=w.querySelector('.bkpageinner'); if(inner){ inner.style.width=fw+'px'; inner.style.height=fh+'px'; } }
   function measure(){ var scE=el('bkscroll'); if(!scE)return; pageW=scE.clientWidth; pageH=scE.clientHeight; var ps=pagesEls(); for(var i=0;i<ps.length;i++){ ps[i].style.width=pageW+'px'; fitPage(ps[i]); }
-    var dpr=window.devicePixelRatio||2, fitW=Math.min(pageW, pageH/1.4142); MAXZ=Math.max(1.5, Math.min(4, 2820/(fitW*dpr))); }   // จำกัดซูมสูงสุดตาม "ความกว้างหน้าที่แสดงจริง"×DPR ไม่ให้ซูมเกินจนเส้น/ภาพมัว (แก้เคส iPad/แนวนอน)
-  function setTrack(anim){ var p=el('bkpages'); if(!p)return; p.style.transition=anim?'transform .3s cubic-bezier(.22,.61,.36,1)':'none'; p.style.transform='translateX('+(-_cur*pageW+track.dx)+'px)'; }
+    sizeInk();
+    var dpr=window.devicePixelRatio||2, fitW=Math.min(pageW, pageH/1.4142); MAXZ=Math.max(2.5, Math.min(4.5, 3300/(fitW*dpr)*1.15)); scheduleInk(); }   // เส้นเป็นเวกเตอร์คมทุกซูมแล้ว จำกัดซูมแค่ไม่ให้ภาพหนังสือ (raster 3300px) แตกมากเกินไป
+  function setTrack(anim){ var p=el('bkpages'); if(!p)return; p.style.transition=anim?'transform .3s cubic-bezier(.22,.61,.36,1)':'none'; p.style.transform='translateX('+(-_cur*pageW+track.dx)+'px)'; scheduleInk(); }
   function scheduleTrack(){ if(_tvraf)return; _tvraf=requestAnimationFrame(function(){ _tvraf=0; setTrack(false); }); }
-  function setZoom(){ var inner=curInner(); if(inner) inner.style.transform='translate('+z.tx+'px,'+z.ty+'px) scale('+z.scale+')'; }
+  function setZoom(){ var inner=curInner(); if(inner) inner.style.transform='translate('+z.tx+'px,'+z.ty+'px) scale('+z.scale+')'; scheduleInk(); }
   function scheduleZoom(){ if(_vraf)return; _vraf=requestAnimationFrame(function(){ _vraf=0; setZoom(); }); }
   function clampZoom(){ if(z.scale<=1){ z.scale=1; z.tx=0; z.ty=0; return; } var inner=curInner(); var ih=inner?inner.offsetHeight:pageH; var mx=pageW*(z.scale-1)/2, my=Math.max(0,(ih*z.scale-pageH)/2); z.tx=clamp(z.tx,-mx,mx); z.ty=clamp(z.ty,-my,my); }
-  function resetZoom(){ z={scale:1,tx:0,ty:0}; root.querySelectorAll('.bkpageinner').forEach(function(n){ n.style.transform=''; }); }
+  function resetZoom(){ z={scale:1,tx:0,ty:0}; root.querySelectorAll('.bkpageinner').forEach(function(n){ n.style.transform=''; }); scheduleInk(); }
   function gotoPage(i,anim){ i=clamp(i,0,N-1); _cur=i; track.dx=0; resetZoom(); setTrack(anim); updatePageNo(); mountWindow(); }
   function mountWindow(){ var ps=pagesEls(); for(var i=0;i<ps.length;i++){ var w=ps[i]; if(w.dataset.kind!=='book') continue; var img=w.querySelector('.bkimg'); if(!img) continue; var near=Math.abs(i-_cur)<=1;
     if(near){ if(!img.getAttribute('src') && w._data){ img.src=w._data; } }
@@ -4740,7 +4741,7 @@ var BK=(function(){
     ss=Math.min(ss, CAP/lw, CAP/lh);                       // แต่ห้ามเกินขนาดที่มือถือรองรับ
     cv=document.createElement('canvas'); cv.className='bkcanvas'; cv._lw=lw; cv._lh=lh; cv._ss=ss; cv.width=Math.round(lw*ss); cv.height=Math.round(lh*ss); cv.dataset.sk=w.dataset.sk; inner.appendChild(cv); cv._st=load(w.dataset.sk); redraw(cv); return cv; }
   /* ── iOS pinch (Safari ยิง gesture events เอง เมื่อ pointer-pinch ใช้ไม่ได้) ── */
-  function gStart(e){ e.preventDefault(); if(draw){ redraw(draw.cv); draw=null; } pan0=null; if(track.on){ track.on=false; track.dx=0; setTrack(true); } ptrs={}; measure();
+  function gStart(e){ e.preventDefault(); if(draw){ draw=null; scheduleInk(); } pan0=null; if(track.on){ track.on=false; track.dx=0; setTrack(true); } ptrs={}; measure();
     var inr=curInner(), rc=inr?inr.getBoundingClientRect():{left:0,right:pageW,top:0,bottom:pageH};
     var cxpt=(rc.left+rc.right)/2, cypt=(rc.top+rc.bottom)/2;
     gs={s0:z.scale,baseCx:cxpt-z.tx,baseCy:cypt-z.ty,offX:(e.clientX-cxpt)/z.scale,offY:(e.clientY-cypt)/z.scale}; }
@@ -4749,13 +4750,13 @@ var BK=(function(){
   function pdown(e){
     if(gs) return;
     ptrs[e.pointerId]={x:e.clientX,y:e.clientY}; var ids=Object.keys(ptrs), n=ids.length; if(n===1){ measure(); }
-    if(n>=2){ if(draw){ redraw(draw.cv); draw=null; } pan0=null; if(track.on){ track.on=false; track.dx=0; setTrack(true); }
+    if(n>=2){ if(draw){ draw=null; scheduleInk(); } pan0=null; if(track.on){ track.on=false; track.dx=0; setTrack(true); }
       var a=ptrs[ids[0]],b=ptrs[ids[1]],mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2},inr=curInner(),rc=inr?inr.getBoundingClientRect():{left:0,right:pageW,top:0,bottom:pageH};
       var cxpt=(rc.left+rc.right)/2, cypt=(rc.top+rc.bottom)/2;
       pinch={d0:Math.max(1,dist(a,b)),s0:z.scale,baseCx:cxpt-z.tx,baseCy:cypt-z.ty,offX:(mid.x-cxpt)/z.scale,offY:(mid.y-cypt)/z.scale}; e.preventDefault(); return; }
     var isPen=(e.pointerType==='pen');
-    if(T.mode==='draw'||isPen){ var cv=ensureCv(curPage());
-      if(cv){ draw={cv:cv,s:{tool:(T.mode==='draw'?T.tool:'pen'),color:T.color,size:sizeFor(cv),pts:[ptOf(cv,e)]}}; redraw(cv); draw1(cv.getContext('2d'),draw.s); } }
+    if(T.mode==='draw'||isPen){ var w=curPage(); var pt=w?ptOfPage(w,e):null;
+      if(pt){ draw={w:w,s:{tool:(T.mode==='draw'?T.tool:'pen'),color:T.color,size:sizeForPage(w),pts:[pt]}}; scheduleInk(); } }
     else if(z.scale>1){ pan0={x:e.clientX,y:e.clientY,tx:z.tx,ty:z.ty}; }
     else { track.on=true; track.x0=e.clientX; track.dx=0; setTrack(false); }
     e.preventDefault();
@@ -4765,14 +4766,14 @@ var BK=(function(){
     if(ptrs[e.pointerId]) ptrs[e.pointerId]={x:e.clientX,y:e.clientY}; var ids=Object.keys(ptrs);
     if(pinch && ids.length>=2){ var a=ptrs[ids[0]],b=ptrs[ids[1]],d=Math.max(1,dist(a,b)),mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
       var s=clamp(pinch.s0*d/pinch.d0,1,MAXZ); z.scale=s; z.tx=mid.x-pinch.baseCx-pinch.offX*s; z.ty=mid.y-pinch.baseCy-pinch.offY*s; clampZoom(); scheduleZoom(); e.preventDefault(); return; }
-    if(draw){ draw.s.pts.push(ptOf(draw.cv,e)); if(!raf) raf=requestAnimationFrame(function(){ raf=0; if(draw){ redraw(draw.cv); draw1(draw.cv.getContext('2d'),draw.s); } }); e.preventDefault(); return; }
+    if(draw){ var pt=ptOfPage(draw.w,e); if(pt) draw.s.pts.push(pt); scheduleInk(); e.preventDefault(); return; }
     if(pan0){ z.tx=pan0.tx+(e.clientX-pan0.x); z.ty=pan0.ty+(e.clientY-pan0.y); clampZoom(); scheduleZoom(); e.preventDefault(); return; }
     if(track.on){ var dx=e.clientX-track.x0; if((_cur===0&&dx>0)||(_cur===N-1&&dx<0)) dx*=0.35; track.dx=dx; scheduleTrack(); e.preventDefault(); }
   }
   function pend(e){
     if(!ptrs[e.pointerId]) return; delete ptrs[e.pointerId]; var n=Object.keys(ptrs).length;
     if(pinch && n<2){ pinch=null; if(z.scale<1.02){ resetZoom(); } else { clampZoom(); setZoom(); } }
-    if(draw && n===0){ var cv=draw.cv; cv._st=cv._st||[]; cv._st.push(draw.s); saveP(cv.dataset.sk,cv._st); redraw(cv); draw=null; }
+    if(draw && n===0){ var w=draw.w; var arr=inkOf(w); arr.push(draw.s); saveP(w.dataset.sk,arr); draw=null; scheduleInk(); }
     if(n===0){ pan0=null;
       if(track.on){ track.on=false; var th=Math.max(40,pageW*0.16);
         if(track.dx<=-th) gotoPage(_cur+1,true); else if(track.dx>=th) gotoPage(_cur-1,true); else gotoPage(_cur,true); } }
@@ -4785,16 +4786,16 @@ var BK=(function(){
   function buildPageDiv(it){
     var w=document.createElement('div'); w.className='bkpage';
     var inner=document.createElement('div'); inner.className='bkpageinner';
-    if(it.kind==='grid'){ inner.classList.add('bkgrid'); w.dataset.kind='grid'; w.dataset.gid=it.gid; w.dataset.sk='g'+it.gid;
+    if(it.kind==='grid'){ inner.classList.add('bkgrid'); w.dataset.kind='grid'; w.dataset.gid=it.gid; w.dataset.sk='g'+it.gid; w._lw=1000; w._lh=1414;
       var tag=document.createElement('div'); tag.className='bkgridtag'; tag.textContent='▦ หน้าจด'; inner.appendChild(tag); w.appendChild(inner);
-    } else { w.dataset.kind='book'; w.dataset.sk='b'+it.bi;
+    } else { w.dataset.kind='book'; w.dataset.sk='b'+it.bi; w._lw=3300; w._lh=4668;
       var img=new Image(); img.className='bkimg'; img.draggable=false; inner.appendChild(img); w.appendChild(inner);
-      img.onload=function(){ fitPage(w); if(load(w.dataset.sk).length) ensureCv(w); };
+      img.onload=function(){ w._lw=img.naturalWidth; w._lh=img.naturalHeight; fitPage(w); scheduleInk(); };
       w._data=(CARDS[it.bi]||{}).data||''; }   // ยังไม่โหลดรูป (virtualize) — mountWindow จะตั้ง src เฉพาะหน้าที่ใกล้หน้าปัจจุบัน
     return w;
   }
   function renderPages(){ var pgs=el('bkpages'); pgs.innerHTML=''; seq.forEach(function(it){ pgs.appendChild(buildPageDiv(it)); }); N=seq.length; }
-  function hydrateGrids(){ pagesEls().forEach(function(w){ if(w.dataset.kind==='grid'){ fitPage(w); if(load(w.dataset.sk).length) ensureCv(w); } }); }
+  function hydrateGrids(){ pagesEls().forEach(function(w){ if(w.dataset.kind==='grid'){ fitPage(w); } }); }
   function addGridPage(){ closePicker(); var it={kind:'grid',gid:newGid()}; var at=clamp(_cur+1,0,seq.length); seq.splice(at,0,it); saveSeq();
     var w=buildPageDiv(it); var ref=pagesEls()[at]||null; el('bkpages').insertBefore(w,ref); N=seq.length; measure(); gotoPage(at,true); }
   function deletePage(at){ var it=seq[at]; if(!it||it.kind!=='grid') return; if(!confirm('ลบหน้ากระดาษนี้? รอยจดในหน้านี้จะหายไปด้วย')) return;
@@ -4827,6 +4828,32 @@ var BK=(function(){
   }
   function redraw(cv){ var ctx=cv.getContext('2d'); var ss=cv._ss||1; ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height); ctx.setTransform(ss,0,0,ss,0,0); (cv._st||[]).forEach(function(s){ draw1(ctx,s); }); }
   function ptOf(cv,e){ var r=cv.getBoundingClientRect(); var lw=cv._lw||cv.width, lh=cv._lh||cv.height; return [ (e.clientX-r.left)*(lw/r.width), (e.clientY-r.top)*(lh/r.height) ]; }
+  /* ── ระบบเส้นแบบเวกเตอร์ (GoodNotes-style): ผืนวาดเดียวขนาดเท่าจอ วาดเส้นตามระดับซูมทุกครั้ง → คมทุกซูม ── */
+  var inkraf=0;
+  function sizeInk(){ var cv=el('bkink'),scE=el('bkscroll'); if(!cv||!scE)return; var dpr=Math.min(window.devicePixelRatio||1,3); cv._dpr=dpr; var w=Math.round(scE.clientWidth*dpr),h=Math.round(scE.clientHeight*dpr); if(cv.width!==w||cv.height!==h){ cv.width=w; cv.height=h; } }
+  function inkOf(w){ if(!w)return[]; if(!w._ink) w._ink=load(w.dataset.sk); return w._ink; }
+  function scheduleInk(){ if(inkraf)return; inkraf=requestAnimationFrame(function(){ inkraf=0; paintInk(); }); }
+  function drawStroke(ctx,s,ox,oy,sx,sy,dpr){ ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
+    var lwid=Math.max(0.5, s.size*sx*dpr);
+    if(s.tool==='eraser'){ ctx.globalCompositeOperation='destination-out'; ctx.lineWidth=lwid; ctx.strokeStyle='rgba(0,0,0,1)'; }
+    else if(s.tool==='hi'){ ctx.globalAlpha=0.30; ctx.lineWidth=lwid; ctx.strokeStyle=s.color; }
+    else { ctx.lineWidth=lwid; ctx.strokeStyle=s.color; }
+    var p=s.pts; if(!p||!p.length){ ctx.restore(); return; }
+    function X(pt){ return (ox+pt[0]*sx)*dpr; } function Y(pt){ return (oy+pt[1]*sy)*dpr; }
+    if(p.length===1){ ctx.beginPath(); if(s.tool==='eraser')ctx.globalCompositeOperation='destination-out'; ctx.arc(X(p[0]),Y(p[0]),Math.max(0.5,lwid/2),0,7); ctx.fillStyle=(s.tool==='eraser'?'#000':s.color); ctx.fill(); ctx.restore(); return; }
+    ctx.beginPath(); ctx.moveTo(X(p[0]),Y(p[0]));
+    for(var i=1;i<p.length-1;i++){ ctx.quadraticCurveTo(X(p[i]),Y(p[i]),(X(p[i])+X(p[i+1]))/2,(Y(p[i])+Y(p[i+1]))/2); }
+    ctx.lineTo(X(p[p.length-1]),Y(p[p.length-1])); ctx.stroke(); ctx.restore(); }
+  function paintInk(){ var cv=el('bkink'); if(!cv)return; var ctx=cv.getContext('2d'); ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height);
+    var scE=el('bkscroll'); if(!scE)return; var scr=scE.getBoundingClientRect(); var dpr=cv._dpr||1; var ps=pagesEls();
+    for(var k=0;k<ps.length;k++){ var w=ps[k], inner=w.querySelector('.bkpageinner'); if(!inner)continue; var r=inner.getBoundingClientRect();
+      if(r.right<scr.left-2||r.left>scr.right+2||r.bottom<scr.top-2||r.top>scr.bottom+2) continue;
+      var lw=w._lw||1000, lh=w._lh||1414, ox=r.left-scr.left, oy=r.top-scr.top, sx=r.width/lw, sy=r.height/lh;
+      var strokes=inkOf(w); for(var i=0;i<strokes.length;i++) drawStroke(ctx,strokes[i],ox,oy,sx,sy,dpr);
+      if(draw&&draw.w===w) drawStroke(ctx,draw.s,ox,oy,sx,sy,dpr);
+    } }
+  function ptOfPage(w,e){ var inner=w.querySelector('.bkpageinner'); if(!inner)return null; var r=inner.getBoundingClientRect(); var lw=w._lw||1000, lh=w._lh||1414; return [ (e.clientX-r.left)/r.width*lw, (e.clientY-r.top)/r.height*lh ]; }
+  function sizeForPage(w){ var b=(w._lw||1000)/1000; var arr=SIZES[T.tool]||SIZES.pen; var lv=(T.sizes&&T.sizes[T.tool]!=null)?T.sizes[T.tool]:1; return Math.max(0.5, arr[lv]*b); }
   function sizeFor(cv){ var b=(cv._lw||cv.width)/1000; var arr=SIZES[T.tool]||SIZES.pen; var lv=(T.sizes&&T.sizes[T.tool]!=null)?T.sizes[T.tool]:1; return Math.max(1, arr[lv]*b); }
   function open(data){
     if(!built) build();
@@ -4836,14 +4863,14 @@ var BK=(function(){
     if(!seq){ seq=CARDS.map(function(c,i){ return {kind:'book',bi:i}; }); }
     else { seq=seq.filter(function(it){ return it && (it.kind==='grid' ? !!it.gid : (it.bi>=0 && it.bi<CARDS.length)); }); if(!seq.length) seq=CARDS.map(function(c,i){ return {kind:'book',bi:i}; }); }
     ptrs={}; draw=null; pan0=null; pinch=null; track={x0:0,dx:0,on:false}; z={scale:1,tx:0,ty:0}; _cur=0;
+    root.classList.add('on'); document.documentElement.style.overflow='hidden';
     renderPages(); measure(); hydrateGrids(); mountWindow(); setTrack(false); updatePageNo();
     setMode('pan'); syncCols(); closePicker();
-    root.classList.add('on'); document.documentElement.style.overflow='hidden';
-    setTimeout(function(){ measure(); setTrack(false); },160);
+    setTimeout(function(){ measure(); setTrack(false); scheduleInk(); },160);
   }
   function updatePageNo(){ var lbl=el('bkpageno'); if(lbl) lbl.innerHTML='<span class="bkgi"><i></i><i></i><i></i><i></i></span><span>'+(_cur+1)+'/'+(N||root.querySelectorAll('.bkpage').length)+'</span>'; }
-  function undo(){ var w=curPage(); if(!w)return; var cv=w.querySelector('.bkcanvas'); if(!cv||!cv._st||!cv._st.length)return; cv._st.pop(); saveP(w.dataset.sk,cv._st); redraw(cv); }
-  function clearPage(){ var i=_cur; var w=pagesEls()[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'?'))return; var cv=w.querySelector('.bkcanvas'); saveP(w.dataset.sk,[]); if(cv){ cv._st=[]; redraw(cv); } }
+  function undo(){ var w=curPage(); if(!w)return; var arr=inkOf(w); if(!arr.length)return; arr.pop(); saveP(w.dataset.sk,arr); scheduleInk(); }
+  function clearPage(){ var i=_cur; var w=pagesEls()[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'?'))return; w._ink=[]; saveP(w.dataset.sk,[]); scheduleInk(); }
   function close(){ closePicker(); root.classList.remove('on'); document.documentElement.style.overflow=''; }
   return { open:open, close:close };
 })();
