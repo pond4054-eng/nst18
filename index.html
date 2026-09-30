@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v229";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v230";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4731,7 +4731,9 @@ var BK=(function(){
     else if(img.getAttribute('src')){ img.removeAttribute('src'); var cv=w.querySelector('.bkcanvas'); if(cv) cv.remove(); } } }
   function ensureCv(w){ if(!w) return null; var inner=w.querySelector('.bkpageinner')||w; var cv=inner.querySelector('.bkcanvas'); if(cv) return cv; var img=inner.querySelector('.bkimg'); var lw,lh;
     if(img&&img.naturalWidth){ lw=img.naturalWidth; lh=img.naturalHeight; } else if(w.dataset.kind==='grid'){ lw=1000; lh=1414; } else return null;
-    var ss=Math.max(2, Math.min(3.5, Math.max(Math.round(window.devicePixelRatio||2), 3000/lw)));   // ขยายความละเอียดผืนวาด (supersample) ตาม DPR ให้เส้นคมตอนซูม โดยพิกัดวาดยังเป็นสเกลเดิม (lw×lh)
+    var CAP=3800;   // จำกัดด้านผืนวาดไม่ให้เกิน (iOS จำกัด ~4096px ต่อด้าน) กันเขียนแล้วค้าง/พัง
+    var ss=Math.max(1, Math.min(3.2, 2800/lw));           // เป้าหมายความละเอียด ~2800px
+    ss=Math.min(ss, CAP/lw, CAP/lh);                       // แต่ห้ามเกินขนาดที่มือถือรองรับ
     cv=document.createElement('canvas'); cv.className='bkcanvas'; cv._lw=lw; cv._lh=lh; cv._ss=ss; cv.width=Math.round(lw*ss); cv.height=Math.round(lh*ss); cv.dataset.sk=w.dataset.sk; inner.appendChild(cv); cv._st=load(w.dataset.sk); redraw(cv); return cv; }
   /* ── iOS pinch (Safari ยิง gesture events เอง เมื่อ pointer-pinch ใช้ไม่ได้) ── */
   function gStart(e){ e.preventDefault(); if(draw){ redraw(draw.cv); draw=null; } pan0=null; if(track.on){ track.on=false; track.dx=0; setTrack(true); } ptrs={}; measure();
