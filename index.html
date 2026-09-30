@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v212";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v213";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4639,22 +4639,20 @@ var BK=(function(){
   var COLORS=['#E4111F','#1E9E5A','#1D6FD0','#F2792B','#7048E8','#0E0F12'];
   var view={scale:1,tx:0,ty:0}, baseW=900, ptrs={}, draw=null, pan0=null, pinch=null, raf=0, _dims=null, _vraf=0;
   function el(id){return document.getElementById(id);}
-  var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#3a3f4a;display:none;flex-direction:column}#bkroot.on{display:flex}'+
-    '#bktop{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;background:#1B1E27;color:#fff;flex:none}'+
-    '#bktitle{flex:1;font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#bkpageno{font-size:12px;opacity:.85;font-family:monospace}'+
-    '#bkclose{background:#E4111F;color:#fff;border:none;border-radius:9px;padding:7px 12px;font-weight:800;font-size:13px}'+
-    '#bkscroll{flex:1;overflow:hidden;position:relative;background:#3a3f4a;touch-action:none}#bkpages{position:absolute;top:0;left:0;transform-origin:0 0;padding:12px 8px 30px;will-change:transform}'+
-    '.bkpage{position:relative;margin-bottom:12px;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.35);content-visibility:auto;contain-intrinsic-size:auto 1180px}.bkimg{width:100%;display:block}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}'+
-    '#bkbar{display:flex;align-items:center;gap:6px;padding:8px 10px calc(env(safe-area-inset-bottom,0px) + 8px);background:#1B1E27;flex:none;overflow-x:auto}'+
-    '.bktool{background:#2b2f3a;color:#fff;border:none;border-radius:10px;padding:6px 10px;display:flex;flex-direction:column;align-items:center;font-size:18px;flex:none;line-height:1}.bktool small{font-size:9px;margin-top:2px}.bktool.on{background:#E4111F}'+
-    '#bkcolors{display:flex;gap:5px;padding:0 4px;flex:none}.bkcol{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.4);flex:none;padding:0}.bkcol.on{border-color:#fff;box-shadow:0 0 0 2px #E4111F}'+
-    '.bkbtn{background:#2b2f3a;color:#fff;border:none;border-radius:10px;padding:8px 11px;font-size:12.5px;font-weight:700;flex:none}';
+  var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#fff;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}#bkroot.on{display:flex}'+
+    '#bkpageno{font-size:12px;color:#8a93a2;font-family:monospace;flex:none;margin-left:auto;padding-left:6px}'+
+    '#bkclose{background:#E4111F;color:#fff;border:none;border-radius:10px;padding:8px 13px;font-weight:800;font-size:13px;flex:none}'+
+    '#bkscroll{flex:1;overflow:hidden;position:relative;background:#fff;touch-action:none}#bkpages{position:absolute;top:0;left:0;transform-origin:0 0;padding:12px 8px 30px;will-change:transform}'+
+    '.bkpage{position:relative;margin-bottom:12px;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.12);border:1px solid #ececec;content-visibility:auto;contain-intrinsic-size:auto 1180px}.bkimg{width:100%;display:block}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}'+
+    '#bkbar{display:flex;align-items:center;gap:6px;padding:8px 10px calc(env(safe-area-inset-bottom,0px) + 8px);background:#fff;border-top:1px solid #e5e7eb;flex:none;overflow-x:auto}'+
+    '.bktool{background:#f1f3f5;color:#333;border:none;border-radius:10px;padding:6px 10px;display:flex;flex-direction:column;align-items:center;font-size:18px;flex:none;line-height:1}.bktool small{font-size:9px;margin-top:2px}.bktool.on{background:#E4111F;color:#fff}'+
+    '#bkcolors{display:flex;gap:5px;padding:0 4px;flex:none}.bkcol{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,0,0,.2);flex:none;padding:0}.bkcol.on{border-color:#fff;box-shadow:0 0 0 2px #E4111F}'+
+    '.bkbtn{background:#f1f3f5;color:#333;border:none;border-radius:10px;padding:8px 11px;font-size:12.5px;font-weight:700;flex:none}';
   function build(){
     var s=document.createElement('style'); s.textContent=CSS; document.head.appendChild(s);
     root=document.createElement('div'); root.id='bkroot';
-    root.innerHTML='<div id="bktop"><button id="bkclose">✕ ปิด</button><div id="bktitle"></div><div id="bkpageno"></div></div>'+
-      '<div id="bkscroll"><div id="bkpages"></div></div>'+
-      '<div id="bkbar"><button class="bktool on" data-m="pan">✋<small>เลื่อน</small></button><button class="bktool" data-m="pen">✏️<small>ปากกา</small></button><button class="bktool" data-m="hi">🖍️<small>ไฮไลต์</small></button><button class="bktool" data-m="eraser">🧽<small>ยางลบ</small></button><div id="bkcolors"></div><button class="bkbtn" id="bkclear">🗑️ ล้างหน้านี้</button></div>';
+    root.innerHTML='<div id="bkscroll"><div id="bkpages"></div></div>'+
+      '<div id="bkbar"><button id="bkclose">✕ ปิด</button><button class="bktool on" data-m="pan">✋<small>เลื่อน</small></button><button class="bktool" data-m="pen">✏️<small>ปากกา</small></button><button class="bktool" data-m="hi">🖍️<small>ไฮไลต์</small></button><button class="bktool" data-m="eraser">🧽<small>ยางลบ</small></button><div id="bkcolors"></div><button class="bkbtn" id="bkclear">🗑️ ล้างหน้านี้</button><div id="bkpageno"></div></div>';
     document.body.appendChild(root);
     el('bkclose').onclick=close; el('bkclear').onclick=clearPage;
     root.querySelectorAll('.bktool').forEach(function(b){ b.onclick=function(){ setMode(b.dataset.m); }; });
@@ -4725,7 +4723,7 @@ var BK=(function(){
   function sizeFor(cv){ var b=cv.width/1000; if(T.tool==='hi') return Math.max(16,26*b); if(T.tool==='eraser') return Math.max(22,38*b); return Math.max(2,3.2*b); }
   function open(data){
     if(!built) build();
-    bid=data.id; el('bktitle').textContent=data.title||'หนังสือ';
+    bid=data.id; var _tt=el('bktitle'); if(_tt) _tt.textContent=data.title||'หนังสือ';
     var pgs=el('bkpages'); pgs.innerHTML='';
     (data.cards||[]).forEach(function(c,i){
       var w=document.createElement('div'); w.className='bkpage'; w.dataset.i=i;
