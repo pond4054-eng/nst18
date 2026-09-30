@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v222";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v223";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4645,17 +4645,16 @@ var BK=(function(){
   function el(id){return document.getElementById(id);}
   var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#fff;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}#bkroot.on{display:flex}'+
     '#bkroot img{-webkit-user-drag:none;-webkit-touch-callout:none;pointer-events:none}'+
-    '#bkpageno{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;letter-spacing:.06em;color:#3a3f4a;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.05);border-radius:999px;padding:4px 13px;box-shadow:0 4px 14px rgba(17,24,39,.10);z-index:3}'+
     '#bkscroll{flex:1;overflow:hidden;position:relative;background:#eef0f3;touch-action:none}#bkpages{position:absolute;top:0;left:0;bottom:0;display:flex;height:100%;will-change:transform}'+
     '.bkpage{position:relative;flex:none;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}.bkpageinner{position:relative;width:100%;transform-origin:center center;will-change:transform;background:#fff;box-shadow:0 4px 18px rgba(17,24,39,.16);touch-action:none}.bkimg{width:100%;display:block;touch-action:none}.bkcanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;touch-action:none}#bkpages{touch-action:none}'+
-    '#bkbar{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:translateX(-50%);display:flex;align-items:center;gap:3px;padding:6px 8px;max-width:calc(100vw - 14px);overflow-x:auto;scrollbar-width:none;background:rgba(255,255,255,.80);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(0,0,0,.05);border-radius:22px;box-shadow:0 14px 40px rgba(17,24,39,.22),0 3px 10px rgba(17,24,39,.10);z-index:2}#bkbar::-webkit-scrollbar{display:none}'+
+    '#bkbar{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 74px);transform:translateX(-50%);display:flex;align-items:center;gap:3px;padding:6px 8px;max-width:calc(100vw - 14px);overflow-x:auto;scrollbar-width:none;background:rgba(255,255,255,.80);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(0,0,0,.05);border-radius:22px;box-shadow:0 14px 40px rgba(17,24,39,.22),0 3px 10px rgba(17,24,39,.10);z-index:2}#bkbar::-webkit-scrollbar{display:none}'+
     '.bktool{background:transparent;color:#20242e;border:none;border-radius:11px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex:none;line-height:1;transition:background .15s,color .15s,transform .1s}.bktool small{display:none}.bktool svg{width:20px;height:20px;pointer-events:none}.bktool:active{transform:scale(.92)}.bktool.on{background:#1B1E27;color:#fff;box-shadow:0 4px 12px rgba(27,30,39,.32)}'+
     '.bkdiv{width:1px;height:28px;background:rgba(0,0,0,.10);flex:none;margin:0 4px}'+
     '#bkcolors{display:flex;gap:3px;flex:none}.bkcol{width:19px;height:19px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.14);flex:none;padding:0;transition:transform .12s}.bkcol.on{box-shadow:0 0 0 2px #1B1E27;transform:scale(1.18)}'+
     '#bksizes{display:flex;align-items:center;gap:1px;flex:none}.bksize{width:26px;height:26px;border-radius:8px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;flex:none;padding:0;transition:background .12s}.bksize.on{background:#e6e9ee}.bksizedot{border-radius:50%;background:#20242e;display:block}'+
-    '.bkfab{position:absolute;top:calc(env(safe-area-inset-top,0px) + 11px);width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.05);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 8px 22px rgba(17,24,39,.16),0 2px 6px rgba(17,24,39,.08);display:flex;align-items:center;justify-content:center;color:#20242e;z-index:5;padding:0;transition:transform .1s}.bkfab:active{transform:scale(.93)}.bkfab svg{width:19px;height:19px;pointer-events:none}#bkclose{left:12px}#bkclear{left:63px}'+
-    '#bkpageno{cursor:pointer}#bkpageno .bkgi{display:inline-grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;width:14px;height:14px;vertical-align:-2px;margin-right:5px}#bkpageno .bkgi i{background:#20242e;border-radius:2px}'+
-    '#bkadd{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:14px;z-index:3;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#fff;background:#1B1E27;border:none;border-radius:999px;padding:8px 13px;box-shadow:0 6px 18px rgba(27,30,39,.28);transition:transform .1s}#bkadd:active{transform:scale(.94)}#bkadd b{font-size:16px;font-weight:400;line-height:1}'+
+    '.bkfab{position:absolute;top:calc(env(safe-area-inset-top,0px) + 11px);width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.05);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 8px 22px rgba(17,24,39,.16),0 2px 6px rgba(17,24,39,.08);display:flex;align-items:center;justify-content:center;color:#20242e;z-index:5;padding:0;transition:transform .1s}.bkfab:active{transform:scale(.93)}.bkfab svg{width:19px;height:19px;pointer-events:none}#bkclose{left:12px}'+
+    '#bkactions{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);display:flex;align-items:center;gap:3px;padding:6px 8px;max-width:calc(100vw - 16px);background:rgba(255,255,255,.80);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(0,0,0,.05);border-radius:20px;box-shadow:0 12px 34px rgba(17,24,39,.20),0 3px 10px rgba(17,24,39,.10);z-index:3}'+
+    '.bkact{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:56px;padding:5px 6px;background:transparent;border:none;border-radius:13px;color:#20242e;font-size:10.5px;font-weight:600;font-family:inherit;line-height:1;transition:background .12s,transform .1s}.bkact svg{width:22px;height:22px;pointer-events:none}.bkact span,.bkact b{pointer-events:none}.bkact:active{transform:scale(.94);background:#eef0f3}#bkpageno .bkgi{display:inline-grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2.5px;width:21px;height:21px}#bkpageno .bkgi i{background:#20242e;border-radius:3px}'+
     '.bkgrid{background-color:#fffdf8;background-image:linear-gradient(rgba(70,110,160,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(70,110,160,.16) 1px,transparent 1px),linear-gradient(rgba(70,110,160,.30) 1.4px,transparent 1.4px),linear-gradient(90deg,rgba(70,110,160,.30) 1.4px,transparent 1.4px);background-size:6.66% 4.71%,6.66% 4.71%,33.3% 23.5%,33.3% 23.5%}'+
     '.bkgridtag{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;color:#5b6b86;background:rgba(255,255,255,.85);border:1px solid rgba(70,110,160,.25);border-radius:7px;padding:3px 9px;pointer-events:none;z-index:1}'+
     '#bkpick{position:absolute;inset:0;z-index:9;display:none}#bkpick.on{display:block}.bkpickdim{position:absolute;inset:0;background:rgba(15,18,24,.45)}'+
@@ -4667,11 +4666,8 @@ var BK=(function(){
   function build(){
     var s=document.createElement('style'); s.textContent=CSS; document.head.appendChild(s);
     root=document.createElement('div'); root.id='bkroot';
-    root.innerHTML='<button id="bkpageno" aria-label="เลือกหน้า"></button>'+
-      '<button id="bkadd" aria-label="เพิ่มหน้ากระดาษ"><b>＋</b> หน้ากระดาษ</button>'+
-      '<div id="bkscroll"><div id="bkpages"></div></div>'+
+    root.innerHTML='<div id="bkscroll"><div id="bkpages"></div></div>'+
       '<button id="bkclose" class="bkfab" aria-label="ปิด"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>'+
-      '<button id="bkclear" class="bkfab" aria-label="ล้างหน้านี้"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>'+
       '<div id="bkpick"><div class="bkpickdim"></div><div class="bkpicksheet"><div class="bkpickgrip"></div><div class="bkpickhd"><span class="bkgi" style="display:inline-grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;width:20px;height:20px"><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i></span> เลือกหน้า <span id="bkpicknum"></span></div><div id="bkpickgrid" class="bkpickgrid"></div></div></div>'+
       '<div id="bkbar">'+
         '<button class="bktool on" data-m="pan" aria-label="มือจับ / เลื่อน"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></button>'+
@@ -4679,10 +4675,16 @@ var BK=(function(){
         '<button class="bktool" data-m="hi" aria-label="ไฮไลต์"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11-6 6v3h9l3-3"/><path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg></button>'+
         '<button class="bktool" data-m="eraser" aria-label="ยางลบ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3a1.7 1.7 0 0 1 0-2.4l9.9-9.9a1.7 1.7 0 0 1 2.4 0l4.9 4.9a1.7 1.7 0 0 1 0 2.4L13 21"/><path d="M22 21H8"/><path d="m6 12 6 6"/></svg></button>'+
         '<span class="bkdiv" id="bkpaneldiv"></span><div id="bkcolors"></div><div id="bksizes"></div>'+
-        '</div>';
+        '</div>'+
+      '<div id="bkactions">'+
+        '<button id="bkpageno" class="bkact" aria-label="เลือกหน้า"></button>'+
+        '<button id="bkadd" class="bkact" aria-label="เพิ่มหน้ากระดาษ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M12 8v8"/><path d="M8 12h8"/></svg><span>เพิ่มหน้า</span></button>'+
+        '<button id="bkundo" class="bkact" aria-label="ย้อนกลับ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-4"/></svg><span>ย้อนกลับ</span></button>'+
+        '<button id="bkclear" class="bkact" aria-label="ล้างหน้านี้"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg><span>ล้างหน้า</span></button>'+
+      '</div>';
     document.body.appendChild(root);
     el('bkclose').onclick=close; el('bkclear').onclick=clearPage;
-    el('bkadd').onclick=function(){ addGridPage(); }; el('bkpageno').onclick=openPicker;
+    el('bkadd').onclick=function(){ addGridPage(); }; el('bkpageno').onclick=openPicker; el('bkundo').onclick=undo;
     el('bkpick').querySelector('.bkpickdim').onclick=closePicker;
     root.querySelectorAll('.bktool').forEach(function(b){ b.onclick=function(){ setMode(b.dataset.m); }; });
     var cc=el('bkcolors');
@@ -4831,7 +4833,8 @@ var BK=(function(){
     root.classList.add('on'); document.documentElement.style.overflow='hidden';
     setTimeout(function(){ measure(); setTrack(false); },160);
   }
-  function updatePageNo(){ var lbl=el('bkpageno'); if(lbl) lbl.innerHTML='<span class="bkgi"><i></i><i></i><i></i><i></i></span>'+(_cur+1)+' / '+(N||root.querySelectorAll('.bkpage').length); }
+  function updatePageNo(){ var lbl=el('bkpageno'); if(lbl) lbl.innerHTML='<span class="bkgi"><i></i><i></i><i></i><i></i></span><span>'+(_cur+1)+' / '+(N||root.querySelectorAll('.bkpage').length)+'</span>'; }
+  function undo(){ var w=curPage(); if(!w)return; var cv=w.querySelector('.bkcanvas'); if(!cv||!cv._st||!cv._st.length)return; cv._st.pop(); saveP(w.dataset.sk,cv._st); redraw(cv); }
   function clearPage(){ var i=_cur; var w=pagesEls()[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'?'))return; var cv=w.querySelector('.bkcanvas'); saveP(w.dataset.sk,[]); if(cv){ cv._st=[]; redraw(cv); } }
   function close(){ closePicker(); root.classList.remove('on'); document.documentElement.style.overflow=''; }
   return { open:open, close:close };
