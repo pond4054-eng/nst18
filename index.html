@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v247";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v248";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -3584,13 +3584,13 @@ var A={
     if(arr.length===1 && arr[0].type==='book'){ this.openBookItem(sk,arr[0]); return; }   // วิชาที่เป็นหนังสือเล่มเดียว → เปิดเอกสารเลย ไม่เข้าหน้ารายการซ้อน
     S.knowSubj=sk; render(); window.scrollTo(0,0); },
   openBookItem:function(sk,it){
-    function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[]}); }
-    if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; toast('⏳ กำลังเปิดหนังสือ…'); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._loading=false; go(); }).catch(function(){ it._loading=false; alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
+    function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
+    if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; toast('⏳ กำลังเปิดหนังสือ…'); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; go(); }).catch(function(){ it._loading=false; alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   backKnow:function(){ S.knowSubj=null; render(); },
   loadKnowExt:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it||!it.ext){return;} if(it.data){render();return;} if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.data=j.data; it.cards=j.cards||[]; it._loading=false; render(); }).catch(function(){ it._loading=false; render(); alert('โหลดสรุปไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); },
   openBook:function(ts){ var sk=S.knowSubj, arr=(S.knowledge||{})[sk]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='book'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return;
-    function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[]}); }
-    if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._loading=false; render(); go(); }).catch(function(){ it._loading=false; render(); alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
+    function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
+    if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; render(); go(); }).catch(function(){ it._loading=false; render(); alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   // ── คลังความรู้ (ติวเตอร์) ──
   adminKnowSubj:function(v){ S.adminKnowSubj=v||null; render(); },
   adminTab:function(k){ S.adminTab=k; renderOverlays(); var sb=document.querySelector('#overlays .sheetbody'); if(sb) sb.scrollTop=0; },
@@ -4646,10 +4646,12 @@ var BK=(function(){
   var NOTE_COLORS=['#FFE9A8','#FFD1DC','#C6EFCB','#CBE4FF','#FFD9B0','#E7D5FF'];
   // ชื่อบท (ดึงจากสารบัญเดิม) → สร้าง "สมุดจด" หน้ากระดาษขาวบทละ 1 หน้า ต่อท้ายหนังสือ
   var CHAPTERS={ law:['ความรู้ทั่วไปเกี่ยวกับกฎหมาย','บุคคล','ทรัพย์และทรัพย์สิน','นิติกรรมและสัญญา','เอกเทศสัญญา','ครอบครัว','มรดก','กฎหมายอาญา — ภาคทั่วไป','กฎหมายอาญา — ภาคความผิด','ศาลและกระบวนการยุติธรรม','รัฐธรรมนูญและการปกครอง','กฎหมายในชีวิตประจำวัน'] };
+  var bookChapters=null, headAccent='#D71920';   // แผนที่บท (จากไฟล์หนังสือ: [{n,title,start}]) + สีกล่องหัวบท — ตั้งตอน open()
   function thaiNum(n){ var t='๐๑๒๓๔๕๖๗๘๙'; return String(n).replace(/[0-9]/g,function(d){return t.charAt(+d);}); }
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   // หน้าเริ่มบทของหนังสือ (บทละ 2 หน้า → เริ่มที่ index 2,4,6,…) → คืนเลขบท+ชื่อไว้แปะหัวข้อ
-  function chapterOf(bi){ var list=CHAPTERS[bid]; if(!list) return null; if(bi>=2 && bi%2===0){ var ci=bi/2-1; if(ci>=0 && ci<list.length) return {n:ci+1, title:list[ci]}; } return null; }
+  function chapterOf(bi){ if(bookChapters){ for(var j=0;j<bookChapters.length;j++){ if(bookChapters[j].start===bi) return {n:bookChapters[j].n||(j+1), title:bookChapters[j].title}; } return null; }
+    var list=CHAPTERS[bid]; if(!list) return null; if(bi>=2 && bi%2===0){ var ci=bi/2-1; if(ci>=0 && ci<list.length) return {n:ci+1, title:list[ci]}; } return null; }
   function el(id){return document.getElementById(id);}
   var CSS='#bkroot{position:fixed;inset:0;z-index:99998;background:#fff;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}#bkroot.on{display:flex}'+
     '#bkroot *{-webkit-touch-callout:none!important;-webkit-user-select:none!important;user-select:none!important;-webkit-user-drag:none}'+
@@ -4830,7 +4832,7 @@ var BK=(function(){
       var img=new Image(); img.className='bkimg'; img.draggable=false; inner.appendChild(img);
       var ch=chapterOf(it.bi); if(ch){ w.classList.add('bkchap');   // หน้าเริ่มบท: แถบหัวบทด้านบน แล้วดันรูปสรุปลงมา
         var band=document.createElement('div'); band.className='bkchband';
-        var bh=document.createElement('div'); bh.className='bkbookhead';
+        var bh=document.createElement('div'); bh.className='bkbookhead'; bh.style.background=headAccent;
         bh.innerHTML='<div class="bkbhline"><span class="bkbhkick">บทที่ '+thaiNum(ch.n)+'</span>  <span class="bkbhtitle">'+esc(ch.title)+'</span></div>';
         band.appendChild(bh); w.appendChild(band); }
       w.appendChild(inner);
@@ -4979,7 +4981,7 @@ var BK=(function(){
   function sizeFor(cv){ var b=(cv._lw||cv.width)/1000; var arr=SIZES[T.tool]||SIZES.pen; var lv=(T.sizes&&T.sizes[T.tool]!=null)?T.sizes[T.tool]:1; return Math.max(1, arr[lv]*b); }
   function open(data){
     if(!built) build();
-    bid=data.id; var _tt=el('bktitle'); if(_tt) _tt.textContent=data.title||'หนังสือ';
+    bid=data.id; bookChapters=(data.chapters&&data.chapters.length)?data.chapters:null; headAccent=data.accent||'#D71920'; var _tt=el('bktitle'); if(_tt) _tt.textContent=data.title||'หนังสือ';
     CARDS=data.cards||[];
     seq=loadSeq();
     if(!seq){ seq=CARDS.map(function(c,i){ return {kind:'book',bi:i}; }); }
