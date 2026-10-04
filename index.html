@@ -613,7 +613,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v269";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v270";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2546,8 +2546,7 @@ function feedMount(el,yt,active){
   var id=el.id.replace("fp-","");
   if(el.getAttribute("data-play")==="1"){ feedPlayState(id,active); return; }   // สร้างแล้ว แค่ตั้งสถานะเล่น/หยุด
   el.innerHTML='<div id="ytp-'+id+'" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></div>'+
-    '<div onclick="A.feedTap(\''+id+'\')" style="position:absolute;inset:0;z-index:2;"></div>'+   // ชั้นใสกันกดลิงก์ไปยูทูป · แตะ=เล่น/หยุด · ปัด=เลื่อนคลิป
-    (_feedUnmuted?"":'<div class="fmute" onclick="A.feedUnmute(this)" style="position:absolute;top:64px;left:50%;transform:translateX(-50%);z-index:5;background:rgba(0,0,0,.62);color:#fff;font-size:12px;font-weight:800;border-radius:99px;padding:7px 15px;cursor:pointer;">🔇 แตะเปิดเสียง</div>');
+    '<div onclick="A.feedTap(\''+id+'\')" style="position:absolute;inset:0;z-index:2;"></div>';   // ชั้นใสกันกดลิงก์ไปยูทูป · แตะครั้งแรก=เปิดเสียง · แตะ=เล่น/หยุด · ปัด=เลื่อนคลิป · ปัดขวา=ปิด
   el.setAttribute("data-play","1"); el.style.cursor="default"; el.onclick=null;
   loadYTApi(function(){
     var host=document.getElementById("ytp-"+id); if(!host) return;   // เลื่อนพ้นไปก่อน player พร้อม
@@ -2590,6 +2589,10 @@ function mountFeed(){                          // เล่นคลิปที
   if(!scroll){ destroyFeedObs(); return; }
   if(scroll.getAttribute("data-obs")==="1") return;   // ตั้ง observer แล้วสำหรับ DOM ชุดนี้
   destroyFeedObs(); scroll.setAttribute("data-obs","1");
+  // ปัดขวาเพื่อปิดฟีด (แทนปุ่ม ✕ ที่เอาออก) — ปัดแนวตั้งยังใช้เลื่อนคลิปตามเดิม
+  var _swx=0,_swy=0,_sw=false;
+  scroll.addEventListener("touchstart",function(e){ if(e.touches.length!==1){ _sw=false; return; } _swx=e.touches[0].clientX; _swy=e.touches[0].clientY; _sw=true; },{passive:true});
+  scroll.addEventListener("touchend",function(e){ if(!_sw) return; _sw=false; var t=e.changedTouches[0]; if(!t) return; var dx=t.clientX-_swx, dy=t.clientY-_swy; if(dx>80 && Math.abs(dx)>Math.abs(dy)*1.7) A.closeFeed(); },{passive:true});
   if(!("IntersectionObserver" in window)) return;
   _feedObs=new IntersectionObserver(function(ents){
     ents.forEach(function(en){
@@ -2622,16 +2625,9 @@ function feedSheet(){
   var pages=clips.map(function(c){ var v=c.v, id=v.id;
     return '<div id="feedpage-'+esc(id)+'" class="feedpage" data-vid="'+esc(id)+'" data-yt="'+esc(v.yt)+'" style="height:100%;scroll-snap-align:start;position:relative;background:#000;">'+
       '<div id="fp-'+esc(id)+'" onclick="A.feedPlay(\''+esc(id)+'\',\''+esc(v.yt)+'\')" style="position:absolute;inset:0;cursor:pointer;background:#000 url(\''+ytThumb(v.yt)+'\') center/cover no-repeat;">'+feedPosterInner()+'</div>'+
-      '<div style="position:absolute;left:12px;right:70px;bottom:26px;color:#fff;z-index:2;pointer-events:none;">'+
-        '<div style="font-size:10px;font-weight:800;color:#FFD23F;margin-bottom:4px;">▶ '+esc(c.tlabel)+'</div>'+
-        '<div style="font-size:17px;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.7);line-height:1.25;">'+esc(v.title)+'</div>'+
-      '</div>'+ feedSideRail(c) +
     '</div>';
   }).join("");
   return '<div style="position:fixed;inset:0;z-index:80;background:#000;">'+
-    '<div style="position:absolute;top:0;left:0;right:0;z-index:11;display:flex;align-items:center;gap:11px;padding:calc(env(safe-area-inset-top, 10px) + 46px) 13px 10px;background:linear-gradient(rgba(0,0,0,.55),transparent);color:#fff;pointer-events:none;">'+
-      '<div onclick="A.closeFeed()" style="width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;pointer-events:auto;flex:none;">✕</div>'+
-      '<div style="font-size:13px;font-weight:800;">ติว'+esc(sName[sk]||sk)+' · Lion King</div></div>'+
     '<div id="feedScroll" style="height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;">'+pages+'</div>'+
     feedPickerSheet(sk)+
   '</div>';
@@ -3925,7 +3921,7 @@ var A={
   feedPicker:function(open){ var el=document.getElementById("feedPicker"); if(el) el.style.transform=open?"translateY(0)":"translateY(106%)"; },
   feedGoto:function(id){ var t=document.getElementById("feedpage-"+id); if(t) t.scrollIntoView({behavior:"smooth"}); A.feedPicker(0); },
   feedUnmute:function(node){ _feedUnmuted=true; var fp=node&&node.parentNode; if(fp){ var id=fp.id.replace("fp-",""); var p=_ytPlayers[id]; if(p){ try{ p.unMute(); p.setVolume(100); p.playVideo(); }catch(e){} } } if(node) node.style.display="none"; },
-  feedTap:function(id){ var p=_ytPlayers[id]; if(!p) return; try{ if(p.getPlayerState()===1) p.pauseVideo(); else p.playVideo(); }catch(e){} },
+  feedTap:function(id){ var p=_ytPlayers[id]; if(!p) return; try{ if(!_feedUnmuted){ _feedUnmuted=true; p.unMute(); p.setVolume(100); p.playVideo(); return; } if(p.getPlayerState()===1) p.pauseVideo(); else p.playVideo(); }catch(e){} },
   retryQuiz:function(){ var q=S.quiz; if(!q) return; if(q.isReview){ A.closeQuiz(); return; } if(q.isMock){ A.startTrackExam(q._track); } else { A.openQuiz(q.subjKey,q.topicId); } },
   // ข้อสอบเสมือนจริงรายสาย
   openTrack:function(id){ var tr=(S.mockTracks||{})[id]; if(!tr) return; if(tr.locked && !S.adminMode){ toast("ชุดนี้ยังไม่เปิดให้ใช้ — เร็ว ๆ นี้"); return; } S.trackDetail=id; render(); },
