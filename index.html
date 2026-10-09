@@ -615,7 +615,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v274";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v275";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1509,48 +1509,44 @@ function knowledgeHTML(){
     return h+'</div></div>';
   }
   var sk=S.knowSubj, items=(S.knowledge||{})[sk]||[];
-  if(sk!=="com" && !S.adminMode){   // 🔒 นักเรียนเข้าได้เฉพาะวิชาคอม — วิชาอื่น "อยู่ระหว่างดำเนินการ"
-    return '<div class="card" style="display:flex;align-items:center;gap:11px;margin-bottom:9px;">'+
-         '<button class="btn sm ghost" style="flex:none;" onclick="A.backKnow()">◀ เลือกวิชา</button>'+
-         '<div style="font-size:14.5px;font-weight:800;color:var(--c-text);">'+esc(short(sk))+'</div>'+
-       '</div>'+
-       '<div class="card" style="text-align:center;padding:26px 20px 28px;">'+
-         '<div style="font-size:42px;line-height:1;margin-bottom:8px;">🔄</div>'+
-         '<div style="font-size:18px;font-weight:800;margin-bottom:6px;">'+esc(short(sk))+'</div>'+
-         '<span class="chip" style="background:#F2B01E;color:#0E0F12;font-size:12px;font-weight:800;padding:5px 14px;">🔄 อยู่ระหว่างดำเนินการ</span>'+
-         '<div class="muted" style="font-size:12.5px;line-height:1.75;margin:14px auto 0;max-width:290px;">ทีมงานกำลังจัดทำเอกสารติววิชานี้ เปิดให้อ่านเร็ว ๆ นี้<br>ตอนนี้เปิดให้อ่านแล้ว: <b>วิชาคอมพิวเตอร์</b></div>'+
-         '<button class="btn" style="margin-top:18px;padding:11px 22px;" onclick="A.openKnowSubj(\'com\')">📘 ไปอ่านวิชาคอมพิวเตอร์ →</button>'+
-       '</div>';
-  }
+  var locked=(sk!=="com" && !S.adminMode);   // 🔒 นักเรียน: เห็นหน้าวิชาได้ แต่กดเปิดเนื้อหาไม่ได้ (เปิดจริงเฉพาะคอม)
   h+='<div class="card" style="display:flex;align-items:center;gap:11px;">'+
        '<button class="btn sm ghost" style="flex:none;" onclick="A.backKnow()">◀</button>'+
        '<img src="'+subjImg(sk)+'" alt="" style="width:44px;height:44px;flex:none;border-radius:12px;object-fit:cover;box-shadow:0 3px 9px rgba(0,0,0,.16);">'+
        '<div style="flex:1;min-width:0;"><div style="font-size:15px;font-weight:800;">'+esc(short(sk))+'</div><div style="font-size:11.5px;color:var(--c-text-muted);">คลังความรู้ · '+items.length+' รายการ</div></div>'+
      '</div>';
+  if(locked) h+='<div class="card" style="text-align:center;padding:16px 18px 18px;background:linear-gradient(180deg,#FFF9EC,var(--c-surface));border:1px solid #F2D694;">'+
+       '<span class="chip" style="background:#F2B01E;color:#0E0F12;font-size:12px;font-weight:800;padding:5px 14px;">🔄 อยู่ระหว่างดำเนินการ</span>'+
+       '<div class="muted" style="font-size:12.5px;line-height:1.7;margin:11px auto 0;max-width:300px;">ทีมงานกำลังจัดทำเอกสารติววิชานี้ เปิดให้อ่านเร็ว ๆ นี้<br>ตอนนี้เปิดให้อ่านแล้ว: <b>วิชาคอมพิวเตอร์</b></div>'+
+       '<button class="btn" style="margin-top:13px;padding:10px 20px;" onclick="A.openKnowSubj(\'com\')">📘 ไปอ่านวิชาคอมพิวเตอร์ →</button>'+
+     '</div>';
   if(!items.length) return h+'<div class="card" style="text-align:center;color:var(--c-text-subtle);font-size:13px;padding:26px 16px;">ยังไม่มีเนื้อหาในวิชานี้<br><span style="font-size:11.5px;">(ติวเตอร์เพิ่มได้: แตะโลโก้มุมซ้ายบน → รหัสติวเตอร์ → คลังความรู้)</span></div>';
   var books=items.filter(function(x){return x.type==="book";});
-  if(books.length>=2){ h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:2px;">'+books.map(function(b){ return '<div class="card" style="padding:9px 9px 10px;cursor:pointer;" onclick="A.openBook('+b.ts+')">'+
+  if(books.length>=2){ h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:2px;">'+books.map(function(b){ return '<div class="card" style="padding:9px 9px 10px;cursor:pointer;" onclick="'+(locked?'A.lockToast()':'A.openBook('+b.ts+')')+'">'+
+        '<div style="position:relative;'+(locked?'opacity:.78;':'')+'">'+
         (b.cover?('<img src="'+b.cover+'" alt="" style="width:100%;display:block;aspect-ratio:124/175;object-fit:cover;border-radius:8px;box-shadow:0 5px 14px rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.06);">'):('<div style="width:100%;aspect-ratio:124/175;border-radius:8px;background:linear-gradient(150deg,#E4111F,#B00812);display:flex;align-items:center;justify-content:center;font-size:42px;">📕</div>'))+
+        (locked?'<div style="position:absolute;top:7px;right:7px;background:rgba(0,0,0,.6);color:#fff;font-size:15px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;">🔒</div>':'')+
+        '</div>'+
         '<div style="font-size:12.5px;font-weight:800;color:var(--c-text);margin-top:8px;line-height:1.28;min-height:2.4em;">'+esc(b.cap||"หนังสือสรุป")+'</div>'+
-        '<div style="margin-top:6px;background:#E4111F;color:#fff;font-size:11.5px;font-weight:800;padding:6px 0;border-radius:15px;text-align:center;">'+(b._loading?"⏳ กำลังเปิด…":"เปิดอ่าน")+'</div>'+
+        '<div style="margin-top:6px;background:'+(locked?'#9aa3ad':'#E4111F')+';color:#fff;font-size:11.5px;font-weight:800;padding:6px 0;border-radius:15px;text-align:center;">'+(locked?"🔒 เร็วๆนี้":(b._loading?"⏳ กำลังเปิด…":"เปิดอ่าน"))+'</div>'+
       '</div>'; }).join("")+'</div>';
-  } else if(books.length) h+=books.map(function(b){ return '<div class="card" style="padding:0;overflow:hidden;" onclick="A.openBook('+b.ts+')">'+
-      '<div style="cursor:pointer;padding:15px 16px;display:flex;align-items:center;gap:13px;">'+
+  } else if(books.length) h+=books.map(function(b){ return '<div class="card" style="padding:0;overflow:hidden;" onclick="'+(locked?'A.lockToast()':'A.openBook('+b.ts+')')+'">'+
+      '<div style="cursor:pointer;padding:15px 16px;display:flex;align-items:center;gap:13px;'+(locked?'opacity:.82;':'')+'">'+
         (b.cover?('<img src="'+b.cover+'" alt="" style="width:56px;height:74px;border-radius:9px;object-fit:cover;flex:none;box-shadow:0 4px 11px rgba(0,0,0,.22);border:1px solid rgba(0,0,0,.06);">'):('<div style="width:52px;height:52px;border-radius:13px;background:linear-gradient(150deg,#E4111F,#B00812);display:flex;align-items:center;justify-content:center;font-size:27px;flex:none;box-shadow:0 4px 11px rgba(228,17,31,.3);">📕</div>'))+
         '<div style="flex:1;min-width:0;"><div style="font-size:15px;font-weight:800;color:var(--c-text);">'+esc(b.cap||"หนังสือสรุป")+'</div>'+
-        '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">'+(b._loading?"⏳ กำลังเปิด…":"แตะเพื่อเปิดอ่านเนื้อหาบทนี้ + จด/ไฮไลต์ได้")+'</div></div>'+
-        '<div style="flex:none;background:#E4111F;color:#fff;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:20px;">เปิดอ่าน</div>'+
+        '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">'+(locked?"🔄 กำลังจัดทำ เปิดให้อ่านเร็ว ๆ นี้":(b._loading?"⏳ กำลังเปิด…":"แตะเพื่อเปิดอ่านเนื้อหาบทนี้ + จด/ไฮไลต์ได้"))+'</div></div>'+
+        '<div style="flex:none;background:'+(locked?'#9aa3ad':'#E4111F')+';color:#fff;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:20px;">'+(locked?"🔒 เร็วๆนี้":"เปิดอ่าน")+'</div>'+
       '</div></div>'; }).join("");
   var vocab=items.filter(function(x){return x.type==="vocab";}),
       imgs=items.filter(function(x){return x.type==="image";}),
       pdfs=items.filter(function(x){return x.type==="pdf";});
-  if(vocab.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📖 คำศัพท์</div><div style="display:flex;flex-direction:column;gap:10px;">'+
+  if(vocab.length && !locked) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📖 คำศัพท์</div><div style="display:flex;flex-direction:column;gap:10px;">'+
       vocab.map(function(v){ return '<div style="border-left:3px solid var(--pri);padding-left:10px;"><div style="font-size:14px;font-weight:700;">'+esc(v.term)+newBadge('know:'+v.ts,v.ts)+'</div><div style="font-size:13px;color:var(--c-text-muted);line-height:1.5;margin-top:2px;">'+esc(v.def)+'</div></div>'; }).join("")+'</div></div>';
-  if(imgs.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">🖼️ ภาพ</div><div style="display:flex;flex-direction:column;gap:14px;">'+
+  if(imgs.length && !locked) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">🖼️ ภาพ</div><div style="display:flex;flex-direction:column;gap:14px;">'+
       imgs.map(function(im){ var nb=(isNew('know:'+im.ts,im.ts)?'<span style="position:absolute;top:7px;left:7px;font-size:10px;font-weight:800;color:#fff;background:var(--pri);padding:2px 8px;border-radius:20px;z-index:1;">ใหม่</span>':"");
         if(im.ext && !im.data){ return '<div style="position:relative;border:1px dashed var(--c-border);border-radius:12px;padding:16px;text-align:center;">'+nb+'<div style="font-size:13.5px;font-weight:700;margin-bottom:3px;">'+esc(im.cap||"สรุปภาพ")+'</div><div style="font-size:11.5px;color:var(--c-text-muted);margin-bottom:11px;">'+(im._loading?"⏳ กำลังโหลด…":"แตะเพื่อโหลดสรุปบทนี้ (โหลดเฉพาะบทนี้)")+'</div><button class="btn sm" '+(im._loading?"disabled":"")+' style="background:var(--pri);color:#fff;border-color:var(--pri);" onclick="A.loadKnowExt('+im.ts+')">📥 เปิดสรุปบทนี้</button></div>'; }
         return '<div style="position:relative;">'+nb+'<img src="'+esc(im.data)+'" alt="'+esc(im.cap||"")+'" loading="lazy" style="width:100%;display:block;border-radius:12px;border:1px solid var(--c-border);">'+(im.cap?'<div style="font-size:12px;color:var(--c-text-muted);margin-top:5px;">'+esc(im.cap)+'</div>':"")+(S.adminMode?'<button class="btn sm ghost" style="margin-top:8px;border-color:var(--pri);color:var(--pri);" onclick="A.teachImg('+im.ts+')">🎓 สอนด้วยกระดาน</button>':"")+'</div>'; }).join("")+'</div></div>';
-  if(pdfs.length) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📄 ไฟล์ PDF</div><div style="display:flex;flex-direction:column;gap:9px;">'+
+  if(pdfs.length && !locked) h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--pri);">📄 ไฟล์ PDF</div><div style="display:flex;flex-direction:column;gap:9px;">'+
       pdfs.map(function(p){ return '<a href="'+esc(p.url)+'" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;text-decoration:none;background:var(--c-bg);border-radius:10px;padding:11px 13px;"><span style="font-size:24px;flex:none;">📄</span><div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:600;color:var(--c-text);">'+esc(p.title||"เอกสาร PDF")+newBadge('know:'+p.ts,p.ts)+'</div><div style="font-size:11px;color:var(--c-text-muted);">แตะเพื่อเปิด</div></div><span style="color:var(--pri);font-size:16px;flex:none;">↗</span></a>'; }).join("")+'</div></div>';
   return h;
 }
@@ -3637,8 +3633,10 @@ var A={
     function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
     if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; toast('⏳ กำลังเปิดหนังสือ…'); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; go(); }).catch(function(){ it._loading=false; alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   backKnow:function(){ S.knowSubj=null; render(); },
+  lockToast:function(){ toast("🔄 วิชานี้กำลังจัดทำ เปิดให้อ่านเร็ว ๆ นี้ — ตอนนี้เปิดแล้ว: วิชาคอมพิวเตอร์"); },
   loadKnowExt:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it||!it.ext){return;} if(it.data){render();return;} if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.data=j.data; it.cards=j.cards||[]; it._loading=false; render(); }).catch(function(){ it._loading=false; render(); alert('โหลดสรุปไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); },
-  openBook:function(ts){ var sk=S.knowSubj, arr=(S.knowledge||{})[sk]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='book'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return;
+  openBook:function(ts){ var sk=S.knowSubj; if(sk!=="com" && !S.adminMode){ A.lockToast(); return; }   // 🔒 เปิดจริงเฉพาะคอม (นักเรียน)
+    var arr=(S.knowledge||{})[sk]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='book'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return;
     function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
     if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; render(); go(); }).catch(function(){ it._loading=false; render(); alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   // ── คลังความรู้ (ติวเตอร์) ──
