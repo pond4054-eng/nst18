@@ -1492,20 +1492,36 @@ function knowledgeHTML(){
     subjects().forEach(function(su){
       var n=((S.knowledge||{})[su.k]||[]).length;
       var c=KCOL[su.k]||"#E4111F", t=KTNT[su.k]||"rgba(228,17,31,.12)";
-      h+='<div onclick="A.openKnowSubj(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:15px;overflow:hidden;background:var(--c-surface);box-shadow:0 4px 11px rgba(0,0,0,.08);">'+
+      var lk=(su.k!=="com" && !S.adminMode);   // 🔒 นักเรียนเข้าได้เฉพาะวิชาคอม — วิชาอื่น "อยู่ระหว่างดำเนินการ"
+      h+='<div onclick="A.openKnowSubj(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:15px;overflow:hidden;background:var(--c-surface);box-shadow:0 4px 11px rgba(0,0,0,.08);'+(lk?"opacity:.6;":"")+'">'+
            '<div style="width:100%;height:96px;overflow:hidden;background:#f2f4f7;"><img src="icons/art-'+su.k+'.jpg" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;"></div>'+
            '<div style="padding:8px 10px 10px;">'+
              '<div style="font-size:13px;font-weight:800;color:var(--c-text);line-height:1.18;min-height:2.36em;">'+esc(short(su.k))+'</div>'+
-             '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px;">'+
-               '<span style="background:'+c+';color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:20px;white-space:nowrap;">'+(n?(n+" รายการ"):"เร็วๆนี้")+'</span>'+
-               '<div style="width:28px;height:28px;border-radius:50%;background:'+t+';display:flex;align-items:center;justify-content:center;flex:none;color:'+c+';font-size:18px;font-weight:800;line-height:1;">›</div>'+
-             '</div>'+
+             (lk
+               ? '<div style="margin-top:6px;text-align:center;"><span style="background:#F2B01E;color:#0E0F12;font-size:9.5px;font-weight:800;padding:4px 9px;border-radius:20px;white-space:nowrap;">🔄 อยู่ระหว่างดำเนินการ</span></div>'
+               : '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px;">'+
+                   '<span style="background:'+c+';color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:20px;white-space:nowrap;">'+(n?(n+" รายการ"):"เร็วๆนี้")+'</span>'+
+                   '<div style="width:28px;height:28px;border-radius:50%;background:'+t+';display:flex;align-items:center;justify-content:center;flex:none;color:'+c+';font-size:18px;font-weight:800;line-height:1;">›</div>'+
+                 '</div>')+
            '</div>'+
          '</div>';
     });
     return h+'</div></div>';
   }
   var sk=S.knowSubj, items=(S.knowledge||{})[sk]||[];
+  if(sk!=="com" && !S.adminMode){   // 🔒 นักเรียนเข้าได้เฉพาะวิชาคอม — วิชาอื่น "อยู่ระหว่างดำเนินการ"
+    return '<div class="card" style="display:flex;align-items:center;gap:11px;margin-bottom:9px;">'+
+         '<button class="btn sm ghost" style="flex:none;" onclick="A.backKnow()">◀ เลือกวิชา</button>'+
+         '<div style="font-size:14.5px;font-weight:800;color:var(--c-text);">'+esc(short(sk))+'</div>'+
+       '</div>'+
+       '<div class="card" style="text-align:center;padding:26px 20px 28px;">'+
+         '<div style="font-size:42px;line-height:1;margin-bottom:8px;">🔄</div>'+
+         '<div style="font-size:18px;font-weight:800;margin-bottom:6px;">'+esc(short(sk))+'</div>'+
+         '<span class="chip" style="background:#F2B01E;color:#0E0F12;font-size:12px;font-weight:800;padding:5px 14px;">🔄 อยู่ระหว่างดำเนินการ</span>'+
+         '<div class="muted" style="font-size:12.5px;line-height:1.75;margin:14px auto 0;max-width:290px;">ทีมงานกำลังจัดทำเอกสารติววิชานี้ เปิดให้อ่านเร็ว ๆ นี้<br>ตอนนี้เปิดให้อ่านแล้ว: <b>วิชาคอมพิวเตอร์</b></div>'+
+         '<button class="btn" style="margin-top:18px;padding:11px 22px;" onclick="A.openKnowSubj(\'com\')">📘 ไปอ่านวิชาคอมพิวเตอร์ →</button>'+
+       '</div>';
+  }
   h+='<div class="card" style="display:flex;align-items:center;gap:11px;">'+
        '<button class="btn sm ghost" style="flex:none;" onclick="A.backKnow()">◀</button>'+
        '<img src="'+subjImg(sk)+'" alt="" style="width:44px;height:44px;flex:none;border-radius:12px;object-fit:cover;box-shadow:0 3px 9px rgba(0,0,0,.16);">'+
