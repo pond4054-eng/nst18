@@ -615,7 +615,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v276";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v277";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1456,7 +1456,7 @@ function studyLockedHTML(){
     '</div></div>';
 }
 function viewStudy(c){
-  if(!studyOpen()) return studyLockedHTML();   // 🔒 ยังไม่เปิดให้นักเรียน (STUDY_LOCKED) — ติวเตอร์เท่านั้นที่เข้าทดสอบได้
+  // 📄 ชีทสรุป (คลังความรู้) เปิดให้นักเรียนแล้ว — ส่วน "คลิปติว" ยังล็อก (gate แยกด้านล่าง บรรทัดคลิป)
   // ── หน้าเลือกวิธีติว (2 การ์ด) — ส่วนอื่นของแอปไม่เปลี่ยน ──
   if(!S.studyPick){
     return '<div class="stack">'+
@@ -1467,9 +1467,10 @@ function viewStudy(c){
         '<span style="flex:1;height:2px;background:linear-gradient(90deg,var(--c-border),transparent);"></span>'+
       '</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">'+
-        '<div onclick="A.studyPick(\'video\')" style="cursor:pointer;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15);"><img src="icons/btn-clip.jpg" alt="คลิปติวหนังสือ" loading="lazy" style="width:100%;display:block;"></div>'+
-        '<div onclick="A.studyPick(\'know\')" style="cursor:pointer;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15);"><img src="icons/btn-sheet.jpg" alt="ชีทสรุปเนื้อหา" loading="lazy" style="width:100%;display:block;"></div>'+
+        '<div onclick="A.studyPick(\'video\')" style="cursor:pointer;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15);"><img src="icons/btn-clip.jpg" alt="คลิปติวหนังสือ" loading="lazy" style="width:100%;display:block;'+(studyOpen()?'':'opacity:.82;')+'">'+(studyOpen()?'':'<div style="position:absolute;top:8px;right:8px;background:#F2B01E;color:#0E0F12;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);">🔄 เร็วๆนี้</div>')+'</div>'+
+        '<div onclick="A.studyPick(\'know\')" style="cursor:pointer;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15);"><img src="icons/btn-sheet.jpg" alt="ชีทสรุปเนื้อหา" loading="lazy" style="width:100%;display:block;"><div style="position:absolute;top:8px;right:8px;background:#16A34A;color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);">✓ เปิดแล้ว</div></div>'+
       '</div>'+
+      '<div style="font-size:11.5px;color:var(--c-text-muted);text-align:center;margin-top:6px;line-height:1.65;">📄 <b style="color:var(--c-text);">ชีทสรุปวิชาคอมพิวเตอร์</b> เปิดให้อ่านแล้ว · 🎬 คลิปติว และวิชาอื่น ๆ กำลังทยอยเปิด</div>'+
     '</div>';
   }
   var back='<div class="card noprint" style="display:flex;align-items:center;gap:10px;padding:9px 11px;margin-bottom:6px;"><button class="btn sm ghost" style="flex:none;" onclick="A.studyPickBack()">◀ เลือกวิธีติว</button><div style="font-size:13.5px;font-weight:800;color:var(--c-text);">'+(S.studyPick==="know"?"📄 ชีทสรุปเนื้อหา":"🎬 คลิปติวหนังสือ")+'</div></div>';
