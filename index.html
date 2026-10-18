@@ -186,9 +186,10 @@
   @media (prefers-reduced-motion:reduce){ #quizTimerBar.tmup{ animation:none; } }
   /* วงเปอร์เซ็นต์แบบเปลวไฟ — แสงเรืองไหวระริกเหมือนไฟลุก */
   @keyframes flameflick{ 0%,100%{ filter:drop-shadow(0 0 2px var(--fl)); } 45%{ filter:drop-shadow(0 0 7px var(--fl)); } 70%{ filter:drop-shadow(0 0 4px var(--fl)); } }
-  #ytmount, #ytmount iframe{ position:absolute; inset:0; width:100%!important; height:100%!important; border:0; }
+  /* คมชัดสุด: วาง iframe ใหญ่ 2 เท่าแล้วย่อลง → YouTube เลือกส่งความละเอียดสูงกว่าเดิม (เลือกตามขนาดกรอบ) */
+  #ytmount, #ytmount iframe{ position:absolute; left:0; top:0; width:200%!important; height:200%!important; transform:scale(.5); transform-origin:0 0; border:0; }
   /* ฟีดคลิป: บังคับ iframe เต็มกรอบวิดีโอ 9:16 (กัน letterbox ดำ + ข้อความช่อง/ปุ่มของ YouTube) */
-  [id^="fp-"] iframe{ position:absolute; inset:0; width:100%!important; height:100%!important; border:0; }
+  [id^="fp-"] iframe{ position:absolute; left:0; top:0; width:200%!important; height:200%!important; transform:scale(.5); transform-origin:0 0; border:0; }
   /* จอวิดีโอล็อก — ปุ่มควบคุมของเราเอง (กันกดเข้าลิงก์/ก็อปลิงก์) */
   .ytctrl{ background:var(--c-surface); border-top:1px solid var(--c-border); }
   .ytbtn{ appearance:none; -webkit-appearance:none; border:0; background:var(--c-bg); color:var(--c-text); width:38px; height:38px; border-radius:50%; font-size:13px; font-weight:800; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; transition:transform .1s, background .15s; }
@@ -615,7 +616,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v282";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v283";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=true;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1740,10 +1741,10 @@ function mountPlayer(){
     _yt.player=new YT.Player("ytmount",{
       width:"100%", height:"100%", videoId:p.yt,
       // controls:0 + fs:0 + disablekb + iv_load_policy:3 → ซ่อนคอนโทรล/โลโก้/คำบรรยายของ YouTube (ใช้ปุ่มเราแทน)
-      playerVars:{ rel:0, modestbranding:1, playsinline:1, controls:0, fs:0, disablekb:1, iv_load_policy:3, start:startSec },
+      playerVars:{ rel:0, modestbranding:1, playsinline:1, controls:0, fs:0, disablekb:1, iv_load_policy:3, cc_load_policy:0, start:startSec },
       events:{
-        onReady:function(e){ var l=document.getElementById("ytload"); if(l) l.style.display="none"; try{ e.target.playVideo(); }catch(_){} startPoll(); setYtUI(); },
-        onStateChange:function(e){ setYtUI(); if(e.data===1) startPoll(); else { pollProg(); if(e.data===2||e.data===0) stopPoll(); } }
+        onReady:function(e){ ytNoCC(e.target); var l=document.getElementById("ytload"); if(l) l.style.display="none"; try{ e.target.playVideo(); }catch(_){} startPoll(); setYtUI(); },
+        onStateChange:function(e){ setYtUI(); if(e.data===1){ ytNoCC(e.target); startPoll(); } else { pollProg(); if(e.data===2||e.data===0) stopPoll(); } }
       }
     });
   });
@@ -2557,9 +2558,8 @@ function shopSampleSheet(){
 /* ═══════════ ฟีดวิดีโอเต็มจอ (แนวติ๊กตอก) — เลื่อนขึ้นลง + 4 ปุ่มข้าง + กริดเลือกคลิป (แบบ C) ═══════════
    interactions ใช้ DOM ตรง ๆ ไม่เรียก render() (กันจอเด้ง/วิดีโอรีโหลด) */
 function ytThumb(yt){ return "https://i.ytimg.com/vi/"+encodeURIComponent(yt)+"/hqdefault.jpg"; }
-// แผ่นสีขาวทับ บน/ล่าง ของกรอบวิดีโอ — บังข้อความช่อง/ปุ่ม "ดู ใน YouTube" ที่ YouTube แปะเอง (กลมกลืนพื้นขาวของคลิป)
-function feedPatches(){ return '<div class="fpatch" style="position:absolute;left:0;right:0;top:0;height:8%;background:#fff;z-index:1;pointer-events:none;"></div>'+
-  '<div class="fpatch" style="position:absolute;left:0;right:0;bottom:0;height:13%;background:#fff;z-index:1;pointer-events:none;"></div>'; }
+// (เดิมมีแผ่นสีขาวทับ บน/ล่าง ของกรอบวิดีโอ — เอาออกแล้วตามที่ครูขอ ให้เห็นคลิปเต็มกรอบ)
+function feedPatches(){ return ""; }
 function feedPatchShow(id,show){ var fp=document.getElementById("fp-"+id); if(!fp) return; var ps=fp.querySelectorAll(".fpatch"); for(var k=0;k<ps.length;k++) ps[k].style.display=show?"block":"none"; }
 function feedPosterInner(){ return feedPatches()+
   '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:27px;color:#111;">▶</div></div>'; }
@@ -2572,6 +2572,14 @@ function loadYTApi(cb){                          // โหลด YouTube IFrame 
   var s=document.createElement("script"); s.src="https://www.youtube.com/iframe_api"; document.head.appendChild(s);
   var t2=setInterval(function(){ if(poll()) clearInterval(t2); },120);
 }
+var _ccOn=false;   // ปุ่ม CC ของแอป — ค่าเริ่มต้น "ปิด" คำบรรยายของ YouTube (คลิปเรามีซับฝังในภาพแล้ว)
+function ytNoCC(pl){   // ใช้สถานะปุ่ม CC กับเครื่องเล่น (เรียกตอนพร้อม + ทุกครั้งที่เริ่มเล่น)
+  if(_ccOn){ try{ pl.loadModule("captions"); pl.setOption("captions","track",{languageCode:"th"}); }catch(_){} }
+  else { try{ pl.unloadModule("captions"); }catch(_){} try{ pl.unloadModule("cc"); }catch(_){} }
+  try{ pl.setPlaybackQuality("highres"); }catch(_){}
+}
+function ccBtnHTML(){ return '<span class="cclbl" style="'+(_ccOn?"":"text-decoration:line-through;opacity:.75;")+'">CC</span>'; }
+   // ปิดคำบรรยายอัตโนมัติของ YouTube (คลิปเรามีซับฝังในภาพอยู่แล้ว)
 function feedDestroyPlayers(){ for(var k in _ytPlayers){ try{ _ytPlayers[k].destroy(); }catch(e){} } _ytPlayers={}; }
 function feedMount(el,yt,active){
   if(!el) return;
@@ -2584,12 +2592,12 @@ function feedMount(el,yt,active){
   loadYTApi(function(){
     var host=document.getElementById("ytp-"+id); if(!host) return;   // เลื่อนพ้นไปก่อน player พร้อม
     try{ _ytPlayers[id]=new YT.Player("ytp-"+id,{ videoId:yt,
-      playerVars:{autoplay:(active?1:0),mute:((_feedUnmuted&&active)?0:1),playsinline:1,rel:0,modestbranding:1,controls:0,fs:0,disablekb:1,iv_load_policy:3,loop:1,playlist:yt},
-      events:{ onReady:function(e){ try{
+      playerVars:{autoplay:(active?1:0),mute:((_feedUnmuted&&active)?0:1),playsinline:1,rel:0,modestbranding:1,controls:0,fs:0,disablekb:1,iv_load_policy:3,cc_load_policy:0,loop:1,playlist:yt},
+      events:{ onReady:function(e){ ytNoCC(e.target); try{
           if(_feedActiveId===id){ if(_feedUnmuted) e.target.unMute(); else e.target.mute(); e.target.playVideo(); }
           else { e.target.mute(); e.target.playVideo(); e.target.pauseVideo(); }   // พรีโหลด: บัฟเฟอร์ไว้ก่อนแล้วหยุดรอ
         }catch(_){} },
-        onStateChange:function(e){ try{ feedPatchShow(id, e.data!==1); }catch(_){} }   // 1=กำลังเล่น→ซ่อนแผ่น (เห็นโจทย์เต็ม) · หยุด/ยังไม่เล่น→โชว์แผ่นบังข้อความ YouTube
+        onStateChange:function(e){ if(e.data===1) ytNoCC(e.target); try{ feedPatchShow(id, e.data!==1); }catch(_){} }   // 1=กำลังเล่น→ซ่อนแผ่น (เห็นโจทย์เต็ม) · หยุด/ยังไม่เล่น→โชว์แผ่นบังข้อความ YouTube
       } }); }catch(_){}
   });
 }
@@ -3740,6 +3748,12 @@ var A={
     if(!_yt.player || !_yt.player.getCurrentTime) return;
     var t=(_yt.player.getCurrentTime()||0)+sec; if(t<0) t=0;
     _yt.player.seekTo(t,true); pollProg();
+  },
+  ccToggle:function(){ _ccOn=!_ccOn;
+    try{ if(_yt&&_yt.player) ytNoCC(_yt.player); }catch(_){}
+    for(var k in _ytPlayers){ try{ ytNoCC(_ytPlayers[k]); }catch(_){} }
+    var bs=document.querySelectorAll(".ccbtn"); for(var i=0;i<bs.length;i++) bs[i].innerHTML=ccBtnHTML();
+    toast(_ccOn?"เปิดคำบรรยาย YouTube":"ปิดคำบรรยาย YouTube");
   },
   ytFull:function(){
     var st=document.getElementById("ytstage"); if(!st) return;
