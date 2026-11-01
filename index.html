@@ -616,7 +616,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v284";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v285";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1502,7 +1502,7 @@ function knowledgeHTML(){
     subjects().forEach(function(su){
       var n=((S.knowledge||{})[su.k]||[]).length;
       var c=KCOL[su.k]||"#E4111F", t=KTNT[su.k]||"rgba(228,17,31,.12)";
-      var lk=(su.k!=="com" && !S.adminMode);   // 🔒 นักเรียนเข้าได้เฉพาะวิชาคอม — วิชาอื่น "อยู่ระหว่างดำเนินการ"
+      var lk=(!n && !S.adminMode);   // 🔒 ล็อก/ป้าย "อยู่ระหว่างดำเนินการ" เฉพาะวิชาที่ยังไม่มีเนื้อหา — มีเนื้อหาเมื่อไหร่เปิดให้นักเรียนอัตโนมัติ
       h+='<div onclick="A.openKnowSubj(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:15px;overflow:hidden;background:var(--c-surface);box-shadow:0 4px 11px rgba(0,0,0,.08);'+(lk?"opacity:.6;":"")+'">'+
            '<div style="width:100%;height:96px;overflow:hidden;background:#f2f4f7;"><img src="icons/art-'+su.k+'.jpg" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;"></div>'+
            '<div style="padding:8px 10px 10px;">'+
@@ -1519,7 +1519,7 @@ function knowledgeHTML(){
     return h+'</div></div>';
   }
   var sk=S.knowSubj, items=(S.knowledge||{})[sk]||[];
-  var locked=(sk!=="com" && !S.adminMode);   // 🔒 นักเรียน: เห็นหน้าวิชาได้ แต่กดเปิดเนื้อหาไม่ได้ (เปิดจริงเฉพาะคอม)
+  var locked=(!items.length && !S.adminMode);   // 🔒 นักเรียน: เปิดเนื้อหาได้ทุกวิชาที่มีเนื้อหา — ล็อกเฉพาะวิชาที่ยังว่าง
   h+='<div class="card" style="display:flex;align-items:center;gap:11px;">'+
        '<button class="btn sm ghost" style="flex:none;" onclick="A.backKnow()">◀</button>'+
        '<img src="'+subjImg(sk)+'" alt="" style="width:44px;height:44px;flex:none;border-radius:12px;object-fit:cover;box-shadow:0 3px 9px rgba(0,0,0,.16);">'+
