@@ -616,7 +616,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v285";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v286";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -3650,7 +3650,7 @@ var A={
     function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
     if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; toast('⏳ กำลังเปิดหนังสือ…'); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; go(); }).catch(function(){ it._loading=false; alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   backKnow:function(){ S.knowSubj=null; render(); },
-  lockToast:function(){ toast("🔄 วิชานี้กำลังจัดทำ เปิดให้อ่านเร็ว ๆ นี้ — ตอนนี้เปิดแล้ว: วิชาคอมพิวเตอร์"); },
+  lockToast:function(){ toast("🔄 วิชานี้กำลังจัดทำ เปิดให้อ่านเร็ว ๆ นี้"); },
   /* ตรวจหา/อัปเดตแอปแบบกดเอง — บังคับเช็ก service worker + ดึงเนื้อหาใหม่ แล้วรีโหลดเป็นเวอร์ชันล่าสุด
      ไม่ล้างข้อมูล/ไม่หลุดล็อกอิน (เก็บ localStorage ไว้ทั้งหมด) */
   checkUpdate:function(manual){
@@ -3669,7 +3669,7 @@ var A={
     }).catch(function(){ if(manual) setTimeout(function(){ try{location.reload();}catch(e){} },600); });
   },
   loadKnowExt:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it||!it.ext){return;} if(it.data){render();return;} if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.data=j.data; it.cards=j.cards||[]; it._loading=false; render(); }).catch(function(){ it._loading=false; render(); alert('โหลดสรุปไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); },
-  openBook:function(ts){ var sk=S.knowSubj; if(sk!=="com" && !S.adminMode){ A.lockToast(); return; }   // 🔒 เปิดจริงเฉพาะคอม (นักเรียน)
+  openBook:function(ts){ var sk=S.knowSubj; if(!((S.knowledge||{})[sk]||[]).length && !S.adminMode){ A.lockToast(); return; }   // 🔒 ล็อกเฉพาะวิชาที่ยังไม่มีเนื้อหา (นักเรียน)
     var arr=(S.knowledge||{})[sk]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='book'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return;
     function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
     if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; render(); go(); }).catch(function(){ it._loading=false; render(); alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
