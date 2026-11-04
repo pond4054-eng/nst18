@@ -616,7 +616,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v286";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v287";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1482,7 +1482,15 @@ function viewStudy(c){
   // ── คลิปติวหนังสือ ──
   if(!studyOpen()) return '<div class="stack">'+back+'</div>'+studyLockedHTML();
   var adminNote=(STUDY_LOCKED && S.adminMode)?'<div style="font-size:11.5px;color:#7A1219;background:#FEF4F4;border:1px solid #F3C0C0;border-radius:11px;padding:10px 12px;line-height:1.55;margin-bottom:10px;">👁️ <b>โหมดซัพพอร์ตติวเตอร์ — ดูตัวอย่างวิดีโอ</b> · นักเรียนยังเห็นหน้า “อยู่ระหว่างดำเนินการ” (ยังไม่เปิดใช้จริง)</div>':'';
-  return '<div class="stack">'+back+adminNote+'<div id="studyBrowse">'+studyBrowseHTML()+'</div></div>';
+  var inner;
+  if(S.player){                                   // กำลังเล่น → จอ 16:9 + ลิสต์ EP ด้านล่าง
+    inner = studyTopScreen()+'<div id="epListWrap" style="margin-top:14px;">'+epListHTML(S.player.sk,S.player.id)+'</div>';
+  } else if(S.studyVidSubj){                       // เลือกวิชาแล้ว → ลิสต์ EP
+    inner = '<div id="epListWrap">'+epListHTML(S.studyVidSubj,null)+'</div>';
+  } else {                                         // ยังไม่เลือกวิชา → ตารางวิชา
+    inner = '<div id="studyBrowse">'+studyBrowseHTML()+'</div>';
+  }
+  return '<div class="stack">'+back+adminNote+inner+'</div>';
 }
 /* ───── คลังความรู้ (ในติวหนังสือ) ───── */
 function knowledgeHTML(){
@@ -1567,7 +1575,7 @@ function studyBrowseHTML(){
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
   subjects().forEach(function(su){
     var s=subjVidStats(su.k), has=feedClips(su.k).length;
-    h+='<div onclick="A.openFeed(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:16px;overflow:hidden;background:var(--c-surface);box-shadow:0 3px 10px rgba(0,0,0,.07);'+(has?"":"opacity:.55;")+'">'+
+    h+='<div onclick="A.openEpList(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:16px;overflow:hidden;background:var(--c-surface);box-shadow:0 3px 10px rgba(0,0,0,.07);'+(has?"":"opacity:.55;")+'">'+
          '<div style="position:relative;">'+
            '<img src="'+subjImg(su.k)+'" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">'+
            (has?'<div style="position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;">🎬 '+has+' คลิป</div>':"")+
@@ -1579,6 +1587,54 @@ function studyBrowseHTML(){
   h+='</div></div>';
   return h;
 }
+// ── รายการตอน (EP) ของวิชา — กดเลือกดูทีละตอน (แทนฟีดเลื่อน) · คลิปแนวนอน 16:9 ──
+function epThumb(yt){ return yt?("https://i.ytimg.com/vi/"+encodeURIComponent(yt)+"/mqdefault.jpg"):""; }
+function epBadge(playing,done,started,pct){
+  if(playing) return '<div style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:'+PRI()+';color:var(--c-on-brand);">กำลังเล่น</div>';
+  if(done)    return '<div style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:#1E9E5A;color:#fff;">เรียนจบ ✓</div>';
+  if(started) return '<div class="mono" style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:color-mix(in srgb, '+PRI()+' 14%, #fff);color:var(--pri);">ดูแล้ว '+pct+'%</div>';
+  return '<div style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:#F4F6F9;color:var(--c-text-muted);">ยังไม่เรียน</div>';
+}
+function epListHTML(sk, playingId){
+  var clips=feedClips(sk), st=subjVidStats(sk);
+  var head='<div class="card" style="display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:10px;">'+
+    '<button class="btn sm ghost" style="flex:none;" onclick="A.backToSubjects()">◀ วิชา</button>'+
+    '<div style="flex:1;min-width:0;"><div style="font-size:14.5px;font-weight:800;">'+subjIcon(sk)+' '+esc(short(sk))+'</div>'+
+    '<div style="font-size:11.5px;color:var(--c-text-muted);">'+clips.length+' ตอน'+(st.total?' · ดูจบ '+st.done+'/'+st.total:'')+'</div></div>'+
+    (st.total?'<div class="mono" style="flex:none;font-size:13px;font-weight:800;color:var(--pri);">'+st.pct+'%</div>':'')+
+  '</div>';
+  if(!clips.length) return head+'<div class="card" style="text-align:center;padding:28px 16px;color:var(--c-text-muted);">ยังไม่มีคลิปในวิชานี้</div>';
+  // การ์ด "ดูต่อจากที่ค้างไว้" (เฉพาะตอนยังไม่ได้เปิดเครื่องเล่น)
+  var resume='';
+  if(!playingId){
+    var hist=learnHistory(), r=null, j;
+    for(j=0;j<hist.length;j++){ if(hist[j].sk===sk && hist[j].pct>0 && hist[j].pct<90){ r=hist[j]; break; } }
+    if(r){ var ri=clips.map(function(c){return c.v.id;}).indexOf(r.id), rn=ri>=0?ri+1:0;
+      resume='<div onclick="A.playVideo(\''+esc(r.id)+'\')" style="display:flex;align-items:center;gap:12px;background:var(--c-surface);border:1.5px solid var(--pri);border-radius:15px;padding:10px;margin-bottom:12px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.08);">'+
+        '<div style="width:104px;height:59px;flex:none;border-radius:10px;position:relative;overflow:hidden;background:#0E0F12 center/cover url(\''+epThumb(r.v.yt)+'\');">'+
+          '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:var(--pri);font-size:15px;padding-left:3px;">▶</div></div>'+
+          '<div style="position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.3);"><div style="height:100%;background:'+PRI()+';width:'+(r.pct||0)+'%;"></div></div>'+
+        '</div>'+
+        '<div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:800;color:var(--pri);">▶ ดูต่อจากที่ค้างไว้'+(rn?' · EP'+rn:'')+'</div>'+
+          '<div style="font-size:14px;font-weight:800;line-height:1.3;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(r.v.title)+'</div>'+
+          '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">ดูแล้ว '+(r.pct||0)+'%</div></div>'+
+      '</div>'; }
+  }
+  var rows=clips.map(function(c,i){
+    var v=c.v, id=v.id, pr=prog(id), done=isDone(id), started=(pr.pct||0)>0, playing=playingId===id, last=i===clips.length-1;
+    return '<div onclick="A.playVideo(\''+esc(id)+'\')" style="display:flex;align-items:center;gap:11px;padding:11px 12px;'+(last?'':'border-bottom:1px solid #EEF0F3;')+'cursor:pointer;'+(playing?'background:color-mix(in srgb, '+PRI()+' 8%, transparent);':'')+'">'+
+      '<div style="width:26px;flex:none;text-align:center;font-weight:800;font-size:13px;color:'+(playing?'var(--pri)':(done?'#1E9E5A':'var(--c-text-muted)'))+';">'+(i+1)+'</div>'+
+      '<div style="width:96px;height:54px;flex:none;border-radius:9px;position:relative;overflow:hidden;background:#0E0F12 center/cover'+(v.yt?' url(\''+epThumb(v.yt)+'\')':'')+';">'+
+        (v.dur?'<div style="position:absolute;right:4px;bottom:4px;background:rgba(0,0,0,.78);color:#fff;font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:5px;">'+esc(v.dur)+'</div>':'')+
+        (started&&!done?'<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.3);"><div style="height:100%;background:'+PRI()+';width:'+(pr.pct||0)+'%;"></div></div>':'')+
+      '</div>'+
+      '<div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:700;line-height:1.3;color:'+(done?'var(--c-text-subtle)':'var(--c-text)')+';">EP'+(i+1)+' · '+esc(v.title)+newBadge('vid:'+id,v.ts)+'</div>'+
+        '<div style="font-size:11px;color:var(--c-text-muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(c.tlabel||'')+'</div></div>'+
+      epBadge(playing,done,started,pr.pct||0)+
+    '</div>';
+  }).join('');
+  return head+resume+'<div class="card" style="padding:0;overflow:hidden;">'+rows+'</div>';
+}
 // หน้าเล่นวิดีโอแบบเต็มหน้า (โหมดติวเนื้อหา)
 function topicLabelOf(tid){
   var found="";
@@ -1588,7 +1644,7 @@ function topicLabelOf(tid){
 // ส่วน "ใต้วิดีโอ" (ชื่อ/เมทา/ปุ่ม/สรุป) — แยกออกมาเพื่ออัปเดตตอนสลับคลิปโดยไม่ต้องแตะ iframe
 function playerChromeHTML(p){
   var pr=prog(p.id);
-  var vs=studyVids(p.tid), i=vs.map(function(v){return v.id;}).indexOf(p.id), hasNext=i>=0 && i<vs.length-1;
+  var vs=feedClips(p.sk).map(function(c){return c.v;}), i=vs.map(function(v){return v.id;}).indexOf(p.id), hasNext=i>=0 && i<vs.length-1;
   return ''+
     '<div style="margin-top:12px;">'+
       '<div style="font-size:11.5px;font-weight:600;letter-spacing:.03em;color:var(--pri);">'+esc(short(p.sk))+' · '+esc(topicLabelOf(p.tid))+'</div>'+
@@ -1607,7 +1663,7 @@ function studyTopScreen(){
   var p=S.player;
   if(p){
     var pr=prog(p.id), saved=!!(S.saved||{})[p.id];
-    var vs=studyVids(p.tid), i=vs.map(function(v){return v.id;}).indexOf(p.id), hasNext=i>=0 && i<vs.length-1;
+    var vs=feedClips(p.sk).map(function(c){return c.v;}), i=vs.map(function(v){return v.id;}).indexOf(p.id), hasNext=i>=0 && i<vs.length-1;
     return ''+
       '<div id="ytstage" class="ytstage" oncontextmenu="return false" style="background:#0E0F12;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.18);">'+
         '<div class="ytwrap" style="position:relative;width:100%;padding-top:56.25%;">'+
@@ -1724,7 +1780,7 @@ function switchClip(id){
   var startSec=Math.floor(prog(id).sec||0);
   try{ if(newYt) _yt.player.loadVideoById({videoId:newYt, startSeconds:startSec}); }catch(err){}
   var ch=document.getElementById("ytchrome"); if(ch) ch.innerHTML=playerChromeHTML(S.player);
-  var br=document.getElementById("studyBrowse"); if(br) br.innerHTML=studyBrowseHTML();
+  var br=document.getElementById("epListWrap"); if(br) br.innerHTML=epListHTML(S.player.sk,S.player.id);
   var bar=document.getElementById("ytbar"); if(bar) bar.style.width=(prog(id).pct||0)+"%";
   var v=document.getElementById("view"); if(v) v.scrollTop=0;
 }
@@ -3727,10 +3783,12 @@ var A={
   closeVideo:function(){ destroyPlayer(); S.player=null; render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; },
   nextLesson:function(){
     var p=S.player; if(!p) return;
-    var vs=studyVids(p.tid), i=vs.map(function(v){return v.id;}).indexOf(p.id);
+    var vs=feedClips(p.sk).map(function(c){return c.v;}), i=vs.map(function(v){return v.id;}).indexOf(p.id);
     if(i>=0 && i<vs.length-1) A.playVideo(vs[i+1].id);
-    else toast("นี่คือคลิปสุดท้ายในหัวข้อนี้แล้ว");
+    else toast("นี่คือตอนสุดท้ายของวิชานี้แล้ว");
   },
+  openEpList:function(sk){ S.studyVidSubj=sk; S.player=null; destroyPlayer(); render(); window.scrollTo(0,0); },
+  backToSubjects:function(){ S.studyVidSubj=null; S.player=null; destroyPlayer(); render(); window.scrollTo(0,0); },
   toggleSaved:function(id){
     var sv=Object.assign({},S.saved||{});
     if(sv[id]) delete sv[id]; else sv[id]=true;
