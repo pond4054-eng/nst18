@@ -616,7 +616,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v288";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v289";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1805,6 +1805,107 @@ function mountPlayer(){
     });
   });
 }
+
+/* ───── มินิเพลเยอร์คลิปลอย (PiP) — ดูคลิปขณะอ่านชีท · กล่องจอขาว ลาก/ย่อ-ขยายได้ ───── */
+var PIP=(function(){
+  var built=false, box=null, subj=null, clips=[], idx=0, player=null, poll=0, curId=null, autoplay=false;
+  var CSS='#pipbox{position:fixed;right:12px;bottom:16px;width:230px;background:#fff;border:1px solid #E4E7EB;border-radius:14px;overflow:hidden;box-shadow:0 14px 36px rgba(0,0,0,.30);z-index:100000;touch-action:none;font-family:inherit}'
+   +'#pipbox .pbar{display:flex;align-items:center;gap:6px;height:33px;padding:0 5px 0 10px;background:#fff;border-bottom:1px solid #EEF0F3;cursor:move;touch-action:none}'
+   +'#pipbox .pgr{color:#C3C7CE;font-size:12px;flex:none}'
+   +'#pipbox .pti{flex:1;min-width:0;font-size:11px;font-weight:800;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+   +'#pipbox .pbtn{width:23px;height:23px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:7px;font-size:13px;color:#8A9099;background:#F4F6F9;border:none;cursor:pointer;padding:0}'
+   +'#pipbox .pscr{position:relative;width:100%;aspect-ratio:16/9;background:#0E0F12 center/cover}'
+   +'#pipbox #pipmount,#pipbox #pipmount iframe{position:absolute;inset:0;width:100%;height:100%;border:0}'
+   +'#pipbox .pplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer}'
+   +'#pipbox .pplay b{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;color:#C62828;font-size:18px;padding-left:4px;box-shadow:0 3px 10px rgba(0,0,0,.35)}'
+   +'#pipbox .pep{display:flex;align-items:center;gap:6px;height:33px;padding:0 8px;background:#fff;border-top:1px solid #EEF0F3}'
+   +'#pipbox .pnav{width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;background:#F4F6F9;color:#555;border-radius:7px;font-size:13px;cursor:pointer;border:none;padding:0}'
+   +'#pipbox .pchip{flex:1;min-width:0;text-align:center;font-size:10.5px;font-weight:700;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}'
+   +'#pipbox .prs{position:absolute;left:0;bottom:0;width:22px;height:22px;cursor:nwse-resize;z-index:5;display:flex;align-items:flex-end;padding:4px;touch-action:none}'
+   +'#pipbox.min .pscr,#pipbox.min .pep,#pipbox.min .prs{display:none}'
+   +'#pipbox .plist{position:absolute;left:8px;right:8px;bottom:38px;max-height:200px;overflow:auto;background:#fff;border:1px solid #E4E7EB;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,.22);z-index:6;display:none}'
+   +'#pipbox .plist.on{display:block}#pipbox .pli{display:flex;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid #F1F3F5;cursor:pointer;font-size:11px;line-height:1.25}#pipbox .pli:last-child{border-bottom:none}#pipbox .pli .n{color:#C62828;font-weight:800;flex:none;width:34px}#pipbox .pli.on{background:#F7F8FA}#pipbox .pli .d{flex:none;color:#1E9E5A;font-weight:800}';
+  function el(id){return document.getElementById(id);}
+  function clipV(){ return (clips[idx]&&clips[idx].v)||null; }
+  function build(){
+    if(built)return;
+    var s=document.createElement('style'); s.textContent=CSS; document.head.appendChild(s);
+    box=document.createElement('div'); box.id='pipbox'; box.style.display='none';
+    box.innerHTML='<div class="pbar" id="pipbar"><span class="pgr">⠿</span><span class="pti" id="pipti"></span>'
+      +'<button class="pbtn" id="pipmin" aria-label="ย่อ">–</button><button class="pbtn" id="pipcls" aria-label="ปิด">✕</button></div>'
+      +'<div class="pscr" id="pipscr"><div id="pipmount"></div><div class="pplay" id="pipplay"><b>▶</b></div></div>'
+      +'<div class="pep"><button class="pnav" id="pipprev" aria-label="ตอนก่อน">‹</button><span class="pchip" id="pipchip"></span><button class="pnav" id="pipnext" aria-label="ตอนถัดไป">›</button></div>'
+      +'<div class="plist" id="piplist"></div>'
+      +'<div class="prs" id="piprs"><svg viewBox="0 0 24 24" fill="none" stroke="#9AA0A8" stroke-width="2.6" stroke-linecap="round"><path d="M4 20 L20 4 M4 13 L13 4 M4 7 L7 4"/></svg></div>';
+    document.body.appendChild(box);
+    el('pipcls').onclick=close; el('pipmin').onclick=toggleMin;
+    el('pipprev').onclick=function(){ go(idx-1); }; el('pipnext').onclick=function(){ go(idx+1); };
+    el('pipchip').onclick=toggleList; el('pipplay').onclick=function(){ autoplay=true; mount(); };
+    setupDrag(); setupResize();
+    built=true;
+  }
+  function setThumb(){ var v=clipV(); el('pipscr').style.backgroundImage=(v&&v.yt)?('url(https://i.ytimg.com/vi/'+encodeURIComponent(v.yt)+'/mqdefault.jpg)'):''; }
+  function label(){ var v=clipV(); el('pipti').textContent='EP'+(idx+1)+' · '+((v&&v.title)||''); el('pipchip').textContent='EP '+(idx+1)+'/'+clips.length+' · เลือกตอน ▾'; }
+  function renderList(){
+    var h=clips.map(function(c,i){ var v=c.v, done=(prog(v.id).pct||0)>=90;
+      return '<div class="pli'+(i===idx?' on':'')+'" data-i="'+i+'"><span class="n">EP'+(i+1)+'</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(v.title)+'</span>'+(done?'<span class="d">✓</span>':'')+'</div>'; }).join('');
+    var L=el('piplist'); L.innerHTML=h;
+    [].forEach.call(L.querySelectorAll('.pli'),function(r){ r.onclick=function(){ go(+r.getAttribute('data-i')); hideList(); }; });
+  }
+  function toggleList(){ var L=el('piplist'); if(L.classList.contains('on')){ L.classList.remove('on'); } else { renderList(); L.classList.add('on'); } }
+  function hideList(){ var L=el('piplist'); if(L)L.classList.remove('on'); }
+  function stopPoll(){ if(poll){ clearInterval(poll); poll=0; } }
+  function startPoll(){ stopPoll(); poll=setInterval(function(){
+     if(!player||!player.getCurrentTime||!curId)return;
+     var cur=player.getCurrentTime()||0, dur=(player.getDuration&&player.getDuration())||0;
+     if(dur>0){ var pct=Math.max(0,Math.min(100,Math.round(cur/dur*100))); saveProg(curId,{sec:cur,pct:pct}); }
+  },1500); }
+  function destroy(){ stopPoll(); if(player&&player.destroy){ try{player.destroy();}catch(e){} } player=null; var m=el('pipmount'); if(m)m.innerHTML=''; }
+  function mount(){
+    var v=clipV(); if(!v||!v.yt)return;
+    curId=v.id; el('pipplay').style.display='none';
+    var startSec=Math.floor(prog(v.id).sec||0);
+    ensureYTApi(function(){
+      if(!el('pipmount'))return;
+      destroy(); el('pipmount').innerHTML='';
+      player=new YT.Player('pipmount',{ width:'100%',height:'100%',videoId:v.yt,
+        playerVars:{rel:0,modestbranding:1,playsinline:1,controls:1,start:startSec},
+        events:{ onReady:function(e){ try{e.target.playVideo();}catch(_){ } startPoll(); },
+                 onStateChange:function(e){ if(e.data===1)startPoll(); else if(e.data===2||e.data===0)stopPoll(); } } });
+    });
+  }
+  function go(i){ if(i<0||i>=clips.length)return; idx=i; hideList(); setThumb(); label();
+    if(player&&player.loadVideoById){ var v=clipV(); curId=v.id; try{ player.loadVideoById({videoId:v.yt,startSeconds:Math.floor(prog(v.id).sec||0)}); }catch(e){} }
+    else if(autoplay){ mount(); }
+    else { el('pipplay').style.display='flex'; }
+  }
+  function open(sk){
+    if(!sk){ toast('ยังไม่รู้วิชา'); return; }
+    build(); subj=sk; clips=feedClips(sk)||[];
+    if(!clips.length){ toast('วิชานี้ยังไม่มีคลิปติว'); return; }
+    idx=0; var hist=learnHistory(); for(var i=0;i<hist.length;i++){ if(hist[i].sk===sk){ var k=clips.map(function(c){return c.v.id;}).indexOf(hist[i].id); if(k>=0){ idx=k; break; } } }
+    destroy(); autoplay=false; curId=null;
+    box.style.display='block'; box.classList.remove('min'); el('pipplay').style.display='flex'; el('pipmount').innerHTML='';
+    setThumb(); label(); hideList();
+  }
+  function close(){ destroy(); autoplay=false; hideList(); if(box)box.style.display='none'; }
+  function toggleMin(){ if(!box)return; box.classList.toggle('min'); el('pipmin').textContent=box.classList.contains('min')?'▢':'–'; }
+  function isOpen(){ return !!(box&&box.style.display!=='none'); }
+  function toggle(sk){ if(isOpen())close(); else open(sk); }
+  // ── ลาก (ย้าย) ด้วยแถบหัว ──
+  function setupDrag(){ var bar=el('pipbar'), d=null;
+    bar.addEventListener('pointerdown',function(e){ if(e.target.classList.contains('pbtn'))return; d={x:e.clientX,y:e.clientY,l:box.offsetLeft,t:box.offsetTop}; box.style.right='auto';box.style.bottom='auto';box.style.left=box.offsetLeft+'px';box.style.top=box.offsetTop+'px'; try{bar.setPointerCapture(e.pointerId);}catch(_){ } });
+    bar.addEventListener('pointermove',function(e){ if(!d)return; var nl=d.l+(e.clientX-d.x), nt=d.t+(e.clientY-d.y); nl=Math.max(4,Math.min(nl,window.innerWidth-box.offsetWidth-4)); nt=Math.max(4,Math.min(nt,window.innerHeight-box.offsetHeight-4)); box.style.left=nl+'px'; box.style.top=nt+'px'; });
+    bar.addEventListener('pointerup',function(){ d=null; }); bar.addEventListener('pointercancel',function(){ d=null; });
+  }
+  // ── ย่อ-ขยาย ด้วยมุมซ้ายล่าง (กว้าง 170–360) ──
+  function setupResize(){ var rs=el('piprs'), r=null;
+    rs.addEventListener('pointerdown',function(e){ e.stopPropagation(); r={x:e.clientX,w:box.offsetWidth,l:box.offsetLeft}; box.style.right='auto';box.style.left=box.offsetLeft+'px'; try{rs.setPointerCapture(e.pointerId);}catch(_){ } });
+    rs.addEventListener('pointermove',function(e){ if(!r)return; var nw=Math.max(170,Math.min(360,r.w+(r.x-e.clientX))); box.style.left=(r.l+r.w-nw)+'px'; box.style.width=nw+'px'; });
+    rs.addEventListener('pointerup',function(){ r=null; }); rs.addEventListener('pointercancel',function(){ r=null; });
+  }
+  return { open:open, close:close, toggle:toggle, isOpen:isOpen };
+})();
 
 /* ───── ฝึกพละ ───── */
 function physIcon(e){ var n=e.name||"";
@@ -3703,6 +3804,7 @@ var A={
     if(arr.length===1 && arr[0].type==='book'){ this.openBookItem(sk,arr[0]); return; }   // วิชาที่เป็นหนังสือเล่มเดียว → เปิดเอกสารเลย ไม่เข้าหน้ารายการซ้อน
     S.knowSubj=sk; render(); window.scrollTo(0,0); },
   openBookItem:function(sk,it){
+    S.readerSubj=sk;
     function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
     if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; toast('⏳ กำลังเปิดหนังสือ…'); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; go(); }).catch(function(){ it._loading=false; alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   backKnow:function(){ S.knowSubj=null; render(); },
@@ -3725,7 +3827,7 @@ var A={
     }).catch(function(){ if(manual) setTimeout(function(){ try{location.reload();}catch(e){} },600); });
   },
   loadKnowExt:function(ts){ var arr=(S.knowledge||{})[S.knowSubj]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='image'&&arr[i].ts===ts){it=arr[i];break;} } if(!it||!it.ext){return;} if(it.data){render();return;} if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.data=j.data; it.cards=j.cards||[]; it._loading=false; render(); }).catch(function(){ it._loading=false; render(); alert('โหลดสรุปไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); },
-  openBook:function(ts){ var sk=S.knowSubj; if(!((S.knowledge||{})[sk]||[]).length && !S.adminMode){ A.lockToast(); return; }   // 🔒 ล็อกเฉพาะวิชาที่ยังไม่มีเนื้อหา (นักเรียน)
+  openBook:function(ts){ var sk=S.knowSubj; S.readerSubj=sk; if(!((S.knowledge||{})[sk]||[]).length && !S.adminMode){ A.lockToast(); return; }   // 🔒 ล็อกเฉพาะวิชาที่ยังไม่มีเนื้อหา (นักเรียน)
     var arr=(S.knowledge||{})[sk]||[],it=null,i; for(i=0;i<arr.length;i++){ if(arr[i].type==='book'&&arr[i].ts===ts){it=arr[i];break;} } if(!it)return;
     function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
     if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; render(); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; render(); go(); }).catch(function(){ it._loading=false; render(); alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
@@ -4809,7 +4911,7 @@ var BK=(function(){
     '.bkdiv{width:1px;height:28px;background:rgba(0,0,0,.10);flex:none;margin:0 4px}'+
     '#bkcolors{display:flex;gap:3px;flex:none}.bkcol{width:19px;height:19px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.14);flex:none;padding:0;transition:transform .12s}.bkcol.on{box-shadow:0 0 0 2px #1B1E27;transform:scale(1.18)}'+
     '#bksizes{display:flex;align-items:center;gap:1px;flex:none}.bksize{width:26px;height:26px;border-radius:8px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;flex:none;padding:0;transition:background .12s}.bksize.on{background:#e6e9ee}.bksizedot{border-radius:50%;background:#20242e;display:block}'+
-    '.bkfab{position:absolute;top:calc(env(safe-area-inset-top,0px) + 11px);width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.05);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 8px 22px rgba(17,24,39,.16),0 2px 6px rgba(17,24,39,.08);display:flex;align-items:center;justify-content:center;color:#20242e;z-index:5;padding:0;transition:transform .1s}.bkfab:active{transform:scale(.93)}.bkfab svg{width:19px;height:19px;pointer-events:none}#bkclose{left:12px}'+
+    '.bkfab{position:absolute;top:calc(env(safe-area-inset-top,0px) + 11px);width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.05);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 8px 22px rgba(17,24,39,.16),0 2px 6px rgba(17,24,39,.08);display:flex;align-items:center;justify-content:center;color:#20242e;z-index:5;padding:0;transition:transform .1s}.bkfab:active{transform:scale(.93)}.bkfab svg{width:19px;height:19px;pointer-events:none}#bkclose{left:12px}#bkclip{right:12px;color:#C62828}'+
     '.bkact{width:37px;height:37px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;background:transparent;border:none;border-radius:11px;color:#20242e;font-family:inherit;padding:0;transition:background .12s,transform .1s}.bkact svg{width:20px;height:20px;pointer-events:none}.bkact span{pointer-events:none}.bkact:active{transform:scale(.92);background:#eef0f3}#bkpageno{font-size:7px;font-weight:800;line-height:1;letter-spacing:.01em}#bkpageno .bkgi{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;width:15px;height:15px}#bkpageno .bkgi i{background:#20242e;border-radius:2px}'+
     '.bkgrid{background-color:#fffdf8;background-image:linear-gradient(rgba(70,110,160,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(70,110,160,.16) 1px,transparent 1px),linear-gradient(rgba(70,110,160,.30) 1.4px,transparent 1.4px),linear-gradient(90deg,rgba(70,110,160,.30) 1.4px,transparent 1.4px);background-size:6.66% 4.71%,6.66% 4.71%,33.3% 23.5%,33.3% 23.5%}'+
     '.bkgridtag{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;color:#5b6b86;background:rgba(255,255,255,.85);border:1px solid rgba(70,110,160,.25);border-radius:7px;padding:3px 9px;pointer-events:none;z-index:1}'+
@@ -4835,6 +4937,7 @@ var BK=(function(){
     root=document.createElement('div'); root.id='bkroot';
     root.innerHTML='<div id="bkscroll"><div id="bkpages"></div><canvas id="bkink"></canvas></div>'+
       '<button id="bkclose" class="bkfab" aria-label="ปิด"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>'+
+      '<button id="bkclip" class="bkfab" aria-label="ดูคลิปติว"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="3"/><path d="M15.5 10.5 21.5 7v10l-6-3.5z"/></svg></button>'+
       '<div id="bkpick"><div class="bkpickdim"></div><div class="bkpicksheet"><div class="bkpickgrip"></div><div class="bkpickhd"><span class="bkgi" style="display:inline-grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;width:20px;height:20px"><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i><i style="background:#E4111F;border-radius:2px"></i></span> เลือกหน้า <span id="bkpicknum"></span></div><div id="bkpickgrid" class="bkpickgrid"></div></div></div>'+
       '<div id="bkbar">'+
         '<button class="bktool on" data-m="pan" aria-label="มือจับ / เลื่อน"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></button>'+
@@ -4852,6 +4955,7 @@ var BK=(function(){
       '<div id="bknpal"></div>';
     document.body.appendChild(root);
     el('bkclose').onclick=close; el('bkclear').onclick=clearPage;
+    el('bkclip').onclick=function(){ try{ PIP.toggle(S.readerSubj||S.knowSubj); }catch(e){} };
     el('bkadd').onclick=function(){ addGridPage(); }; el('bkpageno').onclick=openPicker; el('bkundo').onclick=undo;
     el('bknote').onclick=function(){ addNote(); };
     el('bkpick').querySelector('.bkpickdim').onclick=closePicker;
@@ -5144,7 +5248,7 @@ var BK=(function(){
     var w=curPage(); if(!w)return; var arr=inkOf(w); if(!arr.length)return; arr.pop(); saveP(w.dataset.sk,arr); scheduleInk(); }
   function clearPage(){ var i=_cur; var w=pagesEls()[i]; if(!w)return; if(!confirm('ล้างที่จดในหน้า '+(i+1)+'? (รวมโพสต์อิทด้วย)'))return; w._ink=[]; saveP(w.dataset.sk,[]);
     if(w._notes&&w._notes.length){ w._notes.forEach(function(n){ if(n.el)n.el.remove(); }); w._notes=[]; saveNotes(w); } deselectNote(); scheduleInk(); }
-  function close(){ closePicker(); deselectNote(); root.classList.remove('on'); document.documentElement.style.overflow=''; }
+  function close(){ closePicker(); deselectNote(); root.classList.remove('on'); document.documentElement.style.overflow=''; try{ PIP.close(); }catch(e){} }
   return { open:open, close:close };
 })();
 
