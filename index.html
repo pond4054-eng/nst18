@@ -616,7 +616,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v287";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v288";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -2721,9 +2721,9 @@ function feedSideRail(c){
 function feedSheet(){
   var sk=S.feed; if(!sk) return "";
   var clips=feedClips(sk); if(!clips.length) return "";
-  var pages=clips.map(function(c){ var v=c.v, id=v.id;
-    return '<div id="feedpage-'+esc(id)+'" class="feedpage" data-vid="'+esc(id)+'" data-yt="'+esc(v.yt)+'" style="height:100%;scroll-snap-align:start;position:relative;background:#fff;">'+
-      '<div id="fp-'+esc(id)+'" onclick="A.feedPlay(\''+esc(id)+'\',\''+esc(v.yt)+'\')" style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);width:100%;aspect-ratio:9/16;overflow:hidden;cursor:pointer;background:#fff url(\''+ytThumb(v.yt)+'\') center/cover no-repeat;">'+feedPosterInner()+'</div>'+
+  var pages=clips.map(function(c){ var v=c.v, id=v.id, wide=!!v.wide;   // wide = คลิปแนวนอน 16:9 → กล่องเต็มความกว้าง พื้นดำ
+    return '<div id="feedpage-'+esc(id)+'" class="feedpage" data-vid="'+esc(id)+'" data-yt="'+esc(v.yt)+'" style="height:100%;scroll-snap-align:start;position:relative;background:'+(wide?"#111":"#fff")+';">'+
+      '<div id="fp-'+esc(id)+'" onclick="A.feedPlay(\''+esc(id)+'\',\''+esc(v.yt)+'\')" style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);width:100%;aspect-ratio:'+(wide?"16/9":"9/16")+';overflow:hidden;cursor:pointer;background:#fff url(\''+ytThumb(v.yt)+'\') center/cover no-repeat;">'+feedPosterInner()+'</div>'+
     '</div>';
   }).join("");
   return '<div style="position:fixed;inset:0;z-index:80;background:#fff;">'+
