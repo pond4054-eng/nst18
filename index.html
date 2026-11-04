@@ -616,7 +616,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v289";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v290";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1821,7 +1821,7 @@ var PIP=(function(){
    +'#pipbox .pep{display:flex;align-items:center;gap:6px;height:33px;padding:0 8px;background:#fff;border-top:1px solid #EEF0F3}'
    +'#pipbox .pnav{width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;background:#F4F6F9;color:#555;border-radius:7px;font-size:13px;cursor:pointer;border:none;padding:0}'
    +'#pipbox .pchip{flex:1;min-width:0;text-align:center;font-size:10.5px;font-weight:700;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}'
-   +'#pipbox .prs{position:absolute;left:0;bottom:0;width:22px;height:22px;cursor:nwse-resize;z-index:5;display:flex;align-items:flex-end;padding:4px;touch-action:none}'
+   +'#pipbox .prs{position:absolute;right:5px;bottom:5px;width:25px;height:25px;cursor:nwse-resize;z-index:8;display:flex;align-items:center;justify-content:center;touch-action:none;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.35);border-radius:8px}#pipbox .prs svg{width:14px;height:14px}'
    +'#pipbox.min .pscr,#pipbox.min .pep,#pipbox.min .prs{display:none}'
    +'#pipbox .plist{position:absolute;left:8px;right:8px;bottom:38px;max-height:200px;overflow:auto;background:#fff;border:1px solid #E4E7EB;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,.22);z-index:6;display:none}'
    +'#pipbox .plist.on{display:block}#pipbox .pli{display:flex;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid #F1F3F5;cursor:pointer;font-size:11px;line-height:1.25}#pipbox .pli:last-child{border-bottom:none}#pipbox .pli .n{color:#C62828;font-weight:800;flex:none;width:34px}#pipbox .pli.on{background:#F7F8FA}#pipbox .pli .d{flex:none;color:#1E9E5A;font-weight:800}';
@@ -1833,10 +1833,9 @@ var PIP=(function(){
     box=document.createElement('div'); box.id='pipbox'; box.style.display='none';
     box.innerHTML='<div class="pbar" id="pipbar"><span class="pgr">⠿</span><span class="pti" id="pipti"></span>'
       +'<button class="pbtn" id="pipmin" aria-label="ย่อ">–</button><button class="pbtn" id="pipcls" aria-label="ปิด">✕</button></div>'
-      +'<div class="pscr" id="pipscr"><div id="pipmount"></div><div class="pplay" id="pipplay"><b>▶</b></div></div>'
+      +'<div class="pscr" id="pipscr"><div id="pipmount"></div><div class="pplay" id="pipplay"><b>▶</b></div><div class="prs" id="piprs"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v6h-6M21 21l-7-7"/></svg></div></div>'
       +'<div class="pep"><button class="pnav" id="pipprev" aria-label="ตอนก่อน">‹</button><span class="pchip" id="pipchip"></span><button class="pnav" id="pipnext" aria-label="ตอนถัดไป">›</button></div>'
-      +'<div class="plist" id="piplist"></div>'
-      +'<div class="prs" id="piprs"><svg viewBox="0 0 24 24" fill="none" stroke="#9AA0A8" stroke-width="2.6" stroke-linecap="round"><path d="M4 20 L20 4 M4 13 L13 4 M4 7 L7 4"/></svg></div>';
+      +'<div class="plist" id="piplist"></div>';
     document.body.appendChild(box);
     el('pipcls').onclick=close; el('pipmin').onclick=toggleMin;
     el('pipprev').onclick=function(){ go(idx-1); }; el('pipnext').onclick=function(){ go(idx+1); };
@@ -1900,8 +1899,8 @@ var PIP=(function(){
   }
   // ── ย่อ-ขยาย ด้วยมุมซ้ายล่าง (กว้าง 170–360) ──
   function setupResize(){ var rs=el('piprs'), r=null;
-    rs.addEventListener('pointerdown',function(e){ e.stopPropagation(); r={x:e.clientX,w:box.offsetWidth,l:box.offsetLeft}; box.style.right='auto';box.style.left=box.offsetLeft+'px'; try{rs.setPointerCapture(e.pointerId);}catch(_){ } });
-    rs.addEventListener('pointermove',function(e){ if(!r)return; var nw=Math.max(170,Math.min(360,r.w+(r.x-e.clientX))); box.style.left=(r.l+r.w-nw)+'px'; box.style.width=nw+'px'; });
+    rs.addEventListener('pointerdown',function(e){ e.stopPropagation(); r={x:e.clientX,w:box.offsetWidth,l:box.offsetLeft}; box.style.right='auto';box.style.bottom='auto';box.style.left=box.offsetLeft+'px';box.style.top=box.offsetTop+'px'; try{rs.setPointerCapture(e.pointerId);}catch(_){ } });
+    rs.addEventListener('pointermove',function(e){ if(!r)return; var nw=Math.max(170,Math.min(360,r.w+(e.clientX-r.x))); if(r.l+nw>window.innerWidth-4) nw=Math.max(170,window.innerWidth-4-r.l); box.style.width=nw+'px'; });
     rs.addEventListener('pointerup',function(){ r=null; }); rs.addEventListener('pointercancel',function(){ r=null; });
   }
   return { open:open, close:close, toggle:toggle, isOpen:isOpen };
