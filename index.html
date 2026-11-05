@@ -616,7 +616,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v292";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v293";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1598,45 +1598,69 @@ function epBadge(playing,done,started,pct){
   if(started) return '<div class="mono" style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:color-mix(in srgb, '+PRI()+' 14%, #fff);color:var(--pri);">ดูแล้ว '+pct+'%</div>';
   return '<div style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:#F4F6F9;color:var(--c-text-muted);">ยังไม่เรียน</div>';
 }
+function chNum(t,i){ var L=(t&&t.label)||''; var m=/บทที่\s*(\d+)/.exec(L)||/^\s*(\d+)\s*[.\)]/.exec(L); return m?m[1]:String(i+1); }
+function chShort(t){ return String((t&&t.label)||'').replace(/^\s*(?:บทที่\s*\d+\s*[·:\-]?\s*|\d+\s*[.\)]\s*)/,'').trim(); }
+function chStat(t){ var vs=studyVids(t.id); return {total:vs.length, done:vs.filter(function(v){return isDone(v.id);}).length}; }
+function epChapters(sk){ return (S.topics[sk]||[]).filter(function(t){ return studyVids(t.id).length; }); }
 function epListHTML(sk, playingId){
-  var clips=feedClips(sk), st=subjVidStats(sk);
+  var st=subjVidStats(sk);
   var head='<div class="card" style="display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:10px;">'+
     '<button class="btn sm ghost" style="flex:none;" onclick="A.backToSubjects()">◀ วิชา</button>'+
     '<div style="flex:1;min-width:0;"><div style="font-size:14.5px;font-weight:800;">'+subjIcon(sk)+' '+esc(short(sk))+'</div>'+
-    '<div style="font-size:11.5px;color:var(--c-text-muted);">'+clips.length+' ตอน'+(st.total?' · ดูจบ '+st.done+'/'+st.total:'')+'</div></div>'+
+    '<div style="font-size:11.5px;color:var(--c-text-muted);">คลิปติวแบ่งเป็นบท'+(st.total?' · ดูจบ '+st.done+'/'+st.total:'')+'</div></div>'+
     (st.total?'<div class="mono" style="flex:none;font-size:13px;font-weight:800;color:var(--pri);">'+st.pct+'%</div>':'')+
   '</div>';
-  if(!clips.length) return head+'<div class="card" style="text-align:center;padding:28px 16px;color:var(--c-text-muted);">ยังไม่มีคลิปในวิชานี้</div>';
-  // การ์ด "ดูต่อจากที่ค้างไว้" (เฉพาะตอนยังไม่ได้เปิดเครื่องเล่น)
-  var resume='';
-  if(!playingId){
-    var hist=learnHistory(), r=null, j;
-    for(j=0;j<hist.length;j++){ if(hist[j].sk===sk && hist[j].pct>0 && hist[j].pct<90){ r=hist[j]; break; } }
-    if(r){ var ri=clips.map(function(c){return c.v.id;}).indexOf(r.id), rn=ri>=0?epNo(clips[ri].v,ri):0;
-      resume='<div onclick="A.playVideo(\''+esc(r.id)+'\')" style="display:flex;align-items:center;gap:12px;background:var(--c-surface);border:1.5px solid var(--pri);border-radius:15px;padding:10px;margin-bottom:12px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.08);">'+
-        '<div style="width:104px;height:59px;flex:none;border-radius:10px;position:relative;overflow:hidden;background:#0E0F12 center/cover url(\''+epThumb(r.v.yt)+'\');">'+
-          '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:var(--pri);font-size:15px;padding-left:3px;">▶</div></div>'+
-          '<div style="position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.3);"><div style="height:100%;background:'+PRI()+';width:'+(r.pct||0)+'%;"></div></div>'+
-        '</div>'+
-        '<div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:800;color:var(--pri);">▶ ดูต่อจากที่ค้างไว้'+(rn?' · EP'+rn:'')+'</div>'+
-          '<div style="font-size:14px;font-weight:800;line-height:1.3;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(epTitle(r.v))+'</div>'+
-          '<div style="font-size:11.5px;color:var(--c-text-muted);margin-top:2px;">ดูแล้ว '+(r.pct||0)+'%</div></div>'+
-      '</div>'; }
+  var chaps=epChapters(sk);
+  if(!chaps.length) return head+'<div class="card" style="text-align:center;padding:28px 16px;color:var(--c-text-muted);">ยังไม่มีคลิปในวิชานี้</div>';
+  // บทที่เลือก (S.epChap = ความจริง · ตั้งค่าตอนเปิด/เล่น/กดเลือก) — ถ้ายังไม่ตั้ง ใช้บทของคลิปที่เล่น/คลิปที่ค้าง/บทแรก
+  S.epChap=S.epChap||{};
+  var curTid=S.epChap[sk];
+  if(!curTid || !chaps.some(function(t){return t.id===curTid;})){
+    curTid=chaps[0].id;
+    if(playingId){ chaps.forEach(function(t){ if(studyVids(t.id).some(function(v){return v.id===playingId;})) curTid=t.id; }); }
+    else { var hs=learnHistory(); for(var hi=0;hi<hs.length;hi++){ if(hs[hi].sk===sk){ var ft=chaps.filter(function(t){return studyVids(t.id).some(function(v){return v.id===hs[hi].id;});})[0]; if(ft){ curTid=ft.id; break; } } } }
   }
-  var rows=clips.map(function(c,i){
-    var v=c.v, id=v.id, pr=prog(id), done=isDone(id), started=(pr.pct||0)>0, playing=playingId===id, last=i===clips.length-1;
+  S.epChap[sk]=curTid;
+  var curT=chaps.filter(function(t){return t.id===curTid;})[0], curI=chaps.map(function(t){return t.id;}).indexOf(curTid);
+  // ── ปุ่มเลือกบท (สไตล์เลือกซีซั่น) ──
+  var sel='<div onclick="A.epChapToggle()" class="card" style="display:flex;align-items:center;gap:11px;padding:11px 13px;margin-bottom:10px;cursor:pointer;border:1.6px solid '+(S.epChapOpen?'var(--pri)':'var(--c-border)')+';">'+
+    '<span style="flex:none;width:33px;height:33px;border-radius:9px;background:var(--pri);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;">'+esc(chNum(curT,curI))+'</span>'+
+    '<div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:700;color:var(--c-text-muted);">เลือกบทเรียน ▾</div>'+
+      '<div style="font-size:14.5px;font-weight:800;line-height:1.2;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(curT.label)+'</div></div>'+
+    '<span style="flex:none;color:var(--c-text-muted);font-size:14px;display:inline-block;transform:rotate('+(S.epChapOpen?'180':'0')+'deg);">▾</span>'+
+  '</div>';
+  var dd='';
+  if(S.epChapOpen){
+    var items=chaps.map(function(t,i){ var c=chStat(t), on=t.id===curTid, allDone=c.total&&c.done===c.total, started=studyVids(t.id).some(function(v){return (prog(v.id).pct||0)>0;});
+      var badge= allDone?'<span style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:#1E9E5A;color:#fff;">เรียนจบ ✓</span>'
+               : started?'<span style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,'+PRI()+' 13%,#fff);color:var(--pri);">กำลังเรียน</span>'
+               : '<span style="flex:none;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:#EEF0F3;color:var(--c-text-muted);">ยังไม่เรียน</span>';
+      return '<div onclick="A.epChapPick(\''+sk+'\',\''+esc(t.id)+'\')" style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-top:1px solid #F1F3F5;cursor:pointer;'+(on?'background:color-mix(in srgb,'+PRI()+' 6%,transparent);':'')+'">'+
+        '<span style="flex:none;width:30px;height:30px;border-radius:8px;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;background:'+(on?'var(--pri)':(allDone?'#E7F6EE':'#EEF0F3'))+';color:'+(on?'#fff':(allDone?'#1E9E5A':'#555'))+';">'+esc(chNum(t,i))+'</span>'+
+        '<div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:700;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(chShort(t)||t.label)+'</div>'+
+          '<div style="font-size:11px;color:var(--c-text-muted);margin-top:2px;">'+c.total+' ตอน'+(c.total?' · ดูจบ '+c.done+'/'+c.total:'')+'</div></div>'+
+        badge+
+      '</div>';
+    }).join('');
+    dd='<div class="card" style="padding:0;overflow:hidden;margin-bottom:10px;"><div style="font-size:12px;font-weight:800;color:var(--c-text-muted);padding:11px 13px 7px;">📚 ทั้งหมด '+chaps.length+' บท</div>'+items+'</div>';
+  }
+  // ── รายการ EP ของบทที่เลือก (เลข EP เริ่มใหม่ต่อบท) ──
+  var vids=studyVids(curTid), cs=chStat(curT);
+  var rows=vids.map(function(v,i){
+    var id=v.id, pr=prog(id), done=isDone(id), started=(pr.pct||0)>0, playing=playingId===id, last=i===vids.length-1;
     return '<div onclick="A.playVideo(\''+esc(id)+'\')" style="display:flex;align-items:center;gap:11px;padding:11px 12px;'+(last?'':'border-bottom:1px solid #EEF0F3;')+'cursor:pointer;'+(playing?'background:color-mix(in srgb, '+PRI()+' 8%, transparent);':'')+'">'+
-      '<div style="width:34px;flex:none;text-align:center;font-weight:800;font-size:13px;color:'+(playing?'var(--pri)':(done?'#1E9E5A':'var(--c-text-muted)'))+';">'+esc(epNo(v,i))+'</div>'+
+      '<div style="width:30px;flex:none;text-align:center;font-weight:800;font-size:13px;color:'+(playing?'var(--pri)':(done?'#1E9E5A':'var(--c-text-muted)'))+';">'+esc(epNo(v,i))+'</div>'+
       '<div style="width:96px;height:54px;flex:none;border-radius:9px;position:relative;overflow:hidden;background:#0E0F12 center/cover'+(v.yt?' url(\''+epThumb(v.yt)+'\')':'')+';">'+
         (v.dur?'<div style="position:absolute;right:4px;bottom:4px;background:rgba(0,0,0,.78);color:#fff;font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:5px;">'+esc(v.dur)+'</div>':'')+
         (started&&!done?'<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.3);"><div style="height:100%;background:'+PRI()+';width:'+(pr.pct||0)+'%;"></div></div>':'')+
       '</div>'+
       '<div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:700;line-height:1.3;color:'+(done?'var(--c-text-subtle)':'var(--c-text)')+';">EP'+esc(epNo(v,i))+' · '+esc(epTitle(v))+newBadge('vid:'+id,v.ts)+'</div>'+
-        '<div style="font-size:11px;color:var(--c-text-muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(c.tlabel||'')+'</div></div>'+
+        '<div style="font-size:11px;color:var(--c-text-muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(curT.label)+'</div></div>'+
       epBadge(playing,done,started,pr.pct||0)+
     '</div>';
   }).join('');
-  return head+resume+'<div class="card" style="padding:0;overflow:hidden;">'+rows+'</div>';
+  var sech='<div style="display:flex;align-items:center;gap:9px;margin:2px 2px 8px;"><span style="font-size:13px;font-weight:800;">📺 ตอนในบทนี้</span><span style="font-size:11.5px;color:var(--c-text-muted);font-weight:600;">'+cs.total+' ตอน'+(cs.total?' · ดูจบ '+cs.done:'')+'</span><span style="flex:1;height:1px;background:var(--c-border);"></span></div>';
+  return head+sel+dd+sech+'<div class="card" style="padding:0;overflow:hidden;">'+rows+'</div>';
 }
 // หน้าเล่นวิดีโอแบบเต็มหน้า (โหมดติวเนื้อหา)
 function topicLabelOf(tid){
@@ -3870,6 +3894,7 @@ var A={
   delKnow:function(subj,idx){ var k=Object.assign({},S.knowledge), arr=(k[subj]||[]).slice(); arr.splice(idx,1); if(arr.length) k[subj]=arr; else delete k[subj]; set({knowledge:k, knowledgeDirty:true}); },
   playVideo:function(id){
     var e=videoIndex()[id]; if(!e) return;
+    S.epChap=S.epChap||{}; S.epChap[e.sk]=e.tid; S.epChapOpen=false;   // ให้ปุ่มเลือกบท/ลิสต์ตามคลิปที่เล่น
     // ถ้ากดคลิปเดิมที่กำลังเล่นอยู่ ไม่ต้องทำอะไร (แค่เลื่อนขึ้นให้เห็นจอ)
     if(S.player && S.player.id===id && _yt.player){ var vv=document.getElementById("view"); if(vv) vv.scrollTop=0; return; }
     // มีเครื่องเล่นอยู่แล้ว → สลับคลิปในเครื่องเดิม (ไม่สร้าง iframe ใหม่ = วิดีโอไม่หยุดบนมือถือ)
@@ -3891,8 +3916,15 @@ var A={
     if(i>=0 && i<vs.length-1) A.playVideo(vs[i+1].id);
     else toast("นี่คือตอนสุดท้ายของวิชานี้แล้ว");
   },
-  openEpList:function(sk){ S.studyVidSubj=sk; S.player=null; destroyPlayer(); render(); window.scrollTo(0,0); },
-  backToSubjects:function(){ S.studyVidSubj=null; S.player=null; destroyPlayer(); render(); window.scrollTo(0,0); },
+  openEpList:function(sk){ S.studyVidSubj=sk; S.player=null; destroyPlayer(); S.epChapOpen=false;
+    S.epChap=S.epChap||{}; var chaps=epChapters(sk);
+    if(chaps.length){ var def=chaps[0].id, hs=learnHistory();
+      for(var i=0;i<hs.length;i++){ if(hs[i].sk===sk){ var ft=chaps.filter(function(t){return studyVids(t.id).some(function(v){return v.id===hs[i].id;});})[0]; if(ft){ def=ft.id; break; } } }
+      S.epChap[sk]=def; }
+    render(); window.scrollTo(0,0); },
+  backToSubjects:function(){ S.studyVidSubj=null; S.player=null; destroyPlayer(); S.epChapOpen=false; render(); window.scrollTo(0,0); },
+  epChapToggle:function(){ S.epChapOpen=!S.epChapOpen; var w=document.getElementById("epListWrap"); if(w){ w.innerHTML=epListHTML(S.player?S.player.sk:S.studyVidSubj, (S.player&&S.player.id)||null); } else render(); },
+  epChapPick:function(sk,tid){ S.epChap=S.epChap||{}; S.epChap[sk]=tid; S.epChapOpen=false; var w=document.getElementById("epListWrap"); if(w){ w.innerHTML=epListHTML(sk, (S.player&&S.player.id)||null); } else render(); },
   toggleSaved:function(id){
     var sv=Object.assign({},S.saved||{});
     if(sv[id]) delete sv[id]; else sv[id]=true;
