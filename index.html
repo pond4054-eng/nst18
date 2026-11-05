@@ -1758,11 +1758,28 @@ function ensureYTApi(cb){
     var s=document.createElement("script"); s.src="https://www.youtube.com/iframe_api"; document.head.appendChild(s);
   }
 }
-function saveProg(id, patch){
+var _progSaveT=0, _progSaveTimer=0;
+function saveProg(id, patch, now){
   var pr=Object.assign({}, S.progress||{});
   pr[id]=Object.assign({sec:0,pct:0}, pr[id]||{}, patch, {at:new Date().toISOString()});
-  S.progress=pr; save();     // ไม่ render เพื่อไม่ให้ iframe รีโหลด
+  S.progress=pr;     // ไม่ render เพื่อไม่ให้ iframe รีโหลด
+  // เขียนลงเครื่องไม่เกินทุก 5 วิ (เดิมเขียนทุก 1.5 วิ → มือถือหน่วง/ค้างตอนสลับตอน)
+  var t=Date.now();
+  if(now || t-_progSaveT>5000){ _progSaveT=t; if(_progSaveTimer){ clearTimeout(_progSaveTimer); _progSaveTimer=0; } save(); }
+  else if(!_progSaveTimer){ _progSaveTimer=setTimeout(function(){ _progSaveTimer=0; _progSaveT=Date.now(); save(); }, 5000); }
 }
+// ปิด/สลับแอป → เขียนตำแหน่งคลิปที่ค้างไว้ลงเครื่องทันที
+window.addEventListener('pagehide',function(){ if(_progSaveTimer){ clearTimeout(_progSaveTimer); _progSaveTimer=0; save(); } });
+document.addEventListener('visibilitychange',function(){ if(document.hidden && _progSaveTimer){ clearTimeout(_progSaveTimer); _progSaveTimer=0; save(); } });
+/* ตำแหน่งเริ่มเล่นต่อ — ถ้าเกือบจบแล้ว (หรือค่าที่จำไว้เกินความยาวคลิป) เริ่มใหม่จาก 0 */
+function resumeSec(id, v){
+  var pr=prog(id), sec=Math.floor(pr.sec||0);
+  var m=/^(\d+):(\d{2})$/.exec((v&&v.dur)||''), len=m?(+m[1]*60+(+m[2])):0;
+  if((pr.pct||0)>=95 || (len && sec>len-5)) return 0;
+  return sec;
+}
+/* ผู้เล่นกำลังเล่นคลิปที่ตั้งใจไว้จริงไหม (ตอนสลับตอน ผู้เล่นยังเป็นคลิปเก่าอยู่ครู่หนึ่ง) */
+function ytIsOn(pl, yt){ try{ var d=pl.getVideoData&&pl.getVideoData(); return !d || !d.video_id || d.video_id===yt; }catch(e){ return true; } }
 function fmtSec(sec){ var s=Math.floor(sec||0); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
 function setYtUI(){                       // อัปเดตปุ่มเล่น/หยุด + ชั้นหรี่จอเวลาหยุด (ไม่ render)
   if(!_yt.player || !_yt.player.getPlayerState) return;
@@ -1773,6 +1790,7 @@ function setYtUI(){                       // อัปเดตปุ่มเ�
 }
 function pollProg(){
   if(!_yt.player || !_yt.player.getCurrentTime || !S.player) return;
+  if(!ytIsOn(_yt.player, S.player.yt)) return;   // ยังเป็นคลิปเก่าอยู่ — อย่าเอาเวลาไปบันทึกให้คลิปใหม่
   var cur=_yt.player.getCurrentTime()||0;
   var dur=(_yt.player.getDuration&&_yt.player.getDuration())||0;
   var tEl=document.getElementById("yttime"); if(tEl) tEl.textContent=fmtSec(cur)+(dur>0?" / "+fmtSec(dur):"");
@@ -1801,10 +1819,11 @@ function studyNav(){
 function switchClip(id){
   var e=videoIndex()[id]; if(!e) return;
   var newYt=e.v.yt||ytId(e.v.url);
+  stopPoll(); pollProg(); save();   // เก็บตำแหน่งคลิปเดิมก่อนสลับ
   S.player={ id:id, title:e.v.title, yt:newYt, sk:e.sk, tid:e.tid, desc:e.v.desc||"", dur:e.v.dur||"" };
   _yt.vid=id;
+  var startSec=resumeSec(id,e.v);
   saveProg(id,{});
-  var startSec=Math.floor(prog(id).sec||0);
   try{ if(newYt) _yt.player.loadVideoById({videoId:newYt, startSeconds:startSec}); }catch(err){}
   var ch=document.getElementById("ytchrome"); if(ch) ch.innerHTML=playerChromeHTML(S.player);
   var br=document.getElementById("epListWrap"); if(br) br.innerHTML=epListHTML(S.player.sk,S.player.id);
@@ -1817,7 +1836,7 @@ function mountPlayer(){
   if(el.tagName==="IFRAME" && _yt.player && _yt.vid===p.id) return;   // ยังเล่นอยู่ ไม่ต้องสร้างใหม่
   destroyPlayer();
   _yt.vid=p.id;
-  var startSec=Math.floor(prog(p.id).sec||0);
+  var startSec=resumeSec(p.id,(videoIndex()[p.id]||{}).v);
   ensureYTApi(function(){
     if(!S.player || S.player.id!==p.id) return;
     if(!document.getElementById("ytmount")) return;
@@ -1883,6 +1902,7 @@ var PIP=(function(){
   function stopPoll(){ if(poll){ clearInterval(poll); poll=0; } }
   function startPoll(){ stopPoll(); poll=setInterval(function(){
      if(!player||!player.getCurrentTime||!curId)return;
+     var cv=clipV(); if(cv && !ytIsOn(player, cv.yt)) return;   // ยังเป็นคลิปเก่า
      var cur=player.getCurrentTime()||0, dur=(player.getDuration&&player.getDuration())||0;
      if(dur>0){ var pct=Math.max(0,Math.min(100,Math.round(cur/dur*100))); saveProg(curId,{sec:cur,pct:pct}); }
   },1500); }
@@ -1890,7 +1910,7 @@ var PIP=(function(){
   function mount(){
     var v=clipV(); if(!v||!v.yt)return;
     curId=v.id; el('pipplay').style.display='none';
-    var startSec=Math.floor(prog(v.id).sec||0);
+    var startSec=resumeSec(v.id,v);
     ensureYTApi(function(){
       if(!el('pipmount'))return;
       destroy(); el('pipmount').innerHTML='';
@@ -1901,7 +1921,7 @@ var PIP=(function(){
     });
   }
   function go(i){ if(i<0||i>=clips.length)return; idx=i; hideList(); setThumb(); label();
-    if(player&&player.loadVideoById){ var v=clipV(); curId=v.id; try{ player.loadVideoById({videoId:v.yt,startSeconds:Math.floor(prog(v.id).sec||0)}); }catch(e){} }
+    if(player&&player.loadVideoById){ var v=clipV(); stopPoll(); save(); curId=v.id; try{ player.loadVideoById({videoId:v.yt,startSeconds:resumeSec(v.id,v)}); }catch(e){} }
     else if(autoplay){ mount(); }
     else { el('pipplay').style.display='flex'; }
   }
