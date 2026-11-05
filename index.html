@@ -115,7 +115,7 @@
   .kicker{ font-size:18px; font-weight:600; letter-spacing:.08em; color:var(--pri); text-transform:uppercase; }
   .tabhead h1{ margin:2px 0 0; font-size:23px; font-weight:700; letter-spacing:-.01em; }
   .cdchip{ text-align:right; color:var(--c-on-brand); border-radius:12px; padding:7px 12px; background:#A40001; flex:none; }
-  .view{ flex:1; overflow-y:auto; padding:2px 16px 24px; -webkit-overflow-scrolling:touch; }
+  .view{ flex:1; overflow-y:auto; padding:2px 16px 24px; }
   .stack{ display:flex; flex-direction:column; gap:14px; }
   .navwrap{ flex:none; padding:10px 14px calc(14px + env(safe-area-inset-bottom)); position:sticky; bottom:0; background:linear-gradient(180deg,rgba(244,246,250,0) 0%,var(--c-bg) 42%); }
   .navbar{ background:var(--pri); border-radius:999px; display:flex; padding:5px; gap:3px; box-shadow:0 10px 26px rgba(14,15,18,.20); }
@@ -198,6 +198,8 @@
   .ytbtn.play{ background:var(--pri); color:var(--c-on-brand); width:46px; height:46px; font-size:18px; box-shadow:0 3px 9px rgba(0,0,0,.18); }
   .ytstage:fullscreen{ width:100vw; height:100vh; border-radius:0; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; }
   .ytstage:-webkit-full-screen{ width:100vw; height:100vh; border-radius:0; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  /* ไอโฟน: จอคลิปที่กำลังเล่นแยกเป็นชั้นของตัวเอง — กันจอส่วนอื่นว่างขาวตอนเลื่อนดูรายการตอน */
+  .ytstage{ -webkit-transform:translateZ(0); transform:translateZ(0); isolation:isolate; }
   .ytstage.ytfs{ position:fixed!important; inset:0!important; z-index:9999!important; border-radius:0!important; background:#000; display:flex!important; flex-direction:column; align-items:center; justify-content:center; }
   .ytstage:fullscreen .ytwrap, .ytstage:-webkit-full-screen .ytwrap, .ytstage.ytfs .ytwrap,
   .ytstage:fullscreen .ytctrl, .ytstage:-webkit-full-screen .ytctrl, .ytstage.ytfs .ytctrl{ width:min(100%, calc((100vh - 54px) * 16 / 9)); }
@@ -616,7 +618,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v294";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v295";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
