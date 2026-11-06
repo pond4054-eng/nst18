@@ -619,7 +619,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v296";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v297";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1791,6 +1791,14 @@ function setYtUI(){                       // อัปเดตปุ่มเ�
   var big=document.getElementById("ytbigplay"); if(big) big.style.display=playing?"none":"flex";
   var sh=document.getElementById("ytshield"); if(sh) sh.style.background=playing?"transparent":"rgba(0,0,0,.4)";
 }
+var _ytLoadT=0;
+function showYtLoad(){                     // โชว์สปินเนอร์ "กำลังโหลด…" ตอนสลับคลิป (ซ่อนเองเมื่อวิดีโอเริ่ม/บัฟเฟอร์ หรือเกิน 6 วิ)
+  var l=document.getElementById("ytload"); if(l){ l.textContent="กำลังโหลดวิดีโอ…"; l.style.display="flex"; }
+  var big=document.getElementById("ytbigplay"); if(big) big.style.display="none";
+  if(_ytLoadT) clearTimeout(_ytLoadT);
+  _ytLoadT=setTimeout(hideYtLoad,6000);    // กันสปินเนอร์ค้างถ้าสถานะไม่อัปเดต
+}
+function hideYtLoad(){ if(_ytLoadT){ clearTimeout(_ytLoadT); _ytLoadT=0; } var l=document.getElementById("ytload"); if(l) l.style.display="none"; }
 function pollProg(){
   if(!_yt.player || !_yt.player.getCurrentTime || !S.player) return;
   if(!ytIsOn(_yt.player, S.player.yt)) return;   // ยังเป็นคลิปเก่าอยู่ — อย่าเอาเวลาไปบันทึกให้คลิปใหม่
@@ -1827,6 +1835,7 @@ function switchClip(id){
   _yt.vid=id;
   var startSec=resumeSec(id,e.v);
   saveProg(id,{});
+  showYtLoad();   // โชว์ "กำลังโหลด…" ทันทีตอนสลับคลิป/เปลี่ยนบท (กันจอค้างดำ ดูเหมือนวิดีโอไม่ขึ้น)
   try{ if(newYt) _yt.player.loadVideoById({videoId:newYt, startSeconds:startSec}); }catch(err){}
   var ch=document.getElementById("ytchrome"); if(ch) ch.innerHTML=playerChromeHTML(S.player);
   var br=document.getElementById("epListWrap"); if(br) br.innerHTML=epListHTML(S.player.sk,S.player.id);
@@ -1848,8 +1857,8 @@ function mountPlayer(){
       // controls:0 + fs:0 + disablekb + iv_load_policy:3 → ซ่อนคอนโทรล/โลโก้/คำบรรยายของ YouTube (ใช้ปุ่มเราแทน)
       playerVars:{ rel:0, modestbranding:1, playsinline:1, controls:0, fs:0, disablekb:1, iv_load_policy:3, cc_load_policy:0, start:startSec },
       events:{
-        onReady:function(e){ ytNoCC(e.target); var l=document.getElementById("ytload"); if(l) l.style.display="none"; try{ e.target.playVideo(); }catch(_){} startPoll(); setYtUI(); },
-        onStateChange:function(e){ setYtUI(); if(e.data===1){ ytNoCC(e.target); startPoll(); } else { pollProg(); if(e.data===2||e.data===0) stopPoll(); } }
+        onReady:function(e){ ytNoCC(e.target); hideYtLoad(); try{ e.target.playVideo(); }catch(_){} startPoll(); setYtUI(); },
+        onStateChange:function(e){ if(e.data!==-1) hideYtLoad(); setYtUI(); if(e.data===1){ ytNoCC(e.target); startPoll(); } else { pollProg(); if(e.data===2||e.data===0) stopPoll(); } }
       }
     });
   });
