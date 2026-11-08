@@ -624,7 +624,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v299";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v300";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1165,7 +1165,7 @@ function render(){
   if(studyOpen() && S.tab==="study" && S.studyMode!=="know" && S.player && !S.adminOpen && !S.quiz && !S.mock) mountPlayer(); else destroyPlayer();
 
   renderOverlays();
-  if(S.feed && studyOpen()) mountFeed(); else destroyFeedObs();
+  if(S.feed && (studyOpen()||S.feed===SHORTS_FEED)) mountFeed(); else destroyFeedObs();
   if(_newAtDirty){ _newAtDirty=false; save(); }   // จำ "เวลาที่เห็นครั้งแรก" ของรายการใหม่
 }
 /* อัปเดตเฉพาะนาฬิกา + วันนับถอยหลัง (ไม่วาดใหม่ทั้งหน้า จึงไม่ทำให้รูปกระพริบ) */
@@ -2881,6 +2881,33 @@ function mountFeed(){                          // เล่นคลิปที
   if(pgs.length) feedSync(pgs[0].getAttribute("data-vid"));
 }
 function feedClips(sk){ var out=[]; (S.topics[sk]||[]).forEach(function(t){ studyVids(t.id).forEach(function(v){ out.push({v:v,tid:t.id,tlabel:t.label}); }); }); return out; }
+// ── คลิปสั้น (ซีรี่ย์ติวจอตั้ง) — คลังแยกจากคลิป EP แนวนอน · เชื่อม YouTube Shorts ──
+var SHORTS_FEED="__shorts__";
+function shortsList(){ return (S.shorts||[]).filter(function(s){ return s && (s.yt||s.url); }); }
+function shortsAsClips(){ return shortsList().map(function(s){ var yt=s.yt||ytId(s.url); return {v:{id:s.id,yt:yt,title:s.title||"",desc:s.desc||"",dur:""},tid:null,tlabel:""}; }); }
+function curFeedClips(){ return S.feed===SHORTS_FEED ? shortsAsClips() : feedClips(S.feed); }
+// แผงแอดมินลงคลิปสั้น (วางลิงก์ Shorts + เรียง/ลบ)
+function shortsAdminHTML(){
+  var list=(S.shorts||[]);
+  var items=list.map(function(s,i){ var yt=s.yt||ytId(s.url);
+    return '<div style="display:flex;align-items:center;gap:9px;background:var(--c-bg);border:1px solid var(--c-border);border-radius:11px;padding:8px;">'+
+      '<div style="width:40px;height:54px;flex:none;border-radius:7px;background:#000 center/cover no-repeat;background-image:url(\''+ytThumb(yt)+'\');"></div>'+
+      '<div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+(esc(s.title)||'<span style="color:var(--c-text-muted);">(ไม่มีชื่อ)</span>')+'</div>'+
+        '<div class="mono" style="font-size:10px;color:var(--c-text-muted);">'+esc(yt)+'</div></div>'+
+      '<button class="btn sm ghost" onclick="A.moveShort('+i+',-1)" style="padding:4px 9px;'+(i===0?'opacity:.3;pointer-events:none;':'')+'">▲</button>'+
+      '<button class="btn sm ghost" onclick="A.moveShort('+i+',1)" style="padding:4px 9px;'+(i===list.length-1?'opacity:.3;pointer-events:none;':'')+'">▼</button>'+
+      '<button class="btn sm ghost" onclick="A.delShort('+i+')" style="padding:4px 9px;color:var(--pri);">🗑</button>'+
+    '</div>';
+  }).join("");
+  return '<div style="background:var(--c-surface);border:1.6px solid #7C3AED;border-radius:14px;padding:13px 14px;margin-bottom:18px;">'+
+    '<div class="lbl" style="margin-bottom:4px;color:#7C3AED;">📱 คลิปสั้น · ซีรี่ย์ติวจอตั้ง ('+list.length+')</div>'+
+    '<div class="muted" style="margin-bottom:11px;">วางลิงก์ YouTube Shorts ของช่อง — นักเรียนเลื่อนดูแบบจอตั้งที่ปุ่ม “ซีรี่ย์ติวจอตั้ง” หน้าแรก · คลังนี้แยกจากคลิป EP แนวนอน</div>'+
+    '<input id="shortUrl" class="in" placeholder="วางลิงก์ Shorts เช่น youtube.com/shorts/xxxxxxxxxxx" style="width:100%;font-size:15px;margin-bottom:7px;padding:10px;">'+
+    '<input id="shortTitle" class="in" placeholder="ชื่อคลิป (ไม่ใส่ก็ได้)" style="width:100%;font-size:15px;margin-bottom:9px;padding:10px;">'+
+    '<button class="btn" onclick="A.addShort()" style="width:100%;justify-content:center;background:#7C3AED;">+ เพิ่มคลิปสั้น</button>'+
+    (items?'<div style="display:flex;flex-direction:column;gap:7px;margin-top:12px;">'+items+'</div>':'<div class="muted" style="text-align:center;margin-top:12px;font-size:12px;">ยังไม่มีคลิปสั้น — วางลิงก์ด้านบนเพื่อเพิ่ม</div>')+
+  '</div>';
+}
 function feedLikeBase(id){ var s=String(id||""),h=0; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return 1000+(h%900); }   // ~1.0–1.9พัน คงที่ต่อคลิป
 function feedLikeStr(id){ var n=feedLikeBase(id)+((S.vidLiked||{})[id]?1:0); return n>=1000?((n/1000).toFixed(1)+"พัน"):String(n); }
 function feedSideRail(c){
@@ -2894,21 +2921,35 @@ function feedSideRail(c){
 }
 function feedSheet(){
   var sk=S.feed; if(!sk) return "";
-  var clips=feedClips(sk); if(!clips.length) return "";
-  var pages=clips.map(function(c){ var v=c.v, id=v.id, wide=!!v.wide;   // wide = คลิปแนวนอน 16:9 → กล่องเต็มความกว้าง พื้นดำ
-    return '<div id="feedpage-'+esc(id)+'" class="feedpage" data-vid="'+esc(id)+'" data-yt="'+esc(v.yt)+'" style="height:100%;scroll-snap-align:start;position:relative;background:'+(wide?"#111":"#fff")+';">'+
-      '<div id="fp-'+esc(id)+'" onclick="A.feedPlay(\''+esc(id)+'\',\''+esc(v.yt)+'\')" style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);width:100%;aspect-ratio:'+(wide?"16/9":"9/16")+';overflow:hidden;cursor:pointer;background:#fff url(\''+ytThumb(v.yt)+'\') center/cover no-repeat;">'+feedPosterInner()+'</div>'+
+  var isShorts=(sk===SHORTS_FEED);
+  var clips=isShorts?shortsAsClips():feedClips(sk);
+  var bg=isShorts?"#000":"#fff";
+  // ปุ่มปิด (✕) มุมบนซ้าย — แตะเพื่อออกจากฟีด (ยังปัดขวาปิดได้เหมือนเดิม)
+  var closeBtn='<div onclick="A.closeFeed()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:20;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;">✕</div>';
+  if(!clips.length){
+    return '<div style="position:fixed;inset:0;z-index:80;background:'+bg+';">'+closeBtn+
+      '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:0 30px;">'+
+        '<div style="font-size:42px;margin-bottom:12px;">📱</div>'+
+        '<div style="font-size:16px;font-weight:800;">ยังไม่มีคลิปสั้นในซีรี่ย์นี้</div>'+
+        '<div style="font-size:12.5px;opacity:.75;margin-top:7px;line-height:1.7;">ติวเตอร์กำลังทยอยลงคลิปติวจอตั้ง<br>เร็ว ๆ นี้</div>'+
+      '</div></div>';
+  }
+  var pages=clips.map(function(c){ var v=c.v, id=v.id, wide=(!isShorts && !!v.wide);   // คลิปสั้น=จอตั้ง 9:16 เสมอ · EP wide=16:9 พื้นดำ
+    return '<div id="feedpage-'+esc(id)+'" class="feedpage" data-vid="'+esc(id)+'" data-yt="'+esc(v.yt)+'" style="height:100%;scroll-snap-align:start;position:relative;background:'+(wide?"#111":bg)+';">'+
+      '<div id="fp-'+esc(id)+'" onclick="A.feedPlay(\''+esc(id)+'\',\''+esc(v.yt)+'\')" style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);width:100%;aspect-ratio:'+(wide?"16/9":"9/16")+';overflow:hidden;cursor:pointer;background:#000 url(\''+ytThumb(v.yt)+'\') center/cover no-repeat;">'+feedPosterInner()+'</div>'+
+      feedSideRail(c)+
     '</div>';
   }).join("");
-  return '<div style="position:fixed;inset:0;z-index:80;background:#fff;">'+
+  return '<div style="position:fixed;inset:0;z-index:80;background:'+bg+';">'+closeBtn+
     '<div id="feedScroll" style="height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;">'+pages+'</div>'+
     feedPickerSheet(sk)+
   '</div>';
 }
 function feedPickerSheet(sk){
-  var chips=subjects().filter(function(su){ return feedClips(su.k).length; }).map(function(su){ var on=su.k===sk;
+  var isShorts=(sk===SHORTS_FEED);
+  var chips=isShorts?"":subjects().filter(function(su){ return feedClips(su.k).length; }).map(function(su){ var on=su.k===sk;
     return '<div onclick="'+(on?"":"A.openFeed('"+su.k+"')")+'" style="flex:none;font-size:11.5px;font-weight:700;padding:6px 13px;border-radius:99px;border:1.3px solid '+(on?"var(--pri)":"#E4E7EB")+';background:'+(on?"var(--pri)":"#fff")+';color:'+(on?"#fff":"var(--c-text-muted)")+';cursor:pointer;white-space:nowrap;">'+esc(sName[su.k]||su.k)+'</div>'; }).join("");
-  var grid=feedClips(sk).map(function(c){ var v=c.v, id=v.id, done=isDone(id);
+  var grid=(isShorts?shortsAsClips():feedClips(sk)).map(function(c){ var v=c.v, id=v.id, done=isDone(id);
     return '<div onclick="A.feedGoto(\''+esc(id)+'\')" style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:9/14;background:#000 url(\''+ytThumb(v.yt)+'\') center/cover;cursor:pointer;">'+
       '<div style="position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.7));"></div>'+
       '<div style="position:absolute;top:5px;left:5px;color:#fff;font-size:11px;">▶</div>'+(done?'<div style="position:absolute;top:5px;right:5px;color:#7CE0A8;font-size:11px;">✓</div>':'')+
@@ -2952,7 +2993,7 @@ function renderOverlays(){
   var h="";
   if(S.quiz) h+=quizSheet();
   if(S.quiz && S.quizConfirm && S.quiz.status==="active") h+=quizConfirmSheet();
-  if(S.feed && studyOpen()) h+=feedSheet();
+  if(S.feed && (studyOpen()||S.feed===SHORTS_FEED)) h+=feedSheet();
   if(S.adminOpen) h+=adminSheet();
   if(S.mock) h+=mockSheet();
   if(S.trackDetail) h+=trackDetailSheet();
@@ -3584,8 +3625,9 @@ function adminSheet(){
 
     // วิดีโอติวหนังสือรายหัวข้อ
     if(TAB==='content'){
-    h+='<div style="margin-top:22px;">'+
-         '<div class="lbl" style="margin-bottom:4px;">วิดีโอติวหนังสือรายหัวข้อ</div>'+
+    h+=shortsAdminHTML();   // 📱 คลิปสั้น (ซีรี่ย์ติวจอตั้ง) — คลังแยก
+    h+='<div style="margin-top:4px;">'+
+         '<div class="lbl" style="margin-bottom:4px;">วิดีโอติวหนังสือรายหัวข้อ (EP แนวนอน)</div>'+
          '<div class="muted" style="margin-bottom:14px;">ใส่ลิงก์ YouTube ต่อหัวข้อ — นักเรียนดูวิดีโอเรียนเนื้อหาแบบฝังในแอป (ต้องมีเน็ต) ระบบบันทึกความคืบหน้า/ประวัติให้อัตโนมัติ</div>'+
          '<div style="display:flex;flex-direction:column;gap:14px;">';
     subjects().forEach(function(su){
@@ -3689,11 +3731,11 @@ function adminSheet(){
            '(รวมทั้งข้อสอบและลิงก์วิดีโอ) แล้ว<b>อัปโหลดทับไฟล์เดิมบนเว็บ</b> นักเรียนถึงจะเห็นของใหม่ตอนเปิดแอปครั้งถัดไปที่มีเน็ต</div>'+
          '<button class="btn sm" onclick="A.exportQuestions()">⬇︎ ส่งออกข้อสอบ + วิดีโอ (questions.json)</button>'+
          '<div style="font-size:11px;color:var(--c-text-subtle);margin-top:8px;">เวอร์ชันเนื้อหาปัจจุบัน: '+(S.contentVersion||0)+' → จะส่งออกเป็นเวอร์ชัน '+((S.contentVersion||0)+1)+'</div>'+
-         ((S.bankDirty||S.videosDirty||S.knowledgeDirty)
+         ((S.bankDirty||S.videosDirty||S.knowledgeDirty||S.shortsDirty)
            ? '<div style="margin-top:12px;padding:12px 14px;background:#FEF4F4;border:1px solid #F5C6C8;border-left:3px solid var(--pri);border-radius:9px;">'+
                '<div style="font-size:13px;font-weight:700;color:#7A1219;margin-bottom:5px;">⚠️ มีของที่เพิ่ม/แก้ไว้ ยังไม่ได้ส่งออก</div>'+
                '<div style="font-size:12px;color:#7A1219;line-height:1.6;">'+
-                 'มี'+[S.bankDirty?"ข้อสอบ":"",S.videosDirty?"วิดีโอ":"",S.knowledgeDirty?"คลังความรู้":""].filter(Boolean).join(" · ")+' ที่เพิ่ม/แก้ในเครื่องนี้ แต่ยังไม่ได้ส่งออก '+
+                 'มี'+[S.bankDirty?"ข้อสอบ":"",S.videosDirty?"วิดีโอ":"",S.shortsDirty?"คลิปสั้น":"",S.knowledgeDirty?"คลังความรู้":""].filter(Boolean).join(" · ")+' ที่เพิ่ม/แก้ในเครื่องนี้ แต่ยังไม่ได้ส่งออก '+
                  '<b>นักเรียนจะยังไม่เห็นจนกว่าจะกดปุ่มส่งออกด้านบน แล้วอัปโหลดไฟล์ทับบนเว็บ</b>'+
                  (S.bankDirty?'<br>(ระหว่างนี้ระบบหยุดดึงข้อสอบใหม่จากเว็บไว้ก่อน เพื่อไม่ให้ที่แก้ไว้หาย)':"")+
                '</div>'+
@@ -3875,7 +3917,16 @@ var A={
   studyPickBack:function(){ S.studyPick=null; S.knowSubj=null; S.player=null; render(); window.scrollTo(0,0); },
   // ── ปุ่มทางลัดหน้าแรก → เข้าแท็บติวหนังสือตรงโหมดที่เลือก ──
   goStudy:function(m){ if(S.player){ destroyPlayer(); S.player=null; } S.tab="study"; S.studyPick=m; S.knowSubj=null; S.studyMode=(m==="know"?"know":"video"); save(); render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; window.scrollTo(0,0); },
-  goVertical:function(){ toast("📱 ซีรี่ย์ติวจอตั้ง — กำลังเตรียมคลิป เร็ว ๆ นี้"); },
+  goVertical:function(){ S.feed=SHORTS_FEED; render(); },   // เปิดฟีดคลิปสั้น (ซีรี่ย์ติวจอตั้ง)
+  // ── จัดการคลิปสั้น (แอดมิน) ──
+  addShort:function(){ var u=document.getElementById("shortUrl"), t=document.getElementById("shortTitle");
+    var yt=ytId(u?u.value:""); if(!yt){ toast("ลิงก์ไม่ถูกต้อง — ใส่ลิงก์ YouTube / Shorts"); return; }
+    var arr=(S.shorts||[]).slice();
+    if(arr.some(function(s){ return (s.yt||ytId(s.url))===yt; })){ toast("คลิปนี้มีอยู่แล้ว"); return; }
+    arr.push({ id:"s"+Date.now().toString(36), yt:yt, title:(t&&t.value||"").trim(), ts:Date.now(), pub:Date.now() });
+    set({ shorts:arr, shortsDirty:true }); toast("เพิ่มคลิปสั้นแล้ว ("+arr.length+")"); },
+  moveShort:function(i,d){ var arr=(S.shorts||[]).slice(), j=i+d; if(j<0||j>=arr.length) return; var tmp=arr[i]; arr[i]=arr[j]; arr[j]=tmp; set({ shorts:arr, shortsDirty:true }); },
+  delShort:function(i){ var arr=(S.shorts||[]).slice(); arr.splice(i,1); set({ shorts:arr, shortsDirty:true }); toast("ลบแล้ว"); },
   openKnowSubj:function(sk){ var arr=(S.knowledge||{})[sk]||[];
     if(arr.length===1 && arr[0].type==='book'){ this.openBookItem(sk,arr[0]); return; }   // วิชาที่เป็นหนังสือเล่มเดียว → เปิดเอกสารเลย ไม่เข้าหน้ารายการซ้อน
     S.knowSubj=sk; render(); window.scrollTo(0,0); },
@@ -4388,7 +4439,7 @@ var A={
     var out={
       _comment:"คลังข้อสอบกลางที่นักเรียนทุกคนจะได้รับ — อัปโหลดไฟล์นี้ทับของเดิมบนเว็บ",
       version:v, topics:S.topics, bank:S.bank, physEvents:S.physEvents,
-      videos:S.videos||{}, knowledge:S.knowledge||{}, resetToken:S.resetToken||0
+      videos:S.videos||{}, knowledge:S.knowledge||{}, shorts:S.shorts||[], resetToken:S.resetToken||0
     };
     var blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
     var a=document.createElement("a");
@@ -4396,8 +4447,8 @@ var A={
     a.download="questions.json";
     a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
-    set({contentVersion:v, bankDirty:false, videosDirty:false, knowledgeDirty:false});
-    toast("ได้ไฟล์แล้ว (รวมข้อสอบ+วิดีโอ+คลังความรู้) — อัปโหลดทับ questions.json บนเว็บ");
+    set({contentVersion:v, bankDirty:false, videosDirty:false, knowledgeDirty:false, shortsDirty:false});
+    toast("ได้ไฟล์แล้ว (รวมข้อสอบ+วิดีโอ+คลิปสั้น+คลังความรู้) — อัปโหลดทับ questions.json บนเว็บ");
   },
   /* รีเซ็ตความคืบหน้านักเรียน "ทุกคน" กลับเป็นค่าเริ่มต้น (คะแนน+เช็กลิสต์+ช่องติ๊กแผน)
      ต้องใส่รหัสผ่าน RESET_PW · สั่งผ่าน resetToken ที่ฝังใน questions.json */
@@ -5426,6 +5477,7 @@ function applyContent(d){
   if(d.bank) patch.bank=d.bank;
   if(d.physEvents) patch.physEvents=d.physEvents;
   if(d.videos && !S.videosDirty) patch.videos=d.videos;   // ไม่ทับวิดีโอที่แก้ค้างในเครื่อง
+  if(d.shorts && !S.shortsDirty) patch.shorts=d.shorts;   // คลิปสั้น (จอตั้ง) จากเว็บ — ไม่ทับที่แก้ค้างในเครื่อง
   if(d.knowledge && !S.knowledgeDirty) patch.knowledge=d.knowledge;   // คลังความรู้จากเว็บ
   if(d.bankPub) patch.bankPub=d.bankPub;   // เวลาที่เผยแพร่ข้อสอบแต่ละหัวข้อ (สำหรับป้าย "ใหม่")
   patch.subjStatus = d.subjStatus || {};   // สถานะรายวิชา เช่น "อยู่ระหว่างอัปเดต"
