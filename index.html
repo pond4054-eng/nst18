@@ -624,7 +624,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v301";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v302";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1519,33 +1519,39 @@ function knowledgeHTML(){
   if(!S.knowSubj){
     var KCOL={math:"#2563EB",eng:"#DC2626",thai:"#7C3AED",com:"#2563EB",law:"#DC2626",social:"#15803D",saraban:"#92400E"};
     var KTNT={math:"rgba(37,99,235,.12)",eng:"rgba(220,38,38,.12)",thai:"rgba(124,58,237,.12)",com:"rgba(37,99,235,.12)",law:"rgba(220,38,38,.12)",social:"rgba(21,128,61,.12)",saraban:"rgba(146,64,14,.12)"};
-    h+='<img src="icons/lib-header.jpg" alt="นสต.18" loading="lazy" style="width:100%;display:block;border-radius:16px 16px 0 0;box-shadow:0 3px 10px rgba(0,0,0,.10);">'+
-       '<div class="card" style="border-radius:0 0 16px 16px;margin-top:-3px;">'+
-         '<div style="display:flex;align-items:center;gap:9px;">'+
-           '<div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,#E4111F,#B00812);display:flex;align-items:center;justify-content:center;font-size:20px;flex:none;box-shadow:0 3px 8px rgba(196,17,31,.3);">📖</div>'+
-           '<div><div style="font-size:17px;font-weight:800;color:var(--c-text);line-height:1.1;">คลังความรู้ — <span style="color:#E4111F;">เลือกวิชา</span></div>'+
-           '<div style="font-size:10.5px;color:var(--c-text-muted);font-weight:600;margin-top:2px;">สรุปเนื้อหา · แนวข้อสอบ · ไฟล์ PDF ครบทุกวิชา</div></div>'+
-         '</div>'+
-         '<div style="height:5px;width:78px;border-radius:4px;background:linear-gradient(90deg,#c9ced6 55%,#E4111F 55%);margin:11px 0 13px auto;"></div>'+
-         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;">';
+    var KCAT={math:"พื้นฐาน",eng:"พื้นฐาน",thai:"พื้นฐาน",com:"วิชาการ",social:"วิชาการ",law:"กฎหมาย",saraban:"อื่นๆ"};
+    var curCat=S.knowCat||"all";
+    // ── หัวแบนเนอร์ (ภาพดีไซน์) + แท็บหมวด (เอาช่องค้นหาออกตามที่ผู้ใช้ขอ) ──
+    h+='<img src="icons/sheet-hero.jpg" alt="ชีทสรุป · เนื้อหาวิชา" style="width:100%;display:block;border-radius:16px;box-shadow:0 3px 10px rgba(0,0,0,.12);">'+
+       '<div style="display:flex;gap:8px;overflow-x:auto;margin-top:13px;padding-bottom:3px;-webkit-overflow-scrolling:touch;">'+
+       [["all","ทั้งหมด"],["พื้นฐาน","พื้นฐาน"],["กฎหมาย","กฎหมาย"],["วิชาการ","วิชาการ"],["อื่นๆ","อื่นๆ"]].map(function(ct){ var on=ct[0]===curCat;
+         return '<div onclick="A.knowCat(\''+ct[0]+'\')" style="flex:none;font-size:13.5px;font-weight:800;padding:9px 19px;border-radius:99px;cursor:pointer;white-space:nowrap;'+(on?"background:#E4101F;color:#fff;box-shadow:0 4px 12px rgba(196,17,31,.4);":"background:var(--c-surface);color:var(--c-text-muted);border:1px solid var(--c-border);")+'">'+ct[1]+'</div>';
+       }).join("")+
+       '</div>';
+    // ── รายการวิชา (แถวยาว) ──
+    h+='<div style="display:flex;flex-direction:column;gap:9px;margin-top:12px;">';
+    // (เอาแถวหัว "คลังความรู้ – เลือกวิชา" ออกตามที่ผู้ใช้ขอ)
+    // การ์ดวิชา — แผงรูปสีซ้าย (จากดีไซน์) + ข้อความด้านขวาเป็นโค้ด (แก้ไขได้)
+    var shown=0;
     subjects().forEach(function(su){
-      var n=((S.knowledge||{})[su.k]||[]).length;
-      var c=KCOL[su.k]||"#E4111F", t=KTNT[su.k]||"rgba(228,17,31,.12)";
-      var lk=(!n && !S.adminMode);   // 🔒 ล็อก/ป้าย "อยู่ระหว่างดำเนินการ" เฉพาะวิชาที่ยังไม่มีเนื้อหา — มีเนื้อหาเมื่อไหร่เปิดให้นักเรียนอัตโนมัติ
-      h+='<div onclick="A.openKnowSubj(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:15px;overflow:hidden;background:var(--c-surface);box-shadow:0 4px 11px rgba(0,0,0,.08);'+(lk?"opacity:.6;":"")+'">'+
-           '<div style="width:100%;height:96px;overflow:hidden;background:#f2f4f7;"><img src="icons/art-'+su.k+'.jpg" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;"></div>'+
-           '<div style="padding:8px 10px 10px;">'+
-             '<div style="font-size:13px;font-weight:800;color:var(--c-text);line-height:1.18;min-height:2.36em;">'+esc(short(su.k))+'</div>'+
-             (lk
-               ? '<div style="margin-top:6px;text-align:center;"><span style="background:#F2B01E;color:#0E0F12;font-size:9.5px;font-weight:800;padding:4px 9px;border-radius:20px;white-space:nowrap;">🔄 อยู่ระหว่างดำเนินการ</span></div>'
-               : '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px;">'+
-                   '<span style="background:'+c+';color:#fff;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:20px;white-space:nowrap;">'+(n?(n+" รายการ"):"เร็วๆนี้")+'</span>'+
-                   '<div style="width:28px;height:28px;border-radius:50%;background:'+t+';display:flex;align-items:center;justify-content:center;flex:none;color:'+c+';font-size:18px;font-weight:800;line-height:1;">›</div>'+
-                 '</div>')+
+      if(curCat!=="all" && KCAT[su.k]!==curCat) return;   // กรองตามหมวด
+      shown++;
+      var n=((S.knowledge||{})[su.k]||[]).length, c=KCOL[su.k]||"#E4111F", t=KTNT[su.k]||"rgba(228,17,31,.12)", lk=(!n && !S.adminMode);
+      h+='<div class="knowrow homebtn" data-sname="'+esc(short(su.k))+'" onclick="A.openKnowSubj(\''+su.k+'\')" style="cursor:pointer;display:flex;align-items:center;gap:0;border:1px solid var(--c-border);border-radius:14px;background:var(--c-surface);box-shadow:0 3px 9px rgba(0,0,0,.06);overflow:hidden;">'+
+           '<img src="icons/know-panel-'+su.k+'.jpg" alt="'+esc(short(su.k))+'" loading="lazy" style="height:58px;width:auto;flex:none;display:block;">'+
+           '<div style="flex:1;min-width:0;padding:7px 5px 7px 4px;">'+
+             '<div style="font-size:13.5px;font-weight:800;color:var(--c-text);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(short(su.k))+'</div>'+
+             '<div style="margin-top:5px;">'+
+               (lk
+                 ? '<span style="display:inline-block;background:#FFC62B;color:#4A3500;font-size:9px;font-weight:800;padding:2px 9px;border-radius:20px;white-space:nowrap;">กำลังอัพข้อมูลให้น้าา</span>'
+                 : '<span style="font-size:10px;color:var(--c-text-muted);white-space:nowrap;">สรุปเนื้อหา · แนวข้อสอบ'+(n?' · <b style="color:'+c+';">'+n+' รายการ</b>':' · PDF')+'</span>')+
+             '</div>'+
            '</div>'+
+           '<div style="width:25px;height:25px;border-radius:50%;background:'+t+';display:flex;align-items:center;justify-content:center;flex:none;color:'+c+';font-size:15px;font-weight:800;line-height:1;margin-right:10px;">›</div>'+
          '</div>';
     });
-    return h+'</div></div>';
+    if(!shown) h+='<div style="text-align:center;color:var(--c-text-muted);font-size:13px;padding:22px;">ไม่พบวิชาในหมวดนี้</div>';
+    return h+'</div>';
   }
   var sk=S.knowSubj, items=(S.knowledge||{})[sk]||[];
   var locked=(!items.length && !S.adminMode);   // 🔒 นักเรียน: เปิดเนื้อหาได้ทุกวิชาที่มีเนื้อหา — ล็อกเฉพาะวิชาที่ยังว่าง
@@ -3946,6 +3952,12 @@ var A={
     function go(){ BK.open({id:(it.bookId||sk), title:(it.cap||'หนังสือสรุป'), cards:it.cards||[], chapters:it._chapters, accent:it._accent}); }
     if(it.ext && !(it.cards&&it.cards.length)){ if(it._loading)return; it._loading=true; toast('⏳ กำลังเปิดหนังสือ…'); fetch(it.ext).then(function(r){return r.json();}).then(function(j){ it.cards=j.cards||[]; it._chapters=j.chapters; it._accent=j.accent; it._loading=false; go(); }).catch(function(){ it._loading=false; alert('โหลดหนังสือไม่สำเร็จ (ครั้งแรกต้องมีเน็ต)'); }); } else { go(); } },
   backKnow:function(){ S.knowSubj=null; render(); },
+  // ── ชีทสรุป: เลือกหมวด + ค้นหาวิชา ──
+  knowCat:function(cat){ S.knowCat=cat; S.knowQuery=""; render(); var v=document.getElementById("view"); if(v) v.scrollTop=0; },
+  knowFilter:function(v){ S.knowQuery=v; var q=(v||"").trim().toLowerCase();
+    var rows=document.querySelectorAll(".knowrow"), shown=0;
+    [].forEach.call(rows,function(r){ var nm=(r.getAttribute("data-sname")||"").toLowerCase(); var hit=!q||nm.indexOf(q)>=0; r.style.display=hit?"":"none"; if(hit) shown++; });
+    var e=document.getElementById("knowEmpty"); if(e) e.style.display=shown?"none":"block"; },
   lockToast:function(){ toast("🔄 วิชานี้กำลังจัดทำ เปิดให้อ่านเร็ว ๆ นี้"); },
   /* ตรวจหา/อัปเดตแอปแบบกดเอง — บังคับเช็ก service worker + ดึงเนื้อหาใหม่ แล้วรีโหลดเป็นเวอร์ชันล่าสุด
      ไม่ล้างข้อมูล/ไม่หลุดล็อกอิน (เก็บ localStorage ไว้ทั้งหมด) */
