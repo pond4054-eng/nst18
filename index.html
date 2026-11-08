@@ -624,7 +624,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v302";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v303";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1598,17 +1598,21 @@ function knowledgeHTML(){
 function studyBrowseHTML(){
   var h='<div class="card">'+
       '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">เลือกวิชาที่จะดูคลิปติว</div>'+
-      '<div class="muted" style="margin-bottom:12px;">แตะวิชา → เปิดฟีดคลิปแนวตั้ง เลื่อนขึ้นลงดูได้เลย 🎬</div>'+
+      '<div class="muted" style="margin-bottom:12px;">แตะวิชา → ดูคลิปติวแบ่งเป็นบท/ตอน เลือกดูได้ทีละตอน 🎬</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
   subjects().forEach(function(su){
     var s=subjVidStats(su.k), has=feedClips(su.k).length;
-    h+='<div onclick="A.openEpList(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:16px;overflow:hidden;background:var(--c-surface);box-shadow:0 3px 10px rgba(0,0,0,.07);'+(has?"":"opacity:.55;")+'">'+
+    h+='<div onclick="A.openEpList(\''+su.k+'\')" style="cursor:pointer;border:1px solid var(--c-border);border-radius:16px;overflow:hidden;background:var(--c-surface);box-shadow:0 3px 10px rgba(0,0,0,.07);">'+
          '<div style="position:relative;">'+
            '<img src="'+subjImg(su.k)+'" alt="'+esc(short(su.k))+'" loading="lazy" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">'+
            (has?'<div style="position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;">🎬 '+has+' คลิป</div>':"")+
            (s.total?'<div class="mono" style="position:absolute;top:7px;right:7px;background:rgba(0,0,0,.62);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;">'+s.pct+'%</div>':"")+
          '</div>'+
-         '<div style="padding:8px 10px 9px;text-align:center;font-size:11px;color:var(--c-text-muted);">'+(has?("ดูจบ "+s.done+"/"+s.total+" คลิป"):"ยังไม่มีคลิป")+'</div>'+
+         '<div style="padding:8px 8px 9px;text-align:center;">'+
+           (has
+             ? '<span style="font-size:11px;color:var(--c-text-muted);">ดูจบ '+s.done+'/'+s.total+' คลิป</span>'
+             : '<span style="display:inline-block;background:#FFC62B;color:#4A3500;font-size:8.5px;font-weight:800;padding:3px 9px;border-radius:20px;line-height:1.35;">จะทยอยอัพให้ติวเรื่อยๆนะครับน้อง</span>')+
+         '</div>'+
        '</div>';
   });
   h+='</div></div>';
