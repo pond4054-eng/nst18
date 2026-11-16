@@ -624,7 +624,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v303";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v304";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -4603,7 +4603,7 @@ function startQuiz(id,qs){
   S.quiz.status="active"; S.quiz.questions=qs; S.quiz.idx=0;
   S.quiz.picked=qs.map(function(){ return null; });   // ยาวเท่าจำนวนข้อ, null=ยังไม่ตอบ (ข้ามไปทำข้ออื่น/แก้ไขได้)
   S.quiz.correct=0; S.quiz._confirm=false;
-  S.quiz.totalMs = qs.length * SEC_PER_Q * 1000;   // ข้อละ 1.2 นาที ตามจำนวนข้อ
+  S.quiz.totalMs = (QUIZ_FIXED_MIN[S.quiz.subjKey]||0) ? QUIZ_FIXED_MIN[S.quiz.subjKey]*60*1000 : qs.length * SEC_PER_Q * 1000;   // คณิต=เวลาคงที่ 18 นาที · วิชาอื่น=ข้อละ 1.2 นาที ตามจำนวนข้อ
   S.quiz.deadline = Date.now() + S.quiz.totalMs;
   S.quiz.timeUp = false;
   requestWakeLock();   // กันจอดับตลอดที่ทำข้อสอบ
@@ -4614,6 +4614,7 @@ function startQuiz(id,qs){
 /* ── จับเวลาทำข้อสอบ: ให้เวลา "ข้อละ 1.2 นาที" ตามจำนวนข้อ แสดงนับถอยหลังขณะทำ ──
    หมดเวลา = ส่งคำตอบให้อัตโนมัติ ข้อที่ยังไม่ตอบนับเป็นผิด */
 var SEC_PER_Q = 72;                 // 1.2 นาที = 72 วินาที/ข้อ
+var QUIZ_FIXED_MIN = { math: 18 };  // เวลาคงที่ (นาที) ต่อชุดข้อสอบรายหัวข้อ แยกตามวิชา — คณิต 18 นาที (วิชาที่ไม่กำหนด = คิดตามจำนวนข้อ)
 var quizTimerId = 0;
 function quizRemainMs(){
   var q=S.quiz;
