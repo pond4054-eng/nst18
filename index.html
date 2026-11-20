@@ -624,7 +624,7 @@ function revalidate(){
 }
 
 /* ───── สถานะแอป ───── */
-var APP_VER="v305";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
+var APP_VER="v306";   // เวอร์ชันโค้ดแอป (บอกนักเรียนได้ว่าเครื่องอัปเดตถึงไหน) — บัมพ์พร้อม sw ทุกครั้ง
 var STUDY_LOCKED=false;   // 🔒 ล็อกฟีเจอร์ "ติวหนังสือ" ทั้งหมด (โชว์ "อยู่ระหว่างดำเนินการ") — เปลี่ยนเป็น false เพื่อเปิดใช้งาน
 var SHOP_LOCKED=false;   // 🔓 เปิดขายจริงแล้ว (นักเรียนเห็นร้าน + สั่งซื้อได้) · เปลี่ยนเป็น true เพื่อปิดร้านชั่วคราว (โชว์หน้าประกาศ)
 var LS="np18_assistant_v1";
@@ -1256,15 +1256,7 @@ function viewHome(c){
        '</div>'+
      '</div>';
 
-  // 1.7) ทวนเนื้อหาวันนี้ — เปิดการ์ดสรุปสุ่ม + ประเมินตัวเอง
-  (function(){ var cvdone=!!((S.creviewLog||{})[iso(today0())]), cvst=creviewStreak();
-    h+='<div onclick="A.openContentReview()" class="homebtn" style="cursor:pointer;display:flex;align-items:center;gap:13px;border-radius:16px;padding:13px 14px;color:#fff;background:linear-gradient(120deg,#4C1D95,#7C3AED 62%,#6D28D9);box-shadow:0 6px 16px rgba(109,40,217,.3);">'+
-         '<div style="width:46px;height:46px;border-radius:13px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none;">🔄</div>'+
-         '<div style="flex:1;min-width:0;"><div style="font-size:15.5px;font-weight:800;">ทวนเนื้อหาวันนี้'+(cvdone?' <span style="font-size:11px;font-weight:800;background:rgba(255,255,255,.25);padding:2px 8px;border-radius:99px;">✓ ทวนแล้ว</span>':'')+'</div>'+
-           '<div style="font-size:11px;opacity:.92;margin-top:2px;">เปิดการ์ดสรุปแบบสุ่ม อ่านทวน + ประเมินตัวเอง</div></div>'+
-         (cvst>0?'<div style="flex:none;background:rgba(255,255,255,.22);border-radius:99px;padding:5px 11px;font-size:12px;font-weight:800;white-space:nowrap;">🔥 '+cvst+'</div>':'<div style="flex:none;font-size:22px;opacity:.85;">›</div>')+
-       '</div>';
-  })();
+  // 1.7) ทวนเนื้อหาวันนี้ — ปิดปุ่มหน้าแรกชั่วคราว (ระบบการ์ด flashcard ยังไม่เสร็จ) · โค้ด action/sheet ยังอยู่ รอเปิดกลับ
 
   // 2) เป้าหมายวันนี้ — งานจากปฏิทินแผน + ปุ่มวางแผนล่วงหน้า
   var todayIdx=(new Date().getDay()+6)%7;
